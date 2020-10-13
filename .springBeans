@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.14.202007241544-CI-B2599]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/webapp/WEB-INF/jlearning-servlet.xml</config>
+	</configs>
+	<autoconfigs>
+		<config>src/main/webapp/WEB-INF/configs/applicationContext.xml</config>
+		<config>src/main/webapp/WEB-INF/configs/spring-service.xml</config>
+		<config>src/main/webapp/WEB-INF/configs/spring-dao.xml</config>
+		<config>src/main/webapp/WEB-INF/configs/spring-datasource.xml</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

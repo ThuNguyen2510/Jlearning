@@ -16,7 +16,7 @@
 	<context:annotation-config />
 
 	<!-- Load all file from package com.framgia to bean. There, Almost are controllers -->
-	<!-- <context:component-scan base-package="vn.triplet.*" /> -->
+	 <context:component-scan base-package="jlearning.*" /> 
 
 	<!-- Use for json response -->
 	<mvc:annotation-driven>

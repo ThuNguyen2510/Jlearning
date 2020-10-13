@@ -1,0 +1,116 @@
+	<header id="masthead" class="site-header affix-top bg-custom-sticky sticky-header header_overlay header_v1">
+				<div id="toolbar" class="toolbar">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="toolbar-container">
+									<aside id="text-2" class="widget widget_text">
+										<div class="textwidget">
+											<div class="thim-have-any-question">
+												Have any question?
+												<div class="mobile"><i class="fa fa-phone"></i><a
+														class="value">(00) 123 456 789</a>
+												</div>
+											</div>
+										</div>
+									</aside>
+									<aside id="login-popup-3" class="widget widget_login-popup">
+										<div class="thim-widget-login-popup thim-widget-login-popup-base template-base">
+											<div class="thim-link-login thim-login-popup">
+												<a class="register js-show-popup"
+													th:href="@{https://educationwp.thimpress.com/account/?action=register}">Đăng
+													ký</a><a class="login js-show-popup"
+													th:href="@{https://educationwp.thimpress.com/account/}">Đăng nhập</a>
+											</div>
+										</div>
+									</aside>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="thim-nav-wrapper container">
+					<div class="row">
+						<div class="navigation col-sm-12">
+							<div class="tm-table">
+								<div class="width-logo table-cell sm-logo">
+									<a title="Haru.vn" rel="home" class="no-sticky-logo"><img
+											th:src="@{/assets/wp-content/uploads/2015/logo1.png}" alt="Education WP"></a></div>
+								<nav class="width-navigation table-cell table-right">
+									<ul class="nav navbar-nav menu-main-menu">
+										<li
+											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor menu-item-has-children menu-item-3404 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-column tc-menu-column-hide-title">
+											<span style="color:black" class="tc-menu-inner">Trang chủ</span>
+										</li>
+										<li
+											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7682 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-builder">
+											<a style="color:black" th:href="@{https://educationwp.thimpress.com/courses/}"
+												class="tc-menu-inner">Học theo lộ trình</a>
+
+										</li>
+
+										<li
+											class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-95 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-default">
+											<span style="color:black" class="tc-menu-inner">Blogs<i
+													class="fas fa-angle-down" style="margin-left:5px"></i></span>
+											<ul class="sub-menu">
+												<li
+													class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6550 tc-menu-item tc-menu-depth-1 tc-menu-align-left">
+													<a th:href="@{https://educationwp.thimpress.com/membership-account/membership-levels/}"
+														class="tc-menu-inner tc-megamenu-title">Văn hóa Nhật Bản</a>
+												</li>
+												<li
+													class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4451 tc-menu-item tc-menu-depth-1 tc-menu-align-left">
+													<a th:href="@{https://educationwp.thimpress.com/portfolio-masonry/}"
+														class="tc-menu-inner tc-megamenu-title">Kinh nghiệm học tiếng
+														Nhật</a></li>
+
+											</ul>
+										</li>
+										<li
+											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-99 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-default">
+											<a style="color:black" th:href="@{https://educationwp.thimpress.com/contact/}"
+												class="tc-menu-inner">Liên hệ</a></li>
+										<li class="menu-right">
+											<ul>
+												<li id="courses-searching-3" class="widget widget_courses-searching">
+													<div
+														class="thim-widget-courses-searching thim-widget-courses-searching-base template-overlay-v2">
+														<div class="thim-course-search-overlay">
+															<div class="search-toggle"><i class="fa fa-search"
+																	style="color:black"></i>
+															</div>
+															<div class="courses-searching layout-overlay">
+																<div class="search-popup-bg"></div>
+																<form method="get"
+																	th:action="@{https://educationwp.thimpress.com/courses/}">
+																	<input type="text" value="" name="s"
+																		placeholder="Search courses..."
+																		class="thim-s form-control courses-search-input"
+																		autocomplete="off" />
+																	<input type="hidden" value="course" name="ref" />
+																	<button type="submit"><i
+																			class="fa fa-search"></i></button>
+																	<span class="widget-search-close"></span>
+																</form>
+																<ul class="courses-list-search list-unstyled"></ul>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</nav>
+								<div class="menu-mobile-effect navbar-toggle" data-effect="mobile-effect">
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</header>
