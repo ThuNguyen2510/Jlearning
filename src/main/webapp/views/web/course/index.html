@@ -1,0 +1,111 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/course/topheading :: top"></div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<main id="main" class="site-main col-sm-9 alignleft">
+					<article id="post-0"
+						class="post-0 post type-post status-publish format-standard hentry pmpro-no-access page type-page">
+						<div class="entry-content">
+							<div id="lp-archive-courses"
+								data-all-courses-url="https://educationwp.thimpress.com/courses/">
+								<div class="thim-course-top switch-layout-container ">
+									<div class="thim-course-switch-layout switch-layout">
+										<a class="list switchToGrid"><i class="fa fa-th-large"></i></a>
+										<a class="grid switchToList"><i class="fa fa-list-ul"></i></a>
+									</div>
+									<div class="course-index">
+										<span>Showing 1-9 of 19 results</span>
+									</div>
+									<div class="thim-course-order">
+										<select name="orderby">
+											<option value="newly-published">Newly published</option>
+											<option value="alphabetical">Alphabetical</option>
+											<option value="most-members">Most members</option>
+										</select>
+									</div>
+									<div class="courses-searching">
+										<form method="get">
+											<input type="text" value="" name="s"
+												placeholder="Search our courses"
+												class="form-control course-search-filter" autocomplete="off" />
+											<input type="hidden" value="course" name="ref" /> <input
+												type="hidden" name="post_type" value="lp_course">
+											<button type="submit">
+												<i class="fa fa-search"></i>
+											</button>
+											<span class="widget-search-close"></span>
+										</form>
+										<ul class="courses-list-search list-unstyled"></ul>
+									</div>
+								</div>
+								<div id="thim-course-archive" class="thim-course-grid"
+									data-cookie="grid-layout" data-attr="thim-course-grid">
+									<div id="post-14694"
+										class="course-grid-3 lpr_course post-14694 lp_course type-lp_course status-publish hentry pmpro-has-access course">
+										<div class="course-item">
+											<div class="course-thumbnail">
+												<a class="thumb"><img
+													th:src="@{https://res.cloudinary.com/driyvrhn2/image/upload/v1602754110/image/course1_w0s4il.jpg}"
+													alt="Course php" title="demo_image" width="400"
+													height="250" data-skip-lazy></a><a th:href="@{/courses/1}"
+													class="course-readmore">Xem</a>
+											</div>
+											<div class="thim-course-content">
+												<div class="course-author" itemscope
+													itemtype="http://schema.org/Person">
+													<img
+														th:src="@{https://res.cloudinary.com/driyvrhn2/image/upload/v1602754112/image/n6_ns7dbs.png}"
+														alt="author-avatar" title="author-avatar">
+
+												</div>
+												<h2 class="course-title">
+													<a rel="bookmark" th:href="@{/courses/1}">Tên khóa học</a>
+												</h2>
+												<div class="course-meta">
+													<div class="course-author" itemscope
+														itemtype="http://schema.org/Person">
+														<img
+															th:src="@{/assets/wp-content/uploads/learn-press-profile/7/9c081444f942cc8fe0ddf55631b584e2-40x40.jpg}"
+															alt="author-avatar" title="author-avatar">
+
+													</div>
+
+													<div class="course-comments-count">
+														<div class="value">
+															<i class="fab fa-leanpub"></i>5
+														</div>
+													</div>
+
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+									<div class="cssload-loading">
+										<i></i><i></i><i></i><i></i>
+									</div>
+								</div>
+								<nav class="learn-press-pagination navigation pagination">
+									<ul class='page-numbers'>
+										<li><span aria-current="page"
+											class="page-numbers current">1</span></li>
+										<li><a class="page-numbers">2</a></li>
+										<li><a class="page-numbers">3</a></li>
+										<li><a class="next page-numbers">4</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</article>
+				</main>
+				<div th:insert="views/web/course/sidebar :: sidebar"></div>
+			</div>
+		</div>
+</div>
+</html>

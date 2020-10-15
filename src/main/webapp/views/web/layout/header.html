@@ -7,7 +7,7 @@
 									<aside id="text-2" class="widget widget_text">
 										<div class="textwidget">
 											<div class="thim-have-any-question">
-												Have any question?
+												Thắc mắc?
 												<div class="mobile"><i class="fa fa-phone"></i><a
 														class="value">(00) 123 456 789</a>
 												</div>
@@ -35,25 +35,25 @@
 						<div class="navigation col-sm-12">
 							<div class="tm-table">
 								<div class="width-logo table-cell sm-logo">
-									<a title="Haru.vn" rel="home" class="no-sticky-logo"><img
-											th:src="@{/assets/wp-content/uploads/2015/logo1.png}" alt="Education WP"></a></div>
+									<a th:href="@{/}" title="Haru.vn" rel="home" class="no-sticky-logo"><img
+											th:src="@{/assets/wp-content/uploads/2015/logo1.png}" th:href="@{/}" alt="Haru"></a></div>
 								<nav class="width-navigation table-cell table-right">
 									<ul class="nav navbar-nav menu-main-menu">
 										<li
 											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor menu-item-has-children menu-item-3404 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-column tc-menu-column-hide-title">
-											<span style="color:black" class="tc-menu-inner">Trang chủ</span>
+											<a style="color:black" th:href="@{/}" class="tc-menu-inner">Trang chủ</a>
 										</li>
 										<li
 											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7682 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-builder">
-											<a style="color:black" th:href="@{https://educationwp.thimpress.com/courses/}"
+											<a style="color:black" th:href="@{/courses}"
 												class="tc-menu-inner">Học theo lộ trình</a>
 
 										</li>
 
 										<li
 											class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-95 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-default">
-											<span style="color:black" class="tc-menu-inner">Blogs<i
-													class="fas fa-angle-down" style="margin-left:5px"></i></span>
+											<a style="color:black" th:href="@{/blogs}" class="tc-menu-inner">Blogs<i
+													class="fas fa-angle-down" style="margin-left:5px"></i></a>
 											<ul class="sub-menu">
 												<li
 													class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6550 tc-menu-item tc-menu-depth-1 tc-menu-align-left">

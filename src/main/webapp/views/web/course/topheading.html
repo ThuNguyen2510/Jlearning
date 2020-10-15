@@ -1,0 +1,27 @@
+<div th:fragment="top"  class="top_heading  _out">
+<div class="top_site_main "
+	th:style="'background: url('+ @{/assets/wp-content/uploads/2015/bg2.png}+'); color: white;background-position: center center;background-size: cover;'">
+	<span class="overlay-top-header"></span>
+	<div class="page-title-wrapper">
+		<div class="banner-wrapper container">
+			<h1>all Courses</h1>
+		</div>
+	</div>
+</div>
+<div class="breadcrumbs-wrapper">
+	<div class="container">
+		<ul itemprop="breadcrumb" itemscope
+			itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+			class="breadcrumbs">
+			<li itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem"><a itemprop="item"
+				th:href="@{/}" title="Home"><span itemprop="name">Home</span>
+					<meta itemprop="position" content="1" /></a></li>
+			<li itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem"><a itemprop="name"
+				th:href="@{/blogs}">Courses</a>
+				<meta itemprop="position" content="2" /></li>
+		</ul>
+	</div>
+</div>
+</div>

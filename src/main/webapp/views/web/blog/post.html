@@ -4,34 +4,7 @@
 	layout:decorate="views/web/layout/base-layout">
 <div layout:fragment="body">
 	<section class="content-area">
-		<div class="top_heading  _out">
-			<div class="top_site_main "
-				style="color: #ffffff; background-image: url(assets/wp-content/uploads/2015/bg2.png);">
-				<span class="overlay-top-header"></span>
-				<div class="page-title-wrapper">
-					<div class="banner-wrapper container">
-						<h1>Blog</h1>
-					</div>
-				</div>
-			</div>
-			<div class="breadcrumbs-wrapper">
-				<div class="container">
-					<ul itemprop="breadcrumb" itemscope
-						itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
-						class="breadcrumbs">
-						<li itemprop="itemListElement" itemscope
-							itemtype="http://schema.org/ListItem"><a itemprop="item"
-							th:href="@{https://educationwp.thimpress.com}" title="Home"><span
-								itemprop="name">Home</span>
-								<meta itemprop="position" content="1" /></a></li>
-						<li itemprop="itemListElement" itemscope
-							itemtype="http://schema.org/ListItem"><span itemprop="name"
-							title="Why You Should Read Every Day">Blog</span>
-							<meta itemprop="position" content="2" /></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		<div th:insert="views/web/blog/topheading :: top"></div>
 		<div class="container site-content sidebar-right">
 			<div class="row">
 				<main id="main" class="site-main col-sm-9 alignleft">
@@ -106,48 +79,7 @@
 										accompanied by English versions from the 1914 translation by
 										H. Rackham.</p>
 								</div>
-								<div class="entry-tag-share">
-									<div class="row">
-										<div class="col-sm-6">
-											<p class="post-tag">
-												<span>Tag:</span><a
-													rel="tag">Course</a>, <a
-													rel="tag">ThimPress</a>, <a
-													rel="tag">WordPress</a>
-											</p>
-										</div>
-										<div class="col-sm-6">
-											<ul class="thim-social-share">
-												<li class="heading">Share:</li>
-												<li>
-													<div class="facebook-social">
-														<a target="_blank" class="facebook"
-															title="Facebook"><i class="fa fa-facebook"></i></a>
-													</div>
-												</li>
-												<li>
-													<div class="googleplus-social">
-														<a target="_blank" class="googleplus"
-															title="Google Plus"><i
-															class="fa fa-google"></i></a>
-													</div>
-												</li>
-												<li>
-													<div class="twitter-social">
-														<a target="_blank" class="twitter"
-															title="Twitter"><i class="fa fa-twitter"></i></a>
-													</div>
-												</li>
-												<li>
-													<div class="pinterest-social">
-														<a target="_blank" class="pinterest"
-															title="Pinterest"><i class="fa fa-pinterest-p"></i></a>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
+								
 								<div class="thim-about-author">
 									<div class="author-wrapper">
 										<div class="author-avatar">
@@ -215,7 +147,7 @@
 											<div
 												class="post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
 												<div class="category-posts clear">
-													<img th:src="@{/assets/wp-content/uploads/2016/01/blog-7-300x200.jpg}"
+													<img th:src="@{/assets/wp-content/uploads/2016/01/blog-5-450x267.jpg}"
 														alt="blog-7" title="blog-7" width="300" height="200"
 														data-skip-lazy>
 													<div class="rel-post-text">
@@ -228,7 +160,7 @@
 													</div>
 												</div>
 											</div>
-											<div
+											<!-- <div
 												class="post-128 post type-post status-publish format-audio has-post-thumbnail hentry category-business tag-seo tag-thimpress post_format-post-format-audio pmpro-has-access">
 												<div class="category-posts clear">
 													<img
@@ -243,8 +175,8 @@
 														<div class="date">18 October, 2015</div>
 													</div>
 												</div>
-											</div>
-											<div
+											</div> -->
+										<!-- 	<div
 												class="post-4515 post type-post status-publish format-gallery has-post-thumbnail hentry category-business tag-course tag-wordpress post_format-post-format-gallery pmpro-has-access">
 												<div class="category-posts clear">
 													<img
@@ -258,7 +190,7 @@
 														<div class="date">22 July, 2015</div>
 													</div>
 												</div>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</section>
@@ -275,26 +207,12 @@
 									<form
 										
 										method="post" id="commentform" class="comment-form" novalidate>
-										<p class="comment-notes">
-											<span id="email-notes">Your email address will not be
-												published.</span> Required fields are marked <span class="required">*</span>
-										</p>
+										
 										<p class="comment-form-comment">
 											<textarea placeholder="Comment *" id="comment" name="comment"
 												cols="45" rows="8" aria-required="true"></textarea>
 										</p>
-										<p class="comment-form-author">
-											<input placeholder="Name *" id="author" name="author"
-												type="text" value="" size="30" aria-required=true />
-										</p>
-										<p class="comment-form-email">
-											<input placeholder="Email *" id="email" name="email"
-												type="text" value="" size="30" aria-required=true />
-										</p>
-										<p class="comment-form-url">
-											<input placeholder="Website *" id="url" name="url"
-												type="text" value="" size="30" aria-required=true />
-										</p>
+									
 										<p class="form-submit">
 											<input name="submit" type="submit" id="submit" class="submit"
 												value="Post Comment" /> <input type='hidden'
@@ -311,177 +229,7 @@
 						</div>
 					</div>
 				</main>
-				<div id="sidebar" class="widget-area col-sm-3 sticky-sidebar"
-					role="complementary">
-					<aside id="search-4" class="widget widget_search">
-						<h4 class="widget-title">Search</h4>
-						<form role="search" method="get" class="search-form"
-							>
-							<label> <span class="screen-reader-text">Search
-									for:</span> <input type="search" class="search-field"
-								placeholder="Search &hellip;" value="" name="s" />
-							</label> <input type="submit" class="search-submit" value="Search" />
-						</form>
-					</aside>
-					<aside id="categories-2" class="widget widget_categories">
-						<h4 class="widget-title">Categories</h4>
-						<ul>
-							<li class="cat-item cat-item-9"><a
-								>Blog</a>
-							</li>
-							<li class="cat-item cat-item-11"><a
-								>Business</a>
-							</li>
-							<li class="cat-item cat-item-8"><a
-							>Design
-									/ Branding</a></li>
-							<li class="cat-item cat-item-1"><a
-								>Uncategorized</a>
-							</li>
-						</ul>
-					</aside>
-					<aside id="courses-2" class="widget widget_courses">
-						<div
-							class="thim-widget-courses thim-widget-courses-base template-list-sidebar-v3">
-							<h4 class="widget-title">Latest Courses</h4>
-							<div class="thim-course-list-sidebar">
-								<div class="lpr_course has-post-thumbnail">
-									<div class="course-thumbnail">
-										<img th:src="@{/assets/wp-content/uploads/2015/11/course-4-150x150.jpg}"
-											alt="LMS Interactive Content" />
-									</div>
-									<div class="thim-course-content">
-										<h3 class="course-title">
-											<a
-												>
-												LMS Interactive Content</a>
-										</h3>
-										<div class="course-price" itemprop="offers" itemscope=""
-											itemtype="http://schema.org/Offer">
-											<div class="value  free-course" itemprop="price">Free</div>
-											<meta itemprop="priceCurrency" content="USD" />
-										</div>
-									</div>
-								</div>
-								<div class="lpr_course has-post-thumbnail">
-									<div class="course-thumbnail">
-										<img th:src="@{/assets/wp-content/uploads/2015/06/course-1-150x150.jpg}"
-											alt="From Zero to Hero with Nodejs" />
-									</div>
-									<div class="thim-course-content">
-										<h3 class="course-title">
-											<a >
-												From Zero to Hero with Nodejs</a>
-										</h3>
-										<div class="course-price" itemprop="offers" itemscope=""
-											itemtype="http://schema.org/Offer">
-											<div class="value  free-course" itemprop="price">Free</div>
-											<meta itemprop="priceCurrency" content="USD" />
-										</div>
-									</div>
-								</div>
-								<div class="lpr_course has-post-thumbnail">
-									<div class="course-thumbnail">
-										<img th:src="@{/assets/wp-content/uploads/2015/06/course-12-150x150.jpg}"
-											alt="Getting Started with LESS" />
-									</div>
-									<div class="thim-course-content">
-										<h3 class="course-title">
-											<a
-												>
-												Getting Started with LESS</a>
-										</h3>
-										<div class="course-price" itemprop="offers" itemscope=""
-											itemtype="http://schema.org/Offer">
-											<div class="value  free-course" itemprop="price">Free</div>
-											<meta itemprop="priceCurrency" content="USD" />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</aside>
-					<aside id="single-images-2" class="widget widget_single-images">
-						<div
-							class="thim-widget-single-images thim-widget-single-images-base template-base">
-							<div class="single-image text-left">
-								<img th:src="@{/assets/wp-content/uploads/2015/12/ad.jpg}" width="330"
-									height="359" alt="" />
-							</div>
-						</div>
-					</aside>
-					<aside id="list-post-2" class="widget widget_list-post">
-						<div
-							class="thim-widget-list-post thim-widget-list-post-base template-base">
-							<h4 class="widget-title">Latest Posts</h4>
-							<div class="thim-list-posts sidebar">
-								<div
-									class="item-post has_thumb post-3698 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-course pmpro-has-access">
-									<div class="article-image">
-										<img width="150" height="150"
-											th:src="@{/assets/wp-content/uploads/2016/01/blog-8-150x150.jpg}"
-											class="attachment-thumbnail size-thumbnail wp-post-image"
-											 />
-									</div>
-									<div class="article-title-wrapper">
-										<h5>
-											<a
-												
-												class="article-title">Online Learning Glossary</a>
-										</h5>
-										<div class="article-date">
-											<span class="day">20</span><span class="month">Jan</span><span
-												class="year">2016</span>
-										</div>
-									</div>
-								</div>
-								<div
-									class="item-post has_thumb post-3699 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-designer tag-seo pmpro-has-access">
-									<div class="article-image">
-										<img width="150" height="150"
-											th:src="@{/assets/wp-content/uploads/2016/01/blog-5-150x150.jpg}"
-											class="attachment-thumbnail size-thumbnail wp-post-image"
-											
-											 />
-									</div>
-									<div class="article-title-wrapper">
-										<h5>
-											<a
-												
-												class="article-title">Tips to Succeed in an Online
-												Course</a>
-										</h5>
-										<div class="article-date">
-											<span class="day">20</span><span class="month">Jan</span><span
-												class="year">2016</span>
-										</div>
-									</div>
-								</div>
-								<div
-									class="item-post has_thumb post-71 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-course tag-thimpress tag-wordpress pmpro-has-access">
-									<div class="article-image">
-										<img width="150" height="150"
-											th:src="@{/assets/wp-content/uploads/2015/10/blog-3-150x150.jpg}"
-											class="attachment-thumbnail size-thumbnail wp-post-image"
-											 />
-									</div>
-									<div class="article-title-wrapper">
-										<h5>
-											<a
-												class="article-title">Introducing: Dr. Deniz Zeynep</a>
-										</h5>
-										<div class="article-date">
-											<span class="day">20</span><span class="month">Oct</span><span
-												class="year">2015</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</aside>
-				</div>
-			</div>
-		</div>
+				<div th:insert="views/web/blog/sidebar :: sidebar"></div>
 	</section>
 
 </div>
