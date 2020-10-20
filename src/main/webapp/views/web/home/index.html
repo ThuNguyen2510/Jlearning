@@ -4,102 +4,19 @@
 	layout:decorate="views/web/layout/base-layout">
 <div layout:fragment="body">
 	<div id="main-content">
+		<div class="top_site_main "
+			th:style="'background: url('+ @{/assets/wp-content/uploads/2015/topslider2.jpg}+'); color: white;background-position: center center;background-size: cover;margin-bottom: 15px'">
+			<span class="overlay-top-header"></span> <span
+				class="overlay-top-header"></span>
+			<div class="page-title-wrapper"></div>
+			<div class="page-title-wrapper"></div>
+
+		</div>
 		<div id="main-home-content" class="home-content home-page container"
 			role="main">
+
 			<div id="pl-12" class="panel-layout">
-				<div id="pg-12-0" class="panel-grid panel-has-style">
-					<div
-						class="siteorigin-panels-stretch panel-row-style panel-row-style-for-12-0"
-						data-stretch-type="full-stretched">
-						<div id="pgc-12-0-0" class="panel-grid-cell">
-							<div id="panel-12-0-0-0"
-								class="so-panel widget widget_text panel-first-child panel-last-child"
-								data-index="0">
-								<div class="textwidget">
-									<script data-cfasync="false"
-										th:src="@{/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
-									<script type="text/javascript"
-										th:src="@{/assets/wp-content/plugins/revslider/public/assets/js/revolution.tools.min.js}"></script>
-									<script type="text/javascript"
-										th:src="@{/assets/wp-content/plugins/revslider/public/assets/js/rs6.min.js}"></script>
-									<p class="rs-p-wp-fix"></p>
-									<rs-module-wrap id="rev_slider_6_1_wrapper"
-										data-source="gallery"
-										style="background:transparent;padding:0;background-image:url(assets/wp-content/uploads/2015/topslider2.jpg);background-repeat:no-repeat;background-size:cover;background-position:center center;">
-									<rs-module id="rev_slider_6_1" style="display:none;"
-										data-version="6.1.1"> <rs-slides> <rs-slide
-										data-key="rs-22" data-title="Slide"
-										data-thumb="//educationwp.thimpress.com/wp-content/uploads/2016/02/top-slider-100x50.jpg}"
-										data-anim="ei:d;eo:d;s:d;r:0;t:fade;sl:d;"> <img
-										th:src="@{/assets/wp-content/plugins/revslider/public/assets/assets/dummy.png}"
-										title="Home"
-										data-lazyload="//educationwp.thimpress.com/wp-content/uploads/2015/topslider2.jpg}"
-										class="rev-slidebg" data-no-retina> <rs-layer
-										id="slider-6-slide-22-layer-1" class="thim-slider-sub-heading"
-										data-type="text" data-color="rgba(252, 252, 252, 1)"
-										data-xy="xo:15px;y:m;yo:-146px,-150px,-45px,-20px;"
-										data-text="s:24,24,20,16;l:30;fw:700,700,700,600;"
-										data-rsp_o="off" data-rsp_bd="off" data-frame_0="o:1;tp:600;"
-										data-frame_0_chars="y:100%;o:1;rZ:-35deg;"
-										data-frame_0_mask="u:t;"
-										data-frame_1="tp:600;e:Power4.easeInOut;st:300;sp:1800;sR:300;"
-										data-frame_1_mask="u:t;"
-										data-frame_999="o:0;tp:600;e:Power2.easeIn;st:w;sp:100;sR:6200;"
-										style="z-index:5;"> </rs-layer> </rs-slide> </rs-slides> </rs-module> <script
-										type="text/javascript">
-											setREVStartSize({
-												c : 'rev_slider_6_1',
-												rl : [ 1240, 1024, 768, 480 ],
-												el : [],
-												gw : [ 1200, 960, 768, 481 ],
-												gh : [ 500, 400, 400, 320 ],
-												layout : 'fullscreen',
-												offsetContainer : '',
-												offset : '',
-												mh : "0"
-											});
-											var revapi6, tpj;
-											jQuery(function() {
-												tpj = jQuery;
-												if (tpj("#rev_slider_6_1").revolution == undefined) {
-													revslider_showDoubleJqueryError("#rev_slider_6_1");
-												} else {
-													revapi6 = tpj(
-															"#rev_slider_6_1")
-															.show()
-															.revolution(
-																	{
-																		jsFileLocation : "//educationwp.thimpress.com/wp-content/plugins/revslider/public/assets/js/",
-																		sliderLayout : "fullscreen",
-																		visibilityLevels : "1240,1024,768,480",
-																		gridwidth : "1200,960,768,481",
-																		gridheight : "500,400,400,320",
-																		minHeight : "",
-																		lazyType : "single",
-																		spinner : "spinner2",
-																		responsiveLevels : "1240,1024,768,480",
-																		disableForceFullWidth : true,
-																		disableProgressBar : "on",
-																		navigation : {
-																			mouseScrollNavigation : false,
-																			onHoverStop : false,
-
-																		},
-																		fallbacks : {
-																			panZoomDisableOnMobile : true,
-																			allowHTML5AutoPlayOnAndroid : true
-																		},
-																	});
-												}
-
-											});
-										</script> </rs-module-wrap>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<div id="pg-12-0" class="panel-grid panel-has-style"></div>
 				<div id="pg-12-1" class="panel-grid panel-has-style">
 					<div style="margin-top: auto"
 						class="thim-best-industry panel-row-style panel-row-style-for-12-1">
@@ -126,7 +43,7 @@
 													<h3 class="heading__primary">Học thử</h3>
 												</div>
 												<a class="smicon-read sc-btn" target="_self"
-													th:href="@{https://educationwp.thimpress.com/about-us/}"
+													th:href="@{/courses/1}"
 													style="color: #ffb606;">Xem <i
 													class="fa fa-chevron-right"></i></a>
 											</div>
@@ -226,12 +143,9 @@
 										data-autoplay="0">
 										<div class="course-item">
 											<div class="course-thumbnail">
-												<a
-													>
-													<img
+												<a> <img
 													th:src="@{https://res.cloudinary.com/driyvrhn2/image/upload/v1602754110/image/course1_w0s4il.jpg}"
-													width="400"
-													height="300" data-skip-lazy>
+													width="400" height="300" data-skip-lazy>
 												</a> <a class="course-readmore"
 													href="https://educationwp.thimpress.com/courses/learnpress-101/">Học
 													thử</a>
@@ -245,7 +159,7 @@
 												</div>
 												<h2 class="course-title">
 													<a
-														href="https://educationwp.thimpress.com/courses/learnpress-101/"
+														th:href="@{/courses/1}"
 														rel="bookmark">Tên khóa học</a>
 												</h2>
 												<div class="course-meta">
@@ -271,11 +185,13 @@
 								<div class="panel-widget-style panel-widget-style-for-12-2-0-2">
 									<div
 										class="thim-widget-button thim-widget-button-base template-base">
-										<a class="widget-button tiny-rounded medium" data-hover="">Xem
-											Thêm</a>
+										<a style="background: #f7b0b0;cursor:pointer" class="widget-button tiny-rounded medium"
+											>Xem Thêm</a>
 									</div>
 								</div>
+								
 							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -287,7 +203,8 @@
 							<div
 								class="thim-widget-heading thim-widget-heading-base template-base">
 								<div class="sc_heading   text-left">
-									<h3 style="text-transform: uppercase;" class="title">Blogs nổi bật</h3>
+									<h3 style="text-transform: uppercase;" class="title">Blogs
+										nổi bật</h3>
 									<p class="sub-heading" style="">Cùng nhau tìm hiểu về văn
 										hóa Nhật Bản và chia sẻ với nhau kinh nghiệm học ngôn ngữ nào.</p>
 									<span class="line"></span>
@@ -443,88 +360,7 @@
 												</h4>
 											</div>
 										</div>
-										<div class="item">
-											<div class="image">
-												<a
-													href="https://educationwp.thimpress.com/lms-wordpress-plugin/">
-													<img
-													th:src="@{/assets/wp-content/uploads/2015/10/blog-2-450x267.jpg}"
-													alt="LMS WordPress plugin" title="blog-2" width="450"
-													height="267" data-skip-lazy>
-												</a>
-											</div>
-											<div class="content">
-												<div class="info">
-													<div class="author">
-														<span>Hinata Hyuga</span>
-													</div>
-													<div class="date">20/10/2015</div>
-												</div>
-												<h4 class="title">
-													<a>LMS WordPress plugin</a>
-												</h4>
-											</div>
-										</div>
-										<div class="item">
-											<div class="image">
-												<a> <img
-													th:src="@{/assets/wp-content/uploads/2015/10/blog-3-450x267.jpg}"
-													alt="Introducing: Dr. Deniz Zeynep" title="blog-3"
-													width="450" height="267" data-skip-lazy>
-												</a>
-											</div>
-											<div class="content">
-												<div class="info">
-													<div class="author">
-														<span>Hinata Hyuga</span>
-													</div>
-													<div class="date">20/10/2015</div>
-												</div>
-												<h4 class="title">
-													<a>Introducing: Dr. Deniz Zeynep</a>
-												</h4>
-											</div>
-										</div>
-										<div class="item">
-											<div class="image">
-												<a> <img
-													th:src="@{/assets/wp-content/uploads/2016/01/blog-8-450x267.jpg}"
-													alt="Online Learning Glossary" title="blog-8" width="450"
-													height="267" data-skip-lazy>
-												</a>
-											</div>
-											<div class="content">
-												<div class="info">
-													<div class="author">
-														<span>Anthony</span>
-													</div>
-													<div class="date">20/01/2016</div>
-												</div>
-												<h4 class="title">
-													<a>Online Learning Glossary</a>
-												</h4>
-											</div>
-										</div>
-										<div class="item">
-											<div class="image">
-												<a> <img
-													th:src="@{/assets/wp-content/uploads/2016/01/blog-5-450x267.jpg}"
-													alt="Tips to Succeed in an Online Course" title="blog-5"
-													width="450" height="267" data-skip-lazy>
-												</a>
-											</div>
-											<div class="content">
-												<div class="info">
-													<div class="author">
-														<span>Anthony</span>
-													</div>
-													<div class="date">20/01/2016</div>
-												</div>
-												<h4 class="title">
-													<a>Tips to Succeed in an Online Course</a>
-												</h4>
-											</div>
-										</div>
+
 									</div>
 								</div>
 							</div>

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="views/web/layout/base-layout">
+
 <div layout:fragment="body">
 	<section class="content-area">
 		<div th:insert="views/web/course/topheading :: top"></div>
@@ -20,55 +21,33 @@
 										<div class="course-price">
 											<div class="value  free-course">Cấp độ</div>
 										</div>
-
+										<div class="lp-course-buttons">
+											<button style="font-size: 20px; border-radius: 15px">
+												Tham gia học</button>
+										</div>
 									</div>
 									<div class="course-summary">
 
 										<div id="course-landing" class="course-landing-summary">
 											<div id="learn-press-course-tabs" class="course-tabs">
 												<ul class="nav nav-tabs">
-													<li role="presentation"
-														class="course-nav-tab-overview active"><a
-														data-toggle="tab"> <i class="fa fa-bookmark"></i> <span>Overview</span>
+													<li role="presentation" class="course-nav-tab active"><a
+														data-target="#overview" data-toggle="tab"> <i
+															class="fa fa-bookmark"></i> <span>Overview</span>
 													</a></li>
-													<li role="presentation" class="course-nav-tab-curriculum">
-														<a href="index.html#tab-curriculum" data-toggle="tab">
-															<i class="fa fa-cube"></i> <span>Curriculum</span>
-													</a>
-													</li>
+													<li role="presentation" class="course-nav-tab"><a
+														data-toggle="tab" data-target="#curriculum"> <i
+															class="fa fa-cube"></i> <span>Curriculum</span>
+													</a></li>
 
 												</ul>
 												<div class="tab-content">
-													<div
-														class="tab-pane course-tab-panel-overview course-tab-panel active"
-														id="tab-overview">
+													<div class="tab-pane" id="overview">
 														<div class="course-description"
 															id="learn-press-course-description">
 															<div class="thim-course-content">
 																<h4>COURSE DESCRIPTION</h4>
-																<p>WordPress LMS Plugin – LearnPress is a
-																	comprehensive WordPress LMS Plugin for WordPress, just
-																	like WordPress Moodle or Moodle for WordPress if you
-																	know what Moodle is. This is one of the best WordPress
-																	LMS Plugins can be used to easily create &amp; sell
-																	courses online. Each course curriculum can be made with
-																	lessons &amp; quizzes which can be managed with
-																	easy-to-use user interface. With this WordPress LMS
-																	plugin, you can quickly and easily create education,
-																	online school, online-course websites with no
-																	coding-knowledge required.</p>
-																<p>
-																	<a target="_blank" rel="noopener noreferrer"><span
-																		style="text-decoration: underline;"><strong>Zoom
-																				Meeting <span class="label">Lecture</span>
-																		</strong></span></a>
-																</p>
-																<h4>CERTIFICATION</h4>
-																<p>As a powerful high-quality LMS for WordPress,
-																	LearnPress is the best choice for any instructor,
-																	teacher, school, university, education project,
-																	eLearning and online course websites.</p>
-																<h4>LEARNING OUTCOMES</h4>
+
 																<ul class="thim-list-content">
 																	<li>Over 37 lectures and 55.5 hours of content!</li>
 																	<li>Testing Training Included.</li>
@@ -114,9 +93,7 @@
 															</div>
 														</div>
 													</div>
-													<div
-														class="tab-pane course-tab-panel-curriculum course-tab-panel"
-														id="tab-curriculum">
+													<div class="tab-pane" id="curriculum">
 														<div class="thim-curriculum-buttons"></div>
 														<div class="course-curriculum"
 															id="learn-press-course-curriculum">
@@ -135,8 +112,9 @@
 																		data-id="learnpress-interactive-content-27"
 																		data-section-id="27">
 																		<h4 class="section-header">
-																			<span class="collapse"></span> LearnPress Interactive
-																			Content <span class="meta"> <span class="step">4</span>
+																			<span class="collapse"></span><a th:href="@{/lesson}">LearnPress
+																				Interactive Content</a> <span class="meta"> <span
+																				class="step">4</span>
 																			</span>
 																		</h4>
 																		<ul class="section-content">
@@ -229,7 +207,8 @@
 										</div>
 					</article>
 				</main>
-				<div th:insert="views/web/course/sidebar :: sidebar"></div>
+				<div class="col-sm-3" th:style="'padding-left: 90px;'" 
+					th:insert="views/web/course/sidebar :: sidebar"></div>
 			</div>
 		</div>
 	</section>

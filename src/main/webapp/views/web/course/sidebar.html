@@ -1,11 +1,11 @@
-<div th:fragment="sidebar" id="sidebar" class="widget-area col-sm-3 sticky-sidebar"
+<div th:fragment="sidebar" id="sidebar" 
 					role="complementary">
 
 					<aside id="course-categories-3"
 						class="widget widget_course-categories">
 						<div
 							class="thim-widget-course-categories thim-widget-course-categories-base template-base-v3">
-							<h4 class="widget-title">All Courses</h4>
+							<h3 >All Courses</h3>
 							<ul>
 								<li><a>Backend</a></li>
 								<li><a>CSS</a></li>
@@ -13,32 +13,22 @@
 							</ul>
 						</div>
 					</aside>
-					<aside id="courses-7" class="widget widget_courses">
+					<aside id="courses-7" th:style="'margin-top:200px'"class="widget widget_courses">
 						<div
 							class="thim-widget-courses thim-widget-courses-base template-list-sidebar-v3">
-							<h4 class="widget-title">Latest Courses</h4>
+							<h3 class="widget-title">Latest Courses</h3>
 							<div class="thim-course-list-sidebar">
-								<div class="lpr_course ">
-									<div class="thim-course-content">
-										<h3 class="course-title">
-											<a> Course php</a>
-										</h3>
-										<div class="course-price" itemprop="offers" itemscope=""
-											itemtype="http://schema.org/Offer">
-											
-										</div>
-									</div>
-								</div>
-								<div class="lpr_course has-post-thumbnail">
+								
+								<div class="lpr_course">
 									<div class="course-thumbnail">
-										<img
+										<a th:href="@{/courses/1}"><img
 											th:src="@{/assets/wp-content/uploads/2015/11/course-4-150x150.jpg}"
-											alt="LMS Interactive Content" />
+											alt="LMS Interactive Content" /></a>
 									</div>
-									<div class="thim-course-content">
-										<h3 class="course-title">
-											<a> LMS Interactive Content</a>
-										</h3>
+									<div class="thim-course-content" style="margin-left:10px">
+										<h5 class="course-title">
+											<a th:href="@{/courses/1}"> LMS Interactive Content</a>
+										</h5>
 										<div class="course-price" itemprop="offers" itemscope=""
 											itemtype="http://schema.org/Offer">
 											<div class="value  free-course" itemprop="price">Free</div>
@@ -46,16 +36,16 @@
 										</div>
 									</div>
 								</div>
-								<div class="lpr_course has-post-thumbnail">
+								<div class="lpr_course">
 									<div class="course-thumbnail">
-										<img
+										<a th:href="@{/courses/1}"><img
 											th:src="@{/assets/wp-content/uploads/2015/06/course-2-150x150.jpg}"
-											alt="Become a PHP Master and Make Money" />
+											alt="Become a PHP Master and Make Money" /></a>
 									</div>
-									<div class="thim-course-content">
-										<h3 class="course-title">
-											<a> Become a PHP Master and Make Money</a>
-										</h3>
+									<div class="thim-course-content" style="margin-left:10px">
+										<h5 class="course-title">
+											<a th:href="@{/courses/1}"> Become a PHP Master and Make Money</a>
+										</h5>
 										<div class="course-price" itemprop="offers" itemscope=""
 											itemtype="http://schema.org/Offer">
 											<div class="value  has-origin" itemprop="price">
@@ -69,5 +59,10 @@
 							</div>
 						</div>
 					</aside>
+<style>
+.course-thumbnail{
+padding:10px
+}
 
+</style>
 				</div>

@@ -1,15 +1,14 @@
-<div th:fragment="sidebar" id="sidebar" class="widget-area col-sm-3 sticky-sidebar"
-	role="complementary">
+<div th:fragment="sidebar" id="sidebar" role="complementary">
 
 
 	<aside id="search-4" class="widget widget_search">
-		<h4 class="widget-title">Tìm kiếm</h4>
+		<h3 class="widget-title">Tìm kiếm</h3>
 		<div class="courses-searching">
 			<form method="get">
 				<input type="text" value="" name="s" placeholder="Tìm blogs"
 					class="form-control course-search-filter" autocomplete="off" />
 				<button type="submit"
-					th:style="'right: 0; bottom: 0;  background: 0 0;   box-shadow: none; border: none; outline: 0; width: 30px;padding: 0;   line-height: 34px;    width: 70px;    position: absolute;'">
+					th:style="'right: 0; bottom: 0;  background: 0 0;   box-shadow: none; border: none; outline: 0; width: 30px;padding: 0;   line-height: 34px;'">
 					<i class="fa fa-search"></i>
 				</button>
 
@@ -18,7 +17,7 @@
 		</div>
 	</aside>
 	<aside id="categories-2" class="widget widget_categories">
-		<h4 class="widget-title">Categories</h4>
+		<h3 class="widget-title">Categories</h3>
 		<ul>
 			<li class="cat-item cat-item-9"><a>Blog</a></li>
 			<li class="cat-item cat-item-11"><a>Business</a></li>
@@ -29,7 +28,7 @@
 	<aside id="courses-2" class="widget widget_courses">
 		<div
 			class="thim-widget-courses thim-widget-courses-base template-list-sidebar-v3">
-			<h4 class="widget-title">Latest Courses</h4>
+			<h3 class="widget-title">Latest Courses</h3>
 			<div class="thim-course-list-sidebar">
 				<div class="lpr_course has-post-thumbnail">
 					<div class="course-thumbnail">
@@ -38,9 +37,9 @@
 							alt="LMS Interactive Content" />
 					</div>
 					<div class="thim-course-content">
-						<h3 class="course-title">
+						<h5 class="course-title">
 							<a> LMS Interactive Content</a>
-						</h3>
+						</h5>
 						<div class="course-price" itemprop="offers" itemscope=""
 							itemtype="http://schema.org/Offer">
 							<div class="value  free-course" itemprop="price">Free</div>
@@ -49,10 +48,11 @@
 					</div>
 				</div>
 
-				<aside id="list-post-2" class="widget widget_list-post">
+				<aside th:style="'margin-top: 40px;'" id="list-post-2"
+					class="widget widget_list-post">
 					<div
 						class="thim-widget-list-post thim-widget-list-post-base template-base">
-						<h4 class="widget-title">Posts Mới nhất</h4>
+						<h3 class="widget-title">Posts Mới nhất</h3>
 						<div class="thim-list-posts sidebar">
 							<div
 								class="item-post has_thumb post-3698 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-course pmpro-has-access">
@@ -77,4 +77,13 @@
 				</aside>
 			</div>
 		</div>
+		<style>
+.content-area p {
+	font-size: 1.4rem;
+}
+
+aside {
+	margin-bottom: 40px
+}
+</style>
 </div>

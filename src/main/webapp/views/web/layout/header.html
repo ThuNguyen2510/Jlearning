@@ -1,116 +1,152 @@
-	<header id="masthead" class="site-header affix-top bg-custom-sticky sticky-header header_overlay header_v1">
-				<div id="toolbar" class="toolbar">
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="toolbar-container">
-									<aside id="text-2" class="widget widget_text">
-										<div class="textwidget">
-											<div class="thim-have-any-question">
-												Thắc mắc?
-												<div class="mobile"><i class="fa fa-phone"></i><a
-														class="value">(00) 123 456 789</a>
-												</div>
-											</div>
-										</div>
-									</aside>
-									<aside id="login-popup-3" class="widget widget_login-popup">
-										<div class="thim-widget-login-popup thim-widget-login-popup-base template-base">
-											<div class="thim-link-login thim-login-popup">
-												<a class="register js-show-popup"
-													th:href="@{https://educationwp.thimpress.com/account/?action=register}">Đăng
-													ký</a><a class="login js-show-popup"
-													th:href="@{https://educationwp.thimpress.com/account/}">Đăng nhập</a>
-											</div>
-										</div>
-									</aside>
-								</div>
-							</div>
+
+<header>
+	<nav class="menu">
+		<ul>
+			<li class="nav-item"><a th:href="@{/}" title="Haru.vn"
+				rel="home" class="no-sticky-logo"><img th:style="'height:35px'"
+					th:src="@{/assets/wp-content/uploads/2015/logo1.png}"
+					th:href="@{/}" alt="Haru"></a></li>
+			<li class="nav-item"><a th:style="'color: black'" th:href="@{/}">Trang
+					chủ</a></li>
+			<li class="nav-item"><a style="color: black"
+				th:href="@{/courses}">Học theo lộ trình</a></li>
+			<li class="nav-item"><a th:style="'padding:0;color: black'"
+				th:href="@{/exams}">Luyện thi</a></li>
+			<li class="nav-item"><a th:style="'padding:0;color: black'"
+				th:href="@{/blogs}">Blogs</a></li>
+			<li class="nav-item"><a style="color: black" th:href="@{/blogs}"
+				class="tc-menu-inner">Liên hệ</a></li>
+
+			<!-- <li class="nav-item"><a type="button" data-toggle="modal"
+				data-target="#registerModal"
+				th:style="'margin-left: 70px; color: blue;'"><i
+					class="fas fa-user-plus"></i></a></li> -->
+			<li class="nav-item"><a type="button" data-toggle="modal"
+				data-target="#loginModal"
+				th:style="'color: #e6bc23d9;margin-left:100px'"><i
+					class="fas fa-sign-in-alt"></i></a></li>
+		</ul>
+	</nav>
+	<div class="modal" id="loginModal">
+		<div class="modal-dialog modal-dialog-scrollable"
+			th:style="' max-width: 700px'" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalScrollableTitle">Đăng
+						nhập</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div th:style="'float:left'">
+						<img th:src="@{/assets/wp-content/uploads/2015/login.png}" />
+					</div>
+					<br>
+					<div th:style="'float:left;margin: 40px'">
+						<!-- login -->
+						<div class="thim-login">
+							<h4 class="title">Đăng nhập</h4>
+							<form name="loginpopopform"
+								th:action="@{https://educationwp.thimpress.com/wp-login.php}"
+								method="post">
+								<p th:style="'width: 250px'" class="login-username">
+									<input type="text" name="log" placeholder="Username or email"
+										class="input required" value="" size="20" />
+								</p>
+								<p th:style="'width: 250px'" class="login-password">
+									<input type="password" name="pwd" placeholder="Password"
+										class="input required" value="" size="20" />
+								</p>
+								<a class="lost-pass-link"
+									th:href="@{https://educationwp.thimpress.com/account/?action=lostpassword}"
+									title="Lost Password">Quên mật khẩu?</a>
+								</p>
+								<p th:style="'width: 250px'" class="submit login-submit">
+									<input type="submit" name="wp-submit"
+										class="button button-primary button-large" value="Đăng nhập" />
+									<input type="hidden" name="redirect_to"
+										value="https://educationwp.thimpress.com/" /> <input
+										type="hidden" name="testcookie" value="1" /> <input
+										type="hidden" name="nonce" value="3ad7a83f06" /> <input
+										type="hidden" name="eduma_login_user">
+								</p>
+							</form>
+							<p class="link-bottom">
+								Tạo tài khoản mới? <a th:style="'color: blue; cursor: pointer;'"
+									type="button" data-toggle="modal" data-target="#registerModal">Đăng
+									ký</a>
+							</p>
 						</div>
 					</div>
+
 				</div>
-
-				<div class="thim-nav-wrapper container">
-					<div class="row">
-						<div class="navigation col-sm-12">
-							<div class="tm-table">
-								<div class="width-logo table-cell sm-logo">
-									<a th:href="@{/}" title="Haru.vn" rel="home" class="no-sticky-logo"><img
-											th:src="@{/assets/wp-content/uploads/2015/logo1.png}" th:href="@{/}" alt="Haru"></a></div>
-								<nav class="width-navigation table-cell table-right">
-									<ul class="nav navbar-nav menu-main-menu">
-										<li
-											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor menu-item-has-children menu-item-3404 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-column tc-menu-column-hide-title">
-											<a style="color:black" th:href="@{/}" class="tc-menu-inner">Trang chủ</a>
-										</li>
-										<li
-											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7682 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-builder">
-											<a style="color:black" th:href="@{/courses}"
-												class="tc-menu-inner">Học theo lộ trình</a>
-
-										</li>
-
-										<li
-											class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-95 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-default">
-											<a style="color:black" th:href="@{/blogs}" class="tc-menu-inner">Blogs<i
-													class="fas fa-angle-down" style="margin-left:5px"></i></a>
-											<ul class="sub-menu">
-												<li
-													class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6550 tc-menu-item tc-menu-depth-1 tc-menu-align-left">
-													<a th:href="@{https://educationwp.thimpress.com/membership-account/membership-levels/}"
-														class="tc-menu-inner tc-megamenu-title">Văn hóa Nhật Bản</a>
-												</li>
-												<li
-													class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4451 tc-menu-item tc-menu-depth-1 tc-menu-align-left">
-													<a th:href="@{https://educationwp.thimpress.com/portfolio-masonry/}"
-														class="tc-menu-inner tc-megamenu-title">Kinh nghiệm học tiếng
-														Nhật</a></li>
-
-											</ul>
-										</li>
-										<li
-											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-99 tc-menu-item tc-menu-depth-0 tc-menu-align-left tc-menu-layout-default">
-											<a style="color:black" th:href="@{https://educationwp.thimpress.com/contact/}"
-												class="tc-menu-inner">Liên hệ</a></li>
-										<li class="menu-right">
-											<ul>
-												<li id="courses-searching-3" class="widget widget_courses-searching">
-													<div
-														class="thim-widget-courses-searching thim-widget-courses-searching-base template-overlay-v2">
-														<div class="thim-course-search-overlay">
-															<div class="search-toggle"><i class="fa fa-search"
-																	style="color:black"></i>
-															</div>
-															<div class="courses-searching layout-overlay">
-																<div class="search-popup-bg"></div>
-																<form method="get"
-																	th:action="@{https://educationwp.thimpress.com/courses/}">
-																	<input type="text" value="" name="s"
-																		placeholder="Search courses..."
-																		class="thim-s form-control courses-search-input"
-																		autocomplete="off" />
-																	<input type="hidden" value="course" name="ref" />
-																	<button type="submit"><i
-																			class="fa fa-search"></i></button>
-																	<span class="widget-search-close"></span>
-																</form>
-																<ul class="courses-list-search list-unstyled"></ul>
-															</div>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</nav>
-								<div class="menu-mobile-effect navbar-toggle" data-effect="mobile-effect">
-									<span class="icon-bar"></span>
-									<span class="icon-bar"></span>
-									<span class="icon-bar"></span>
-								</div>
-							</div>
-
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="registerModal">
+		<div class="modal-dialog modal-dialog-scrollable"
+			th:style="' max-width: 700px'" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalScrollableTitle">Đăng
+						ký</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div th:style="'float:left'">
+						<img th:src="@{/assets/wp-content/uploads/2015/login.png}" />
+					</div>
+					<br>
+					<div th:style="'float:left;margin: 40px'">
+						<!-- login -->
+						<div class="thim-register">
+							<h4 class="title">Đăng ký tài khoản mới</h4>
+							<form class="auto_login" name="registerformpopup"
+								th:action="@{https://educationwp.thimpress.com/wp-login.php?action=register}"
+								method="post" novalidate="novalidate">
+								<input type="hidden" id="register_security"
+									name="register_security" value="0991a6c5c4" /><input
+									type="hidden" name="_wp_http_referer" value="/" />
+								<p>
+									<input th:style="'width: 250px'" placeholder="Username"
+										type="text" name="user_login" class="input required" />
+								</p>
+								<p>
+									<input th:style="'width: 250px'" placeholder="Email"
+										type="email" name="user_email" class="input required" />
+								</p>
+								<p>
+									<input th:style="'width: 250px'" placeholder="Password"
+										type="password" name="password" class="input required" />
+								</p>
+								<p>
+									<input th:style="'width: 250px'" placeholder="Repeat Password"
+										type="password" name="repeat_password" class="input required" />
+								</p>
+								<p class="submit">
+									<input type="submit" name="wp-submit"
+										class="button button-primary button-large" value="Đăng ký" />
+								</p>
+								<input type="hidden" name="redirect_to"
+									value="https://educationwp.thimpress.com/" /> <input
+									type="hidden" name="eduma_register_user">
+							</form>
+							<p class="link-bottom">
+								Bạn đã có tài khoản? <a
+									th:style="'color: blue; cursor: pointer;'" type="button"
+									data-toggle="modal" data-target="#loginModal">Đăng nhập</a>
+							</p>
+							<div class="popup-message"></div>
 						</div>
 					</div>
+
 				</div>
-			</header>
+			</div>
+		</div>
+	</div>
+</header>

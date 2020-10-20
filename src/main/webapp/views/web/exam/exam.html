@@ -1,0 +1,332 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/exam/topheading :: top"></div>
+		<div class="container site-content sidebar-right"
+			style="font-size: 1.4rem">
+			<div class="row">
+				<h1 style="padding:20px">
+					<strong>Phần luyện thi trình độ</strong>
+				</h1>
+			</div>
+			<div class="row" style="padding:20px">
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Đề thi N5 #02</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
+							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
+							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
+							
+						</ul>
+						<div class="card-body">
+							<form th:action="@{/exams/1/1}">
+								<button class="card-link">Chọn thi</button>
+							</form>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Đề thi N5 #02</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
+							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
+							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
+							
+						</ul>
+						<div class="card-body">
+							<button class="card-link">Chọn thi</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Đề thi N5 #02</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
+							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
+							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
+							
+						</ul>
+						<div class="card-body">
+							<button class="card-link">Chọn thi</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Đề thi N5 #02</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
+							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
+							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
+							
+						</ul>
+						<div class="card-body">
+							<button class="card-link">Chọn thi</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding:20px">
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Đề thi N5 #01</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
+							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
+							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
+							
+						</ul>
+						<div class="card-body">
+							<button class="card-link">Chọn thi</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Đề thi N5 #02</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
+							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
+							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
+							
+						</ul>
+						<div class="card-body">
+							<button class="card-link">Chọn thi</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="background: aliceblue">
+				<div class="block-content" style="padding:20px">
+					<p>
+						<strong>Cấu trúc đề thi N4</strong>
+					</p>
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr height="21">
+								<td colspan="2" height="21" width="142">Các môn thi</td>
+								<td colspan="4" width="798">Cách ra đề</td>
+							</tr>
+							<tr height="21">
+								<td colspan="2" height="21" width="142">(Thời gian thi)</td>
+								<td colspan="2" width="208">Tiêu đề</td>
+								<td width="93">Số câu</td>
+								<td width="497">Mục tiêu</td>
+							</tr>
+							<tr height="36">
+								<td height="36" rowspan="5" width="62">言語知識(30分)</td>
+								<td rowspan="5" width="80">文字・語彙</td>
+								<td align="right" width="55">1</td>
+								<td align="left" width="153">漢字読み</td>
+								<td width="93">9</td>
+								<td align="left" width="497">Cách đọc những từ được viết
+									bằng Hán tự.</td>
+							</tr>
+							<tr height="41">
+								<td align="right" width="55">2</td>
+								<td align="left" width="153">表記</td>
+								<td width="93">6</td>
+								<td align="left" width="497">Những từ được viết bằng
+									Hiragana sẽ được viết sang Hán tự hoặc Katakana như thế nào.</td>
+							</tr>
+							<tr height="41">
+								<td align="right" width="55">3</td>
+								<td align="left" width="153">文脈規定</td>
+								<td width="93">10</td>
+								<td align="left" width="497">Tùy theo mạch văn tìm những từ
+									được quy định phù hợp về mặt ngữ nghĩa là từ nào.</td>
+							</tr>
+							<tr height="21">
+								<td align="right" width="55">4</td>
+								<td align="left" width="153">言い換え類義</td>
+								<td width="93">5</td>
+								<td align="left" width="497">Tìm những cách diễn đạt, những
+									từ gần nghĩa với các từ đã cho.</td>
+							</tr>
+							<tr height="21">
+								<td align="right" width="55">5</td>
+								<td align="left" width="153">用法</td>
+								<td width="93">5</td>
+								<td align="left" width="497">Biết được từ đó sử dụng như
+									thế nào trong các câu được đưa ra.</td>
+							</tr>
+							<tr height="36">
+								<td height="36" rowspan="6" width="62">言語知識・読解（60分）</td>
+								<td rowspan="3" width="80">文法</td>
+								<td align="right" width="55">1</td>
+								<td width="153">文の文法１（文法形式の判断）</td>
+								<td width="93">15</td>
+								<td align="left" width="497">Có thể phán đoán được hình
+									thức ngữ pháp nào phù hợp với nội dung câu văn.</td>
+							</tr>
+							<tr height="19">
+								<td align="right" width="55">2</td>
+								<td width="153">文の文法２（文の組み立て）</td>
+								<td width="93">5</td>
+								<td align="left" width="497">Có thể tạo được câu văn mạch
+									lạc về mặt ý nghĩa và đúng cú pháp.</td>
+							</tr>
+							<tr height="21">
+								<td align="right" width="55">3</td>
+								<td width="153">文章の文法</td>
+								<td width="93">5</td>
+								<td align="left" width="497">Có thể phán đoán được câu nào
+									phù hợp với dòng chảy của đoạn văn.</td>
+							</tr>
+							<tr height="39">
+								<td rowspan="3" width="80">読解</td>
+								<td align="right" width="55">4</td>
+								<td width="153">内容理解（短文）</td>
+								<td width="93">4</td>
+								<td align="left" width="497">Đọc và hiểu được nội dung của
+									một văn bản khoảng 100 ~ 200 chữ Hán tự đơn giản về các ngữ
+									cảnh, các vấn đề có liên quan đến học tập, cuộc sống hay công
+									việc.</td>
+							</tr>
+							<tr height="19">
+								<td align="right" width="55">5</td>
+								<td width="153">内容理解 （中文）</td>
+								<td width="93">4</td>
+								<td align="left" width="497">Đọc và hiểu được nội dung của
+									một văn bản khoảng 450 chữ Hán tự đơn giản về&nbsp; đề tài có
+									liên quan đến cuộc sống hàng ngày.</td>
+							</tr>
+							<tr height="41">
+								<td align="right" width="55">6</td>
+								<td width="153">情報検索</td>
+								<td width="93">2</td>
+								<td align="left" width="497">Có thể tìm ra những thông tin
+									cần thiết trong các bản tin, bản hướng dẫn… có khoảng 400 chữ
+									Hán tự cơ bản.</td>
+							</tr>
+							<tr height="61">
+								<td colspan="2" height="61" rowspan="4" width="142">聴解（35分）</td>
+								<td align="right" width="55">1</td>
+								<td width="153">課題理解</td>
+								<td width="93">8</td>
+								<td align="left" width="497">Có thể hiểu được nội dung khi
+									nghe một đoạn văn, một đoạn hội thoại. ( Nghe và nắm bắt những
+									thông tin cần thiết, giải quyết những chủ đề mang tính cụ thể
+									và có thể biết được cái thích hợp tiếp theo là cái gì. )</td>
+							</tr>
+							<tr height="61">
+								<td align="right" width="55">2</td>
+								<td width="153">ポイント理解</td>
+								<td width="93">7</td>
+								<td align="left" width="497">Có thể hiểu được nội dung khi
+									nghe một đoạn văn, một đoạn hội thoại. ( Phải nghe cái đã được
+									chỉ thị từ trước, có khả năng nghe và lược ra những điểm chính)</td>
+							</tr>
+							<tr height="21">
+								<td align="right" width="55">3</td>
+								<td width="153">発話表現</td>
+								<td width="93">5</td>
+								<td align="left" width="497">Vừa nhìn hình vừa nghe giải
+									thích tình huống để chọn lựa câu thoại thích hợp.</td>
+							</tr>
+							<tr height="21">
+								<td align="right" width="55">4</td>
+								<td width="153">即時応答</td>
+								<td width="93">8</td>
+								<td align="left" width="497">Nghe câu thoại ngắn chẳng hạn
+									như một câu hỏi rồi chọn câu ứng đáp thích hợp.</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>
+						<strong>Các thông tin khác:</strong>
+					</p>
+					<p>&nbsp;</p>
+					<table border="0">
+						<tbody>
+							<tr>
+								<td>Điểm Phần 1 và 2:</td>
+								<td>Tối đa:120 điểm</td>
+								<td>Điểm liệt: 38 điểm</td>
+							</tr>
+							<tr>
+								<td>Điểm phần nghe:</td>
+								<td>Tối đa: 60 điểm</td>
+								<td>Điểm liệt: 19 điểm</td>
+							</tr>
+							<tr>
+								<td>Điểm đậu:</td>
+								<td>90 điểm</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="3"><p>* Chú ý:</p>
+									<p>- Thang điểm thực tế từng mục trong bài thi sẽ khác nhau
+										tùy theo mức độ khó của phần đó. Thang điểm này tổ chức JLPT
+										không công bố nên việc tính điểm đậu chỉ mang tính tương đối.</p>
+									<p>- Các đề thi hầu hết chỉ có đáp án, không có
+										phần dịch. Các bạn học có phần dịch trong phần đề
+										luyện thi.</p></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+.col-sm-3 {
+	padding: 0
+}
+
+ul {
+	margin-left: 0
+}
+
+.card {
+	text-align: center;
+	background: antiquewhite
+}
+
+
+button {
+	border-radius: 20px;
+	font-size: 1.4rem
+}
+
+h5 {
+	font-weight: 700
+}
+
+h2 {
+	color: lightseagreen
+}
+</style>
+</div>
+</html>

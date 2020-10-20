@@ -1,0 +1,256 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/lesson/topheading :: top"></div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col">
+					<button th:action="@{/courses/1}" style="border-radius: 30px">Danh
+						sách bài học</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<a th:href="@{/}">
+						<div class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_01.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Từ vựng</h5>
+							</div>
+
+						</div>
+					</a>
+				</div>
+				<div class="col">
+					<a th:href="@{/}">
+						<div class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_02.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Ngữ pháp</h5>
+							</div>
+
+						</div>
+					</a>
+				</div>
+				<div class="col">
+					<a th:href="@{/}">
+						<div class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_07.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Nghe</h5>
+							</div>
+
+						</div>
+					</a>
+				</div>
+				<div class="col">
+					<a th:href="@{/}">
+						<div class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_03.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Test</h5>
+							</div>
+
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<hr>
+			</div>
+			<div id="content" class="row" style="font-size: 1.5rem;">
+
+				<div class="w-100">
+					<ul class="nav nav-tabs w-100">
+						<li class="nav-item"><a class="nav-link active"
+							data-toggle="tab" href="#home">Câu 1</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							href="#menu1">Câu 2</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							href="#menu2">Câu 3</a></li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div id="home" class="container tab-pane active">
+							<br>
+							<form>
+
+								<div class="container" style="margin: 5px; margin-bottom: 20px">
+									<label>Nội dung câu hỏi</label>
+									<form>
+										<div>
+											<span><input type="radio" name="optradio" checked>Option
+												1</span>
+										</div>
+										<div>
+											<span><input type="radio" name="optradio">Option
+												2</span>
+										</div>
+										<div>
+											<span><input type="radio" name="optradio">Option
+												3</span>
+										</div>
+									</form>
+								</div>
+								<div class="container" style="margin: 5px; margin-bottom: 20px">
+									<label>Nội dung câu hỏi</label>
+									<form>
+										<div>
+											<span><input type="radio" name="optradio" checked>Option
+												1<i class="far fa-check-circle" style="color: green;"></i></span>
+										</div>
+										<div>
+											<span><input type="radio" name="optradio">Option
+												2<i class="far fa-times-circle" style="color: red;"></i></span>
+										</div>
+										<div>
+											<span><input type="radio" name="optradio">Option
+												3</span>
+										</div>
+									</form>
+								</div>
+								<button style="float:right;margin:10px;border-radius: 30px"><i class="fas fa-flag-checkered"></i>Nộp bài</button>
+							</form>
+						</div>
+						<div id="menu1" class="container tab-pane fade">
+							<br>
+							<div class="row w-100" style="padding-left: 85px;">
+
+								<div class="col-sm-6">
+									<a onclick="playAudio()"> <img style="margin-bottom: 5px"
+										title="Hãy click vào để nghe phát âm"
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a>
+									<a onclick="playAudio()"> <img
+										title="Hãy click vào để nghe phát âm"
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a>
+								</div>
+								<div class="col-sm-6">
+									<a> <img style="margin-bottom: 5px"
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a><a> <img
+										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
+									</a>
+								</div>
+							</div>
+						</div>
+						<div id="menu2" class="container tab-pane fade">
+							<br>
+							<audio id="myAudio">
+								<source
+									th:src="@{https://lophoctiengnhat.com/public/lesson/kotoba/minna/b01/watashi.mp3}"
+									type="audio/ogg">
+							</audio>
+							<table class="table table-striped">
+								<thead style="background-color: pink">
+									<tr>
+										<th>STT</th>
+										<th>Từ</th>
+										<th>Phát âm</th>
+										<th>Kanji</th>
+										<th>Nghĩa</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>わたし</td>
+										<td><a onclick="playAudio()"><i
+												class="fab fa-google-play"></i></a></td>
+										<td>私</td>
+										<td>Tôi</td>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>わたし</td>
+										<td><a style=""> <i class="fab fa-google-play"></i></a></td>
+										<td>私</td>
+										<td>Tôi</td>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>わたし</td>
+										<td><a><i class="fab fa-google-play"></i></a></td>
+										<td>私</td>
+										<td>Tôi</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+.col {
+	font-size: 1.3rem;
+	max-width: 200px;
+}
+
+.row {
+	margin-top: 20px;
+}
+
+.the {
+	background-color: white
+}
+
+.card {
+	width: 120px;
+	text-align: center;
+	border-radius: 30px;
+}
+
+#content {
+	border: solid 1px;
+	border-radius: 20px
+}
+
+a {
+	cursor: pointer;
+}
+
+.col-sm-6 img {
+	height: 90px;
+	border: solid #67caa4 2px;
+}
+</style>
+	<script>
+		var x = document.getElementById("myAudio");
+
+		function playAudio() {
+			x.play();
+		}
+	</script>
+</div>
+</html>
