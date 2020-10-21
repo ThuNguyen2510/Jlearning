@@ -1,0 +1,44 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div class="breadcrumbs-wrapper">
+			<div class="container">
+				<ul itemprop="breadcrumb" itemscope
+					itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+					class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="item"
+						th:href="@{/}" title="Home"><span itemprop="name">Trang
+								chủ</span>
+							<meta itemprop="position" content="1" /></a></li>
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{/users/1}">Blogs của tôi</a>
+						<meta itemprop="position" content="2" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
+				</div>
+				<div class="col-sm-9" style="border:solid 1px">
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+ul {
+	margin-left: 0;
+	color: cadetblue
+}
+
+.list-group-item {
+	font-weight: bold;
+}
+</style>
+</div>
+</html>

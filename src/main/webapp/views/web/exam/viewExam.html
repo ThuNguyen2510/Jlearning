@@ -1,0 +1,166 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/exam/topheading :: top"></div>
+		<div class="container site-content sidebar-right"
+			style="font-size: 1.4rem">
+			<div class="row">
+				<h1 style="padding: 20px">
+					<strong>Phần luyện thi trình độ</strong>
+				</h1>
+			</div>
+			<div class="row" style="padding: 20px">
+				<div class="col-sm-4">
+					<div class="left">
+						<img th:src="@{https://riki.edu.vn/online/images/icon/tuvung.png}">
+					</div>
+					<div class="left ">
+						<h3>Phần từ vựng-ngữ pháp</h3>
+						<p>Số câu hỏi: 10</p>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="left">
+						<img
+							th:src="@{https://riki.edu.vn/online/images/icon/reading-icon.png}">
+					</div>
+					<div class="left ">
+						<h3>Phần đọc hiểu</h3>
+						<p>Số câu hỏi: 10</p>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="left">
+						<img
+							th:src="@{https://riki.edu.vn/online/images/icon/nghehieu.png}">
+					</div>
+					<div class="left ">
+						<h3>Phần nghe</h3>
+						<p>Số câu hỏi: 10</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-sm-5"></div>
+				<div class="col-sm-2">
+					<form th:action="@{/exams/doExam}">
+						<button class="start">Bắt đầu thi</button>
+					</form>
+
+				</div>
+				<div class="col-sm-5"></div>
+			</div>
+			<div class="row">
+				<h1 style="padding: 20px">
+					<strong>Top 10 BXH Đề Thi</strong>
+				</h1>
+
+			</div>
+			<div class="row">
+				<table class="table table-borderless">
+					<thead>
+						<tr>
+							<th style="width: 7%">#Top</th>
+							<th>Thành viên</th>
+							<th>Điểm</th>
+							<th>Thời gian</th>
+
+
+
+						</tr>
+					</thead>
+					<tbody style="font-weigth: 500">
+						<tr id="rank1">
+							<td class="STT"><img style="width: 40px"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/item_rank_1.png}"
+								alt="" class="ic_rank"></td>
+							<td><img class="avatar"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
+									Văn A</strong></td>
+
+							<td><strong>100</strong></td>
+							<td>25/10/2020</td>
+						</tr>
+						<tr id="rank2">
+							<td class="STT"><img style="width: 40px"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/item_rank_2.png}"
+								alt="" class="ic_rank"></td>
+							<td><img class="avatar"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
+									Văn A</strong></td>
+							<td><strong>100</strong></td>
+							<td><strong>25/10/2020</strong></td>
+						</tr>
+						<tr id="rank3">
+							<td class="STT"><img style="width: 40px"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/item_rank_3.png}"
+								alt="" class="ic_rank"></td>
+							<td><img class="avatar"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
+									Văn A</strong></td>
+							<td><strong>100</strong></td>
+							<td><strong>25/10/2020</strong></td>
+						</tr>
+						<tr>
+							<td class="STT"><strong>4</strong></td>
+							<td><img class="avatar"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
+									Văn A</strong></td>
+							<td><strong>100</strong></td>
+							<td><strong>25/10/2020</strong></td>
+						</tr>
+				</table>
+			</div>
+		</div>
+	</section>
+	<style>
+.col-sm-4 {
+	background-color: #ececec;
+	border-radius: 50px;
+}
+
+.left {
+	display: table-cell;
+	padding: 5px;
+	margin: 5px
+}
+
+.start {
+	font-size: 2rem
+}
+
+#rank1 {
+	background-color: #b53636;
+	color: white
+}
+
+#rank2 {
+	background-color: #ffb700;
+	color: white
+}
+
+#rank3 {
+	background-color: #008b9c;
+	color: white
+}
+
+.avatar {
+	width: 35px;
+	height: 35px;
+	margin-right: 10px;
+	border-radius: 50%;
+	max-height: 50%
+}
+
+.STT {
+	text-align: center
+}
+</style>
+
+</div>
+
+</html>

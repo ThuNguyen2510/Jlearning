@@ -1,0 +1,387 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div class="breadcrumbs-wrapper">
+			<div class="container">
+				<ul itemprop="breadcrumb" itemscope
+					itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+					class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="item"
+						th:href="@{/}" title="Home"><span itemprop="name">Trang
+								chủ</span>
+							<meta itemprop="position" content="1" /></a></li>
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{/users/1}">Lịch sử thi</a>
+						<meta itemprop="position" content="2" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
+				</div>
+				<div class="col-sm-9" style="border:solid 1px">
+					<div class="content-right">
+						<div class="block-dasboard">
+							<h3 class="heading">LỊCH SỬ THI</h3>
+							<div data-v-427d2be1="" class="table-responsive">
+								<!---->
+								<table data-v-427d2be1="" class="table table-striped"
+									style="font-size: 1.4rem;">
+									<thead data-v-427d2be1="">
+										<tr data-v-427d2be1="">
+											<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+											<th data-v-427d2be1="" scope="col">Đề thi</th>
+											<th data-v-427d2be1="" scope="col">Ngày thi</th>
+											<th data-v-427d2be1="" scope="col" class="hidenMobile">Chi
+												tiết</th>
+											<th data-v-427d2be1="" scope="col">Điểm</th>
+										</tr>
+									</thead>
+									<tbody data-v-427d2be1="">
+										<tr data-v-427d2be1="">
+											<th data-v-427d2be1="" scope="row" class="center order"><strong
+												data-v-427d2be1="">1</strong></th>
+											<td data-v-427d2be1="">Đề N5 #01</td>
+											<td data-v-427d2be1=""><span data-v-427d2be1=""
+												class="datehistory">21-10-2020 14:52</span></td>
+											<td data-v-427d2be1="" class="hidenMobile"><button
+													data-v-427d2be1="" type="button" data-toggle="modal"
+													data-target="#resuiltTest-74715"
+													class="btn btn-primary btn-sm btn-info btn-viewmore">Kết
+													quả</button></td>
+											<td data-v-427d2be1="">0</td>
+										</tr>
+										<tr data-v-427d2be1="">
+											<th data-v-427d2be1="" scope="row" class="center order"><strong
+												data-v-427d2be1="">2</strong></th>
+											<td data-v-427d2be1="">Đề N5 #01</td>
+											<td data-v-427d2be1=""><span data-v-427d2be1=""
+												class="datehistory">19-10-2020 14:16</span></td>
+											<td data-v-427d2be1="" class="hidenMobile"><button
+													data-v-427d2be1="" type="button" data-toggle="modal"
+													data-target="#resuiltTest-74486"
+													class="btn btn-primary btn-sm btn-info btn-viewmore">Kết
+													quả</button></td>
+											<td data-v-427d2be1="">0</td>
+										</tr>
+										<tr data-v-427d2be1="">
+											<th data-v-427d2be1="" scope="row" class="center order"><strong
+												data-v-427d2be1="">3</strong></th>
+											<td data-v-427d2be1="">Đề N5 #01</td>
+											<td data-v-427d2be1=""><span data-v-427d2be1=""
+												class="datehistory">19-10-2020 12:01</span></td>
+											<td data-v-427d2be1="" class="hidenMobile"><button
+													data-v-427d2be1="" type="button" data-toggle="modal"
+													data-target="#resuiltTest-74485"
+													class="btn btn-primary btn-sm btn-info btn-viewmore">Kết
+													quả</button></td>
+											<td data-v-427d2be1="">0</td>
+										</tr>
+										<tr data-v-427d2be1="">
+											<th data-v-427d2be1="" scope="row" class="center order"><strong
+												data-v-427d2be1="">4</strong></th>
+											<td data-v-427d2be1="">Đề N4 #01</td>
+											<td data-v-427d2be1=""><span data-v-427d2be1=""
+												class="datehistory">18-10-2020 21:42</span></td>
+											<td data-v-427d2be1="" class="hidenMobile"><button
+													data-v-427d2be1="" type="button" data-toggle="modal"
+													data-target="#resuiltTest-74410"
+													class="btn btn-primary btn-sm btn-info btn-viewmore">Kết
+													quả</button></td>
+											<td data-v-427d2be1="">0</td>
+										</tr>
+									</tbody>
+								</table>
+								<div data-v-427d2be1="" id="resuiltTest-74715"
+									data-backdrop="true" aria-hidden="true" class="modal fade"
+									style="display: none;">
+									<div data-v-427d2be1="" class="modal-dialog modal-resuilt">
+										<div data-v-427d2be1="" class="modal-content">
+											<button data-v-427d2be1="" type="button" data-dismiss="modal"
+												class="close">×</button>
+											<section data-v-427d2be1="" class="certificate">
+												<h2 data-v-427d2be1="" class="titleCourse">Đề N5 #01</h2>
+												<div data-v-427d2be1="" class="certificate_info">
+													<table data-v-427d2be1="">
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">氏名 Họ
+																tên:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">Thư
+																Nguyễn</td>
+														</tr>
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">受験日
+																Ngày tham gia:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">21-10-2020
+																14:52</td>
+														</tr>
+													</table>
+												</div>
+												<div data-v-427d2be1="" class="certificate_resuil">
+													<table data-v-427d2be1="" class="jlpt-detail-score"
+														style="text-align: center;">
+														<tbody data-v-427d2be1="">
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1=""><p data-v-427d2be1=""
+																		style="text-align: center;">得点区分別得点 Điểm thành
+																		phần</p></td>
+																<td data-v-427d2be1="" class="jlpt-total-score"><p
+																		data-v-427d2be1="">総合得点</p>
+																	<p data-v-427d2be1="">Tổng điểm</p></td>
+															</tr>
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1="" style="padding: 0px !important;"><table
+																		data-v-427d2be1="" style="width: 100% !important;">
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">Từ
+																				vựng - ngữ pháp</td>
+																			<td data-v-427d2be1="" class="text-center">Đọc
+																				hiểu</td>
+																			<td data-v-427d2be1="" class="text-center">Nghe
+																				hiểu</td>
+																		</tr>
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">0</td>
+																			<td data-v-427d2be1="" class="text-center">N/A</td>
+																			<td data-v-427d2be1="" class="text-center">N/A</td>
+																		</tr>
+																	</table></td>
+																<td data-v-427d2be1="">0/180</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+								<div data-v-427d2be1="" id="resuiltTest-74486"
+									data-backdrop="true" aria-hidden="true" class="modal fade"
+									style="display: none;">
+									<div data-v-427d2be1="" class="modal-dialog modal-resuilt">
+										<div data-v-427d2be1="" class="modal-content">
+											<button data-v-427d2be1="" type="button" data-dismiss="modal"
+												class="close">×</button>
+											<section data-v-427d2be1="" class="certificate">
+												<h2 data-v-427d2be1="" class="titleCourse">Đề N5 #01</h2>
+												<div data-v-427d2be1="" class="certificate_info">
+													<table data-v-427d2be1="">
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">氏名 Họ
+																tên:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">Thư
+																Nguyễn</td>
+														</tr>
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">受験日
+																Ngày tham gia:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">19-10-2020
+																14:16</td>
+														</tr>
+													</table>
+												</div>
+												<div data-v-427d2be1="" class="certificate_resuil">
+													<table data-v-427d2be1="" class="jlpt-detail-score"
+														style="text-align: center;">
+														<tbody data-v-427d2be1="">
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1=""><p data-v-427d2be1=""
+																		style="text-align: center;">得点区分別得点 Điểm thành
+																		phần</p></td>
+																<td data-v-427d2be1="" class="jlpt-total-score"><p
+																		data-v-427d2be1="">総合得点</p>
+																	<p data-v-427d2be1="">Tổng điểm</p></td>
+															</tr>
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1="" style="padding: 0px !important;"><table
+																		data-v-427d2be1="" style="width: 100% !important;">
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">Từ
+																				vựng - ngữ pháp</td>
+																			<td data-v-427d2be1="" class="text-center">Đọc
+																				hiểu</td>
+																			<td data-v-427d2be1="" class="text-center">Nghe
+																				hiểu</td>
+																		</tr>
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">0</td>
+																			<td data-v-427d2be1="" class="text-center">N/A</td>
+																			<td data-v-427d2be1="" class="text-center">N/A</td>
+																		</tr>
+																	</table></td>
+																<td data-v-427d2be1="">0/180</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+								<div data-v-427d2be1="" id="resuiltTest-74485"
+									data-backdrop="true" aria-hidden="true" class="modal fade"
+									style="display: none;">
+									<div data-v-427d2be1="" class="modal-dialog modal-resuilt">
+										<div data-v-427d2be1="" class="modal-content">
+											<button data-v-427d2be1="" type="button" data-dismiss="modal"
+												class="close">×</button>
+											<section data-v-427d2be1="" class="certificate">
+												<h2 data-v-427d2be1="" class="titleCourse">Đề N5 #01</h2>
+												<div data-v-427d2be1="" class="certificate_info">
+													<table data-v-427d2be1="">
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">氏名 Họ
+																tên:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">Thư
+																Nguyễn</td>
+														</tr>
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">受験日
+																Ngày tham gia:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">19-10-2020
+																12:01</td>
+														</tr>
+													</table>
+												</div>
+												<div data-v-427d2be1="" class="certificate_resuil">
+													<table data-v-427d2be1="" class="jlpt-detail-score"
+														style="text-align: center;">
+														<tbody data-v-427d2be1="">
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1=""><p data-v-427d2be1=""
+																		style="text-align: center;">得点区分別得点 Điểm thành
+																		phần</p></td>
+																<td data-v-427d2be1="" class="jlpt-total-score"><p
+																		data-v-427d2be1="">総合得点</p>
+																	<p data-v-427d2be1="">Tổng điểm</p></td>
+															</tr>
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1="" style="padding: 0px !important;"><table
+																		data-v-427d2be1="" style="width: 100% !important;">
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">Từ
+																				vựng - ngữ pháp</td>
+																			<td data-v-427d2be1="" class="text-center">Đọc
+																				hiểu</td>
+																			<td data-v-427d2be1="" class="text-center">Nghe
+																				hiểu</td>
+																		</tr>
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">0</td>
+																			<td data-v-427d2be1="" class="text-center">0</td>
+																			<td data-v-427d2be1="" class="text-center">0</td>
+																		</tr>
+																	</table></td>
+																<td data-v-427d2be1="">0/180</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+								<div data-v-427d2be1="" id="resuiltTest-74410"
+									data-backdrop="true" aria-hidden="true" class="modal fade"
+									style="display: none;">
+									<div data-v-427d2be1="" class="modal-dialog modal-resuilt">
+										<div data-v-427d2be1="" class="modal-content">
+											<button data-v-427d2be1="" type="button" data-dismiss="modal"
+												class="close">×</button>
+											<section data-v-427d2be1="" class="certificate">
+												<h2 data-v-427d2be1="" class="titleCourse">Đề N4 #01</h2>
+												<div data-v-427d2be1="" class="certificate_info">
+													<table data-v-427d2be1="">
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">氏名 Họ
+																tên:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">Thư
+																Nguyễn</td>
+														</tr>
+														<tr data-v-427d2be1="">
+															<td data-v-427d2be1=""
+																style="text-align: right; font-weight: 600;">受験日
+																Ngày tham gia:</td>
+															<td data-v-427d2be1=""
+																style="font-weight: bold; color: rgb(11, 153, 148);">18-10-2020
+																21:42</td>
+														</tr>
+													</table>
+												</div>
+												<div data-v-427d2be1="" class="certificate_resuil">
+													<table data-v-427d2be1="" class="jlpt-detail-score"
+														style="text-align: center;">
+														<tbody data-v-427d2be1="">
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1=""><p data-v-427d2be1=""
+																		style="text-align: center;">得点区分別得点 Điểm thành
+																		phần</p></td>
+																<td data-v-427d2be1="" class="jlpt-total-score"><p
+																		data-v-427d2be1="">総合得点</p>
+																	<p data-v-427d2be1="">Tổng điểm</p></td>
+															</tr>
+															<tr data-v-427d2be1="">
+																<td data-v-427d2be1="" style="padding: 0px !important;"><table
+																		data-v-427d2be1="" style="width: 100% !important;">
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">Từ
+																				vựng - ngữ pháp</td>
+																			<td data-v-427d2be1="" class="text-center">Đọc
+																				hiểu</td>
+																			<td data-v-427d2be1="" class="text-center">Nghe
+																				hiểu</td>
+																		</tr>
+																		<tr data-v-427d2be1="">
+																			<td data-v-427d2be1="" class="text-center">0</td>
+																			<td data-v-427d2be1="" class="text-center">N/A</td>
+																			<td data-v-427d2be1="" class="text-center">N/A</td>
+																		</tr>
+																	</table></td>
+																<td data-v-427d2be1="">0/180</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+ul {
+	margin-left: 0;
+	color: cadetblue
+}
+
+.list-group-item {
+	font-weight: bold;
+}
+</style>
+</div>
+</html>

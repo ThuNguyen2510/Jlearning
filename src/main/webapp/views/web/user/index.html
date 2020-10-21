@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div class="breadcrumbs-wrapper">
+			<div class="container">
+				<ul itemprop="breadcrumb" itemscope
+					itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+					class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="item"
+						th:href="@{/}" title="Home"><span itemprop="name">Trang
+								chủ</span>
+							<meta itemprop="position" content="1" /></a></li>
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{/users/1}">Thông tin cá nhân</a>
+						<meta itemprop="position" content="2" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
+				</div>
+				<div class="col-sm-9" style="border:solid 1px">
+					<div class="block-dasboard">
+						<h3 class="heading">THÔNG TIN CÁ NHÂN</h3>
+						<form data-v-b6f77f7c="" action="" class="form_dasboard"
+							style="font-size: 1.4rem;">
+							<div data-v-b6f77f7c="" class="row">
+								<div data-v-b6f77f7c="" class="col-md-12">
+									<div data-v-b6f77f7c="" class="updated-message-box">
+										<!---->
+										<!---->
+									</div>
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div data-v-b6f77f7c="" class="form-group">
+										<label data-v-b6f77f7c="" for="">Họ và Tên (*)</label> <input
+											data-v-b6f77f7c="" type="text" name="name"
+											class="form-control" aria-required="true"
+											aria-invalid="false">
+										<p data-v-b6f77f7c="" class="error-message"
+											style="display: none;">Nhập họ và tên của bạn.</p>
+									</div>
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div data-v-b6f77f7c="" class="form-group">
+										<label data-v-b6f77f7c="" for="">Email</label> <input
+											data-v-b6f77f7c="" readonly="readonly" type="text"
+											name="email" class="form-control" aria-required="true"
+											aria-invalid="false">
+										<p data-v-b6f77f7c="" class="error-message"
+											style="display: none;">Nhập địa chỉ E-mail của bạn.</p>
+									</div>
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div data-v-b6f77f7c="" class="form-group">
+										<label data-v-b6f77f7c="" for="">Trình độ tiếng Nhật
+											(*)</label> <input data-v-b6f77f7c="" type="text" name="level"
+											placeholder="Trình độ của bạn" class="form-control"
+											aria-required="true" aria-invalid="false">
+										<p data-v-b6f77f7c="" class="error-message"
+											style="display: none;">Trình độ tiếng nhật của bạn
+											trong khoảng cấp độ nào.</p>
+									</div>
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div data-v-b6f77f7c="" class="form-group">
+										<label data-v-b6f77f7c="" for="">Mật khẩu (*)</label> <input
+											data-v-b6f77f7c="" type="text" name="country"
+											placeholder="Quốc gia đang sinh sống?" class="form-control"
+											aria-required="true" aria-invalid="false">
+										<p data-v-b6f77f7c="" class="error-message"
+											style="display: none;"></p>
+									</div>
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div data-v-b6f77f7c="" class="form-group">
+										<label data-v-b6f77f7c="" for="">Nhập lại mật khẩu (*)</label> <input
+											data-v-b6f77f7c="" type="text" name="country"
+											placeholder="Quốc gia đang sinh sống?" class="form-control"
+											aria-required="true" aria-invalid="false">
+										<p data-v-b6f77f7c="" class="error-message"
+											style="display: none;"></p>
+									</div>
+								</div>
+							</div>
+							<br data-v-b6f77f7c="">
+							<div data-v-b6f77f7c="" class="form-group text-right mt20">
+								<button data-v-b6f77f7c="" type="submit" id="updateInfoUser"
+									class="btn btn-info">Lưu thay đổi</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+ul {
+	margin-left: 0;
+	color: cadetblue
+}
+
+.list-group-item {
+	font-weight: bold;
+}
+</style>
+</div>
+</html>

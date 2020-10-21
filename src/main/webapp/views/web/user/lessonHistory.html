@@ -1,0 +1,66 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div class="breadcrumbs-wrapper">
+			<div class="container">
+				<ul itemprop="breadcrumb" itemscope
+					itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+					class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="item"
+						th:href="@{/}" title="Home"><span itemprop="name">Trang
+								chủ</span>
+							<meta itemprop="position" content="1" /></a></li>
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{/users/1}">Lịch sử bài học</a>
+						<meta itemprop="position" content="2" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
+				</div>
+				<div class="col-sm-9" style="border:solid 1px">
+					<div class="block-dasboard">
+						<h3 class="heading">THỐNG KÊ KHÓA HỌC</h3>
+						<div data-v-1c01416c="" class="table-responsive">
+							<table data-v-1c01416c=""
+								class="table table-thongke table-thongke-2"
+								style="font-size: 1.4rem;">
+								<thead data-v-1c01416c="">
+									<tr data-v-1c01416c="">
+										<th data-v-1c01416c="" style="width: 8%;">#STT</th>
+										<th data-v-1c01416c="">Khóa học hiện có</th>
+										<th data-v-1c01416c="">Tiến trình học</th>
+										<th data-v-1c01416c="">Tiến trình bài tập</th>
+										<th data-v-1c01416c="">Chi tiết bài tập</th>
+									</tr>
+								</thead>
+								<tbody data-v-1c01416c=""></tbody>
+							</table>
+							<div data-v-1c01416c="" id="test-chart-box">
+								<!---->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+ul {
+	margin-left: 0;
+	color: cadetblue
+}
+
+.list-group-item {
+	font-weight: bold;
+}
+</style>
+</div>
+</html>
