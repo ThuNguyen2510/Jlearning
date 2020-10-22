@@ -1,5 +1,6 @@
 package jlearning.web.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +11,10 @@ import jlearning.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	private static final Logger logger = Logger.getLogger(UserController.class);
 
 	@RequestMapping("/users/1")
 	public String index() {
-
 		return "views/web/user/index";
 	}
 

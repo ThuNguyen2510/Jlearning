@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,9 +64,6 @@ public class User {
 	@Column(name = "delete_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date delete_time;
-
-	@OneToMany(mappedBy = "user")
-	private List<History> histories;
 
 	public int getId() {
 		return id;
@@ -147,6 +145,15 @@ public class User {
 		this.delete_time = delete_time;
 	}
 
+	@OneToMany(mappedBy = "user")
+	private List<History> histories;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Comment> comments;
+
+	@OneToMany(mappedBy = "user")
+	private List<Result> results;
+
 	public List<History> getHistories() {
 		return histories;
 	}
@@ -179,12 +186,8 @@ public class User {
 		this.results = results;
 	}
 
+	/* fetch = FetchType.EAGER, */
 	@OneToMany(mappedBy = "user")
 	private List<Blog> blogs;
 
-	@OneToMany(mappedBy = "user")
-	private List<Comment> comments;
-
-	@OneToMany(mappedBy = "user")
-	private List<Result> results;
 }

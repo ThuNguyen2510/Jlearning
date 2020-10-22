@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import jlearning.model.User;
 import jlearning.model.User.Role;
 import jlearning.service.UserService;
-import jlearning.service.impl.BaseServiceImpl;
 import jlearning.service.impl.UserServiceImpl;
 
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
@@ -19,6 +18,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public User findById(Serializable key) {
 		try {
+			
 			return getUserDAO().findById(key);
 		} catch (Exception e) {
 			logger.error(e);
