@@ -16,19 +16,28 @@
 				th:href="@{/blogs}">Blogs</a></li>
 			<li class="nav-item"><a style="color: black" th:href="@{/blogs}"
 				class="tc-menu-inner">Liên hệ</a></li>
-
-			<!-- <li class="nav-item"><a type="button" data-toggle="modal"
-				data-target="#registerModal"
-				th:style="'margin-left: 70px; color: blue;'"><i
-					class="fas fa-user-plus"></i></a></li> -->
 			<li th:if="${session.currentUser}==null" class="nav-item"><a
 				type="button" data-toggle="modal" data-target="#loginModal"
 				th:style="'color: #e6bc23d9;margin-left:100px'"><i
 					class="fas fa-sign-in-alt"></i></a></li>
-			<li th:if="${session.currentUser}!=null" class="nav-item"><a
-				type="button" data-toggle="modal" data-target="#loginModal"
-				th:style="'color: #e6bc23d9;margin-left:100px'"><i
-					class="fas fa-user-ninja"></i></a></li>
+			<li th:if="${session.currentUser}!=null" class="nav-item"
+				style="margin-left: 100px">
+
+				<div class="btn-group">
+					<a type="button" class="dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> <img
+						class="avatar" th:src="${session.avatar}"></a>
+					<div class="dropdown-menu" style="font-size: 1.2rem">
+						<a class="dropdown-item" href="#">Thông tin cá nhân</a> <a
+							class="dropdown-item" href="#">Lịch sử bài học</a> <a
+							class="dropdown-item" href="#">Lịch sử bài thi</a> <a
+							class="dropdown-item" href="#">Blogs của tôi</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" onclick="myFunction()">Đăng
+							xuất</a>
+					</div>
+				</div>
+			</li>
 		</ul>
 	</nav>
 	<div class="modal" id="loginModal">
@@ -64,9 +73,7 @@
 								<div th:if="${session.error}!=null">
 									<strong><span id="error" th:text="${session.error}"></span></strong>
 								</div>
-								<!-- <div th:if="${session.error}!=null" class="alert alert-danger " role="alert">
-									<a  class="alert-link" id="error" th:text="${session.error}"></a>.
-								</div> -->
+								
 								<a class="lost-pass-link"
 									th:href="@{https://educationwp.thimpress.com/account/?action=lostpassword}"
 									title="Lost Password">Quên mật khẩu?</a>
@@ -79,7 +86,7 @@
 							</form>
 							<p class="link-bottom">
 								Tạo tài khoản mới? <a th:style="'color: blue; cursor: pointer;'"
-									type="button" data-toggle="modal" data-target="#registerModal">Đăng
+									type="button" data-toggle="modal" data-target="#registerModal" th:onclick="closeLoginModal()">Đăng
 									ký</a>
 							</p>
 						</div>
@@ -111,22 +118,21 @@
 						<div class="thim-register">
 							<h4 class="title">Đăng ký tài khoản mới</h4>
 							<form class="auto_login" name="registerformpopup"
-								th:action="@{/register}"
-								method="post" novalidate="novalidate">
+								th:action="@{/register}" method="post" novalidate="novalidate">
 								<input type="hidden" id="register_security"
 									name="register_security" value="0991a6c5c4" /><input
 									type="hidden" name="_wp_http_referer" value="/" />
 								<p>
 									<input th:style="'width: 250px'" placeholder="Username"
-										type="text" th:field="*{name}" name="user_login" class="input required" />
+										type="text" name="user_login" class="input required" />
 								</p>
 								<p>
 									<input th:style="'width: 250px'" placeholder="Email"
-										type="email" name="user_email" th:field="*{email}" class="input required" />
+										type="email" name="user_email" class="input required" />
 								</p>
 								<p>
 									<input th:style="'width: 250px'" placeholder="Password"
-										type="password" name="password" th:field="*{password}" class="input required" />
+										type="password" name="password" class="input required" />
 								</p>
 								<p>
 									<input th:style="'width: 250px'" placeholder="Repeat Password"
@@ -162,17 +168,40 @@
 								document.getElementById('error').innerHTML = "";
 							}
 						});
-		
 	</script>
 	<style>
 .thim-login {
 	font-size: 1.2rem
 }
+
+.avatar {
+	width: 40px;
+	border-radius: 50%;
+	border: solid 1px chartreuse;
+}
+
 .thim-register {
 	font-size: 1.2rem
 }
+
 #error {
 	color: red
 }
 </style>
+	<script>
+		function myFunction() {
+			/* alert("Bạn muốn đăng xuất!"); */
+			var a = confirm('Bạn muốn đăng xuất!')
+			if (a) {
+				location.href = 'http://localhost:8080/haru/logout'
+			}
+
+		}
+		
+		function closeLoginModal()
+		{
+			$("#loginModal").modal('hide');
+		}
+		
+	</script>
 </header>

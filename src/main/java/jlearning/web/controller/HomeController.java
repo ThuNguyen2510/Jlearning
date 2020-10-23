@@ -38,7 +38,9 @@ public class HomeController {
 	@Value("${Login_error}")
 	private String Login_error;
 	@RequestMapping("/")
-	public String index(Model model) {
+	public String index(Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
 		return "views/web/home/index";
 	}
 	
@@ -52,7 +54,7 @@ public class HomeController {
 			redirectAttributes.addFlashAttribute("loginsuccess", msg_login);
 			session.setAttribute("msg", user.getName().toUpperCase());
 			session.setAttribute("currentUser", user.getId());
-			
+			session.setAttribute("avatar",user.getAvatar()==null? "https://riki.edu.vn/online/Content/images/icon/user.png":user.getAvatar());
 			/*
 			 * if (user.getRole().toString().equals("ADMIN")) {
 			 * session.setAttribute("roleUser", ADMIN); return "redirect:/dashboard"; }
@@ -73,6 +75,18 @@ public class HomeController {
 	{
 		return "views/web/home/index";
 	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
+		logger.info("logout");
+		HttpSession session = request.getSession();
+		redirectAttributes.addFlashAttribute("message", "Logout success!");
+		session.removeAttribute("currentUser");
+		session.removeAttribute("error");
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	
 	
 }
