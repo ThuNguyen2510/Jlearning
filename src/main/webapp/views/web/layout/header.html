@@ -21,10 +21,14 @@
 				data-target="#registerModal"
 				th:style="'margin-left: 70px; color: blue;'"><i
 					class="fas fa-user-plus"></i></a></li> -->
-			<li class="nav-item"><a type="button" data-toggle="modal"
-				data-target="#loginModal"
+			<li th:if="${session.currentUser}==null" class="nav-item"><a
+				type="button" data-toggle="modal" data-target="#loginModal"
 				th:style="'color: #e6bc23d9;margin-left:100px'"><i
 					class="fas fa-sign-in-alt"></i></a></li>
+			<li th:if="${session.currentUser}!=null" class="nav-item"><a
+				type="button" data-toggle="modal" data-target="#loginModal"
+				th:style="'color: #e6bc23d9;margin-left:100px'"><i
+					class="fas fa-user-ninja"></i></a></li>
 		</ul>
 	</nav>
 	<div class="modal" id="loginModal">
@@ -48,17 +52,21 @@
 						<!-- login -->
 						<div class="thim-login">
 							<h4 class="title">Đăng nhập</h4>
-							<form name="loginpopopform"
-								th:action="@{https://educationwp.thimpress.com/wp-login.php}"
-								method="post">
+							<form name="loginpopopform" th:action="@{/login}" method="post">
 								<p th:style="'width: 250px'" class="login-username">
-									<input type="text" name="log" placeholder="Username or email"
-										class="input required" value="" size="20" />
+									<input type="text" name="email" required="true"
+										placeholder="Username or email" class="input required" />
 								</p>
 								<p th:style="'width: 250px'" class="login-password">
-									<input type="password" name="pwd" placeholder="Password"
-										class="input required" value="" size="20" />
+									<input type="password" name="password" required="true"
+										placeholder="Password" class="input required" />
 								</p>
+								<div th:if="${session.error}!=null">
+									<strong><span id="error" th:text="${session.error}"></span></strong>
+								</div>
+								<!-- <div th:if="${session.error}!=null" class="alert alert-danger " role="alert">
+									<a  class="alert-link" id="error" th:text="${session.error}"></a>.
+								</div> -->
 								<a class="lost-pass-link"
 									th:href="@{https://educationwp.thimpress.com/account/?action=lostpassword}"
 									title="Lost Password">Quên mật khẩu?</a>
@@ -66,11 +74,7 @@
 								<p th:style="'width: 250px'" class="submit login-submit">
 									<input type="submit" name="wp-submit"
 										class="button button-primary button-large" value="Đăng nhập" />
-									<input type="hidden" name="redirect_to"
-										value="https://educationwp.thimpress.com/" /> <input
-										type="hidden" name="testcookie" value="1" /> <input
-										type="hidden" name="nonce" value="3ad7a83f06" /> <input
-										type="hidden" name="eduma_login_user">
+
 								</p>
 							</form>
 							<p class="link-bottom">
@@ -107,22 +111,22 @@
 						<div class="thim-register">
 							<h4 class="title">Đăng ký tài khoản mới</h4>
 							<form class="auto_login" name="registerformpopup"
-								th:action="@{https://educationwp.thimpress.com/wp-login.php?action=register}"
+								th:action="@{/register}"
 								method="post" novalidate="novalidate">
 								<input type="hidden" id="register_security"
 									name="register_security" value="0991a6c5c4" /><input
 									type="hidden" name="_wp_http_referer" value="/" />
 								<p>
 									<input th:style="'width: 250px'" placeholder="Username"
-										type="text" name="user_login" class="input required" />
+										type="text" th:field="*{name}" name="user_login" class="input required" />
 								</p>
 								<p>
 									<input th:style="'width: 250px'" placeholder="Email"
-										type="email" name="user_email" class="input required" />
+										type="email" name="user_email" th:field="*{email}" class="input required" />
 								</p>
 								<p>
 									<input th:style="'width: 250px'" placeholder="Password"
-										type="password" name="password" class="input required" />
+										type="password" name="password" th:field="*{password}" class="input required" />
 								</p>
 								<p>
 									<input th:style="'width: 250px'" placeholder="Repeat Password"
@@ -132,9 +136,7 @@
 									<input type="submit" name="wp-submit"
 										class="button button-primary button-large" value="Đăng ký" />
 								</p>
-								<input type="hidden" name="redirect_to"
-									value="https://educationwp.thimpress.com/" /> <input
-									type="hidden" name="eduma_register_user">
+
 							</form>
 							<p class="link-bottom">
 								Bạn đã có tài khoản? <a
@@ -149,4 +151,28 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							if (document.getElementById('error') != null
+									&& window.location.href == 'http://localhost:8080/haru/login')
+								$("#loginModal").modal();
+							else {
+								document.getElementById('error').innerHTML = "";
+							}
+						});
+		
+	</script>
+	<style>
+.thim-login {
+	font-size: 1.2rem
+}
+.thim-register {
+	font-size: 1.2rem
+}
+#error {
+	color: red
+}
+</style>
 </header>

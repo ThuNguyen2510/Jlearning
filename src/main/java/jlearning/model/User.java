@@ -16,9 +16,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.FetchMode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "users")
