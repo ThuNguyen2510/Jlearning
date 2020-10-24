@@ -33,8 +33,7 @@
 							class="dropdown-item" href="#">Lịch sử bài thi</a> <a
 							class="dropdown-item" href="#">Blogs của tôi</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" onclick="myFunction()">Đăng
-							xuất</a>
+						<a class="dropdown-item" onclick="myFunction()">Đăng xuất</a>
 					</div>
 				</div>
 			</li>
@@ -70,10 +69,10 @@
 									<input type="password" name="password" required="true"
 										placeholder="Password" class="input required" />
 								</p>
-								<div th:if="${session.error}!=null">
-									<strong><span id="error" th:text="${session.error}"></span></strong>
+								<div class="alert alert-danger" th:if="${error}!=null">
+									<strong><span id="error" th:text="${error}"></span></strong>
 								</div>
-								
+
 								<a class="lost-pass-link"
 									th:href="@{https://educationwp.thimpress.com/account/?action=lostpassword}"
 									title="Lost Password">Quên mật khẩu?</a>
@@ -86,7 +85,8 @@
 							</form>
 							<p class="link-bottom">
 								Tạo tài khoản mới? <a th:style="'color: blue; cursor: pointer;'"
-									type="button" data-toggle="modal" data-target="#registerModal" th:onclick="closeLoginModal()">Đăng
+									type="button" data-toggle="modal" data-target="#registerModal"
+									th:onclick="closeLoginModal()" th:href="@{/register}">Đăng
 									ký</a>
 							</p>
 						</div>
@@ -118,26 +118,53 @@
 						<div class="thim-register">
 							<h4 class="title">Đăng ký tài khoản mới</h4>
 							<form class="auto_login" name="registerformpopup"
-								th:action="@{/register}" method="post" novalidate="novalidate">
-								<input type="hidden" id="register_security"
-									name="register_security" value="0991a6c5c4" /><input
-									type="hidden" name="_wp_http_referer" value="/" />
+								th:object="${user}" th:action="@{/registerProcess}"
+								method="post">
+								<div class="alert alert-success" th:if="${registersuccess}">
+									<span class="errors-notification" th:text="${registersuccess}"></span>
+								</div>
+								<div th:if="${error2!=null}" id="error2" th:utext="${error2}"
+									class="alert alert-danger"></div>
 								<p>
-									<input th:style="'width: 250px'" placeholder="Username"
-										type="text" name="user_login" class="input required" />
+									<input th:style="'width: 250px'" th:field="*{name}"
+										placeholder="Username" type="text" name="user_login"
+										required="true" />
 								</p>
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('email')}">
+									<span class="errors-notification">Email invalidate</span>
+								</div>
+
+								<!-- registersuccess -->
 								<p>
-									<input th:style="'width: 250px'" placeholder="Email"
-										type="email" name="user_email" class="input required" />
+									<input th:style="'width: 250px'" placeholder="Email@abcxkm.xyz"
+										type="email" name="user_email" th:field="*{email}"
+										required="true" />
 								</p>
+
+								<div th:if="${#fields.hasErrors('password')}"
+									class="alert alert-danger">
+									<span class="errors-notification">Password length is
+										least 5 characters</span>
+								</div>
+
 								<p>
 									<input th:style="'width: 250px'" placeholder="Password"
-										type="password" name="password" class="input required" />
+										th:field="*{password}" type="password" name="password"
+										required="true" class="input required" />
 								</p>
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('confirmPassword')}">
+									<span class="errors-notification">Confirm Password is
+										Incorect</span>
+								</div>
+
 								<p>
 									<input th:style="'width: 250px'" placeholder="Repeat Password"
-										type="password" name="repeat_password" class="input required" />
+										th:field="*{confirmPassword}" type="password"
+										name="repeat_password" required="true" />
 								</p>
+
 								<p class="submit">
 									<input type="submit" name="wp-submit"
 										class="button button-primary button-large" value="Đăng ký" />
@@ -147,7 +174,8 @@
 							<p class="link-bottom">
 								Bạn đã có tài khoản? <a
 									th:style="'color: blue; cursor: pointer;'" type="button"
-									data-toggle="modal" data-target="#loginModal">Đăng nhập</a>
+									data-toggle="modal" data-target="#loginModal"
+									th:onclick="closeRegisterModal()">Đăng nhập</a>
 							</p>
 							<div class="popup-message"></div>
 						</div>
@@ -158,15 +186,23 @@
 		</div>
 	</div>
 	<script>
+		$(document).ready(function() {
+			if (document.getElementById('error').innerHTML != '') {
+
+				$("#loginModal").modal("show");
+
+			}
+		});
+
 		$(document)
 				.ready(
 						function() {
-							if (document.getElementById('error') != null
-									&& window.location.href == 'http://localhost:8080/haru/login')
-								$("#loginModal").modal();
-							else {
-								document.getElementById('error').innerHTML = "";
+							if (document
+									.getElementsByClassName('errors-notification').length != 0
+									|| document.getElementById('error2') != null) {
+								$("#registerModal").modal("show");
 							}
+
 						});
 	</script>
 	<style>
@@ -183,25 +219,22 @@
 .thim-register {
 	font-size: 1.2rem
 }
-
-#error {
-	color: red
-}
 </style>
 	<script>
 		function myFunction() {
-			/* alert("Bạn muốn đăng xuất!"); */
+
 			var a = confirm('Bạn muốn đăng xuất!')
 			if (a) {
 				location.href = 'http://localhost:8080/haru/logout'
 			}
 
 		}
-		
-		function closeLoginModal()
-		{
+
+		function closeLoginModal() {
 			$("#loginModal").modal('hide');
 		}
-		
+		function closeRegisterModal() {
+			$("#registerModal").modal('hide');
+		}
 	</script>
 </header>
