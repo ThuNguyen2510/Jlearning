@@ -7,6 +7,8 @@ import jlearning.model.Blog.Type;
 public interface BlogDAO extends BaseDAO<Integer,Blog> {
 	
 	List<Blog> loadBlogs();
-	List<Blog> loadBlogsByType(Blog blog);
+	List<Blog> loadBlogsByType(Type type);
 	List<Blog> loadNewBlogs();
+	List<Blog> search(String k);
+	List<Blog> searchWithPaging(int type, String k);
 }

@@ -9,21 +9,33 @@
 			<div class="row">
 				<main id="main" class="site-main col-sm-9 alignleft">
 					<div id="blog-archive" class="blog-content">
-					<h3>Hot Blogs</h3>
+						<h3>Hot Blogs</h3>
+						<hr>
 						<div class="row">
-						
+
 							<article class="col-sm-7">
 								<a th:href="@{'/blogs/'+${blogs[0].id}}">
 									<div class="parent">
 										<img th:src="${blogs[0].image}">
 										<div class="child">
-											<p th:text="${blogs[0].type}"></p>
+
+											<p
+												th:if="${blogs[0].type==T(jlearning.model.Blog.Type).culture}">Văn
+												hóa Nhật Bản</p>
+											<p
+												th:if="${blogs[0].type==T(jlearning.model.Blog.Type).experience}">Kinh
+												nghiệm học</p>
+											<p
+												th:if="${blogs[0].type==T(jlearning.model.Blog.Type).general}">Chủ
+												đề chung</p>
+
+
 											<h4 th:text="${blogs[0].title}"></h4>
 											<i
 												th:text="${#dates.format(new java.util.Date(blogs[0].create_time))}">
 											</i>
-											<form>
-												<button th:href="@{'/blogs/'+${blogs[0].id}}">Đọc</button>
+											<form th:action="@{'/blogs/'+${blogs[0].id}}">
+												<button>Đọc</button>
 											</form>
 
 										</div>
@@ -38,32 +50,51 @@
 											<img th:src="${blogs[1].image}"
 												style="width: 400px; height: 200px">
 											<div class="child">
-												<p th:text="${blogs[1].type}"></p>
+												<p
+													th:if="${blogs[1].type==T(jlearning.model.Blog.Type).culture}">Văn
+													hóa Nhật Bản</p>
+												<p
+													th:if="${blogs[1].type==T(jlearning.model.Blog.Type).experience}">Kinh
+													nghiệm học</p>
+												<p
+													th:if="${blogs[1].type==T(jlearning.model.Blog.Type).general}">Tổng
+													quát</p>
+
 												<h4 th:text="${blogs[1].title}"></h4>
 												<i
 													th:text="${#dates.format(new java.util.Date(blogs[1].create_time))}">
 												</i>
-												<form>
-													<button th:href="@{'/blogs/'+${blogs[1].id}}">Đọc</button>
+												<form th:action="@{'/blogs/'+${blogs[1].id}}">
+													<button>Đọc</button>
 												</form>
 
 											</div>
 										</div>
 									</a>
 								</div>
+
 								<div class="row">
 									<a th:href="@{'/blogs/'+${blogs[2].id}}">
 										<div class="parent">
 											<img th:src="${blogs[2].image}"
 												style="width: 400px; height: 200px">
 											<div class="child">
-												<p th:text="${blogs[2].type}"></p>
+												<p
+													th:if="${blogs[2].type==T(jlearning.model.Blog.Type).culture}">Văn
+													hóa Nhật Bản</p>
+												<p
+													th:if="${blogs[2].type==T(jlearning.model.Blog.Type).experience}">Kinh
+													nghiệm học</p>
+												<p
+													th:if="${blogs[2].type==T(jlearning.model.Blog.Type).general}">Tổng
+													quát</p>
+
 												<h4 th:text="${blogs[2].title}"></h4>
 												<i
 													th:text="${#dates.format(new java.util.Date(blogs[2].create_time))}">
 												</i>
-												<form>
-													<button th:href="@{'/blogs/'+${blogs[2].id}}">Đọc</button>
+												<form th:action="@{'/blogs/'+${blogs[2].id}}">
+													<button>Đọc</button>
 												</form>
 
 											</div>
@@ -72,146 +103,96 @@
 								</div>
 							</article>
 						</div>
-						<!-- <div class="row" >
-							<div class="col-sm-6">
-								<article id="post-3696"
-									class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
-									<div class="content-inner">
-										<div class='post-formats-wrapper'>
-											<a class="post-image" th:href="@{'/blogs/'+${blogs[0].id}}"><img
-												style="width: 870px; height: 445px" th:src="${blogs[0].image}"
-												class="attachment-full size-full wp-post-image" alt="" /></a>
-										</div>
-										<div class="entry-content">
-											<header class="entry-header">
-												<div class="date-meta">
-													<i
-														th:text="${#dates.format(new java.util.Date(blogs[0].create_time))}">
-													</i>
-												</div>
-												<div class="entry-contain">
-													<h2 class="entry-title">
-														<a th:href="@{'/blogs/'+${blogs[0].id}}" rel="bookmark"><span
-															th:text="${blogs[0].title}"></span></a>
-													</h2>
-													<ul class="entry-meta">
-														<li class="author"><span>Posted by</span> <span
-															class="vcard author author_name"><a
-																th:href="@{https://educationwp.thimpress.com/author/minhluu/}"><p
-																		th:text="${blogs[0].user.name}"></p></a></span></li>
-														<li class="entry-category"><span>Categories</span> <a
-															th:href="@{https://educationwp.thimpress.com/category/business/}"
-															rel="category tag"><p th:text="${blogs[0].type}"></p></a></li>
-													</ul>
-												</div>
-											</header>
->
-											<div class="readmore">
-												<a th:href="@{'/blogs/'+${blogs[0].id}}">Read More</a>
-											</div>
+						<br>
+						<h3>Văn hóa Nhật Bản</h3>
+						<a style="font-size: 1.3rem; color: deeppink;" th:href="@{'blogs/category/1'}">Xem thêm<i
+							class="fas fa-angle-double-right"></i></a>
+						<hr>
+						<div class="row">
+							<div class="col-sm-4" style="margin-bottom: 8px"
+								th:each="item:${blogs1}">
+								<a th:href="@{'/blogs/'+${item.id}}">
+									<div class="parent">
+										<img style="width: 250px; height: 200px"
+											th:src="${item.image}">
+										<div class="child">
+
+
+											<h4 th:text="${item.title}"></h4>
+											<i
+												th:text="${#dates.format(new java.util.Date(item.create_time))}">
+											</i>
+											<form th:action="@{'/blogs/'+${item.id}}">
+												<button>Đọc</button>
+											</form>
+
 										</div>
 									</div>
-									<hr>
-								</article>
-							</div>
-							<div class="col-sm-6">
-								<div class="row">
-									<article id="post-3696"
-										class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
-										<div class="content-inner">
-											<div class='post-formats-wrapper'>
-												<a class="post-image" th:href="@{'/blogs/'+${blogs[1].id}}"><img
-													style="width: 870px; height: 445px" th:src="${blogs[1].image}"
-													class="attachment-full size-full wp-post-image" alt="" /></a>
-											</div>
-											<div class="entry-content">
-												<header class="entry-header">
-													<div class="date-meta">
-														<i
-															th:text="${#dates.format(new java.util.Date(blogs[1].create_time))}">
-														</i>
-													</div>
-													<div class="entry-contain">
-														<h2 class="entry-title">
-															<a th:href="@{'/blogs/'+${blogs[1].id}}" rel="bookmark"><span
-																th:text="${blogs[1].title}"></span></a>
-														</h2>
-														<ul class="entry-meta">
-															<li class="author"><span>Posted by</span> <span
-																class="vcard author author_name"><a
-																	th:href="@{https://educationwp.thimpress.com/author/minhluu/}"><p
-																			th:text="${blogs[1].user.name}"></p></a></span></li>
-															<li class="entry-category"><span>Categories</span> <a
-																th:href="@{https://educationwp.thimpress.com/category/business/}"
-																rel="category tag"><p th:text="${blogs[1].type}"></p></a></li>
-														</ul>
-													</div>
-												</header>
-
-												
-												<div class="readmore">
-													<a th:href="@{'/blogs/'+${blogs[1].id}}">Read More</a>
-												</div>
-											</div>
-										</div>
-										<hr>
-									</article>
-								</div>
-								<div class="row">
-									<article id="post-3696"
-										class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
-										<div class="content-inner">
-											<div class='post-formats-wrapper'>
-												<a class="post-image" th:href="@{'/blogs/'+${blogs[2].id}}"><img
-													style="width: 870px; height: 445px" th:src="${blogs[2].image}"
-													class="attachment-full size-full wp-post-image" alt="" /></a>
-											</div>
-											<div class="entry-content">
-												<header class="entry-header">
-													<div class="date-meta">
-														<i
-															th:text="${#dates.format(new java.util.Date(blogs[2].create_time))}">
-														</i>
-													</div>
-													<div class="entry-contain">
-														<h2 class="entry-title">
-															<a th:href="@{'/blogs/'+${blogs[2].id}}" rel="bookmark"><span
-																th:text="${blogs[2].title}"></span></a>
-														</h2>
-														<ul class="entry-meta">
-															<li class="author"><span>Posted by</span> <span
-																class="vcard author author_name"><a
-																	th:href="@{https://educationwp.thimpress.com/author/minhluu/}"><p
-																			th:text="${blogs[2].user.name}"></p></a></span></li>
-															<li class="entry-category"><span>Categories</span> <a
-																th:href="@{https://educationwp.thimpress.com/category/business/}"
-																rel="category tag"><p th:text="${blogs[2].type}"></p></a></li>
-														</ul>
-													</div>
-												</header>
-
-												
-												<div class="readmore">
-													<a th:href="@{'/blogs/'+${blogs[2].id}}">Read More</a>
-												</div>
-											</div>
-										</div>
-										<hr>
-									</article>
-								</div>
+								</a>
 							</div>
 
 						</div>
-					 -->
+						<br>
+						<h3>Kinh nghiệm học</h3>
+						<a style="font-size: 1.3rem; color: deeppink;" th:href="@{'blogs/category/2'}">Xem thêm<i
+							class="fas fa-angle-double-right"></i></a>
+						<hr>
+						<div class="row">
+							<div class="col-sm-4" style="margin-bottom: 8px"
+								th:each="item:${blogs2}">
+								<a th:href="@{'/blogs/'+${item.id}}">
+									<div class="parent">
+										<img style="width: 250px; height: 200px"
+											th:src="${item.image}">
+										<div class="child">
+
+											<h4 th:text="${item.title}"></h4>
+											<i
+												th:text="${#dates.format(new java.util.Date(item.create_time))}">
+											</i>
+											<form th:action="@{'/blogs/'+${item.id}}">
+												<button>Đọc</button>
+											</form>
+
+										</div>
+									</div>
+								</a>
+							</div>
+
+						</div>
+						<br>
+						<h3>Chủ đề chung</h3>
+						<a style="font-size: 1.3rem; color: deeppink;"
+							th:href="@{'blogs/category/3'}">Xem thêm<i
+							class="fas fa-angle-double-right"></i></a>
+						<hr>
+						<div class="row">
+							<div class="col-sm-4" style="margin-bottom: 8px"
+								th:each="item:${blogs3}">
+								<a th:href="@{'/blogs/'+${item.id}}">
+									<div class="parent">
+										<img style="width: 250px; height: 200px"
+											th:src="${item.image}">
+										<div class="child">
+
+
+											<h4 th:text="${item.title}"></h4>
+											<i
+												th:text="${#dates.format(new java.util.Date(item.create_time))}">
+											</i>
+											<form th:action="@{'/blogs/'+${item.id}}">
+												<button>Đọc</button>
+											</form>
+
+										</div>
+									</div>
+								</a>
+							</div>
+
+						</div>
+
 					</div>
-					<div class="pagination loop-pagination">
-						<ul class='page-numbers'>
-							<li><span aria-current="page" class="page-numbers current">1</span></li>
-							<li><a class="page-numbers">2</a></li>
-							<li><a class="page-numbers">3</a></li>
-							<li><a class="next page-numbers">&#62;</a></li>
-						</ul>
-					</div>
+
 
 				</main>
 				<div class="col-sm-3" th:style="'padding-left: 90px;'"

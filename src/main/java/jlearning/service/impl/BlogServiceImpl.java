@@ -44,16 +44,9 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
 	}
 
 	@Override
-	public List<Blog> loadBlogsByType(Blog blog) {
+	public List<Blog> loadBlogsByType(Type type) {
 
-		List<Blog> list = getBlogDAO().loadBlogsByType(blog);
-		for(Blog a: list){
-			if(a.getId()==blog.getId()) {
-				list.remove(a);
-				break;
-			}
-				
-		}
+		List<Blog> list = getBlogDAO().loadBlogsByType(type);
 		return list;
 	}
 
@@ -63,9 +56,15 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
 	}
 
 	@Override
-	public List<Blog> loadPopularBlogs() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Blog> search(String k) {
+		try {
+
+			return getBlogDAO().search(k);
+		} catch (Exception e) {
+			logger.error(e);
+			throw e;
+		}
+
 	}
 
 }

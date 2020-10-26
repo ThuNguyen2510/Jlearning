@@ -25,13 +25,13 @@ public class BlogDAOImpl extends GenericDAO<Integer, Blog> implements BlogDAO {
 	@Override
 	public List<Blog> loadBlogs() {
 		return getSession().createQuery("from Blog").getResultList();
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Blog> loadBlogsByType(Blog blog) {
-		return getSession().createQuery("from Blog where type=: type").setParameter("type", blog.getType()).getResultList();
+	public List<Blog> loadBlogsByType(Type type) {
+		return getSession().createQuery("from Blog where type=: type").setParameter("type", type).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -40,5 +40,27 @@ public class BlogDAOImpl extends GenericDAO<Integer, Blog> implements BlogDAO {
 		return getSession().createQuery("from Blog b ORDER BY b.create_time DESC ").getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Blog> search(String k) {
+		return getSession().createQuery("from Blog where title LIKE :k").setParameter("k", "%" + k + "%")
+				.getResultList();
+	}
+
+	@Override
+	public List<Blog> searchWithPaging(int type, String k) {
+		/*
+		 * if(type!=0 && k ==""){ if(type==1) {
+		 * 
+		 * } return null;
+		 * 
+		 * }else(k!-""){ return
+		 * getSession().createQuery("from Blog where title LIKE :k").setParameter("k",
+		 * "%" + k + "%")..setFirstResult((page - 1)*6) .setMaxResults(6)
+		 * .getResultList(); }
+		 */
+		return null;
+		
+	}
 
 }

@@ -8,10 +8,10 @@ import jlearning.model.Blog.Type;
 public interface BlogService extends BaseService<Integer, Blog> {
 	List<Blog> loadBlogs();
 
-	List<Blog> loadBlogsByType(Blog blog);
+	List<Blog> loadBlogsByType(Type type);
 	
 	List<Blog> loadNewBlogs();
 	
-	List<Blog> loadPopularBlogs();
+	List<Blog> search(String k);
 
 }
