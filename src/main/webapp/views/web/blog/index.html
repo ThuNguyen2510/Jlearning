@@ -9,410 +9,200 @@
 			<div class="row">
 				<main id="main" class="site-main col-sm-9 alignleft">
 					<div id="blog-archive" class="blog-content">
+					<h3>Hot Blogs</h3>
 						<div class="row">
-							<article id="post-3696"
-								class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"
-											th:href="@{https://educationwp.thimpress.com/why-you-should-read-every-day/}"><img
-											width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2016/01/blog-7.jpg}"
-											class="attachment-full size-full wp-post-image" alt=""
-											th:attr="srcset=@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-7.jpg}+' 870w,'+ @{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-7-300x153.jpg}+' 300w,'+@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-7-768x393.jpg}+' 768w'" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> January</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a th:href="@{/blogs/1}" rel="bookmark">Why You Should
-														Read Every Day</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a
-															th:href="@{https://educationwp.thimpress.com/author/minhluu/}">Anthony</a></span>
-													</li>
-													<li class="entry-category"><span>Categories</span> <a
-														th:href="@{https://educationwp.thimpress.com/category/business/}"
-														rel="category tag">Business</a></li>
-												</ul>
-											</div>
-										</header>
+						
+							<article class="col-sm-7">
+								<a th:href="@{'/blogs/'+${blogs[0].id}}">
+									<div class="parent">
+										<img th:src="${blogs[0].image}">
+										<div class="child">
+											<p th:text="${blogs[0].type}"></p>
+											<h4 th:text="${blogs[0].title}"></h4>
+											<i
+												th:text="${#dates.format(new java.util.Date(blogs[0].create_time))}">
+											</i>
+											<form>
+												<button th:href="@{'/blogs/'+${blogs[0].id}}">Đọc</button>
+											</form>
 
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a
-												th:href="@{/blogs/1}">Read
-												More</a>
 										</div>
 									</div>
-								</div>
+								</a>
+
 							</article>
-							<article id="post-3697"
-								class="col-sm-12 post-3697 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-course tag-thimpress tag-wordpress pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"
-											th:href="@{https://educationwp.thimpress.com/relaxing-after-work/}"><img
-											width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2016/01/blog-9.jpg}"
-											class="attachment-full size-full wp-post-image" alt=""
-											th:attr="srcset=@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-9.jpg}+' 870w,'+@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-9-300x153.jpg}+' 300w,'+@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-9-768x393.jpg}+' 768w'" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> January</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a
-														th:href="@{https://educationwp.thimpress.com/relaxing-after-work/}"
-														rel="bookmark">Relaxing after work</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a
-															th:href="@{https://educationwp.thimpress.com/author/minhluu/}">Anthony</a></span>
-													</li>
-													<li class="entry-category"><span>Categories</span> <a
-														th:href="@{https://educationwp.thimpress.com/category/business/}"
-														rel="category tag">Business</a></li>
-													<li class="comment-total"><span>Comments</span> <a
-														th:href="@{https://educationwp.thimpress.com/relaxing-after-work/#respond}">0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
+							<article class="col-sm-5">
+								<div class="row" style="margin-bottom: 4px">
+									<a th:href="@{'/blogs/'+${blogs[1].id}}">
+										<div class="parent">
+											<img th:src="${blogs[1].image}"
+												style="width: 400px; height: 200px">
+											<div class="child">
+												<p th:text="${blogs[1].type}"></p>
+												<h4 th:text="${blogs[1].title}"></h4>
+												<i
+													th:text="${#dates.format(new java.util.Date(blogs[1].create_time))}">
+												</i>
+												<form>
+													<button th:href="@{'/blogs/'+${blogs[1].id}}">Đọc</button>
+												</form>
 
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
+											</div>
 										</div>
-										<div class="readmore">
-											<a
-												th:href="@{https://educationwp.thimpress.com/relaxing-after-work/}">Read
-												More</a>
-										</div>
-									</div>
+									</a>
 								</div>
-							</article>
-							<article id="post-3698"
-								class="col-sm-12 post-3698 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-course pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"
-											th:href="@{https://educationwp.thimpress.com/online-learning-glossary/}"><img
-											width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2016/01/blog-8.jpg}"
-											class="attachment-full size-full wp-post-image" alt=""
-											th:attr="srcset=@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-8.jpg}+' 870w,'+@{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-8-300x153.jpg}+' 300w,'+ @{https://educationwp.thimpress.com/wp-content/uploads/2016/01/blog-8-768x393.jpg}+'768w'" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> January</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a
-														th:href="@{https://educationwp.thimpress.com/online-learning-glossary/}"
-														rel="bookmark">Online Learning Glossary</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a
-															th:href="@{https://educationwp.thimpress.com/author/minhluu/}">Anthony</a></span>
-													</li>
-													<li class="entry-category"><span>Categories</span> <a
-														th:href="@{https://educationwp.thimpress.com/category/blog/}"
-														rel="category tag">Blog</a></li>
-												</ul>
-											</div>
-										</header>
+								<div class="row">
+									<a th:href="@{'/blogs/'+${blogs[2].id}}">
+										<div class="parent">
+											<img th:src="${blogs[2].image}"
+												style="width: 400px; height: 200px">
+											<div class="child">
+												<p th:text="${blogs[2].type}"></p>
+												<h4 th:text="${blogs[2].title}"></h4>
+												<i
+													th:text="${#dates.format(new java.util.Date(blogs[2].create_time))}">
+												</i>
+												<form>
+													<button th:href="@{'/blogs/'+${blogs[2].id}}">Đọc</button>
+												</form>
 
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a
-												th:href="@{https://educationwp.thimpress.com/online-learning-glossary/}">Read
-												More</a>
-										</div>
-									</div>
-								</div>
-							</article>
-							<article id="post-3699"
-								class="col-sm-12 post-3699 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-designer tag-seo pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"><img width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2016/01/blog-5.jpg}"
-											class="attachment-full size-full wp-post-image" alt="" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> January</i>
 											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a rel="bookmark">Tips to Succeed in an Online Course</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a>Anthony</a></span></li>
-													<li class="entry-category"><span>Categories</span> <a
-														rel="category tag">Blog</a></li>
-													<li class="comment-total"><span>Comments</span> <a>0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
-
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
 										</div>
-										<div class="readmore">
-											<a>Read More</a>
-										</div>
-									</div>
-								</div>
-							</article>
-							<article id="post-71"
-								class="col-sm-12 post-71 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-course tag-thimpress tag-wordpress pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"><img width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2015/10/blog-3.jpg}"
-											class="attachment-full size-full wp-post-image" alt="" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> October</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a rel="bookmark">Introducing: Dr. Deniz Zeynep</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a>Hinata
-																Hyuga</a></span></li>
-													<li class="entry-category"><span>Categories</span> <a
-														rel="category tag">Blog</a></li>
-													<li class="comment-total"><span>Comments</span> <a>0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
-
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a>Read More</a>
-										</div>
-									</div>
-								</div>
-							</article>
-							<article id="post-60"
-								class="col-sm-12 post-60 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-wordpress pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"
-											th:href="@{https://educationwp.thimpress.com/lms-wordpress-plugin/}"><img
-											width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2015/10/blog-2.jpg}"
-											class="attachment-full size-full wp-post-image" alt="" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> October</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a rel="bookmark">LMS WordPress plugin</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a>Hinata
-																Hyuga</a></span></li>
-													<li class="entry-category"><span>Categories</span> <a
-														rel="category tag">Blog</a></li>
-													<li class="comment-total"><span>Comments</span> <a>0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
-
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a>Read More</a>
-										</div>
-									</div>
-								</div>
-							</article>
-							<article id="post-59"
-								class="col-sm-12 post-59 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-course pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"><img width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2015/10/blog-4.jpg}"
-											class="attachment-full size-full wp-post-image" alt="" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> October</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a rel="bookmark">Admin earns scholarship</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a>Hinata
-																Hyuga</a></span></li>
-													<li class="entry-category"><span>Categories</span> <a
-														rel="category tag">Blog</a></li>
-													<li class="comment-total"><span>Comments</span> <a>0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
-
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a>Read More</a>
-										</div>
-									</div>
-								</div>
-							</article>
-							<article id="post-54"
-								class="col-sm-12 post-54 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-designer tag-seo pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<a class="post-image"><img width="870" height="445"
-											th:src="@{/assets/wp-content/uploads/2015/10/blog-1.jpg}"
-											class="attachment-full size-full wp-post-image" alt="" /></a>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												20<i> October</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a rel="bookmark">Forensic team earns several</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a>Hinata
-																Hyuga</a></span></li>
-													<li class="entry-category"><span>Categories</span> <a
-														rel="category tag">Blog</a></li>
-													<li class="comment-total"><span>Comments</span> <a>0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
-
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a>Read More</a>
-										</div>
-									</div>
-								</div>
-							</article>
-							<article id="post-130"
-								class="col-sm-12 post-130 post type-post status-publish format-video hentry category-design-branding tag-designer tag-thimpress post_format-post-format-video pmpro-has-access">
-								<div class="content-inner">
-									<div class='post-formats-wrapper'>
-										<iframe th:src="@{https://player.vimeo.com/video/32655795}"
-											width="100%" height="490" frameborder="0"
-											webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-									</div>
-									<div class="entry-content">
-										<header class="entry-header">
-											<div class="date-meta">
-												18<i> October</i>
-											</div>
-											<div class="entry-contain">
-												<h2 class="entry-title">
-													<a rel="bookmark">Becoming a better designer</a>
-												</h2>
-												<ul class="entry-meta">
-													<li class="author"><span>Posted by</span> <span
-														class="vcard author author_name"><a>Hinata
-																Hyuga</a></span></li>
-													<li class="entry-category"><span>Categories</span> <a
-														rel="category tag">Design / Branding</a></li>
-													<li class="comment-total"><span>Comments</span> <a>0
-															comment</a></li>
-												</ul>
-											</div>
-										</header>
-
-										<div class="entry-summary">
-											<p>Lorem Ipsum is simply dummy text of the printing and
-												typesetting industry. Lorem Ipsum has been the
-												industry&#8217;s standard dummy text ever since the 1500s,
-												when an unknown printer took a galley of type and scrambled
-												it to make a &hellip;</p>
-										</div>
-										<div class="readmore">
-											<a>Read More</a>
-										</div>
-									</div>
+									</a>
 								</div>
 							</article>
 						</div>
+						<!-- <div class="row" >
+							<div class="col-sm-6">
+								<article id="post-3696"
+									class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
+									<div class="content-inner">
+										<div class='post-formats-wrapper'>
+											<a class="post-image" th:href="@{'/blogs/'+${blogs[0].id}}"><img
+												style="width: 870px; height: 445px" th:src="${blogs[0].image}"
+												class="attachment-full size-full wp-post-image" alt="" /></a>
+										</div>
+										<div class="entry-content">
+											<header class="entry-header">
+												<div class="date-meta">
+													<i
+														th:text="${#dates.format(new java.util.Date(blogs[0].create_time))}">
+													</i>
+												</div>
+												<div class="entry-contain">
+													<h2 class="entry-title">
+														<a th:href="@{'/blogs/'+${blogs[0].id}}" rel="bookmark"><span
+															th:text="${blogs[0].title}"></span></a>
+													</h2>
+													<ul class="entry-meta">
+														<li class="author"><span>Posted by</span> <span
+															class="vcard author author_name"><a
+																th:href="@{https://educationwp.thimpress.com/author/minhluu/}"><p
+																		th:text="${blogs[0].user.name}"></p></a></span></li>
+														<li class="entry-category"><span>Categories</span> <a
+															th:href="@{https://educationwp.thimpress.com/category/business/}"
+															rel="category tag"><p th:text="${blogs[0].type}"></p></a></li>
+													</ul>
+												</div>
+											</header>
+>
+											<div class="readmore">
+												<a th:href="@{'/blogs/'+${blogs[0].id}}">Read More</a>
+											</div>
+										</div>
+									</div>
+									<hr>
+								</article>
+							</div>
+							<div class="col-sm-6">
+								<div class="row">
+									<article id="post-3696"
+										class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
+										<div class="content-inner">
+											<div class='post-formats-wrapper'>
+												<a class="post-image" th:href="@{'/blogs/'+${blogs[1].id}}"><img
+													style="width: 870px; height: 445px" th:src="${blogs[1].image}"
+													class="attachment-full size-full wp-post-image" alt="" /></a>
+											</div>
+											<div class="entry-content">
+												<header class="entry-header">
+													<div class="date-meta">
+														<i
+															th:text="${#dates.format(new java.util.Date(blogs[1].create_time))}">
+														</i>
+													</div>
+													<div class="entry-contain">
+														<h2 class="entry-title">
+															<a th:href="@{'/blogs/'+${blogs[1].id}}" rel="bookmark"><span
+																th:text="${blogs[1].title}"></span></a>
+														</h2>
+														<ul class="entry-meta">
+															<li class="author"><span>Posted by</span> <span
+																class="vcard author author_name"><a
+																	th:href="@{https://educationwp.thimpress.com/author/minhluu/}"><p
+																			th:text="${blogs[1].user.name}"></p></a></span></li>
+															<li class="entry-category"><span>Categories</span> <a
+																th:href="@{https://educationwp.thimpress.com/category/business/}"
+																rel="category tag"><p th:text="${blogs[1].type}"></p></a></li>
+														</ul>
+													</div>
+												</header>
+
+												
+												<div class="readmore">
+													<a th:href="@{'/blogs/'+${blogs[1].id}}">Read More</a>
+												</div>
+											</div>
+										</div>
+										<hr>
+									</article>
+								</div>
+								<div class="row">
+									<article id="post-3696"
+										class="col-sm-12 post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
+										<div class="content-inner">
+											<div class='post-formats-wrapper'>
+												<a class="post-image" th:href="@{'/blogs/'+${blogs[2].id}}"><img
+													style="width: 870px; height: 445px" th:src="${blogs[2].image}"
+													class="attachment-full size-full wp-post-image" alt="" /></a>
+											</div>
+											<div class="entry-content">
+												<header class="entry-header">
+													<div class="date-meta">
+														<i
+															th:text="${#dates.format(new java.util.Date(blogs[2].create_time))}">
+														</i>
+													</div>
+													<div class="entry-contain">
+														<h2 class="entry-title">
+															<a th:href="@{'/blogs/'+${blogs[2].id}}" rel="bookmark"><span
+																th:text="${blogs[2].title}"></span></a>
+														</h2>
+														<ul class="entry-meta">
+															<li class="author"><span>Posted by</span> <span
+																class="vcard author author_name"><a
+																	th:href="@{https://educationwp.thimpress.com/author/minhluu/}"><p
+																			th:text="${blogs[2].user.name}"></p></a></span></li>
+															<li class="entry-category"><span>Categories</span> <a
+																th:href="@{https://educationwp.thimpress.com/category/business/}"
+																rel="category tag"><p th:text="${blogs[2].type}"></p></a></li>
+														</ul>
+													</div>
+												</header>
+
+												
+												<div class="readmore">
+													<a th:href="@{'/blogs/'+${blogs[2].id}}">Read More</a>
+												</div>
+											</div>
+										</div>
+										<hr>
+									</article>
+								</div>
+							</div>
+
+						</div>
+					 -->
 					</div>
 					<div class="pagination loop-pagination">
 						<ul class='page-numbers'>
@@ -424,11 +214,64 @@
 					</div>
 
 				</main>
-				<div class="col-sm-3" th:style="'padding-left: 90px;'" th:insert="views/web/blog/sidebar :: sidebar"></div>
+				<div class="col-sm-3" th:style="'padding-left: 90px;'"
+					th:insert="views/web/blog/sidebar :: sidebar"></div>
 			</div>
 		</div>
 	</section>
-	
+	<style>
+.parent {
+	position: relative;
+	/* define context for absolutly positioned children */
+	/* size set by image in this case */
+	background-color: red;
+	display: inline-block;
+	/* width: 200px;
+	height: 200px; */
+	background-color: lightgreen;
+	background-image: url('https://placehold.it/400');
+	background-size: cover;
+	background-position: center center;
+}
+
+.parent img {
+	display: block;
+}
+
+.parent:after {
+	content: '';
+	/* :after has to have a content... but you don't want one */
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0);
+	transition: 1s;
+}
+
+.parent:hover:after {
+	background: rgba(0, 0, 0, .5);
+}
+
+.parent:hover .child {
+	opacity: 1;
+}
+
+.child {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 5; /* only works when position is defined */
+	/* think of a stack of paper... this element is now 5 higher than the bottom */
+	color: white;
+	opacity: 0;
+	transition: .5s;
+}
+</style>
 </div>
 
 </html>

@@ -12,4 +12,8 @@
 	<bean id="UserDAO" class="jlearning.dao.impl.UserDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<bean id="BlogDAO" class="jlearning.dao.impl.BlogDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

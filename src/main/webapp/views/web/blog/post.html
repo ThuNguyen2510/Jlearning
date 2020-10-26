@@ -13,18 +13,19 @@
 							class="post-3697 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-course tag-thimpress tag-wordpress pmpro-has-access">
 							<div class="page-content-inner">
 								<header class="entry-header">
-									<h1 class="entry-title">Relaxing after work</h1>
+									<h1 class="entry-title" th:text="${blog.title}"
+										style="color: darkblue"></h1>
 									<ul class="entry-meta">
 										<li class="author"><span>Posted by</span> <span
 											class="vcard author author_name"><a
-												href="https://educationwp.thimpress.com/author/minhluu/">Anthony</a></span>
-										</li>
+												th:text="${blog.user.name}"></a></span></li>
 										<li class="entry-category"><span>Categories</span> <a
-											rel="category tag">Business</a></li>
+											rel="category tag"><p th:text="${blog.type}"></p></a></li>
 										<li class="entry-date"><span>Date</span> <span
-											class="value"> 20/01/2016</span></li>
-										<li class="comment-total"><span>Comments</span> <a>0
-												comment</a></li>
+											class="value"
+											th:text="${#dates.format(new java.util.Date(blog.create_time))}"></span></li>
+										<li class="comment-total"><span>Comments</span> <a
+											th:text="${#lists.size(blog.comments)}+'  comments'"> </a></li>
 									</ul>
 								</header>
 								<div class='post-formats-wrapper'>
@@ -33,179 +34,99 @@
 										th:src="@{/assets/wp-content/uploads/2016/01/blog-9.jpg}"
 										class="attachment-full size-full wp-post-image" alt="" /></a>
 								</div>
-								<div class="entry-content">
-									<p>Lorem Ipsum is simply dummy text of the printing and
-										typesetting industry. Lorem Ipsum has been the
-										industry&#8217;s standard dummy text ever since the 1500s,
-										when an unknown printer took a galley of type and scrambled it
-										to make a type specimen book.</p>
-									<p>It has survived not only five centuries, but also the
-										leap into electronic typesetting, remaining essentially
-										unchanged. It was popularised in the 1960s with the release of
-										Letraset sheets containing Lorem Ipsum passages, and more
-										recently with desktop publishing software like Aldus PageMaker
-										including versions of Lorem Ipsum.</p>
-									<p>It is a long established fact that a reader will be
-										distracted by the readable content of a page when looking at
-										its layout. The point of using Lorem Ipsum is that it has a
-										more-or-less normal distribution of letters, as opposed to
-										using &#8216;Content here, content here&#8217;, making it look
-										like readable English.</p>
-									<p>Many desktop publishing packages and web page editors
-										now use Lorem Ipsum as their default model text, and a search
-										for &#8216;lorem ipsum&#8217; will uncover many web sites
-										still in their infancy. Various versions have evolved over the
-										years, sometimes by accident, sometimes on purpose (injected
-										humour and the like).</p>
-									<p>There are many variations of passages of Lorem Ipsum
-										available, but the majority have suffered alteration in some
-										form, by injected humour, or randomised words which
-										don&#8217;t look even slightly believable.</p>
-									<p>If you are going to use a passage of Lorem Ipsum, you
-										need to be sure there isn&#8217;t anything embarrassing hidden
-										in the middle of text. All the Lorem Ipsum generators on the
-										Internet tend to repeat predefined chunks as necessary, making
-										this the first true generator on the Internet.</p>
-									<p>It uses a dictionary of over 200 Latin words, combined
-										with a handful of model sentence structures, to generate Lorem
-										Ipsum which looks reasonable. The generated Lorem Ipsum is
-										therefore always free from repetition, injected humour, or
-										non-characteristic words etc.</p>
-									<p>The standard chunk of Lorem Ipsum used since the 1500s
-										is reproduced below for those interested. Sections 1.10.32 and
-										1.10.33 from &#8220;de Finibus Bonorum et Malorum&#8221; by
-										Cicero are also reproduced in their exact original form,
-										accompanied by English versions from the 1914 translation by
-										H. Rackham.</p>
-								</div>
+								<div class="entry-content" th:utext="${blog.content}"></div>
 
 								<div class="entry-navigation-post">
 									<div class="prev-post">
 										<p class="heading">Previous post</p>
-										<h5 class="title">
-											<a>Online Learning Glossary</a>
+										<h5 th:if="${preBlog}" class="title">
+											<a th:href="@{'/blogs/'+${preBlog.id}}"
+												th:text="${preBlog.title}"></a>
 										</h5>
-										<div class="date">20/01/2016</div>
+										<div th:if="${preBlog}" class="date"
+											th:text="${#dates.format(new java.util.Date(preBlog.create_time))}"></div>
 									</div>
 									<div class="next-post">
 										<p class="heading">Next post</p>
-										<h5 class="title">
-											<a>Why You Should Read Every Day</a>
+										<h5 th:if="${nextBlog}" class="title">
+											<a th:href="@{'/blogs/'+${nextBlog.id}}"
+												th:text="${nextBlog.title}"></a>
 										</h5>
-										<div class="date">20/01/2016</div>
+										<div th:if="${nextBlog}"
+											th:text="${#dates.format(new java.util.Date(nextBlog.create_time))}"
+											class="date"></div>
 									</div>
 								</div>
 								<section class="related-archive">
 									<h3 class="single-title">You may also like</h3>
-									<div class="archived-posts">
+									<div th:if="${sameType}" class="archived-posts">
 										<div class="thim-carousel-wrapper" data-visible="3"
 											data-itemtablet="2" data-itemmobile="1" data-pagination="1">
 											<div
 												class="post-3696 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-wordpress pmpro-has-access">
 												<div class="row">
-													<div class="col">
-														<img
-															th:src="@{/assets/wp-content/uploads/2016/01/blog-5-450x267.jpg}"
-															alt="blog-7" title="blog-7" width="300" height="200"
-															data-skip-lazy>
-														<div class="rel-post-text">
+													<div class="col" th:each="item:${sameType}">
+														<img th:src="${item.image}" alt="blog-7" title="blog-7"
+															style="width: 200px; height: 150px" data-skip-lazy>
+														<div class="rel-post-text"
+															style="width: 200px; text-align: center">
 															<h5>
-																<a th:href="@{/blogs/1}">Why You Should Read Every
-																	Day</a>
+																<a th:href="@{'/blogs/'+${item.id}}"
+																	th:text="${item.title}"></a>
 															</h5>
-															<div class="date">20 January, 2016</div>
+															<div class="date"
+																th:text="${#dates.format(new java.util.Date(item.create_time))}"></div>
 														</div>
 													</div>
-													<div class="col">
-														<img
-															th:src="@{/assets/wp-content/uploads/2016/01/blog-5-450x267.jpg}"
-															alt="blog-7" title="blog-7" width="300" height="200"
-															data-skip-lazy>
-														<div class="rel-post-text">
-															<h5>
-																<a th:href="@{/blogs/1}">Why You Should Read Every
-																	Day</a>
-															</h5>
-															<div class="date">20 January, 2016</div>
-														</div>
-													</div>
-													<div class="col">
-														<img
-															th:src="@{/assets/wp-content/uploads/2016/01/blog-5-450x267.jpg}"
-															alt="blog-7" title="blog-7" width="300" height="200"
-															data-skip-lazy>
-														<div class="rel-post-text">
-															<h5>
-																<a th:href="@{/blogs/1}">Why You
-																	Should Read Every Day</a>
-															</h5>
-															<div class="date">20 January, 2016</div>
-														</div>
-													</div>
+
 												</div>
 
 											</div>
 
 										</div>
 									</div>
+									<div th:if="${sameType==null}" class="archived-posts">
+										<h4 style="margin-left: 10px;">Không có blog liên quan.</h4>
+									</div>
 								</section>
 							</div>
 						</article>
 						<div class="row" style="margin-top: 30px">
-						<div class="col"><h3>BÌNH LUẬN VỀ BLOG </h3></div>
-							<div class="thim-about-author">
+							<div class="col">
+								<h3>BÌNH LUẬN VỀ BLOG</h3>
+							</div>
+							<div th:if="${blog.comments}" class="thim-about-author"
+								style="width: 1000px" th:each="cmt:${blog.comments}">
 								<div class="author-wrapper">
 									<div class="author-avatar">
-										<a href="https://educationwp.thimpress.com/author/minhluu/">
+										<a> <img alt="Admin bar avatar"
+											style="width: 55px; border: solid 1px fuchsia;"
+											th:if="${cmt.user.avatar}" th:src="${cmt.user.avatar}"
+											class="avatar avatar-110 photo" height="110" width="110" />
 											<img alt="Admin bar avatar"
-											th:src="@{/assets/wp-content/uploads/learn-press-profile/12/athony1-thumb.jpg}"
+											style="width: 55px; border: solid 1px fuchsia;"
+											th:if="${cmt.user.avatar}==null"
+											th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"
 											class="avatar avatar-110 photo" height="110" width="110" />
 										</a>
 									</div>
 									<div class="author-bio">
 										<div class="author-top">
-											<a class="name"> Anthony </a>
+											<a class="name" th:text="${cmt.user.name}"> </a>
 											<p class="job">Author</p>
-											<p>Thời gian: 25/10/2020</p>
+											<p
+												th:text="@{'Thời gian: '+ ${#dates.format(new java.util.Date(cmt.create_time))}}"></p>
 										</div>
-										
+
 									</div>
-									<div class="author-description">Lorem Ipsum is simply
-										dummy text of the printing and typesetting industry. Lorem
-										Ipsum has been the industry's standard dummy text ever since
-										the 1500s, when an unknown printer took a galley of type and
-										scrambled it to make a type specimen book. It has survived not
-										only five centuries, but also the leap into electronic
-										typesetting, remaining essentially unchanged. It was
-										popularised in the 1960s.</div>
+									<div
+										style="color: darkred; padding-top: 25px; font-weight: 600;"
+										class="author-description" th:text="${cmt.content}"></div>
 								</div>
 							</div>
-							<div class="thim-about-author">
-								<div class="author-wrapper">
-									<div class="author-avatar">
-										<a href="https://educationwp.thimpress.com/author/minhluu/">
-											<img alt="Admin bar avatar"
-											th:src="@{/assets/wp-content/uploads/learn-press-profile/12/athony1-thumb.jpg}"
-											class="avatar avatar-110 photo" height="110" width="110" />
-										</a>
-									</div>
-									<div class="author-bio">
-										<div class="author-top">
-											<a class="name"> Anthony </a>
-											<p class="job">Author</p>
-											<p>Thời gian: 25/10/2020</p>
-										</div>
-										
-									</div>
-									<div class="author-description">Lorem Ipsum is simply
-										dummy text of the printing and typesetting industry. Lorem
-										Ipsum has been the industry's standard dummy text ever since
-										the 1500s, when an unknown printer took a galley of type and
-										scrambled it to make a type specimen book. It has survived not
-										only five centuries, but also the leap into electronic
-										typesetting, remaining essentially unchanged. It was
-										popularised in the 1960s.</div>
-								</div>
+							<div class="thim-about-author" style="width: 1000px"
+								th:if="${#lists.size(blog.comments)}==0">
+								<p>Chưa có bình luận nào.</p>
 							</div>
 						</div>
 						<div id="comments" class="comments-area">
@@ -240,7 +161,8 @@
 						</div>
 					</div>
 				</main>
-				<div class="col-sm-3" th:style="'padding-left: 90px;'" th:insert="views/web/blog/sidebar :: sidebar"></div>
+				<div class="col-sm-3" th:style="'padding-left: 90px;'"
+					th:insert="views/web/blog/sidebar :: sidebar"></div>
 	</section>
 
 </div>

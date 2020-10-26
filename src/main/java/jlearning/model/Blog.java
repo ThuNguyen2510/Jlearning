@@ -24,7 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "blogs")
-public class Blog {
+public class Blog implements Comparable<Blog> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -148,4 +148,11 @@ public class Blog {
 		this.comments = comments;
 	}
 
+	@Override
+	public int compareTo(Blog o) {
+		if (getCreate_time() == null || o.getCreate_time() == null)
+			return 0;
+		return o.getCreate_time().compareTo(getCreate_time());
+	}
+	
 }

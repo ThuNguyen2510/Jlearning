@@ -17,4 +17,12 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="blogService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.BlogServiceImpl">
+				<property name="blogDAO" ref="BlogDAO" />
+			</bean>
+		</property>
+	</bean>
 </beans>
