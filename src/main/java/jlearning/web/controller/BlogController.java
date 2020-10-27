@@ -89,7 +89,7 @@ public class BlogController extends BaseController {
 	}
 
 	@RequestMapping("/blogs/category/{id}")
-	public String showByCategory(@PathVariable("id") int id, Model model) {
+	public String showByCategory(@PathVariable("id") int id,@RequestParam(name = "page", defaultValue = "1") Integer page, Model model) {
 		checkObjectUser(model);
 		logger.info("show by category");
 		Type t = null;
@@ -99,7 +99,10 @@ public class BlogController extends BaseController {
 			t = Type.experience;
 		if (id == 3)
 			t = Type.general;
-		List<Blog> sameTypeBlogs = blogService.loadBlogsByType(t);
+		//List<Blog> sameTypeBlogs = blogService.loadBlogsByType(t);
+		List<Blog> sameTypeBlogs = blogService.searchByPaging(id, "", page);
+		int sumProductOfCategory = (int)sameTypeBlogs.size();
+		model.addAttribute("sumProductOfCategory",sumProductOfCategory);
 		model.addAttribute("blogs", sameTypeBlogs);
 		List<Blog> newBlogs = blogService.loadNewBlogs();
 		newBlogs = newBlogs.subList(0, 3);

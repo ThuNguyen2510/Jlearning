@@ -1,5 +1,9 @@
 package jlearning.web.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jlearning.service.BlogService;
+import jlearning.service.CourseService;
 import jlearning.service.UserService;
 import jlearning.validation.UserValidation;
 import jlearning.bean.UserInfo;
+import jlearning.model.Blog;
+import jlearning.model.Course;
 import jlearning.model.User;
 
 @PropertySource("classpath:messages.properties")
@@ -27,6 +35,13 @@ public class HomeController extends BaseController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CourseService courseService;
+	
+	@Autowired
+	private BlogService blogService;
+	
 	private static final int ADMIN = 0;
 	private static final int USER = 1;
 
@@ -46,6 +61,25 @@ public class HomeController extends BaseController {
 	public String index(Model model, HttpServletRequest request) {
 
 		checkObjectUser(model);
+		
+		List<Course> courses = courseService.loadCourses().subList(0, 3);
+		model.addAttribute("courses",courses);
+		
+		List<Blog> blogs = blogService.loadBlogs();
+		Collections.sort(blogs, new Comparator<Blog>() {
+
+			public int compare(Blog o1, Blog o2) {
+				// compare two instance of `Score` and return `int` as result.
+				return o2.getComments().size() - o1.getComments().size();
+			}
+		});
+		blogs = blogs.subList(0, 2);
+		model.addAttribute("blogs", blogs);
+		List<Blog> newBlogs = blogService.loadNewBlogs();
+		newBlogs = newBlogs.subList(0, 2);
+		logger.info("SIZE "+newBlogs.size());
+		model.addAttribute("news", newBlogs);
+		
 		return "views/web/home/index";
 	}
 

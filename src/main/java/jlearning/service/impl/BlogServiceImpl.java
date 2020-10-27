@@ -46,8 +46,7 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
 	@Override
 	public List<Blog> loadBlogsByType(Type type) {
 
-		List<Blog> list = getBlogDAO().loadBlogsByType(type);
-		return list;
+		return getBlogDAO().loadBlogsByType(type);
 	}
 
 	@Override
@@ -65,6 +64,16 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public List<Blog> searchByPaging(int type, String k, int page) {
+		try {
+			return getBlogDAO().searchWithPaging(type, k, page);
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
 	}
 
 }

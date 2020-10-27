@@ -3,6 +3,7 @@ package jlearning.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jlearning.dao.BlogDAO;
+import jlearning.dao.CourseDAO;
 import jlearning.dao.UserDAO;
 
 public class BaseServiceImpl {
@@ -12,6 +13,17 @@ public class BaseServiceImpl {
 	
 	@Autowired
 	private BlogDAO blogDAO;
+
+	@Autowired
+	private CourseDAO courseDAO;
+	
+	public CourseDAO getCourseDAO() {
+		return courseDAO;
+	}
+
+	public void setCourseDAO(CourseDAO courseDAO) {
+		this.courseDAO = courseDAO;
+	}
 
 	public BlogDAO getBlogDAO() {
 		return blogDAO;

@@ -1,5 +1,6 @@
 package jlearning.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -48,19 +49,24 @@ public class BlogDAOImpl extends GenericDAO<Integer, Blog> implements BlogDAO {
 	}
 
 	@Override
-	public List<Blog> searchWithPaging(int type, String k) {
-		/*
-		 * if(type!=0 && k ==""){ if(type==1) {
-		 * 
-		 * } return null;
-		 * 
-		 * }else(k!-""){ return
-		 * getSession().createQuery("from Blog where title LIKE :k").setParameter("k",
-		 * "%" + k + "%")..setFirstResult((page - 1)*6) .setMaxResults(6)
-		 * .getResultList(); }
-		 */
-		return null;
-		
+	public List<Blog> searchWithPaging(int t, String k, int page) {
+
+		List<Blog> list = new ArrayList<Blog>();
+		if (t != 0 && k == "") {
+			Type type = null;
+			if(t==1) type=Type.culture;
+			if(t==2) type=Type.experience;
+			if(t==3) type=Type.general;
+			list = getSession().createQuery("from Blog where type=: type").setParameter("type", type)
+					.setFirstResult((page - 1) * 6).setMaxResults(6).getResultList();
+		}
+
+		if (k != "") {
+			list = getSession().createQuery("from Blog where title LIKE :k").setParameter("k", "%" + k + "%")
+					.setFirstResult((page - 1) * 6).setMaxResults(6).getResultList();
+		}
+		return list;
+
 	}
 
 }

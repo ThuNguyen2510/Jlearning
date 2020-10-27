@@ -10,5 +10,5 @@ public interface BlogDAO extends BaseDAO<Integer,Blog> {
 	List<Blog> loadBlogsByType(Type type);
 	List<Blog> loadNewBlogs();
 	List<Blog> search(String k);
-	List<Blog> searchWithPaging(int type, String k);
+	List<Blog> searchWithPaging(int type, String k, int page);
 }

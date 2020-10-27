@@ -9,14 +9,16 @@
 			<div class="row">
 				<main id="main" class="site-main col-sm-9 alignleft">
 					<div id="blog-archive" class="blog-content">
-						<h3 th:text="'Kết quả: '+${#lists.size(blogs)}+' blogs'"> </h3>
+						<h3 th:text="'Kết quả: '+${#lists.size(blogs)}+' blogs'"></h3>
 						<hr>
 
 						<div class="row">
-							<div class="col-sm-4" style="margin-bottom:8px" th:each="item:${blogs}">
+							<div class="col-sm-4" style="margin-bottom: 8px"
+								th:each="item:${blogs}">
 								<a th:href="@{'/blogs/'+${item.id}}">
 									<div class="parent">
-										<img style="width:250px;height:200px" th:src="${item.image}">
+										<img style="width: 250px; height: 200px"
+											th:src="${item.image}">
 										<div class="child">
 
 
@@ -34,7 +36,29 @@
 							</div>
 
 						</div>
-						
+						<div class="container" style="padding-top: 20px;"
+							th:if="${(sumProductOfCategory-1)/6 > 0}"
+							th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+							<ul class="pagination" style="float: right;">
+								<li class="page-item"
+									th:if="${#request.getParameter('page') != null and T(Integer).parseInt(#request.getParameter('page')) != 1}"><a
+									class="page-link"
+									th:with="y=${T(Integer).parseInt(#request.getParameter('page')) - 1}"
+									th:href="${#strings.replace(#uris.unescapeQueryParam(urlBuilder.replaceQueryParam('page',#strings?.toString(y)).toUriString()).replace('%20','+'),' ','+')}">Trước</a></li>
+								<li class="page-item"
+									th:classappend="${#request.getParameter('page') != null ? (#request.getParameter('page') == #strings?.toString(i) ? 
+																	'active' :''):((i == 1)? 'active' : '')}"
+									th:each="i : ${#numbers.sequence(1, (sumProductOfCategory-1)/6 + 1)}">
+									<a class="page-link" th:text="${i}"
+									th:href="${#strings.replace(#uris.unescapeQueryParam(urlBuilder.replaceQueryParam('page',#strings?.toString(i)).toUriString()).replace('%20','+'),' ','+')}"></a>
+								</li>
+								<li class="page-item"
+									th:if="${#request.getParameter('page') == null or T(Integer).parseInt(#request.getParameter('page')) != ((sumProductOfCategory-1)/6 + 1)}"><a
+									class="page-link"
+									th:with="yy=${#request.getParameter('page') == null ? 2 : T(Integer).parseInt(#request.getParameter('page')) + 1}"
+									th:href="${#strings.replace(#uris.unescapeQueryParam(urlBuilder.replaceQueryParam('page',#strings?.toString(yy)).toUriString()).replace('%20','+'),' ','+')}">Sau</a></li>
+							</ul>
+						</div>
 					</div>
 
 

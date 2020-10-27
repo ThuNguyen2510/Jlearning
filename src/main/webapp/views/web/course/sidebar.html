@@ -5,10 +5,10 @@
 						class="widget widget_course-categories">
 						<div
 							class="thim-widget-course-categories thim-widget-course-categories-base template-base-v3">
-							<h3 >All Courses</h3>
+							<h3  >Tất cả các khóa học </h3>
 							<ul>
-								<li><a>Backend</a></li>
-								<li><a>CSS</a></li>
+								<li th:each="item:${courses}"><a th:text="${item.name}" th:href="@{'/courses/'+${item.id}}"></a></li>
+								
 							
 							</ul>
 						</div>
@@ -19,43 +19,24 @@
 							<h3 class="widget-title">Latest Courses</h3>
 							<div class="thim-course-list-sidebar">
 								
-								<div class="lpr_course">
+								<div class="lpr_course" th:each="item:${latestCourses}">
 									<div class="course-thumbnail">
-										<a th:href="@{/courses/1}"><img
-											th:src="@{/assets/wp-content/uploads/2015/11/course-4-150x150.jpg}"
-											alt="LMS Interactive Content" /></a>
+										<a th:href="@{'/courses/'+${item.id}}"><img
+											th:src="${item.image}"
+											 /></a>
 									</div>
 									<div class="thim-course-content" style="margin-left:10px">
 										<h5 class="course-title">
-											<a th:href="@{/courses/1}"> LMS Interactive Content</a>
+											<a th:href="@{'/courses/'+${item.id}}" th:text="${item.name}"></a>
 										</h5>
 										<div class="course-price" itemprop="offers" itemscope=""
 											itemtype="http://schema.org/Offer">
-											<div class="value  free-course" itemprop="price">Free</div>
+											<div class="value  free-course" itemprop="price"></div>
 											<meta itemprop="priceCurrency" content="USD" />
 										</div>
 									</div>
 								</div>
-								<div class="lpr_course">
-									<div class="course-thumbnail">
-										<a th:href="@{/courses/1}"><img
-											th:src="@{/assets/wp-content/uploads/2015/06/course-2-150x150.jpg}"
-											alt="Become a PHP Master and Make Money" /></a>
-									</div>
-									<div class="thim-course-content" style="margin-left:10px">
-										<h5 class="course-title">
-											<a th:href="@{/courses/1}"> Become a PHP Master and Make Money</a>
-										</h5>
-										<div class="course-price" itemprop="offers" itemscope=""
-											itemtype="http://schema.org/Offer">
-											<div class="value  has-origin" itemprop="price">
-												<span class="course-origin-price">&#36;80.00</span>
-												&#36;69.00
-											</div>
-											<meta itemprop="priceCurrency" content="USD" />
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 					</aside>

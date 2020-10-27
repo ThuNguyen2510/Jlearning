@@ -25,4 +25,12 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="courseService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.CourseServiceImpl">
+				<property name="courseDAO" ref="CourseDAO" />
+			</bean>
+		</property>
+	</bean>
 </beans>

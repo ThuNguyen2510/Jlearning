@@ -15,15 +15,20 @@
 							<div id="lp-single-course" class="lp-single-course">
 
 								<div id="learn-press-course" class="course-summary learn-press">
-									<h1 class="entry-title" itemprop="name">Tên khóa học</h1>
-									<div class="course-meta">Mô tả</div>
+									<h1 class="entry-title" itemprop="name"
+										th:text="${course.name}"></h1>
+									<div class="course-meta"></div>
 									<div class="course-payment">
 										<div class="course-price">
-											<div class="value  free-course">Cấp độ</div>
+											<!-- <div class="value  free-course"
+												th:text="'Cấp độ: '"></div> -->
 										</div>
 										<div class="lp-course-buttons">
-											<button style="font-size: 20px; border-radius: 15px">
-												Tham gia học</button>
+											<form>
+												<button style="font-size: 20px; border-radius: 15px">
+													Tham gia học</button>
+											</form>
+
 										</div>
 									</div>
 									<div class="course-summary">
@@ -37,7 +42,7 @@
 													</a></li>
 													<li role="presentation" class="course-nav-tab"><a
 														data-toggle="tab" data-target="#curriculum"> <i
-															class="fa fa-cube"></i> <span>Curriculum</span>
+															class="fa fa-cube"></i> <span>Danh sách bài học</span>
 													</a></li>
 
 												</ul>
@@ -46,49 +51,27 @@
 														<div class="course-description"
 															id="learn-press-course-description">
 															<div class="thim-course-content">
-																<h4>COURSE DESCRIPTION</h4>
+																<h4>MÔ TẢ VỀ KHÓA HỌC</h4>
 
 																<ul class="thim-list-content">
-																	<li>Over 37 lectures and 55.5 hours of content!</li>
-																	<li>Testing Training Included.</li>
-																	<li>Learn Software Testing and Automation basics
-																		from a professional trainer from your own desk.</li>
-																	<li>Information packed practical training starting
-																		from basics to advanced testing techniques.</li>
-																	<li>Best suitable for beginners to advanced level
-																		users and who learn faster when demonstrated.</li>
-																	<li>Course content designed by considering current
-																		software testing technology and the job market.</li>
-																	<li>Practical assignments at the end of every
-																		session.</li>
-																	<li>Practical learning experience with live
-																		project work and examples.</li>
+																	<li th:text="${course.description}">.</li>
 																</ul>
 															</div>
 															<div class="thim-course-info">
-																<h3 class="title">Course Features</h3>
+																<h3 class="title">THÔNG TIN KHÓA HỌC</h3>
 																<ul>
 																	<li class="lectures-feature"><i
-																		class="fa fa-files-o"></i> <span class="label">Lectures</span>
-																		<span class="value">8</span></li>
+																		class="fa fa-files-o"></i> <span class="label">Lessons</span>
+																		<span class="value"
+																		th:text="${#lists.size(course.lessons)}"></span></li>
 																	<li class="quizzes-feature"><i
-																		class="fa fa-puzzle-piece"></i> <span class="label">Quizzes</span>
-																		<span class="value">1</span></li>
-																	<li class="duration-feature"><i
-																		class="fa fa-clock-o"></i> <span class="label">Duration</span>
-																		<span class="value">3 hours</span></li>
-																	<li class="skill-feature"><i
-																		class="fa fa-level-up"></i> <span class="label">Skill
-																			level</span> <span class="value">All level</span></li>
-																	<li class="language-feature"><i
-																		class="fa fa-language"></i> <span class="label">Language</span>
-																		<span class="value">English</span></li>
+																		class="fa fa-puzzle-piece"></i> <span class="label">Tests</span>
+																		<span class="value"
+																		th:text="${#lists.size(course.lessons)}"></span></li>
 																	<li class="students-feature"><i
 																		class="fa fa-users"></i> <span class="label">Students</span>
-																		<span class="value">604</span></li>
-																	<li class="assessments-feature"><i
-																		class="fa fa-check-square-o"></i> <span class="label">Assessments</span>
-																		<span class="value">Yes</span></li>
+																		<span class="value"></span></li>
+
 																</ul>
 															</div>
 														</div>
@@ -107,14 +90,17 @@
 																		Interactive Content</span>
 																</nav>
 																<ul class="curriculum-sections">
+
 																	<li class="section"
+																		th:each="lesson,index: ${course.lessons}"
 																		id="section-learnpress-interactive-content-27"
 																		data-id="learnpress-interactive-content-27"
 																		data-section-id="27">
 																		<h4 class="section-header">
-																			<span class="collapse"></span><a th:href="@{/lesson}">LearnPress
-																				Interactive Content</a> <span class="meta"> <span
-																				class="step">4</span>
+																			<span class="collapse"><i class="far fa-list-alt"></i></span><a
+																				th:href="@{'/courses/'+${course.id}+'/lessons/'+${lesson.id}}"
+																				th:text="${lesson.name}"></a> <span class="meta">
+																				<span class="step"></span>
 																			</span>
 																		</h4>
 																		<ul class="section-content">
@@ -125,13 +111,52 @@
 																					<span class="course-format-icon"><i
 																						class="fa fa-file-o"></i></span>
 																					<div class="index">
-																						<span class="label">Lecture</span>2.1
+																						<span class="label" th:text="'Phần 1'"></span>
 																					</div>
 																				</div> <a
 																				class="lesson-title course-item-title button-load-item"
 																				href="https://educationwp.thimpress.com/courses/learnpress-101/lessons/getting-started/">
-																					Getting Started </a> <span class="meta duration">05
-																					min</span>
+																					Từ vựng </a> <span class="meta duration"></span>
+																				<div class="course-item-meta">
+																					<a title="Previews"
+																						class="lesson-preview button-load-item"
+																						data-id="9206" data-complete-nonce="e46b6f9fea">
+																						<i class="fa fa-eye" data-preview="Preview"></i>
+																					</a>
+																				</div>
+																			</li>
+																			<li th:if="${lesson.level>=3}"
+																				class="course-item course-item-lp_lesson course-item-9206 item-preview has-status course-lesson"
+																				data-type="lp_lesson">
+																				<div class="meta-left">
+																					<span class="course-format-icon"><i
+																						class="fa fa-file-o"></i></span>
+																					<div class="index">
+																						<span class="label" th:text="'Phần 2'"></span>
+																					</div>
+																				</div> <a
+																				class="lesson-title course-item-title button-load-item">
+																					Ngữ pháp </a> <span class="meta duration"></span>
+																				<div class="course-item-meta">
+																					<a title="Previews"
+																						class="lesson-preview button-load-item"
+																						data-id="9206" data-complete-nonce="e46b6f9fea">
+																						<i class="fa fa-eye" data-preview="Preview"></i>
+																					</a>
+																				</div>
+																			</li>
+																			<li th:if="${lesson.level>=3}"
+																				class="course-item course-item-lp_lesson course-item-9206 item-preview has-status course-lesson"
+																				data-type="lp_lesson">
+																				<div class="meta-left">
+																					<span class="course-format-icon"><i
+																						class="fas fa-headphones-alt"></i></span>
+																					<div class="index">
+																						<span class="label" th:text="'Phần 3'"></span>
+																					</div>
+																				</div> <a
+																				class="lesson-title course-item-title button-load-item">
+																					Nghe hiểu </a> <span class="meta duration"></span>
 																				<div class="course-item-meta">
 																					<a title="Previews"
 																						class="lesson-preview button-load-item"
@@ -141,57 +166,25 @@
 																				</div>
 																			</li>
 																			<li
-																				class="course-item course-item-lp_h5p course-item-9210 item-locked course-h5p"
-																				data-type="lp_h5p">
-																				<div class="meta-left">
-																					<span class="course-format-icon"><i
-																						class="fa fa-puzzle-piece"></i></span>
-																					<div class="index">
-																						<span class="label">Quiz</span>2.1
-																					</div>
-																				</div> <a
-																				class="h5p-title course-item-title button-load-item">
-																					<span class="item-name">Interactive Video</span>
-																			</a>
-																				<div class="course-item-meta">
-																					<i class="fa item-meta course-item-status trans"></i>
-																				</div>
-																			</li>
-																			<li
 																				class="course-item course-item-lp_h5p course-item-9211 item-locked course-h5p"
 																				data-type="lp_h5p">
 																				<div class="meta-left">
 																					<span class="course-format-icon"><i
 																						class="fa fa-puzzle-piece"></i></span>
 																					<div class="index">
-																						<span class="label">Quiz</span>2.2
+																						<span class="label" th:if="${lesson.level>=3}">Phần
+																							4 </span> <span class="label" th:if="${lesson.level<3}">Phần
+																							2 </span>
 																					</div>
 																				</div> <a
 																				class="h5p-title course-item-title button-load-item">
-																					<span class="item-name">Interactive Quiz 1</span>
+																					<span class="item-name">Kiểm tra cuối bài</span>
 																			</a>
 																				<div class="course-item-meta">
 																					<i class="fa item-meta course-item-status trans"></i>
 																				</div>
 																			</li>
-																			<li
-																				class="course-item course-item-lp_h5p course-item-9212 item-locked course-h5p"
-																				data-type="lp_h5p">
-																				<div class="meta-left">
-																					<span class="course-format-icon"><i
-																						class="fa fa-puzzle-piece"></i></span>
-																					<div class="index">
-																						<span class="label">Quiz</span>2.3
-																					</div>
-																				</div> <a
-																				class="h5p-title course-item-title button-load-item"
-																				href="https://educationwp.thimpress.com/courses/learnpress-101/h5p-items/interactive-quiz-2/">
-																					<span class="item-name">Interactive Quiz 2</span>
-																			</a>
-																				<div class="course-item-meta">
-																					<i class="fa item-meta course-item-status trans"></i>
-																				</div>
-																			</li>
+
 																		</ul>
 																	</li>
 																</ul>
@@ -207,7 +200,7 @@
 										</div>
 					</article>
 				</main>
-				<div class="col-sm-3" th:style="'padding-left: 90px;'" 
+				<div class="col-sm-3" th:style="'padding-left: 90px;'"
 					th:insert="views/web/course/sidebar :: sidebar"></div>
 			</div>
 		</div>

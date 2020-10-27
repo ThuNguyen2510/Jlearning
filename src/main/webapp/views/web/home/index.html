@@ -12,7 +12,7 @@
 
 	</div>
 	<div class="container" th:if="${loginsuccess}">
-		<div style="font-size:2rem; text-align:center; color: #f10d7f;"
+		<div style="font-size: 2rem; text-align: center; color: #f10d7f;"
 			class="alert alert-success alert-dismissible alert-autocloseable-success"
 			role="alert">
 			<i class="fab fa-galactic-senate"></i><i
@@ -57,7 +57,7 @@
 												<h3 class="heading__primary">Học thử</h3>
 											</div>
 											<a class="smicon-read sc-btn" target="_self"
-												th:href="@{/courses/1}" style="color: #ffb606;">Xem <i
+												th:href="@{/courses}" style="color: #ffb606;">Xem <i
 												class="fa fa-chevron-right"></i></a>
 										</div>
 									</div>
@@ -88,8 +88,7 @@
 												<h3 class="heading__primary">Thi Thử</h3>
 											</div>
 											<a class="smicon-read sc-btn" target="_self"
-												th:href="@{https://educationwp.thimpress.com/courses/}"
-												style="color: #ffb606;">Xem<i
+												th:href="@{/exams/}" style="color: #ffb606;">Xem<i
 												class="fa fa-chevron-right"></i></a>
 										</div>
 									</div>
@@ -120,8 +119,7 @@
 												<h3 class="heading__primary">Chia sẻ</h3>
 											</div>
 											<a class="smicon-read sc-btn" target="_self"
-												th:href="@{https://educationwp.thimpress.com/shop/}"
-												style="color: #ffb606;">Xem<i
+												th:href="@{/blogs}" style="color: #ffb606;">Xem<i
 												class="fa fa-chevron-right"></i></a>
 										</div>
 									</div>
@@ -147,31 +145,30 @@
 							</div>
 						</div>
 						<div id="panel-12-2-0-1" class="so-panel widget widget_courses"
-							data-index="5">
+							data-index="5"
+							style="text-align: center; display: flex; justify-content: center;">
 							<div
 								class="thim-widget-courses thim-widget-courses-base template-slider-v3">
 								<div
 									class="thim-carousel-wrapper thim-course-carousel thim-course-grid"
 									data-visible="4" data-pagination="0" data-navigation="1"
 									data-autoplay="0">
-									<div class="course-item">
+									<div class="course-item" th:each="item:${courses}">
 										<div class="course-thumbnail">
-											<a> <img
-												th:src="@{https://res.cloudinary.com/driyvrhn2/image/upload/v1602754110/image/course1_w0s4il.jpg}"
-												width="400" height="300" data-skip-lazy>
+											<a> <img th:src="${item.image}"
+												style="width: 270px; height: 155px" data-skip-lazy>
 											</a> <a class="course-readmore"
-												href="https://educationwp.thimpress.com/courses/learnpress-101/">Học
-												thử</a>
+												th:href="@{'/courses/'+${item.id}}">Học thử</a>
 										</div>
 										<div class="thim-course-content">
 											<div class="course-author" itemscope
 												itemtype="http://schema.org/Person">
-												<img
-													th:src="@{https://res.cloudinary.com/driyvrhn2/image/upload/v1602754112/image/n6_ns7dbs.png}"
+												<img style="width: 40px" th:src="${item.logo}"
 													alt="author-avatar" title="author-avatar">
 											</div>
 											<h2 class="course-title">
-												<a th:href="@{/courses/1}" rel="bookmark">Tên khóa học</a>
+												<a th:href="@{'/courses/'+${item.id}}"
+													th:text="${item.name}" rel="bookmark"></a>
 											</h2>
 											<div class="course-meta">
 												<div class="course-author" itemscope
@@ -197,6 +194,7 @@
 								<div
 									class="thim-widget-button thim-widget-button-base template-base">
 									<a style="background: #f7b0b0; cursor: pointer"
+										th:href="@{/courses}"
 										class="widget-button tiny-rounded medium">Xem Thêm</a>
 								</div>
 							</div>
@@ -224,77 +222,42 @@
 					</div>
 					<div id="panel-12-4-0-1"
 						class="so-panel widget widget_list-event panel-last-child"
-						data-index="11">
+						data-index="11" style="background-color: antiquewhite;">
 						<div
 							class="thim-widget-list-event thim-widget-list-event-base template-base">
 							<div class="thim-list-event">
-								<a class="view-all"
-									href="https://educationwp.thimpress.com/events/">Xem Thêm</a>
-								<div
+								<a class="view-all" th:href="@{/blogs}">Xem Thêm</a>
+								<div th:each="blog: ${blogs}"
 									class="item-event post-2953 tp_event type-tp_event status-publish has-post-thumbnail hentry pmpro-has-access">
-									<div class="time-from">
+									<div class="time-from" style="padding-left:10px">
 										<div class="date">16</div>
 										<div class="month">July</div>
 									</div>
-									<div class="image">
-										<img
-											th:src="@{/assets/wp-content/uploads/2015/11/event-4-450x233.jpg}"
-											alt="event-4" title="event-4" width="450" height="233"
-											data-skip-lazy>
+									<div class="image" style="padding-right:20px">
+										<img th:src="${blog.image}" alt="event-4" title="event-4"
+											width="450" height="233" data-skip-lazy>
 									</div>
 									<div class="event-wrapper">
 										<h5 class="title">
-											<a
-												href="https://educationwp.thimpress.com/events/build-education-website-using-wordpress/">
-												Build Education Website Using WordPress</a>
+											<a th:href="@{'/blogs/'+${blog.id}}" th:text="${blog.title}">
+											</a>
 										</h5>
 										<div class="meta">
 											<div class="time">
 												<i class="fa fa-clock-o"></i> 8:00 am - 5:00 pm
 											</div>
 											<div class="location">
-												<i class="fa fa-map-marker"></i> Chicago, US
+												<i class="fa fa-map-marker"></i>
 											</div>
 										</div>
 										<div class="description">
-											<p>Tech you how to build a complete Learning Management
-												System with WordPress and LearnPress.</p>
+											<p></p>
 										</div>
 									</div>
+							
 								</div>
-								<div
-									class="item-event post-3208 tp_event type-tp_event status-publish has-post-thumbnail hentry pmpro-has-access">
-									<div class="time-from">
-										<div class="date">23</div>
-										<div class="month">December</div>
-									</div>
-									<div class="image">
-										<img
-											th:src="@{/assets/wp-content/uploads/2015/12/event-3-450x233.jpg}"
-											alt="event-3" title="event-3" width="450" height="233"
-											data-skip-lazy>
-									</div>
-									<div class="event-wrapper">
-										<h5 class="title">
-											<a
-												href="https://educationwp.thimpress.com/events/good-intentions-or-good-results/">
-												Good Intentions or Good Results?</a>
-										</h5>
-										<div class="meta">
-											<div class="time">
-												<i class="fa fa-clock-o"></i> 12:00 am - 5:00 pm
-											</div>
-											<div class="location">
-												<i class="fa fa-map-marker"></i> Birmingham, UK
-											</div>
-										</div>
-										<div class="description">
-											<p>Morbi accumsan ipsum velit. Nam nec tellus a odio
-												tincidunt auctor a ornare odio. Sed non mauris itae erat
-												conuat</p>
-										</div>
-									</div>
-								</div>
+								
+
 							</div>
 						</div>
 					</div>
@@ -329,10 +292,9 @@
 								<div class="thim-owl-carousel-post thim-carousel-wrapper"
 									data-visible="3" data-pagination="0" data-navigation="1"
 									data-autoplay="0">
-									<div class="item">
+									<div class="item" th:each="it:${news}">
 										<div class="image">
-											<a> <img
-												th:src="@{/assets/wp-content/uploads/2015/10/blog-1-450x267.jpg}"
+											<a> <img th:src="${it.image}"
 												alt="Forensic team earns several" title="blog-1" width="450"
 												height="267" data-skip-lazy>
 											</a>
@@ -340,37 +302,16 @@
 										<div class="content">
 											<div class="info">
 												<div class="author">
-													<span>Hinata Hyuga</span>
+													<span th:text="${it.user.name}"></span>
 												</div>
-												<div class="date">20/10/2015</div>
+												<div class="date" th:text="${it.create_time}"></div>
 											</div>
 											<h4 class="title">
-												<a>Forensic team earns several</a>
+												<a th:text="${it.title}"></a>
 											</h4>
 										</div>
 									</div>
-									<div class="item">
-										<div class="image">
-											<a
-												href="https://educationwp.thimpress.com/admin-earns-scholarship/">
-												<img
-												th:src="@{/assets/wp-content/uploads/2015/10/blog-4-450x267.jpg}"
-												alt="Admin earns scholarship" title="blog-4" width="450"
-												height="267" data-skip-lazy>
-											</a>
-										</div>
-										<div class="content">
-											<div class="info">
-												<div class="author">
-													<span>Hinata Hyuga</span>
-												</div>
-												<div class="date">20/10/2015</div>
-											</div>
-											<h4 class="title">
-												<a>Admin earns scholarship</a>
-											</h4>
-										</div>
-									</div>
+
 
 								</div>
 							</div>
