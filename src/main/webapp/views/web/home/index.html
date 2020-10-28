@@ -229,11 +229,14 @@
 								<a class="view-all" th:href="@{/blogs}">Xem Thêm</a>
 								<div th:each="blog: ${blogs}"
 									class="item-event post-2953 tp_event type-tp_event status-publish has-post-thumbnail hentry pmpro-has-access">
-									<div class="time-from" style="padding-left:10px">
-										<div class="date">16</div>
-										<div class="month">July</div>
+									<div class="time-from" style="padding-left: 10px">
+										<div class="date" th:text="${#dates.day(blog.create_time)}"></div>
+										<div class="month"
+											th:text="'Tháng '+ ${#dates.month(blog.create_time)}"></div>
+										<div class="month"
+											th:text="${#strings.substringBefore(#dates.format(new java.util.Date(blog.create_time)),'I')}"></div>
 									</div>
-									<div class="image" style="padding-right:20px">
+									<div class="image" style="padding-right: 20px">
 										<img th:src="${blog.image}" alt="event-4" title="event-4"
 											width="450" height="233" data-skip-lazy>
 									</div>
@@ -244,19 +247,26 @@
 										</h5>
 										<div class="meta">
 											<div class="time">
-												<i class="fa fa-clock-o"></i> 8:00 am - 5:00 pm
+
+												<i
+													th:if="${T(jlearning.model.Blog.Type).culture}==${blog.type}"
+													class="fas fa-sun">Văn hóa Nhật Bản</i> <i
+													th:if="${T(jlearning.model.Blog.Type).experience}==${blog.type}"
+													class="fas fa-graduation-cap">Kinh nghiệm học</i> <i
+													th:if="${T(jlearning.model.Blog.Type).general}==${blog.type}"
+													class="fas fa-feather-alt">Tổng hợp</i>
 											</div>
 											<div class="location">
 												<i class="fa fa-map-marker"></i>
 											</div>
 										</div>
 										<div class="description">
-											<p></p>
+											<p style="font-size: 1.2rem" th:text="${blog.des}"></p>
 										</div>
 									</div>
-							
+
 								</div>
-								
+
 
 							</div>
 						</div>
@@ -286,30 +296,31 @@
 						</div>
 						<div id="panel-12-5-0-1"
 							class="so-panel widget widget_carousel-post panel-last-child"
-							data-index="13">
+							data-index="13" style="display: flex; justify-content: center">
 							<div
 								class="thim-widget-carousel-post thim-widget-carousel-post-base template-base">
 								<div class="thim-owl-carousel-post thim-carousel-wrapper"
 									data-visible="3" data-pagination="0" data-navigation="1"
 									data-autoplay="0">
+
 									<div class="item" th:each="it:${news}">
-										<div class="image">
-											<a> <img th:src="${it.image}"
-												alt="Forensic team earns several" title="blog-1" width="450"
-												height="267" data-skip-lazy>
-											</a>
-										</div>
-										<div class="content">
-											<div class="info">
-												<div class="author">
-													<span th:text="${it.user.name}"></span>
-												</div>
-												<div class="date" th:text="${it.create_time}"></div>
+
+										<div class="card"
+											style="width: 28rem; height: 270px; text-align: center; background-color: #F5F5DC;">
+
+											<img class="card-img-top" th:src="${it.image}"
+												style="height: 160px" alt="">
+											<div class="card-body">
+												<a style="text-decoration: none"
+													th:href="@{'/blogs'+${it.id}}"><h5 class="card-title"
+														th:text="${it.title}" style="color: blue"></h5></a>
+												<p class="card-text" th:text="${it.create_time}"></p>
+												<a class="btn btn-outline-info"
+													style="position: absolute; bottom: 0; left: 35%; width: 80px; margin-bottom: 5px"
+													th:href="@{'/blogs/'+${it.id}}">Đọc</a>
 											</div>
-											<h4 class="title">
-												<a th:text="${it.title}"></a>
-											</h4>
 										</div>
+
 									</div>
 
 

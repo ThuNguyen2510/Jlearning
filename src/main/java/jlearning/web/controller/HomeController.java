@@ -76,8 +76,8 @@ public class HomeController extends BaseController {
 		blogs = blogs.subList(0, 2);
 		model.addAttribute("blogs", blogs);
 		List<Blog> newBlogs = blogService.loadNewBlogs();
-		newBlogs = newBlogs.subList(0, 2);
-		logger.info("SIZE "+newBlogs.size());
+		newBlogs = newBlogs.subList(0, 3);
+	
 		model.addAttribute("news", newBlogs);
 		
 		return "views/web/home/index";

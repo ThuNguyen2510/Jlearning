@@ -32,6 +32,17 @@ public class Blog implements Comparable<Blog> {
 
 	@Column(name = "content", nullable = false)
 	private String content;
+	
+	@Column(name = "des", nullable = false)
+	private String des;
+
+	public String getDes() {
+		return des;
+	}
+
+	public void setDes(String des) {
+		this.des = des;
+	}
 
 	@Column(name = "title")
 	private String title;

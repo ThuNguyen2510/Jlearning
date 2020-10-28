@@ -21,4 +21,23 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
+	<bean id="LessonDAO" class="jlearning.dao.impl.LessonDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="AlphabetDAO" class="jlearning.dao.impl.AlphabetDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="VocabularyDAO" class="jlearning.dao.impl.VocabularyDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="GrammarDAO" class="jlearning.dao.impl.GrammarDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="ListeningDAO" class="jlearning.dao.impl.ListeningDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

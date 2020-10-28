@@ -33,4 +33,24 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="lessonService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.LessonServiceImpl">
+				<property name="lessonDAO" ref="LessonDAO" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="alphabetService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.AlphabetServiceImpl">
+				<property name="alphabetDAO" ref="AlphabetDAO" />
+			</bean>
+		</property>
+	</bean>
+	
+	
+	
+	
 </beans>
