@@ -40,10 +40,10 @@ public class Test {
 	private int questionQuantity;
 	
 	public enum Type {
-		LEVEL, QUIZ,EXAM
+		LEVEL, LESSON,EXAM
 	}
 
-	@Column(columnDefinition = "enum('LEVEL','QUIZ','EXAM')", nullable = false)
+	@Column(columnDefinition = "enum('LEVEL','LESSON','EXAM')", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Type type;
 	

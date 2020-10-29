@@ -14,8 +14,10 @@ public class AlphabetServiceImpl extends BaseServiceImpl implements AlphabetServ
 	@Override
 	public Alphabet findById(Serializable key) {
 		try {
+			
 			return getAlphabetDAO().findById(key);
 		} catch (Exception e) {
+			
 			logger.error(e);
 			throw e;
 

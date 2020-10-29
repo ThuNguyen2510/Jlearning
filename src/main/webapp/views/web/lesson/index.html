@@ -26,7 +26,7 @@
 						</div>
 					</a>
 				</div>
-				<div class="col">
+				<div class="col" th:if="${lesson.grammars}">
 					<a th:href="@{/}">
 						<div class="card">
 							<img class="card-img-top"
@@ -39,7 +39,7 @@
 						</div>
 					</a>
 				</div>
-				<div class="col">
+				<div class="col" th:if="${lesson.listenings}">
 					<a th:href="@{/}">
 						<div class="card">
 							<img class="card-img-top"
@@ -124,12 +124,12 @@
 								<button style="float:right;margin:10px;border-radius: 30px"><i class="fas fa-flag-checkered"></i>Nộp bài</button>
 							</form>
 						</div>
-						<div id="menu1" class="container tab-pane fade">
+						<div id="menu1" class="container tab-pane fade" th:if="${alphabet}">
 							<br>
 							<div class="row w-100" style="padding-left: 85px;">
 
 								<div class="col-sm-6">
-									<a onclick="playAudio()"> <img style="margin-bottom: 5px"
+									<a th:each="item:${alphabet}" onclick="playAudio()"> <img style="margin-bottom: 5px"
 										title="Hãy click vào để nghe phát âm"
 										th:src="@{https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png}">
 									</a><a> <img

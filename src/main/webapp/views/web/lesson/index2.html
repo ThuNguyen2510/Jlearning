@@ -1,0 +1,337 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/lesson/topheading :: top"></div>
+		<div class="container site-content sidebar-right"
+			style="font-size: 1.3rem">
+			<div class="row">
+				<div style="margin-left: 25px; margin-bottom: 20px;" class="col">
+					<button th:action="@{'/courses/'+{}}" style="border-radius: 30px">Danh
+						sách bài học</button>
+				</div>
+			</div>
+
+			<ul class="nav nav-tabs" id="ex1" role="tablist">
+				<li class="nav-item" role="presentation"><a
+					class="nav-link active" id="ex1-tab-1" data-toggle="tab"
+					href="#ex1-tabs-1" role="tab" aria-controls="ex1-tabs-1"
+					aria-selected="true"><div class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_01.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Từ vựng</h5>
+							</div>
+
+						</div></a></li>
+				<li th:if="${#lists.size(lesson.grammars)>0}" class="nav-item"
+					role="presentation"><a class="nav-link" id="ex1-tab-2"
+					data-toggle="tab" href="#ex1-tabs-2" role="tab"
+					aria-controls="ex1-tabs-2" aria-selected="false"><div
+							class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_02.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Ngữ pháp</h5>
+							</div>
+
+						</div></a></li>
+				<li th:if="${#lists.size(lesson.listenings)>0}" class="nav-item"
+					role="presentation"><a class="nav-link" id="ex1-tab-3"
+					data-toggle="tab" href="#ex1-tabs-3" role="tab"
+					aria-controls="ex1-tabs-3" aria-selected="false"><div
+							class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_07.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Nghe</h5>
+							</div>
+
+						</div></a></li>
+
+				<li class="nav-item" role="presentation"><a class="nav-link"
+					id="ex1-tab-4" data-toggle="tab" href="#ex1-tabs-4" role="tab"
+					aria-controls="ex1-tabs-4" aria-selected="false">
+						<div class="card">
+							<img class="card-img-top"
+								th:src="@{https://lophoctiengnhat.com//public/lesson/tab_icons/minna_03.png}"
+								alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Test</h5>
+							</div>
+
+						</div>
+				</a></li>
+			</ul>
+			<div class="row"
+				style="margin-left: 25.9px; padding-top: 60px; padding-left: 30px; padding-right: 30px; margin-right: 3px; padding-bottom: 10px; border-left: solid 1px rgb(0, 0, 0, 0.1); border-right: solid 1px rgb(0, 0, 0, 0.1); border-bottom: solid 1px rgb(0, 0, 0, 0.1)">
+				<div class="tab-content" id="ex1-content" style="width: 100%">
+					<div class="tab-pane fade show active" id="ex1-tabs-1"
+						role="tabpanel" aria-labelledby="ex1-tab-1">
+
+						<div th:if="${alphabet}">
+							<h3 th:text="'Bảng chữ cái '+${alphabet.name}"></h3>
+
+
+							<p>Click vào ảnh để nghe cách phát âm</p>
+							<div class="row w-100">
+								<div class="col-sm-6">
+									<a th:each="item:${list1} " style="cursor: pointer"
+										th:onclick="'playAudio('+${item.id}+')'" type="button"> <img
+										style="height: 100px; border: solid #67caa4 2px;"
+										title="Hãy click vào để nghe phát âm" th:src="${item.image}">
+									</a>
+									<audio th:each="item:${list1} " th:id="${item.id}">
+										<source th:src="${item.audio}" type="audio/ogg">
+									</audio>
+								</div>
+
+								<div class="col-sm-6">
+									<a th:each="item:${list2} " style="cursor: pointer"
+										th:onclick="'playAudio('+${item.id}+')'" type="button"> <img
+										style="height: 100px; border: solid #67caa4 2px;"
+										title="Hãy click vào để nghe phát âm" th:src="${item.image}">
+									</a>
+									<audio th:each="item:${list2} " th:id="${item.id}">
+										<source th:src="${item.audio}" type="audio/ogg">
+									</audio>
+								</div>
+
+							</div>
+							<script>
+								function playAudio(audioId) {
+									var x = document.getElementById(audioId);
+									x.play();
+								}
+							</script>
+
+
+						</div>
+
+						<div th:if="${#lists.size(lesson.vocabularies)>0}">
+							<h3
+								th:text="'Bài học gồm: '+${#lists.size(lesson.vocabularies)}+' từ vựng'"></h3>
+							<table class="table table-striped">
+								<thead style="background-color: pink">
+									<tr>
+										<th>STT</th>
+										<th>Từ</th>
+										<th>Phát âm</th>
+										<th>Kanji</th>
+										<th>Nghĩa</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="vocab,i:${lesson.vocabularies}">
+										<td th:text="${i.index+1}"></td>
+										<td th:text="${vocab.content}"></td>
+										<td><a style="cursor: pointer"
+											th:onclick="'playAudio('+${vocab.id}+')'"><i
+												class="fab fa-google-play"></i></a></td>
+										<td th:text="${vocab.kanji}"></td>
+										<td th:text="${vocab.means}"></td>
+										<audio th:id="${vocab.id}">
+											<source th:src="${vocab.audio}" type="audio/ogg">
+										</audio>
+									</tr>
+
+								</tbody>
+							</table>
+							<script>
+								function playAudio(audioId) {
+									var x = document.getElementById(audioId);
+									x.play();
+								}
+							</script>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel"
+						aria-labelledby="ex1-tab-2">
+
+						<ul id="grammar" class="nav nav-tabs w-100">
+							<li th:each="gr,i:${lesson.grammars}" class="nav-item "><a
+								th:if="${i.index+1}==1" class="nav-link active"
+								data-toggle="tab" th:href="'bun'+${gr.id}"
+								th:text="'文法   '+${i.index+1}"></a> <a th:if="${i.index+1}!=1"
+								class="nav-link " data-toggle="tab" th:href="'bun'+${gr.id}"
+								th:text="'文法   '+${i.index+1}"></a></li>
+
+
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div th:each="gr,i:${lesson.grammars}">
+								<div th:if="${i.index+1}==1" th:id="'bun'+${gr.id}"
+									class="container tab-pane active ">
+									<h3 th:text="${gr.name}"></h3>
+									<table style="border-color: #6f6161" th:utext="${gr.content}">
+
+									</table>
+									<hr>
+									<table style="border-color: #6f6161"
+										th:utext="${gr.description}"></table>
+								</div>
+							</div>
+
+							<!-- <div id="menu1" class="container tab-pane fade"></div>
+					<div id="menu2" class="container tab-pane fade"></div> -->
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel"
+						aria-labelledby="ex1-tab-3">
+						<h3>Nghe và trả lời câu hỏi</h3>
+						<ul id="listen" class="nav nav-tabs w-100">
+							<li th:each="gr,i:${lesson.listenings}" class="nav-item "><a
+								th:if="${i.index+1}==1" class="nav-link active"
+								data-toggle="tab" th:href="'bun'+${gr.id}"
+								th:text="'問題  '+${i.index+1}"></a> <a th:if="${i.index+1}!=1"
+								class="nav-link " data-toggle="tab" th:href="'mon'+${gr.id}"
+								th:text="'問題   '+${i.index+1}"></a></li>
+
+
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div th:each="gr,i:${lesson.listenings}">
+								<div th:if="${i.index+1}==1" th:id="'mon'+${gr.id}"
+									class="container tab-pane active ">
+									<audio controls>
+										<source th:src="${gr.audio}" type="audio/ogg">
+									</audio>
+									<img th:src="${gr.image}">
+									<table border="1" style="width: 800px">
+										<tr>
+											<td>STT</td>
+											<td>Đáp án</td>
+										</tr>
+										<tr th:if="${gr.content1}">
+											<td>れい）</td>
+											<td th:utext="${gr.content1}"></td>
+										</tr>
+										<tr th:if="${gr.content2}">
+											<td>1</td>
+											<td th:utext="${gr.content2}"></td>
+										</tr>
+										<tr th:if="${gr.content3}">
+											<td>2</td>
+											<td th:utext="${gr.content3}"></td>
+										</tr>
+										<tr th:if="${gr.content4}">
+											<td>3）</td>
+											<td th:utext="${gr.content4}"></td>
+										</tr>
+										<tr th:if="${gr.content5}">
+											<td>4</td>
+											<td th:utext="${gr.content5}"></td>
+										</tr>
+										<tr th:if="${gr.content6}">
+											<td>5</td>
+											<td th:utext="${gr.content6}"></td>
+										</tr>
+
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="ex1-tabs-4" role="tabpanel"
+						aria-labelledby="ex1-tab-4">
+						<h3>Kiểm tra cuối bài</h3>
+						<p th:text="'Phần test gồm :'"></p>
+						<div class="row w-100" th:if="${alphabet}">
+							<form>
+
+								<div class="container" style="margin: 5px; margin-bottom: 20px"
+									th:each="que,i :${ques}">
+
+									<label th:text="${i.index+1}+'.'+ ${que.content}"></label>
+									<form th:each="ans:${que}">
+										<div>
+											<span><input></span>
+										</div>
+
+									</form>
+								</div>
+
+								<button style="float: right; margin: 10px; border-radius: 30px">
+									<i class="fas fa-flag-checkered"></i>Nộp bài
+								</button>
+							</form>
+						</div>
+						<div class="row w-100" th:if="${alphabet}==null">
+							<form>
+
+								<div th:each="item: ${lesson.tests[0].questions}" class="container" style="margin: 5px; margin-bottom: 20px">
+									<label th:utext="${item.content}"></label>
+									<form th:each="ans:${item.answers}">
+										<div>
+											<input  type="radio" name="optradio" ><span th:utext="${ans.content}"></span>
+										</div>
+										
+									</form>
+								</div>
+							
+								<button style="float: right; margin: 10px; border-radius: 30px">
+									<i class="fas fa-flag-checkered"></i>Nộp bài
+								</button>
+							</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Tabs navs -->
+
+		</div>
+</div>
+
+</section>
+<style>
+.col {
+	font-size: 1.3rem;
+	max-width: 200px;
+}
+
+.row {
+	margin-top: 20px;
+}
+
+.the {
+	background-color: white
+}
+
+.card {
+	width: 120px;
+	text-align: center;
+	border-radius: 30px;
+}
+
+#content {
+	border: solid 1px;
+	border-radius: 20px
+}
+
+a {
+	cursor: pointer;
+}
+
+.col-sm-6 img {
+	height: 100px;
+	border: solid #67caa4 2px;
+}
+</style>
+
+
+</div>
+</html>

@@ -9,6 +9,7 @@ import jlearning.model.Grammar;
 import jlearning.model.Lesson;
 import jlearning.model.Listening;
 import jlearning.model.Vocabulary;
+import jlearning.model.Test;
 import jlearning.service.LessonService;
 
 public class LessonServiceImpl  extends BaseServiceImpl implements LessonService {
@@ -22,9 +23,11 @@ public class LessonServiceImpl  extends BaseServiceImpl implements LessonService
 			List<Vocabulary> listVocab = lesson.getVocabularies();
 			List<Grammar> listGramr = lesson.getGrammars();
 			List<Listening> listListening = lesson.getListenings();
+			List<Test> test = lesson.getTests();
 			listGramr.size();
 			listListening.size();
 			listVocab.size();
+			test.size();
 			return lesson;
 			
 			

@@ -38,7 +38,7 @@ public class Question {
 	private int score;
 
 	public enum Part {
-		VOCAB_GRAM, READ, LISTEN
+		vocab_gram, read, listen
 	};
 
 	@Column(columnDefinition = "enum('vocab_gram','read','listen')", nullable = false)
