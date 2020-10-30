@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import jlearning.model.Blog;
+import jlearning.model.History;
+import jlearning.model.Result;
 import jlearning.model.User;
 import jlearning.model.User.Role;
 import jlearning.service.UserService;
@@ -18,8 +21,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public User findById(Serializable key) {
 		try {
-			
-			return getUserDAO().findById(key);
+			User user = getUserDAO().findById(key);
+			List<Result> results = user.getResults();
+			List<History> histories = user.getHistories();
+			List<Blog> blogs = user.getBlogs();
+			results.size();
+			histories.size();
+			blogs.size();
+			return user;
 		} catch (Exception e) {
 			logger.error(e);
 			throw e;

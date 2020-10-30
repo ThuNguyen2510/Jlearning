@@ -40,4 +40,16 @@
 	<bean id="ListeningDAO" class="jlearning.dao.impl.ListeningDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<bean id="TestDAO" class="jlearning.dao.impl.TestDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="ResultDAO" class="jlearning.dao.impl.ResultDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="QuestionDAO" class="jlearning.dao.impl.QuestionDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

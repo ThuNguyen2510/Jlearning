@@ -6,7 +6,8 @@
 <div layout:fragment="body">
 	<section class="content-area">
 		<div th:insert="views/web/course/topheading :: top"></div>
-		<div class="container site-content sidebar-right">
+		<div th:if="${noLesson}==null"
+			class="container site-content sidebar-right">
 			<div class="row">
 				<main id="main" class="site-main col-sm-9 alignleft">
 					<article id="post-5428"
@@ -24,7 +25,8 @@
 												th:text="'Cấp độ: '"></div> -->
 										</div>
 										<div class="lp-course-buttons">
-											<form>
+											<form
+												th:action="@{'/courses/'+${course.id}+'/lessons/'+${course.lessons[0].id}}">
 												<button style="font-size: 20px; border-radius: 15px">
 													Tham gia học</button>
 											</form>
@@ -200,6 +202,15 @@
 										</div>
 					</article>
 				</main>
+
+			</div>
+		</div>
+		<div th:if="${noLesson}!=null"
+			class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-9">
+					<h3>Chưa có thông tin khóa học</h3>
+				</div>
 				<div class="col-sm-3" th:style="'padding-left: 90px;'"
 					th:insert="views/web/course/sidebar :: sidebar"></div>
 			</div>

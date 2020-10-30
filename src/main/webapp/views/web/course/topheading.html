@@ -4,7 +4,8 @@
 	<span class="overlay-top-header"></span>
 	<div class="page-title-wrapper">
 		<div class="banner-wrapper container">
-			<h1>Khóa học</h1>
+			<h1 th:if="${course}==null">Tất cả khóa học</h1>
+			<h1 th:if="${course}!=null" th:text="'Khóa học '+${course.name}"></h1>
 		</div>
 	</div>
 </div>
@@ -20,6 +21,10 @@
 			<li itemprop="itemListElement" itemscope
 				itemtype="http://schema.org/ListItem"><a itemprop="name"
 				th:href="@{/courses}">Khóa học</a>
+				<meta itemprop="position" content="2" /></li>
+			<li th:if="${course}!=null" itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem"><a itemprop="name"
+				th:href="@{'/courses/'+${course.id}}" th:text="${course.name}"></a>
 				<meta itemprop="position" content="2" /></li>
 		</ul>
 	</div>

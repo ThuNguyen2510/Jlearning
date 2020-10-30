@@ -8,6 +8,9 @@ import jlearning.dao.CourseDAO;
 import jlearning.dao.GrammarDAO;
 import jlearning.dao.LessonDAO;
 import jlearning.dao.ListeningDAO;
+import jlearning.dao.QuestionDAO;
+import jlearning.dao.ResultDAO;
+import jlearning.dao.TestDAO;
 import jlearning.dao.UserDAO;
 import jlearning.dao.VocabularyDAO;
 
@@ -37,6 +40,31 @@ public class BaseServiceImpl {
 	@Autowired
 	private ListeningDAO listeningDAO;
 	
+	@Autowired
+	private TestDAO testDAO;
+	
+	@Autowired
+	private ResultDAO resultDAO;
+	
+	@Autowired
+	private QuestionDAO questionDAO;
+	
+	public TestDAO getTestDAO() {
+		return testDAO;
+	}
+
+	public void setTestDAO(TestDAO testDAO) {
+		this.testDAO = testDAO;
+	}
+
+	public ResultDAO getResultDAO() {
+		return resultDAO;
+	}
+
+	public void setResultDAO(ResultDAO resultDAO) {
+		this.resultDAO = resultDAO;
+	}
+
 	public AlphabetDAO getAlphabetDAO() {
 		return alphabetDAO;
 	}
@@ -99,5 +127,13 @@ public class BaseServiceImpl {
 
 	public void setLessonDAO(LessonDAO lessonDAO) {
 		this.lessonDAO = lessonDAO;
+	}
+
+	public QuestionDAO getQuestionDAO() {
+		return questionDAO;
+	}
+
+	public void setQuestionDAO(QuestionDAO questionDAO) {
+		this.questionDAO = questionDAO;
 	}
 }

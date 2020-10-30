@@ -3,18 +3,25 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="views/web/layout/base-layout">
 <div layout:fragment="body">
-	<section class="content-area">
+	<section th:if="${chuaLogin}==null" class="content-area">
 		<div th:insert="views/web/lesson/topheading :: top"></div>
-		<div class="container site-content sidebar-right"
+		<div th:if="${lamTestLevel}==null"
+			class="container site-content sidebar-right"
 			style="font-size: 1.3rem">
 			<div class="row">
 				<div style="margin-left: 25px; margin-bottom: 20px;" class="col">
-					<button th:action="@{'/courses/'+{}}" style="border-radius: 30px">Danh
-						sách bài học</button>
+					<button data-toggle="modal" data-target="#dsbh"
+						style="border-radius: 30px">Danh sách bài học</button>
+					<div th:insert="views/web/lesson/showListModal :: listModal"></div>
 				</div>
 			</div>
-
-			<ul class="nav nav-tabs" id="ex1" role="tablist">
+			<div class="row"
+				th:if="${#lists.size(lesson.vocabularies)}==0 and ${#lists.size(lesson.grammars)}==0 and ${#lists.size(lesson.listenings)}==0 and ${#lists.size(lesson.tests)}==0">
+				<h3>Bài học chưa có nội dung!</h3>
+			</div>
+			<ul
+				th:if="${#lists.size(lesson.vocabularies)}>0 or ${#lists.size(lesson.grammars)}>0 or ${#lists.size(lesson.listenings)}>0 or ${#lists.size(lesson.tests)}>0"
+				class="nav nav-tabs" id="ex1" role="tablist">
 				<li class="nav-item" role="presentation"><a
 					class="nav-link active" id="ex1-tab-1" data-toggle="tab"
 					href="#ex1-tabs-1" role="tab" aria-controls="ex1-tabs-1"
@@ -69,6 +76,7 @@
 				</a></li>
 			</ul>
 			<div class="row"
+				th:if="${#lists.size(lesson.vocabularies)}>0 or ${#lists.size(lesson.grammars)}>0 or ${#lists.size(lesson.listenings)}>0 or ${#lists.size(lesson.tests)}>0"
 				style="margin-left: 25.9px; padding-top: 60px; padding-left: 30px; padding-right: 30px; margin-right: 3px; padding-bottom: 10px; border-left: solid 1px rgb(0, 0, 0, 0.1); border-right: solid 1px rgb(0, 0, 0, 0.1); border-bottom: solid 1px rgb(0, 0, 0, 0.1)">
 				<div class="tab-content" id="ex1-content" style="width: 100%">
 					<div class="tab-pane fade show active" id="ex1-tabs-1"
@@ -298,7 +306,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[0].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#boxnoidung" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="boxnoidung" class="collapse"
@@ -352,7 +360,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[1].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#boxnoidung6" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="boxnoidung6" class="collapse"
@@ -407,7 +415,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[2].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#box1" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="box1" class="collapse"
@@ -429,9 +437,10 @@
 									</tr>
 									<tr th:if="${lesson.listenings[2].content4}">
 										<td>3）</td>
-										<td ><a href="#b3" aria-expanded="false"
+										<td><a href="#b3" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
-											<div id="b3" class="collapse" th:utext="${lesson.listenings[2].content4}"></div></td>
+											<div id="b3" class="collapse"
+												th:utext="${lesson.listenings[2].content4}"></div></td>
 									</tr>
 									<tr th:if="${lesson.listenings[2].content5}">
 										<td>4</td>
@@ -461,7 +470,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[3].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#box6" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="box6" class="collapse"
@@ -516,7 +525,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[4].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#box12" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="box12" class="collapse"
@@ -571,7 +580,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[5].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#box18" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="box18" class="collapse"
@@ -626,7 +635,7 @@
 								<table border="1" style="width: 800px">
 
 									<tr th:if="${lesson.listenings[6].content1}">
-										<td>れい）</td>
+										<td style="width: 137px">れい）</td>
 										<td><a href="#bx14" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="bx14" class="collapse"
@@ -647,7 +656,7 @@
 												th:utext="${lesson.listenings[6].content3}"></div></td>
 									</tr>
 									<tr th:if="${lesson.listenings[6].content4}">
-										<td>3）</td>
+										<td>3</td>
 										<td><a href="#bx17" aria-expanded="false"
 											data-toggle="collapse">Đáp án</a>
 											<div id="bx17" class="collapse"
@@ -686,7 +695,7 @@
 									<label th:text="${i.index+1}+'.'+ ${que.content}"></label>
 									<form th:each="ans:${que}">
 										<div>
-											<span><input></span>
+											<span><input style="border: solid 1px #e0b8c7;"></span>
 										</div>
 
 									</form>
@@ -705,8 +714,9 @@
 									<label th:utext="${item.content}"></label>
 									<form th:each="ans:${item.answers}">
 										<div class="row">
-											<input style="margin-top:2px;margin-left:20px" type="radio" name="optradio">
-											<span th:utext="${ans.content}"></span>
+											<input style="margin-top: 2px; margin-left: 20px"
+												type="radio" name="optradio"> <span
+												th:utext="${ans.content}"></span>
 										</div>
 
 									</form>
@@ -725,10 +735,49 @@
 			<!-- Tabs navs -->
 
 		</div>
-</div>
+		<div th:if="${lamTestLevel}!=null"
+			class="container site-content sidebar-right">
+			<div class="row">
+				<h3 th:text="${lamTestLevel}"></h3>
+			</div>
+			<div class="row">
+				<div class="col-sm-6" style="text-align: right">
+					<form th:action="@{/}" method="get">
+						<button style="width: 10rem; font-size: 1.3rem"  type="submit" 
+							class="btn btn-secondary">
+							<i class="fas fa-long-arrow-alt-left" ></i>Trang
+							chủ
+						</button>
+					</form>
 
-</section>
-<style>
+				</div>
+				<div class="col-sm-6" style="text-align: left">
+					<form th:action="@{/testLevel}"  method="get">
+						<button style="width: 10rem; font-size: 1.3rem"  type="submit" 
+							class="btn btn-primary">
+							<i class="fab fa-angellist"></i>Làm test
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+	</section>
+	<section th:if="${chuaLogin}!=null" class="content-area">
+		<div th:insert="views/web/lesson/topheading :: top"></div>
+		<script>
+			$(document).ready(function() {
+				if (document.getElementById('chuaDN').innerHTML != '') {
+
+					$("#loginModal").modal("show");
+
+				}
+			});
+		</script>
+	</section>
+	<style>
 .col {
 	font-size: 1.3rem;
 	max-width: 200px;

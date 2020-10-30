@@ -4,13 +4,15 @@
 	<span class="overlay-top-header"></span>
 	<div class="page-title-wrapper">
 		<div class="banner-wrapper container">
-			<h1>Bài số 1</h1>
+			<h1 th:if="${chuaLogin}==null and ${lamTestLV}!=null" th:text="${lesson.name}"></h1>
+			<h1 id="chuaDN" th:if="${chuaLogin}!=null">Hãy đăng nhập</h1>
+			<h1 id="lamTestLV" th:if="${lamTestLevel}!=null">Hãy làm test cấp độ nào</h1>
 		</div>
 	</div>
 </div>
 <div class="breadcrumbs-wrapper">
 	<div class="container">
-		<ul itemprop="breadcrumb" itemscope
+		<ul th:if="${course}!=null and ${lamTestLV}==null" itemprop="breadcrumb" itemscope
 			itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
 			class="breadcrumbs">
 			<li itemprop="itemListElement" itemscope
@@ -19,7 +21,11 @@
 					<meta itemprop="position" content="1" /></a></li>
 			<li itemprop="itemListElement" itemscope
 				itemtype="http://schema.org/ListItem"><a itemprop="name"
-				th:href="@{/blogs}">Bài học</a>
+				th:href="@{'/courses/'+${course.id}}">Bài học</a>
+				<meta itemprop="position" content="2" /></li>
+			<li th:if="${lesson}!=null" itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem"><a itemprop="name"
+				th:href="@{'/courses/'+${course.id}+'/lessons/'+${lesson.id}}" th:text="${lesson.name}"></a>
 				<meta itemprop="position" content="2" /></li>
 		</ul>
 	</div>

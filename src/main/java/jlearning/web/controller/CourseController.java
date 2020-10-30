@@ -2,6 +2,9 @@ package jlearning.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,10 +33,12 @@ public class CourseController extends BaseController {
 	}
 	
 	@RequestMapping("/courses/{id}")
-	public String course(Model model,@PathVariable("id") int id) {
+	public String course(Model model,HttpServletRequest request,@PathVariable("id") int id) {
 		checkObjectUser(model);
 		Course course = courseService.findById(id);
 		model.addAttribute("course",course);
+		if(course.getLessons().size()==0)
+		model.addAttribute("noLesson","Chưa có bài học");
 		List<Course> courses = courseService.loadCourses().subList(0, 3);
 		model.addAttribute("courses",courses);
 		List<Course> latestCourses = courseService.LatestCourses().subList(0, 3);

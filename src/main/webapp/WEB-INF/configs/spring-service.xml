@@ -50,6 +50,30 @@
 		</property>
 	</bean>
 	
+	<bean id="testService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.TestServiceImpl">
+				<property name="testDAO" ref="TestDAO" />
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean id="resultService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.ResultServiceImpl">
+				<property name="resultDAO" ref="ResultDAO" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="questionService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.QuestionServiceImpl">
+				<property name="questionDAO" ref="QuestionDAO" />
+			</bean>
+		</property>
+	</bean>
 	
 	
 	

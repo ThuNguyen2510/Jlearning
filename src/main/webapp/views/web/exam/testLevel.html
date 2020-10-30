@@ -5,57 +5,75 @@
 <div layout:fragment="body">
 	<section class="content-area">
 		<div th:insert="views/web/exam/topheading2 :: top"></div>
-		<div class="container site-content sidebar-right"
+		<div th:if="${testLevel}!=null and ${session.currentUser}!=null"
+			class="container site-content sidebar-right"
 			style="font-size: 1.4rem">
-			<h3>Tổng số câu hỏi: 20</h3>
-			<div class="row">
+			<h3 style="margin-bottom: 10px"
+				th:text="'Tổng số câu hỏi: '+${#lists.size(testLevel.questions)}+ ' câu'">
+			</h3>
+			<form th:object="${form}" method="post"
+				th:action="@{/testLevel/result}">
+				<div class="row">
 
-				<div class="col-sm-2"></div>
-				<div class='col-sm-8'>
-					<div class="ques">
-						<div class="row">
-							<h4>Câu hỏi</h4>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio" checked>Option
-										1</span>
-								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										2</span>
-								</div>
+					<div class="col-sm-2"></div>
+
+					<div class='col-sm-8'>
+						<div style="margin-bottom: 10px" class="ques"
+							th:each="ques,i:${testLevel.questions}">
+							<input type="hidden" th:value="${ques.id}" th:name="questionId">
+							<div class="row">
+								<h4 th:text="${i.index+1}+'.'+ ${ques.content}"></h4>
 							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+							<div class="row">
+
+								<div th:each="ans:${ques.answers}" th:if="${ques.level}==0"
+									class="col-sm-5">
+									<input th:each="answer, itemStat : *{answers}"
+										th:name="'answer_'+${ques.id}" th:field="*{answers[__${itemStat.index}__].content}" 
+										style="border: solid 1px #dcacbb;">
 								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+
+								<div th:if="${ques.level} > 0 " class="col-sm-5">
+									<ol type="a">
+										<li th:each="ans:${ques.answers}"><input
+											th:value="${ans.id}" type="radio"
+											th:name="'answer_'+${ques.id}"><span
+											th:text="${ans.content}"></span></li>
+									</ol>
+									<div></div>
+
+
 								</div>
+
 							</div>
 						</div>
+
 					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="row" style="margin-top: 15px">
+					<div class="col-sm-4"></div>
+					<div class="col-sm-4">
+						<!-- 	-->
+						<button type="submit" data-toggle="modal"
+							data-target="#resultLevelModal">Nộp bài</button>
+						<!-- 	</form> -->
+					</div>
+					<div class="col-sm-4"></div>
 
 				</div>
-				<div class="col-sm-2"></div>
-			</div>
-			<div class="row" style="margin-top:15px">
-				<div class="col-sm-4"></div>
-				<div class="col-sm-4">
-				<!-- 	<form> -->
-						<button data-toggle="modal"
-									data-target="#resultLevelModal">Nộp bài</button>
-				<!-- 	</form> -->
-				</div>
-				<div class="col-sm-4"></div>
-	
-			</div>
-			
+			</form>
+		</div>
+		<div th:if="${session.currentUser}==null"
+			class="container site-content sidebar-right"
+			style="font-size: 1.4rem">
+			<script>
+				$(document).ready(function() {
+
+					$("#loginModal").modal("show");
+
+				});
+			</script>
 		</div>
 	</section>
 	<div th:insert="views/web/exam/levelResult :: level"></div>
