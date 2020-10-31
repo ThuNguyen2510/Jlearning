@@ -110,7 +110,7 @@ public class BlogController extends BaseController {
 		return "views/web/blog/search";
 	}
 	@RequestMapping("/blogs/search")
-	public String search(@RequestParam(name = "name", required = false) String blogName,Model model) {
+	public String search(@RequestParam(name = "name1", required = false) String blogName,Model model) {
 		checkObjectUser(model);
 		logger.info("Search blog");
 		List<Blog> blogs = blogService.search(blogName);

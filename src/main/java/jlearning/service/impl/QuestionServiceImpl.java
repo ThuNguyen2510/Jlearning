@@ -1,16 +1,29 @@
 package jlearning.service.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import jlearning.model.Answer;
 import jlearning.model.Question;
 import jlearning.service.QuestionService;
 
 public class QuestionServiceImpl extends BaseServiceImpl implements QuestionService {
 
+	private static final Logger logger = Logger.getLogger(QuestionServiceImpl.class);
+
 	@Override
 	public Question findById(Serializable key) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Question q=getQuestionDAO().findById(key);
+			List<Answer> ans = q.getAnswers();
+			ans.size();
+			return q;
+		} catch (Exception e) {
+			logger.error(e);
+			throw e;
+		}
 	}
 
 	@Override
@@ -27,14 +40,24 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
 
 	@Override
 	public int findAnswerIdCorrect(int questionId) {
-		// TODO Auto-generated method stub
-		return 0;
+		Question question = getQuestionDAO().findById(questionId);
+		for (Answer ans : question.getAnswers()) {
+			if (ans.getIsTrue() == 1) {
+				return ans.getId();
+			}
+		}
+		return -1;
 	}
 
 	@Override
 	public String findContentOfAnswerCorrect(int questionId) {
-		// TODO Auto-generated method stub
-		return null;
+		Question question = getQuestionDAO().findById(questionId);
+		for (Answer ans : question.getAnswers()) {
+			if (ans.getIsTrue() == 1) {
+				return ans.getContent();
+			}
+		}
+		return "";
 	}
 
 }

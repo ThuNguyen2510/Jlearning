@@ -36,7 +36,7 @@
 							</div>
 
 						</div>
-						<div class="container" style="padding-top: 20px;"
+		<!-- 				<div class="container" style="padding-top: 20px;"
 							th:if="${(sumProductOfCategory-1)/6 > 0}"
 							th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
 							<ul class="pagination" style="float: right;">
@@ -58,7 +58,7 @@
 									th:with="yy=${#request.getParameter('page') == null ? 2 : T(Integer).parseInt(#request.getParameter('page')) + 1}"
 									th:href="${#strings.replace(#uris.unescapeQueryParam(urlBuilder.replaceQueryParam('page',#strings?.toString(yy)).toUriString()).replace('%20','+'),' ','+')}">Sau</a></li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 
 

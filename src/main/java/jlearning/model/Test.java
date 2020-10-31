@@ -51,7 +51,7 @@ public class Test {
 	@JoinColumn(name="lesson_id")
 	private Lesson lesson;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "test")
+	@OneToMany(mappedBy = "test")
 	private List<Question> questions;
 	
 	public List<Question> getQuestions() {

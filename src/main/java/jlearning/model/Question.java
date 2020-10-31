@@ -45,7 +45,7 @@ public class Question {
 	@Enumerated(EnumType.STRING)
 	private Part part;
 
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "question")
+	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 
 	@ManyToOne

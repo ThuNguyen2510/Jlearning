@@ -20,20 +20,21 @@
 					<div class='col-sm-8'>
 						<div style="margin-bottom: 10px" class="ques"
 							th:each="ques,i:${testLevel.questions}">
-							<input type="hidden" th:value="${ques.id}" th:name="questionId">
+
 							<div class="row">
 								<h4 th:text="${i.index+1}+'.'+ ${ques.content}"></h4>
 							</div>
 							<div class="row">
-
-								<div th:each="ans:${ques.answers}" th:if="${ques.level}==0"
-									class="col-sm-5">
-									<input th:each="answer, itemStat : *{answers}"
-										th:name="'answer_'+${ques.id}" th:field="*{answers[__${itemStat.index}__].content}" 
+								
+								<div th:if="${#lists.size(ques.answers)}==1" class="col-sm-5">
+								<input type="hidden" th:value="${ques.id}" th:name="questionTextId">
+									<input th:name="'answer_'+${ques.id}" th:value="nfjds"
+										th:field="*{answers[__${ques.id}__].content}"
 										style="border: solid 1px #dcacbb;">
 								</div>
 
-								<div th:if="${ques.level} > 0 " class="col-sm-5">
+								<div th:if="${#lists.size(ques.answers)}>1 " class="col-sm-5">
+								<input type="hidden" th:value="${ques.id}" th:name="questionId">
 									<ol type="a">
 										<li th:each="ans:${ques.answers}"><input
 											th:value="${ans.id}" type="radio"
@@ -55,8 +56,7 @@
 					<div class="col-sm-4"></div>
 					<div class="col-sm-4">
 						<!-- 	-->
-						<button type="submit" data-toggle="modal"
-							data-target="#resultLevelModal">Nộp bài</button>
+						<button type="submit" >Nộp bài</button>
 						<!-- 	</form> -->
 					</div>
 					<div class="col-sm-4"></div>
@@ -75,6 +75,17 @@
 				});
 			</script>
 		</div>
+		<div class="container site-content sidebar-right"
+			style="font-size: 1.4rem" th:if="${result}!=null" >
+			<script>
+			
+				$(document).ready(function() {
+
+					$("#resultLevelModal").modal("show");
+
+				});
+			</script>
+			</div>
 	</section>
 	<div th:insert="views/web/exam/levelResult :: level"></div>
 </div>

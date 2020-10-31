@@ -10,8 +10,8 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<h3>Số câu trả lời đúng: <span>15</span></h3>
-				<h3 style="text-align:center;color:red">Bạn được tham gia khóa học cấp độ <span>N4</span> !</h3>
+				<h3>Số câu trả lời đúng: <span th:if="${result!=null}" th:text="${result.score}+'/30'"></span></h3>
+				<h3 style="text-align:center;color:red">Bạn được tham gia khóa học cấp độ <span th:if="${level}!=null" th:text="${level}"></span> !</h3>
 			</div>
 		</div>
 	</div>

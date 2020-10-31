@@ -7,8 +7,8 @@
 			<form th:action="@{/blogs/search}" method="get">
 				<input type="text" placeholder="Tìm blogs"
 					class="form-control course-search-filter" autocomplete="off"
-					name="name"
-					th:value="${#request.getParameter('name') != null ? #request.getParameter('name'):''}" />
+					th:name="name1" th:value="${#request.getParameter('name1') != null ? #request.getParameter('name1'):''}" 
+					/>
 				<button type="submit"
 					th:style="'right: 0; bottom: 0;  background: 0 0;   box-shadow: none; border: none; outline: 0; width: 30px;padding: 0;   line-height: 34px;'">
 					<i class="fa fa-search"></i>

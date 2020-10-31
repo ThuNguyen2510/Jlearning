@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 
 import jlearning.model.Grammar;
 import jlearning.model.Lesson;
 import jlearning.model.Listening;
 import jlearning.model.Vocabulary;
 import jlearning.model.Test;
+
 import jlearning.service.LessonService;
 
 public class LessonServiceImpl  extends BaseServiceImpl implements LessonService {
@@ -24,6 +26,11 @@ public class LessonServiceImpl  extends BaseServiceImpl implements LessonService
 			List<Grammar> listGramr = lesson.getGrammars();
 			List<Listening> listListening = lesson.getListenings();
 			List<Test> test = lesson.getTests();
+			for(int i=0;i<test.size();i++)
+			{
+				List<jlearning.model.Question> ques= test.get(i).getQuestions();
+				ques.size();
+			}
 			listGramr.size();
 			listListening.size();
 			listVocab.size();
