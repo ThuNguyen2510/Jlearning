@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jlearning.bean.AnswerInfo;
+import jlearning.bean.AnswerList;
 import jlearning.model.Alphabet;
 import jlearning.model.Blog;
 import jlearning.model.Lesson;
@@ -46,6 +48,7 @@ public class LessonController extends BaseController {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
 		{
+
 			int userId = (int) session.getAttribute("currentUser");
 			User user = userService.findById(userId);
 			if (user != null) {
@@ -68,9 +71,17 @@ public class LessonController extends BaseController {
 										alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
 								model.addAttribute("list1", list1);
 								model.addAttribute("list2", list2);
-								model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
+								model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 11));
+								AnswerList ansForm = new AnswerList();
+								List<AnswerInfo> list = new ArrayList<AnswerInfo>();
+								for (int i = 0; i < 10; i++) {
+									list.add(new AnswerInfo());
+								}
+								ansForm.setAnswers(list);
+								model.addAttribute("form", ansForm);
 
 							}
+							logger.info("ADDDDDDDDDDD");
 							model.addAttribute("course", course);
 							model.addAttribute("lesson", lesson);
 
@@ -82,9 +93,6 @@ public class LessonController extends BaseController {
 							if (preTestResult != null) {
 								int score = preTestResult.getScore();
 								if (score >= 6) {
-									model.addAttribute("lesson", lesson);
-								} else {
-									Lesson lesson_ = lessonService.findById(lessonId-1);
 									if (courseId == 1 && lessonId < 3) {
 
 										Alphabet alphabet = alphabetService.findById(lessonId);
@@ -92,20 +100,54 @@ public class LessonController extends BaseController {
 										List<Character> list1 = alphabet.getCharacters().subList(0,
 												alphabet.getCharacters().size() / 2);
 										List<Character> list2 = alphabet.getCharacters().subList(
-												alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
+												alphabet.getCharacters().size() / 2 + 1,
+												alphabet.getCharacters().size());
 										model.addAttribute("list1", list1);
 										model.addAttribute("list2", list2);
-										model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
+										model.addAttribute("ques",
+												getRandom(lesson.getTests().get(0).getQuestions(), 10));
+										AnswerList ansForm = new AnswerList();
+										List<AnswerInfo> list = new ArrayList<AnswerInfo>();
+										for (int i = 0; i < 10; i++) {
+											list.add(new AnswerInfo());
+										}
+										ansForm.setAnswers(list);
+										model.addAttribute("form", ansForm);
+
+									}
+									model.addAttribute("lesson", lesson);
+								} else {
+									Lesson lesson_ = lessonService.findById(lessonId - 1);
+									if (courseId == 1 && lessonId < 3) {
+
+										Alphabet alphabet = alphabetService.findById(lessonId-1);
+										model.addAttribute("alphabet", alphabet);
+										List<Character> list1 = alphabet.getCharacters().subList(0,
+												alphabet.getCharacters().size() / 2);
+										List<Character> list2 = alphabet.getCharacters().subList(
+												alphabet.getCharacters().size() / 2 + 1,
+												alphabet.getCharacters().size());
+										model.addAttribute("list1", list1);
+										model.addAttribute("list2", list2);
+										model.addAttribute("ques",
+												getRandom(lesson_.getTests().get(0).getQuestions(), 10));
+										AnswerList ansForm = new AnswerList();
+										List<AnswerInfo> list = new ArrayList<AnswerInfo>();
+										for (int i = 0; i < 10; i++) {
+											list.add(new AnswerInfo());
+										}
+										ansForm.setAnswers(list);
+										model.addAttribute("form", ansForm);
 
 									}
 									model.addAttribute("lesson", lesson_);
 									model.addAttribute("lowScore", "Bạn chưa đủ điểm để học bài tiếp theo");
 								}
 							} else {
-								Lesson lesson_ = lessonService.findById(lessonId-1);
+								Lesson lesson_ = lessonService.findById(lessonId - 1);
 								if (courseId == 1 && lessonId < 3) {
 
-									Alphabet alphabet = alphabetService.findById(lessonId);
+									Alphabet alphabet = alphabetService.findById(lessonId-1);
 									model.addAttribute("alphabet", alphabet);
 									List<Character> list1 = alphabet.getCharacters().subList(0,
 											alphabet.getCharacters().size() / 2);
@@ -113,7 +155,14 @@ public class LessonController extends BaseController {
 											alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
 									model.addAttribute("list1", list1);
 									model.addAttribute("list2", list2);
-									model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
+									model.addAttribute("ques", getRandom(lesson_.getTests().get(0).getQuestions(), 10));
+									AnswerList ansForm = new AnswerList();
+									List<AnswerInfo> list = new ArrayList<AnswerInfo>();
+									for (int i = 0; i < 10; i++) {
+										list.add(new AnswerInfo());
+									}
+									ansForm.setAnswers(list);
+									model.addAttribute("form", ansForm);
 
 								}
 								model.addAttribute("lesson", lesson_);
@@ -145,24 +194,5 @@ public class LessonController extends BaseController {
 		return newList;
 	}
 
-	private Result checkResultHasTestInLesson(User user, int lessonId) {
-		Result result = null;
-		for (Result rs : user.getResults()) {
 
-			if(rs.getTest()!=null)
-			{
-				if(rs.getTest().getLesson()!=null)
-				{
-					if (rs.getTest().getLesson().getId() == lessonId) {
-						result = rs;
-
-						break;
-					}
-				}
-				
-			}
-			
-		}
-		return result;
-	}
 }

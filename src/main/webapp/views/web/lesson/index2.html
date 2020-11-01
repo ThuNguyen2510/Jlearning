@@ -83,7 +83,7 @@
 					<div class="tab-pane fade show active" id="ex1-tabs-1"
 						role="tabpanel" aria-labelledby="ex1-tab-1">
 
-						<div th:if="${alphabet}">
+						<div th:if="${alphabet}!=null">
 							<h3 th:text="'Bảng chữ cái '+${alphabet.name}"></h3>
 
 
@@ -688,18 +688,20 @@
 						<h3>Kiểm tra cuối bài</h3>
 						<p th:text="'Phần test gồm :'"></p>
 						<div class="row w-100" th:if="${alphabet}">
-							<form>
+							<form th:object="${form}" th:action ="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
 								<div class="container" style="margin: 5px; margin-bottom: 20px"
 									th:each="que,i :${ques}">
 
-									<label th:text="${i.index+1}+'.'+ ${que.content}"></label>
-									<form th:each="ans:${que}">
-										<div>
-											<span><input style="border: solid 1px #e0b8c7;"></span>
-										</div>
+									<label th:text="${i.index+1}+'.'+ ${que.content}"></label> <input
+										type="hidden" th:value="${que.id}" th:name="questionTextId">
+									<div th:each="ans:${que}">
+										<span><input th:name="'answer_'+${que.id}"
+											th:field="*{answers[__${que.id}__].content}"
+											style="border: solid 1px #e0b8c7;"></span>
+									</div>
 
-									</form>
+
 								</div>
 
 								<button style="float: right; margin: 10px; border-radius: 30px">
@@ -708,19 +710,21 @@
 							</form>
 						</div>
 						<div class="row w-100" th:if="${alphabet}==null">
-							<form>
+							<form th:action ="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
 								<div th:each="item: ${lesson.tests[0].questions}"
 									class="container" style="margin: 5px; margin-bottom: 20px">
-									<label th:utext="${item.content}"></label>
-									<form th:each="ans:${item.answers}">
-										<div class="row">
+									<label th:utext="${item.content}"></label> <input type="hidden"
+										th:value="${item.id}" th:name="questionId">
+									
+										<div class="row" th:each="ans:${item.answers}">
 											<input style="margin-top: 2px; margin-left: 20px"
-												type="radio" name="optradio"> <span
+												th:value="${ans.id}" type="radio"
+												th:name="'answer_'+${item.id}"> <span
 												th:utext="${ans.content}"></span>
 										</div>
 
-									</form>
+									
 								</div>
 
 								<button type="submit"
@@ -763,33 +767,33 @@
 		<div th:insert="views/web/lesson/lowScore :: lowScore"></div>
 		<div th:insert="views/web/lesson/notTest :: notTest"></div>
 		<div th:if="${lowLevel}">
-		<script>
-			$(document).ready(function() {
+			<script>
+				$(document).ready(function() {
 
-				$("#lowLevelModal").modal("show");
+					$("#lowLevelModal").modal("show");
 
-			});
-		</script>
+				});
+			</script>
 		</div>
 		<div th:if="${lowScore}">
-		<script>
-			$(document).ready(function() {
+			<script>
+				$(document).ready(function() {
 
-				$("#lowScoreModal").modal("show");
+					$("#lowScoreModal").modal("show");
 
-			});
-		</script>
+				});
+			</script>
 		</div>
 		<div th:if="${notTest}">
-		<script>
-			$(document).ready(function() {
+			<script>
+				$(document).ready(function() {
 
-				$("#notTestModal").modal("show");
+					$("#notTestModal").modal("show");
 
-			});
-		</script>
+				});
+			</script>
 		</div>
-		
+
 	</section>
 
 

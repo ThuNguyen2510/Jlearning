@@ -28,7 +28,7 @@
 								
 								<div th:if="${#lists.size(ques.answers)}==1" class="col-sm-5">
 								<input type="hidden" th:value="${ques.id}" th:name="questionTextId">
-									<input th:name="'answer_'+${ques.id}" th:value="nfjds"
+									<input th:name="'answer_'+${ques.id}" 
 										th:field="*{answers[__${ques.id}__].content}"
 										style="border: solid 1px #dcacbb;">
 								</div>

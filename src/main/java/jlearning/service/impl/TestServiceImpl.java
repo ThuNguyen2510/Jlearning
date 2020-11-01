@@ -13,8 +13,8 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService{
 
 	@Override
 	public Test findById(Serializable key) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return getTestDAO().findById(key);
 	}
 
 	@Override

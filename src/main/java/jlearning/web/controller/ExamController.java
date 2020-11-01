@@ -12,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jlearning.bean.AnswerInfo;
 import jlearning.bean.AnswerList;
+import jlearning.model.Course;
+import jlearning.model.Lesson;
 import jlearning.model.Question;
 import jlearning.model.Result;
 import jlearning.model.Test;
@@ -64,6 +67,74 @@ public class ExamController extends BaseController {
 	public String test(Model model) {
 		checkObjectUser(model);
 		return "views/web/exam/doExam";
+	}
+
+	@RequestMapping("/exams/{testId}/result") /* Thi */
+	public String test(Model model, @PathVariable("testId") int testId, HttpServletRequest request) {
+		checkObjectUser(model);
+		HttpSession session = request.getSession();
+		int score = 0;
+		int count = 0;
+		String[] questionTextIds = request.getParameterValues("questionTextId");
+		if (questionTextIds != null) {
+			for (String id : questionTextIds) {
+
+				String answerContentCorrect = questionService.findContentOfAnswerCorrect(Integer.parseInt(id));
+				if (request.getParameter("answers[" + id + "].content") != null) {
+					if (answerContentCorrect
+							.compareToIgnoreCase(request.getParameter("answers[" + id + "].content")) == 0) {
+						score++;
+						count++;
+					}
+				}
+			}
+
+		}
+
+		String[] questionIds = request.getParameterValues("questionId");
+		if (questionIds != null) {
+			for (String id : questionIds) {
+
+				int answerIdCorrect = questionService.findAnswerIdCorrect(Integer.parseInt(id));
+				if (request.getParameter("answer_" + id) != null) {
+					if (answerIdCorrect == Integer.parseInt(request.getParameter("answer_" + id))) {
+						score++;
+						count++;
+					}
+				}
+			}
+		}
+
+		Test test = testService.findById(testId);
+		User user = userService.findById((int) session.getAttribute("currentUser"));
+		if (checkResultHasTestInLesson(user, test.getLesson().getId()) == null) {
+			Result rs = new Result();
+			rs.setScore(score);
+			rs.setUser(user);
+			rs.setTest(test);
+			resultService.saveOrUpdate(rs);
+		} else {
+			Result oldRs = checkResultHasTestInLesson(user, test.getLesson().getId());
+			if (score > oldRs.getScore()) {
+				oldRs.setScore(score);
+
+				resultService.saveOrUpdate(oldRs);
+			}
+
+		}
+		if (score >= 6) {
+			model.addAttribute("upLesson", "Bạn được học bài tiếp theo!");
+		}
+
+		/*
+		 * int lessonLength = test.getLesson().getCourse().getLessons().size();
+		 * if(test==test.getLesson().getTests().get(lessonLength-1)) { if(score>=6) {
+		 * user.setLevel(user.getLevel()+1);
+		 * model.addAttribute("upCourse","Bạn được học khóa học ở cấp độ mới!");
+		 * userService.saveOrUpdate(user); } }
+		 */
+
+		return "views/web/lesson/index2";
 	}
 
 	@RequestMapping("/testLevel") /* Test Level */
@@ -148,19 +219,20 @@ public class ExamController extends BaseController {
 		logger.info("Diem " + score);
 		logger.info("So cau " + count);
 		logger.info("Level " + getIndexOfLargest(level));
-		
+
 		Result rs = new Result();
-		User user= userService.findById((int) session.getAttribute("currentUser"));
+		User user = userService.findById((int) session.getAttribute("currentUser"));
 		rs.setScore(score);
 		rs.setUser(user);
 		rs.setTest((Test) session.getAttribute("testLevel"));
-		user.setLevel(getIndexOfLargest(level)+1); 
-		if(resultService.create(rs)!=null) {
-			model.addAttribute("result",rs);
-			String []course= {"Cấp độ cơ bản","Cấp độ N5","Cấp độ N4","Cấp độ N3","Cấp độ N2","Cấp độ N1"};
-			model.addAttribute("level",course[getIndexOfLargest(level)]);
+		user.setLevel(getIndexOfLargest(level) + 1);
+		if (resultService.create(rs) != null) {
+			model.addAttribute("result", rs);
+			String[] course = { "Cấp độ cơ bản", "Cấp độ N5", "Cấp độ N4", "Cấp độ N3", "Cấp độ N2", "Cấp độ N1" };
+			model.addAttribute("level", course[getIndexOfLargest(level)]);
 		}
 		userService.saveOrUpdate(user);
+		session.removeAttribute("testLevel");
 		return "views/web/exam/testLevel";
 	}
 

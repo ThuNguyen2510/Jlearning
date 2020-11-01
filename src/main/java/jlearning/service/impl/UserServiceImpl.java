@@ -23,11 +23,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		try {
 			User user = getUserDAO().findById(key);
 			List<Result> results = user.getResults();
-			List<History> histories = user.getHistories();
-			List<Blog> blogs = user.getBlogs();
+			/*
+			 * List<History> histories = user.getHistories(); List<Blog> blogs =
+			 * user.getBlogs();
+			 */
 			results.size();
-			histories.size();
-			blogs.size();
+			/*
+			 * histories.size(); blogs.size();
+			 */
 			return user;
 		} catch (Exception e) {
 			logger.error(e);
