@@ -36,6 +36,17 @@ public class Course {
 	@Column(name = "logo")
 	private String logo;
 	
+	@Column(name="level")
+	private int level;
+	
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	@Column(name = "create_time", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp

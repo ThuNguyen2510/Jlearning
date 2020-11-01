@@ -10,7 +10,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div th:if="${course}!=null" class="modal-body">
 				<form th:each="item,i:${course.lessons}" th:action="@{'/courses/'+${course.id}+'/lessons/'+${item.id}}">
 					<button style="margin-right: 10px;float:left"
 						th:if="${#lists.size(course.lessons)}>0"

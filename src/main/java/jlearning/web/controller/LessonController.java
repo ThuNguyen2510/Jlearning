@@ -18,6 +18,8 @@ import jlearning.model.Alphabet;
 import jlearning.model.Blog;
 import jlearning.model.Lesson;
 import jlearning.model.Question;
+import jlearning.model.Result;
+import jlearning.model.Test;
 import jlearning.model.User;
 import jlearning.model.Character;
 import jlearning.model.Course;
@@ -51,35 +53,66 @@ public class LessonController extends BaseController {
 		} else {
 			int userId = (int) session.getAttribute("currentUser");
 			User user = userService.findById(userId);
-			if(user!=null)
-			{
-				if(user.getLevel()==0)
-				{
+			if (user != null) {
+				if (user.getLevel() == 0) {
 					// lam test
-					model.addAttribute("lamTestLevel","Hãy làm test để biết cấp độ hiện tại. Sau đó bạn sẽ được học khóa học phù hợp!");
-				}
-				else {
-					//hoc bai hoc dang hoc
+					model.addAttribute("lamTestLevel",
+							"Hãy làm test để biết cấp độ hiện tại. Sau đó bạn sẽ được học khóa học phù hợp!");
+				} else {
+					// hoc bai hoc dang hoc
 					Lesson lesson = lessonService.findById(lessonId);
 					Course course = lesson.getCourse();
-					model.addAttribute("course", course);
-					if (courseId == 1 && lessonId < 3) {
+					if (user.getLevel() >= course.getLevel()) {
+						
+						if (lesson.equals(course.getLessons().get(0))) {
+							// la lesson1 thi cho hoc
+							
+							if (courseId == 1 && lessonId < 3) {
 
-						Alphabet alphabet = alphabetService.findById(lessonId);
-						model.addAttribute("alphabet", alphabet);
-						List<Character> list1 = alphabet.getCharacters().subList(0, alphabet.getCharacters().size() / 2);
-						List<Character> list2 = alphabet.getCharacters().subList(alphabet.getCharacters().size() / 2 + 1,
-								alphabet.getCharacters().size());
-						model.addAttribute("list1", list1);
-						model.addAttribute("list2", list2);
-						model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
+								Alphabet alphabet = alphabetService.findById(lessonId);
+								model.addAttribute("alphabet", alphabet);
+								List<Character> list1 = alphabet.getCharacters().subList(0,
+										alphabet.getCharacters().size() / 2);
+								List<Character> list2 = alphabet.getCharacters().subList(
+										alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
+								model.addAttribute("list1", list1);
+								model.addAttribute("list2", list2);
+								model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
 
+							}
+							model.addAttribute("lesson", lesson);
+
+						} else {
+							// la lesson2 tro di
+							model.addAttribute("course", course);
+							int preLessonId = lessonId - 1;
+							Result preTestResult = checkResultHasTestInLesson(user, preLessonId);
+							if (preTestResult != null) {
+								int score = preTestResult.getScore();
+								if (score >= 6) {
+									model.addAttribute("lesson", lesson);
+								}
+								else
+								{
+									model.addAttribute("lowScore","Bạn chưa đủ điểm để học bài tiếp theo");
+								}
+							}else
+							{
+								
+								model.addAttribute("notTest","Bạn chưa làm test ở bài học trước");
+							}
+								
+						}
 					}
-					model.addAttribute("lesson", lesson);
-					
+					else {
+						model.addAttribute("course", course);
+						logger.info("LOWLEVEL");
+						model.addAttribute("lowLevel","Bạn chưa đủ cấp độ học khóa học này");
+					}
+
 				}
 			}
-			
+
 		}
 
 		return "views/web/lesson/index2";
@@ -97,5 +130,18 @@ public class LessonController extends BaseController {
 				newList.add(list.get(randomIndex));
 		}
 		return newList;
+	}
+
+	private Result checkResultHasTestInLesson(User user, int lessonId) {
+		Result result = null;
+		for (Result rs : user.getResults()) {
+
+			if (rs.getTest().getLesson().getId() == lessonId) {
+				result = rs;
+
+				break;
+			}
+		}
+		return result;
 	}
 }

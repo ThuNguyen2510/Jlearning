@@ -4,8 +4,8 @@
 	layout:decorate="views/web/layout/base-layout">
 <div layout:fragment="body">
 	<section th:if="${chuaLogin}==null" class="content-area">
-		<div th:insert="views/web/lesson/topheading :: top"></div>
-		<div th:if="${lamTestLevel}==null"
+		<div  th:if="${lesson}!=null" th:insert="views/web/lesson/topheading :: top"></div>
+		<div th:if="${lamTestLevel}==null  and ${lesson}!=null"
 			class="container site-content sidebar-right"
 			style="font-size: 1.3rem">
 			<div class="row">
@@ -722,7 +722,8 @@
 									</form>
 								</div>
 
-								<button style="float: right; margin: 10px; border-radius: 30px">
+								<button type="submit"
+									style="float: right; margin: 10px; border-radius: 30px">
 									<i class="fas fa-flag-checkered"></i>Nộp bài
 								</button>
 							</form>
@@ -743,17 +744,16 @@
 			<div class="row">
 				<div class="col-sm-6" style="text-align: right">
 					<form th:action="@{/}" method="get">
-						<button style="width: 10rem; font-size: 1.3rem"  type="submit" 
+						<button style="width: 10rem; font-size: 1.3rem" type="submit"
 							class="btn btn-secondary">
-							<i class="fas fa-long-arrow-alt-left" ></i>Trang
-							chủ
+							<i class="fas fa-long-arrow-alt-left"></i>Trang chủ
 						</button>
 					</form>
 
 				</div>
 				<div class="col-sm-6" style="text-align: left">
-					<form th:action="@{/testLevel}"  method="get">
-						<button style="width: 10rem; font-size: 1.3rem"  type="submit" 
+					<form th:action="@{/testLevel}" method="get">
+						<button style="width: 10rem; font-size: 1.3rem" type="submit"
 							class="btn btn-primary">
 							<i class="fab fa-angellist"></i>Làm test
 						</button>
@@ -774,6 +774,18 @@
 					$("#loginModal").modal("show");
 
 				}
+			});
+		</script>
+	</section>
+
+	<section th:if="${lowLevel}!=null" class="content-area">
+		<div th:insert="views/web/lesson/topheading :: top"></div>
+		<div th:insert="views/web/lesson/lowLevel :: lowLevel"></div>
+		<script>
+			$(document).ready(function() {
+
+				$("#lowLevelModal").modal("show");
+
 			});
 		</script>
 	</section>

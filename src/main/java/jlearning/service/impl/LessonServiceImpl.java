@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 
+import jlearning.model.Answer;
 import jlearning.model.Grammar;
 import jlearning.model.Lesson;
 import jlearning.model.Listening;
@@ -30,6 +31,10 @@ public class LessonServiceImpl  extends BaseServiceImpl implements LessonService
 			{
 				List<jlearning.model.Question> ques= test.get(i).getQuestions();
 				ques.size();
+				for(int j=0;j<ques.size();j++) {
+					List<Answer> anss= ques.get(j).getAnswers();
+					anss.size();
+					}
 			}
 			listGramr.size();
 			listListening.size();

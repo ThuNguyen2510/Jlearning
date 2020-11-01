@@ -21,28 +21,25 @@ public class CourseController extends BaseController {
 	private static final Logger logger = Logger.getLogger(CourseController.class);
 	@Autowired
 	private CourseService courseService;
-	
+
 	@RequestMapping("/courses")
 	public String index(Model model) {
 		checkObjectUser(model);
 		List<Course> courses = courseService.loadCourses();
-		model.addAttribute("courses",courses);
+		model.addAttribute("courses", courses);
 		List<Course> latestCourses = courseService.LatestCourses().subList(0, 3);
-		model.addAttribute("latestCourses",latestCourses);
+		model.addAttribute("latestCourses", latestCourses);
 		return "views/web/course/index";
 	}
-	
+
 	@RequestMapping("/courses/{id}")
-	public String course(Model model,HttpServletRequest request,@PathVariable("id") int id) {
+	public String course(Model model, HttpServletRequest request, @PathVariable("id") int id) {
 		checkObjectUser(model);
 		Course course = courseService.findById(id);
-		model.addAttribute("course",course);
-		if(course.getLessons().size()==0)
-		model.addAttribute("noLesson","Chưa có bài học");
-		List<Course> courses = courseService.loadCourses().subList(0, 3);
-		model.addAttribute("courses",courses);
-		List<Course> latestCourses = courseService.LatestCourses().subList(0, 3);
-		model.addAttribute("latestCourses",latestCourses);
+		model.addAttribute("course", course);
+		if (course.getLessons().size() == 0)
+			model.addAttribute("noLesson", "Chưa có bài học");
+
 		return "views/web/course/course";
 	}
 }

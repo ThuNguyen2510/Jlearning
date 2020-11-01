@@ -7,6 +7,9 @@
 			<h1 th:if="${chuaLogin}==null and ${lamTestLV}!=null" th:text="${lesson.name}"></h1>
 			<h1 id="chuaDN" th:if="${chuaLogin}!=null">Hãy đăng nhập</h1>
 			<h1 id="lamTestLV" th:if="${lamTestLevel}!=null">Hãy làm test cấp độ nào</h1>
+			<h1 th:if="${lowLevel}" th:text="${lowLevel}"></h1>
+			<h1 th:if="${notTest}" th:text="${notTest}"></h1>
+			
 		</div>
 	</div>
 </div>
