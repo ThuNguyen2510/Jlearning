@@ -3,9 +3,10 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="views/web/layout/base-layout">
 <div layout:fragment="body">
-	<section th:if="${chuaLogin}==null" class="content-area">
-		<div  th:if="${lesson}!=null" th:insert="views/web/lesson/topheading :: top"></div>
-		<div th:if="${lamTestLevel}==null  and ${lesson}!=null"
+	<section class="content-area">
+		<div th:if="${lesson}!=null"
+			th:insert="views/web/lesson/topheading :: top"></div>
+		<div th:if="${lesson}!=null"
 			class="container site-content sidebar-right"
 			style="font-size: 1.3rem">
 			<div class="row">
@@ -736,31 +737,7 @@
 			<!-- Tabs navs -->
 
 		</div>
-		<div th:if="${lamTestLevel}!=null"
-			class="container site-content sidebar-right">
-			<div class="row">
-				<h3 th:text="${lamTestLevel}"></h3>
-			</div>
-			<div class="row">
-				<div class="col-sm-6" style="text-align: right">
-					<form th:action="@{/}" method="get">
-						<button style="width: 10rem; font-size: 1.3rem" type="submit"
-							class="btn btn-secondary">
-							<i class="fas fa-long-arrow-alt-left"></i>Trang chủ
-						</button>
-					</form>
 
-				</div>
-				<div class="col-sm-6" style="text-align: left">
-					<form th:action="@{/testLevel}" method="get">
-						<button style="width: 10rem; font-size: 1.3rem" type="submit"
-							class="btn btn-primary">
-							<i class="fab fa-angellist"></i>Làm test
-						</button>
-					</form>
-				</div>
-			</div>
-		</div>
 
 
 
@@ -778,9 +755,14 @@
 		</script>
 	</section>
 
-	<section th:if="${lowLevel}!=null" class="content-area">
+	<section
+		th:if="${lowLevel}!=null or ${lowScore}!=null or ${notTest}!=null"
+		class="content-area">
 		<div th:insert="views/web/lesson/topheading :: top"></div>
 		<div th:insert="views/web/lesson/lowLevel :: lowLevel"></div>
+		<div th:insert="views/web/lesson/lowScore :: lowScore"></div>
+		<div th:insert="views/web/lesson/notTest :: notTest"></div>
+		<div th:if="${lowLevel}">
 		<script>
 			$(document).ready(function() {
 
@@ -788,7 +770,29 @@
 
 			});
 		</script>
+		</div>
+		<div th:if="${lowScore}">
+		<script>
+			$(document).ready(function() {
+
+				$("#lowScoreModal").modal("show");
+
+			});
+		</script>
+		</div>
+		<div th:if="${notTest}">
+		<script>
+			$(document).ready(function() {
+
+				$("#notTestModal").modal("show");
+
+			});
+		</script>
+		</div>
+		
 	</section>
+
+
 	<style>
 .col {
 	font-size: 1.3rem;

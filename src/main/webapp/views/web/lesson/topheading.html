@@ -4,18 +4,14 @@
 	<span class="overlay-top-header"></span>
 	<div class="page-title-wrapper">
 		<div class="banner-wrapper container">
-			<h1 th:if="${chuaLogin}==null and ${lamTestLV}!=null" th:text="${lesson.name}"></h1>
-			<h1 id="chuaDN" th:if="${chuaLogin}!=null">Hãy đăng nhập</h1>
-			<h1 id="lamTestLV" th:if="${lamTestLevel}!=null">Hãy làm test cấp độ nào</h1>
-			<h1 th:if="${lowLevel}" th:text="${lowLevel}"></h1>
-			<h1 th:if="${notTest}" th:text="${notTest}"></h1>
-			
+			<h1 th:if="${lesson}" th:text="${lesson.name}"></h1>
+						
 		</div>
 	</div>
 </div>
 <div class="breadcrumbs-wrapper">
 	<div class="container">
-		<ul th:if="${course}!=null and ${lamTestLV}==null" itemprop="breadcrumb" itemscope
+		<ul th:if="${course}!=null " itemprop="breadcrumb" itemscope
 			itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
 			class="breadcrumbs">
 			<li itemprop="itemListElement" itemscope

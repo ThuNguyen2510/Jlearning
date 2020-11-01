@@ -21,15 +21,28 @@
 									<div class="course-meta"></div>
 									<div class="course-payment">
 										<div class="course-price">
-											<!-- <div class="value  free-course"
-												th:text="'Cấp độ: '"></div> -->
+											<div class="value  free-course"
+												th:text="'Cấp độ: '+${course.level}"></div>
 										</div>
 										<div class="lp-course-buttons">
 											<form
 												th:action="@{'/courses/'+${course.id}+'/lessons/'+${course.lessons[0].id}}">
-												<button style="font-size: 20px; border-radius: 15px">
-													Tham gia học</button>
+												<button
+													th:if="${lamTestLevel}==null and ${chuaLogin}==null and  ${lowLevel}==null"
+													style="font-size: 20px; border-radius: 15px">Tham
+													gia học</button>
 											</form>
+
+
+
+											<button
+												th:if="${lamTestLevel}!=null or ${chuaLogin}!=null or  ${lowLevel}!=null "
+												onClick="show()"
+												style="font-size: 20px; border-radius: 15px">Tham
+												gia học</button>
+
+
+
 
 										</div>
 									</div>
@@ -202,20 +215,79 @@
 										</div>
 					</article>
 				</main>
+				<div class="col-sm-3" th:style="'padding-left: 90px;'"
+					th:insert="views/web/course/sidebar :: sidebar"></div>
 
 			</div>
+
 		</div>
 		<div th:if="${noLesson}!=null"
 			class="container site-content sidebar-right">
 			<div class="row">
 				<div class="col-sm-9">
 					<h3>Chưa có thông tin khóa học</h3>
+
+
 				</div>
+
+
 				<div class="col-sm-3" th:style="'padding-left: 90px;'"
 					th:insert="views/web/course/sidebar :: sidebar"></div>
 			</div>
 		</div>
+		<p th:if="${lamTestLevel}" style="visibility: hidden"
+			id="lamTestLevel" th:text="${lamTestLevel}"></p>
+		<p th:if="${chuaLogin}" style="visibility: hidden" id="chuaLogin"
+			th:text="${chuaLogin}"></p>
+		<p th:if="${lowLevel}" style="visibility: hidden" id="lowLevel"
+			th:text="${lowLevel}"></p>
+	</section>
+	<section th:if="${chuaLogin}!=null" class="content-area">
+		<script>
+			$(document).ready(function() {
+
+				$("#loginModal").modal("show");
+
+			});
+		</script>
 	</section>
 
+	<section th:if="${lowLevel}!=null" class="content-area">
+		<div th:insert="views/web/lesson/lowLevel :: lowLevel"></div>
+		<script>
+			$(document).ready(function() {
+
+				$("#lowLevelModal").modal("show");
+
+			});
+		</script>
+	</section>
+
+	<section th:if="${lamTestLevel}!=null" class="content-area">
+
+		<div th:insert="views/web/course/testLevelModal :: testNotifi"></div>
+		<script>
+			$(document).ready(function() {
+
+				$("#testLevelNotifi").modal("show");
+
+			});
+		</script>
+
+	</section>
+	<script>
+		function show() {
+			if (document.getElementById('chuaLogin') != null) {
+				$("#loginModal").modal("show");
+
+			} else if (document.getElementById('lamTestLevel') != null) {
+
+				$("#testLevelNotifi").modal("show");
+			} else if (document.getElementById('lowLevel') != null) {
+				$("#lowLevelModal").modal("show");
+			}
+
+		}
+	</script>
 </div>
 </html>

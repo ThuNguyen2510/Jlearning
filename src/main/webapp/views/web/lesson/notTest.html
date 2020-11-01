@@ -1,4 +1,4 @@
-<div class="modal" id="lowLevelModal" th:fragment="lowLevel">
+<div class="modal" id="notTestModal" th:fragment="notTest">
 	<div class="modal-dialog modal-dialog-scrollable"
 		th:style="' max-width: 700px'" role="document">
 		<div class="modal-content">
@@ -16,8 +16,9 @@
 						<img style="width: 200px"
 							th:src="@{https://miro.medium.com/max/712/1*c3cQvYJrVezv_Az0CoDcbA.jpeg}">
 					</div>
+
 					<div class="col-sm-8">
-						<h3 th:if="${lowLevel}!=null" th:text="${lowLevel}"></h3>
+						<h3 th:if="${notTest}!=null" th:text="${notTest}"></h3>
 					</div>
 				</div>
 

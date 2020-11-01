@@ -45,28 +45,19 @@ public class LessonController extends BaseController {
 			HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
-		if (session.getAttribute("currentUser") == null) // chua dang nhap
 		{
-			logger.info("chua dang nhap");
-			model.addAttribute("chuaLogin", "Mời login để học");
-
-		} else {
 			int userId = (int) session.getAttribute("currentUser");
 			User user = userService.findById(userId);
 			if (user != null) {
-				if (user.getLevel() == 0) {
-					// lam test
-					model.addAttribute("lamTestLevel",
-							"Hãy làm test để biết cấp độ hiện tại. Sau đó bạn sẽ được học khóa học phù hợp!");
-				} else {
+				{
 					// hoc bai hoc dang hoc
 					Lesson lesson = lessonService.findById(lessonId);
 					Course course = lesson.getCourse();
-					if (user.getLevel() >= course.getLevel()) {
-						
+					{
+
 						if (lesson.equals(course.getLessons().get(0))) {
 							// la lesson1 thi cho hoc
-							
+
 							if (courseId == 1 && lessonId < 3) {
 
 								Alphabet alphabet = alphabetService.findById(lessonId);
@@ -80,6 +71,7 @@ public class LessonController extends BaseController {
 								model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
 
 							}
+							model.addAttribute("course", course);
 							model.addAttribute("lesson", lesson);
 
 						} else {
@@ -91,23 +83,44 @@ public class LessonController extends BaseController {
 								int score = preTestResult.getScore();
 								if (score >= 6) {
 									model.addAttribute("lesson", lesson);
+								} else {
+									Lesson lesson_ = lessonService.findById(lessonId-1);
+									if (courseId == 1 && lessonId < 3) {
+
+										Alphabet alphabet = alphabetService.findById(lessonId);
+										model.addAttribute("alphabet", alphabet);
+										List<Character> list1 = alphabet.getCharacters().subList(0,
+												alphabet.getCharacters().size() / 2);
+										List<Character> list2 = alphabet.getCharacters().subList(
+												alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
+										model.addAttribute("list1", list1);
+										model.addAttribute("list2", list2);
+										model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
+
+									}
+									model.addAttribute("lesson", lesson_);
+									model.addAttribute("lowScore", "Bạn chưa đủ điểm để học bài tiếp theo");
 								}
-								else
-								{
-									model.addAttribute("lowScore","Bạn chưa đủ điểm để học bài tiếp theo");
+							} else {
+								Lesson lesson_ = lessonService.findById(lessonId-1);
+								if (courseId == 1 && lessonId < 3) {
+
+									Alphabet alphabet = alphabetService.findById(lessonId);
+									model.addAttribute("alphabet", alphabet);
+									List<Character> list1 = alphabet.getCharacters().subList(0,
+											alphabet.getCharacters().size() / 2);
+									List<Character> list2 = alphabet.getCharacters().subList(
+											alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
+									model.addAttribute("list1", list1);
+									model.addAttribute("list2", list2);
+									model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 10));
+
 								}
-							}else
-							{
-								
-								model.addAttribute("notTest","Bạn chưa làm test ở bài học trước");
+								model.addAttribute("lesson", lesson_);
+								model.addAttribute("notTest", "Bạn chưa làm test ở bài học trước");
 							}
-								
+
 						}
-					}
-					else {
-						model.addAttribute("course", course);
-						logger.info("LOWLEVEL");
-						model.addAttribute("lowLevel","Bạn chưa đủ cấp độ học khóa học này");
 					}
 
 				}
@@ -136,11 +149,19 @@ public class LessonController extends BaseController {
 		Result result = null;
 		for (Result rs : user.getResults()) {
 
-			if (rs.getTest().getLesson().getId() == lessonId) {
-				result = rs;
+			if(rs.getTest()!=null)
+			{
+				if(rs.getTest().getLesson()!=null)
+				{
+					if (rs.getTest().getLesson().getId() == lessonId) {
+						result = rs;
 
-				break;
+						break;
+					}
+				}
+				
 			}
+			
 		}
 		return result;
 	}
