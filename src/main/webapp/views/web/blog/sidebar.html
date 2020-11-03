@@ -5,7 +5,7 @@
 		<h3 class="widget-title">Tìm kiếm</h3>
 		<div class="courses-searching">
 			<form th:action="@{/blogs/search}" method="get">
-				<input type="text" placeholder="Tìm blogs"
+				<input required="true" type="text" placeholder="Tìm blogs"
 					class="form-control course-search-filter" autocomplete="off"
 					th:name="name1" th:value="${#request.getParameter('name1') != null ? #request.getParameter('name1'):''}" 
 					/>

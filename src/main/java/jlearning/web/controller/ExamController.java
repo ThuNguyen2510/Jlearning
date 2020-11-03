@@ -2,6 +2,7 @@ package jlearning.web.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import jlearning.model.Result;
 import jlearning.model.Test;
 import jlearning.model.Test.Type;
 import jlearning.model.User;
+import jlearning.service.CourseService;
 import jlearning.service.QuestionService;
 import jlearning.service.ResultService;
 import jlearning.service.TestService;
@@ -69,18 +71,68 @@ public class ExamController extends BaseController {
 		return "views/web/exam/doExam";
 	}
 
-	@RequestMapping("/exams/{testId}/result") /* Thi */
+	@RequestMapping("/tests/{id}/answer")
+	public String lessonAnswer(@PathVariable("id") int testId, Model model, HttpServletRequest request) {
+		checkObjectUser(model);
+		HttpSession session = request.getSession();
+		Result rs = null;
+		if (session.getAttribute("currentUser") != null) {
+			if (session.getAttribute("notifi") != null) {
+				model.addAttribute("notifi", session.getAttribute("notifi"));
+				model.addAttribute("score", session.getAttribute("score"));
+				//remove
+				
+			}
+			/*
+			 * if(session.getAttribute("userAns") != null) { model.addAttribute("userAns",
+			 * session.getAttribute("userAns"));
+			 * logger.info(session.getAttribute("userAns"));
+			 * 
+			 * //remove
+			 * 
+			 * }
+			 */
+			model.addAttribute("hashMap",session.getAttribute("hashMap"));
+			logger.info(session.getAttribute("hashMap"));
+			Test test = testService.findAndLoad(testId);
+			Course course = test.getLesson().getCourse();
+			Lesson lesson=test.getLesson();
+			model.addAttribute("course",course);
+			model.addAttribute("lesson",lesson);
+			
+			model.addAttribute("test", test);
+			
+			if(testId<3) {
+				
+				List<Question>  ques= (List<Question>) session.getAttribute("testAlphabet");
+				model.addAttribute("ques",ques);
+				session.removeAttribute("testAlphabet");
+				
+			}
+		} else {
+			model.addAttribute("chuaLogin", "Bạn chưa đăng nhập");
+		}
+		
+		
+
+		return "views/web/lesson/answer";
+	}
+
+	@RequestMapping("/exams/{testId}/result") /* Test Lesson */
 	public String test(Model model, @PathVariable("testId") int testId, HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
 		int score = 0;
 		int count = 0;
+		String notifi="";
 		String[] questionTextIds = request.getParameterValues("questionTextId");
+		List<Object> userAns = new ArrayList<Object>();
 		if (questionTextIds != null) {
 			for (String id : questionTextIds) {
 
 				String answerContentCorrect = questionService.findContentOfAnswerCorrect(Integer.parseInt(id));
 				if (request.getParameter("answers[" + id + "].content") != null) {
+					userAns.add(request.getParameter("answers[" + id + "].content"));
 					if (answerContentCorrect
 							.compareToIgnoreCase(request.getParameter("answers[" + id + "].content")) == 0) {
 						score++;
@@ -91,50 +143,74 @@ public class ExamController extends BaseController {
 
 		}
 
+		HashMap<String, String> hashMap = new HashMap<String, String>();
 		String[] questionIds = request.getParameterValues("questionId");
 		if (questionIds != null) {
 			for (String id : questionIds) {
 
 				int answerIdCorrect = questionService.findAnswerIdCorrect(Integer.parseInt(id));
+				if(request.getParameter("answer_" + id) == null)hashMap.put(id,"-1");
 				if (request.getParameter("answer_" + id) != null) {
+					hashMap.put(id,request.getParameter("answer_" + id));
+					userAns.add(request.getParameter("answer_" + id));
 					if (answerIdCorrect == Integer.parseInt(request.getParameter("answer_" + id))) {
 						score++;
 						count++;
 					}
 				}
+				
+				
 			}
 		}
 
+		session.setAttribute("score", score);
+		session.setAttribute("hashMap", hashMap);
 		Test test = testService.findById(testId);
 		User user = userService.findById((int) session.getAttribute("currentUser"));
+
 		if (checkResultHasTestInLesson(user, test.getLesson().getId()) == null) {
 			Result rs = new Result();
 			rs.setScore(score);
 			rs.setUser(user);
 			rs.setTest(test);
 			resultService.saveOrUpdate(rs);
+			session.setAttribute("notifi", notifi);
+
 		} else {
 			Result oldRs = checkResultHasTestInLesson(user, test.getLesson().getId());
 			if (score > oldRs.getScore()) {
 				oldRs.setScore(score);
-
 				resultService.saveOrUpdate(oldRs);
+				if (score >= 6 && oldRs.getScore() < 6) {
+					notifi = "Bạn được học bài tiếp theo!";
+					session.setAttribute("notifi", notifi);
+
+				} else {
+					notifi = "Điểm cao hơn lần trước rồi nè bạn! :))) ";
+					session.setAttribute("notifi", notifi);
+				}
+
+			} else {
+				notifi = "Điểm thấp hơn lần trước rồi bạn! :((( ";
+				session.setAttribute("notifi", notifi);
 			}
 
 		}
-		if (score >= 6) {
-			model.addAttribute("upLesson", "Bạn được học bài tiếp theo!");
+		if (testService.checkTestFinalOfLesson(testId)) {
+			logger.info("check");
 		}
-
+		session.setAttribute("userAns", userAns);
 		/*
-		 * int lessonLength = test.getLesson().getCourse().getLessons().size();
-		 * if(test==test.getLesson().getTests().get(lessonLength-1)) { if(score>=6) {
-		 * user.setLevel(user.getLevel()+1);
-		 * model.addAttribute("upCourse","Bạn được học khóa học ở cấp độ mới!");
+		 * int lessonLength = test.getLesson().getCourse().getLessons().size(); int id=
+		 * test.getLesson().getTests().get(lessonLength - 1).getId(); if (test ==
+		 * testService.findById(id)) { if (score >= 6) { user.setLevel(user.getLevel() +
+		 * 1); model.addAttribute("upCourse", "Bạn được học khóa học ở cấp độ mới!");
 		 * userService.saveOrUpdate(user); } }
 		 */
 
-		return "views/web/lesson/index2";
+		int id2 = test.getLesson().getId();
+		int id1 = Integer.parseInt(session.getAttribute("courseId").toString());
+		return "redirect:/tests/" + id2 + "/answer";
 	}
 
 	@RequestMapping("/testLevel") /* Test Level */
@@ -168,6 +244,7 @@ public class ExamController extends BaseController {
 			int answerIdCorrect = questionService.findAnswerIdCorrect(Integer.parseInt(id));
 			if (request.getParameter("answer_" + id) != null) {
 				if (answerIdCorrect == Integer.parseInt(request.getParameter("answer_" + id))) {
+
 					Question q = questionService.findById(Integer.parseInt(id));
 					if (q.getLevel() == 0)
 						level[0] += 1;

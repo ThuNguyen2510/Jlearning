@@ -1,0 +1,32 @@
+<div class="modal" id="resultModal" th:fragment="result">
+	<div class="modal-dialog modal-dialog-scrollable"
+		th:style="' max-width: 700px'" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalScrollableTitle">Kết
+					quả</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-4"></div>
+
+					<div class="col-sm-8">
+						<h3 th:text="'Điểm đạt được :'+${result}"></h3>
+						<h3 th:text="${notifi}"></h3>
+						<form th:action="@{'/tests/'+${lesson.tests[0].id}+'/answer'}">
+						<button>Xem đáp án</button>
+						</form>
+					</div>
+				</div>
+
+				<br>
+
+
+			</div>
+		</div>
+	</div>
+</div>

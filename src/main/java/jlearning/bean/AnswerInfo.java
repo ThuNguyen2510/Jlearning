@@ -1,6 +1,7 @@
 package jlearning.bean;
 
 public class AnswerInfo {
+	private int Id;
 	
 	private String content;
 

@@ -1,32 +1,35 @@
-<div th:fragment="top"  class="top_heading  _out">
-<div class="top_site_main "
-	th:style="'background: url('+ @{/assets/wp-content/uploads/2015/bg2.png}+'); color: white;background-position: center center;background-size: cover;'">
-	<span class="overlay-top-header"></span>
-	<div class="page-title-wrapper">
-		<div class="banner-wrapper container">
-			<h1 th:if="${lesson}" th:text="${lesson.name}"></h1>
-						
+<div th:fragment="top" class="top_heading  _out">
+	<div class="top_site_main "
+		th:style="'background: url('+ @{/assets/wp-content/uploads/2015/bg2.png}+'); color: white;background-position: center center;background-size: cover;'">
+		<span class="overlay-top-header"></span>
+		<div class="page-title-wrapper">
+			<div class="banner-wrapper container">
+				<h1 th:if="${lesson} and ${result}==null" th:text="${lesson.name}"></h1>
+				<h2 style="font-size: 3rem;" th:if="${result}"
+					th:text="'Đáp án bài test: '+${test.lesson.name}"></h2>
+			</div>
 		</div>
 	</div>
-</div>
-<div class="breadcrumbs-wrapper">
-	<div class="container">
-		<ul th:if="${course}!=null " itemprop="breadcrumb" itemscope
-			itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
-			class="breadcrumbs">
-			<li itemprop="itemListElement" itemscope
-				itemtype="http://schema.org/ListItem"><a itemprop="item"
-				th:href="@{/}" title="Home"><span itemprop="name">Trang chủ</span>
-					<meta itemprop="position" content="1" /></a></li>
-			<li itemprop="itemListElement" itemscope
-				itemtype="http://schema.org/ListItem"><a itemprop="name"
-				th:href="@{'/courses/'+${course.id}}">Bài học</a>
-				<meta itemprop="position" content="2" /></li>
-			<li th:if="${lesson}!=null" itemprop="itemListElement" itemscope
-				itemtype="http://schema.org/ListItem"><a itemprop="name"
-				th:href="@{'/courses/'+${course.id}+'/lessons/'+${lesson.id}}" th:text="${lesson.name}"></a>
-				<meta itemprop="position" content="2" /></li>
-		</ul>
+	<div class="breadcrumbs-wrapper">
+		<div class="container">
+			<ul th:if="${course}!=null " itemprop="breadcrumb" itemscope
+				itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+				class="breadcrumbs">
+				<li itemprop="itemListElement" itemscope
+					itemtype="http://schema.org/ListItem"><a itemprop="item"
+					th:href="@{/}" title="Home"><span itemprop="name">Trang
+							chủ</span>
+						<meta itemprop="position" content="1" /></a></li>
+				<li itemprop="itemListElement" itemscope
+					itemtype="http://schema.org/ListItem"><a itemprop="name"
+					th:href="@{'/courses/'+${course.id}}">Bài học</a>
+					<meta itemprop="position" content="2" /></li>
+				<li th:if="${lesson}!=null" itemprop="itemListElement" itemscope
+					itemtype="http://schema.org/ListItem"><a itemprop="name"
+					th:href="@{'/courses/'+${course.id}+'/lessons/'+${lesson.id}}"
+					th:text="${lesson.name}"></a>
+					<meta itemprop="position" content="2" /></li>
+			</ul>
+		</div>
 	</div>
-</div>
 </div>

@@ -48,6 +48,7 @@ public class LessonController extends BaseController {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
 		{
+			
 
 			int userId = (int) session.getAttribute("currentUser");
 			User user = userService.findById(userId);
@@ -56,6 +57,7 @@ public class LessonController extends BaseController {
 					// hoc bai hoc dang hoc
 					Lesson lesson = lessonService.findById(lessonId);
 					Course course = lesson.getCourse();
+					session.setAttribute("courseId",course.getId());
 					{
 
 						if (lesson.equals(course.getLessons().get(0))) {
@@ -71,24 +73,26 @@ public class LessonController extends BaseController {
 										alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
 								model.addAttribute("list1", list1);
 								model.addAttribute("list2", list2);
-								model.addAttribute("ques", getRandom(lesson.getTests().get(0).getQuestions(), 11));
+								List<Question> ques=getRandom(lesson.getTests().get(0).getQuestions(), 10);
+								model.addAttribute("ques",ques );
+								session.setAttribute("testAlphabet", ques);
+								logger.info("SETT");
 								AnswerList ansForm = new AnswerList();
-								List<AnswerInfo> list = new ArrayList<AnswerInfo>();
-								for (int i = 0; i < 10; i++) {
-									list.add(new AnswerInfo());
-								}
-								ansForm.setAnswers(list);
+								createObject(ansForm);
 								model.addAttribute("form", ansForm);
+								
 
 							}
-							logger.info("ADDDDDDDDDDD");
+							
 							model.addAttribute("course", course);
 							model.addAttribute("lesson", lesson);
 
 						} else {
 							// la lesson2 tro di
 							model.addAttribute("course", course);
-							int preLessonId = lessonId - 1;
+						
+							int pos = course.getLessons().indexOf(lesson);
+							int preLessonId = course.getLessons().get(pos - 1).getId();
 							Result preTestResult = checkResultHasTestInLesson(user, preLessonId);
 							if (preTestResult != null) {
 								int score = preTestResult.getScore();
@@ -104,23 +108,23 @@ public class LessonController extends BaseController {
 												alphabet.getCharacters().size());
 										model.addAttribute("list1", list1);
 										model.addAttribute("list2", list2);
-										model.addAttribute("ques",
-												getRandom(lesson.getTests().get(0).getQuestions(), 10));
+										List<Question> ques=getRandom(lesson.getTests().get(0).getQuestions(), 10);
+										model.addAttribute("ques",ques );
+										session.setAttribute("testAlphabet", ques);
+										
 										AnswerList ansForm = new AnswerList();
-										List<AnswerInfo> list = new ArrayList<AnswerInfo>();
-										for (int i = 0; i < 10; i++) {
-											list.add(new AnswerInfo());
-										}
-										ansForm.setAnswers(list);
+										
 										model.addAttribute("form", ansForm);
 
 									}
 									model.addAttribute("lesson", lesson);
 								} else {
-									Lesson lesson_ = lessonService.findById(lessonId - 1);
+
+									Lesson lesson_ = lessonService.findById(preLessonId);
+
 									if (courseId == 1 && lessonId < 3) {
 
-										Alphabet alphabet = alphabetService.findById(lessonId-1);
+										Alphabet alphabet = alphabetService.findById(lessonId - 1);
 										model.addAttribute("alphabet", alphabet);
 										List<Character> list1 = alphabet.getCharacters().subList(0,
 												alphabet.getCharacters().size() / 2);
@@ -129,25 +133,22 @@ public class LessonController extends BaseController {
 												alphabet.getCharacters().size());
 										model.addAttribute("list1", list1);
 										model.addAttribute("list2", list2);
-										model.addAttribute("ques",
-												getRandom(lesson_.getTests().get(0).getQuestions(), 10));
+										List<Question> ques=getRandom(lesson.getTests().get(0).getQuestions(), 10);
+										model.addAttribute("ques",ques );
+										session.setAttribute("testAlphabet", ques);
+										
 										AnswerList ansForm = new AnswerList();
-										List<AnswerInfo> list = new ArrayList<AnswerInfo>();
-										for (int i = 0; i < 10; i++) {
-											list.add(new AnswerInfo());
-										}
-										ansForm.setAnswers(list);
+										createObject(ansForm);
 										model.addAttribute("form", ansForm);
-
 									}
 									model.addAttribute("lesson", lesson_);
 									model.addAttribute("lowScore", "Bạn chưa đủ điểm để học bài tiếp theo");
 								}
 							} else {
-								Lesson lesson_ = lessonService.findById(lessonId - 1);
+								Lesson lesson_ = lessonService.findById(preLessonId);
 								if (courseId == 1 && lessonId < 3) {
 
-									Alphabet alphabet = alphabetService.findById(lessonId-1);
+									Alphabet alphabet = alphabetService.findById(lessonId - 1);
 									model.addAttribute("alphabet", alphabet);
 									List<Character> list1 = alphabet.getCharacters().subList(0,
 											alphabet.getCharacters().size() / 2);
@@ -155,13 +156,12 @@ public class LessonController extends BaseController {
 											alphabet.getCharacters().size() / 2 + 1, alphabet.getCharacters().size());
 									model.addAttribute("list1", list1);
 									model.addAttribute("list2", list2);
-									model.addAttribute("ques", getRandom(lesson_.getTests().get(0).getQuestions(), 10));
+									List<Question> ques=getRandom(lesson.getTests().get(0).getQuestions(), 10);
+									model.addAttribute("ques",ques );			
+									session.setAttribute("testAlphabet", ques);
+									
 									AnswerList ansForm = new AnswerList();
-									List<AnswerInfo> list = new ArrayList<AnswerInfo>();
-									for (int i = 0; i < 10; i++) {
-										list.add(new AnswerInfo());
-									}
-									ansForm.setAnswers(list);
+									createObject(ansForm);
 									model.addAttribute("form", ansForm);
 
 								}
@@ -176,7 +176,7 @@ public class LessonController extends BaseController {
 			}
 
 		}
-
+		
 		return "views/web/lesson/index2";
 	}
 
@@ -193,6 +193,14 @@ public class LessonController extends BaseController {
 		}
 		return newList;
 	}
-
+	
+	private void createObject(AnswerList ansForm)
+	{
+		List<AnswerInfo> list = new ArrayList<AnswerInfo>();
+		for (int i = 0; i < 10; i++) {
+			list.add(new AnswerInfo());
+		}
+		ansForm.setAnswers(list);
+	}
 
 }
