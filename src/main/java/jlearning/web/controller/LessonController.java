@@ -76,7 +76,6 @@ public class LessonController extends BaseController {
 								List<Question> ques=getRandom(lesson.getTests().get(0).getQuestions(), 10);
 								model.addAttribute("ques",ques );
 								session.setAttribute("testAlphabet", ques);
-								logger.info("SETT");
 								AnswerList ansForm = new AnswerList();
 								createObject(ansForm);
 								model.addAttribute("form", ansForm);

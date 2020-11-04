@@ -34,4 +34,10 @@ public class CourseDAOImpl extends GenericDAO<Integer, Course> implements Course
 		return getSession().createQuery("from Course b ORDER BY b.create_time DESC ").getResultList();
 	}
 
+	@Override
+	public Course findByLevel(int level) {
+		// TODO Auto-generated method stub
+		return (Course) getSession().createQuery("from Course where level=: level").setParameter("level", level).getSingleResult();
+	}
+
 }

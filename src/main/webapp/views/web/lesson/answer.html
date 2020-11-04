@@ -25,11 +25,9 @@
 						<span><input th:value="${userAns[i.index]}" readonly="true"
 							style="border: solid 1px #e0b8c7;"></span><i
 							th:if="${userAns[i.index]}==${ans.content}"
-							class="far fa-check-circle" style="color: green;"></i> <span>
-							<i th:if="${userAns[i.index]}!=${ans.content}"
-							class="far fa-times-circle" style="color: red;"
-							th:text="${ans.content}"></i>
-						</span>
+							class="far fa-check-circle" style="color: green;"></i> <span
+							th:if="${userAns[i.index]}!=${ans.content}" style="color: red;"
+							th:text="${ans.content}"> </span>
 					</div>
 
 
@@ -41,21 +39,37 @@
 					<label th:utext="${que.content}"></label>
 
 					<ol type="a">
-						<li th:each="item:${que.answers}"><input
-							style="margin-top: 2px; margin-left: 20px" th:value="${item.id}" 
-							type="radio"> <span th:utext="${item.content}">
-							<i
-							th:if="${item.id}"
-							class="far fa-check-circle" style="color: green;"></i>
-							<i
-							th:if="${userAns[i.index]}!=${item.id}"
-							class="far fa-check-circle" style="color: green;"></i>
-							</span>
-							
-							</li>
+						<li th:each="item:${que.answers}"><input readonly="true"
+							style="margin-top: 2px; margin-left: 20px" th:value="${item.id}"
+							type="radio" th:if="${list[i.index]}==${item.id}" checked>
+							<input readonly="true" th:if="${list[i.index]}!=${item.id}"
+							style="margin-top: 2px; margin-left: 20px" th:value="${item.id}"
+							type="radio"> <span th:text="${item.content}"></span> <i
+							th:if="${item.isTrue}==1" class="far fa-check-circle"
+							style="color: green; right: 70%; position: absolute; margin-top: 4px"></i></li>
 
 					</ol>
 
+
+				</div>
+
+				<div class="container" style="margin: 5px; margin-bottom: 20px">
+					<div class="row">
+						<div class="col-sm-2">
+							<form
+								th:action="@{'/courses/'+${course.id}+'/lessons/'+${lesson.id}}">
+								<button type="submit"><i class="fas fa-arrow-left"></i>Trở về</button>
+							</form>
+						</div>
+						<div class="col-sm-2">
+							<form th:if="${score>=6}"
+								th:action="@{'/courses/'+${course.id}+'/lessons/'+${nextLessonId}}">
+								<button type="submit" style="background-color: #b3f771">Học tiếp<i class="fas fa-arrow-right"></i></button>
+							</form>
+						</div>
+
+
+					</div>
 
 				</div>
 

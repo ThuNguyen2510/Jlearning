@@ -45,4 +45,10 @@ public class CourseServiceImpl extends BaseServiceImpl implements CourseService 
 		return getCourseDAO().LatestCourses();
 	}
 
+	@Override
+	public Course findByLevel(int level) {
+		
+		return getCourseDAO().findByLevel(level);
+	}
+
 }

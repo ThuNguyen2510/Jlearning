@@ -8,4 +8,6 @@ public interface CourseDAO extends BaseDAO<Integer,Course> {
 	
 	List<Course> loadCourses();
 	List<Course> LatestCourses();
+	Course findByLevel(int level);
+	
 }

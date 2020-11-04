@@ -1,4 +1,4 @@
-<div class="modal" id="resultLevelModal" th:fragment="level">
+<!-- <div class="modal" id="resultLevelModal" th:fragment="level">
 	<div class="modal-dialog modal-dialog-scrollable"
 		th:style="' max-width: 700px'" role="document">
 		<div class="modal-content">
@@ -15,4 +15,103 @@
 			</div>
 		</div>
 	</div>
+</div> -->
+
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/exam/topheading2 :: top"></div>
+		<div th:if="${result}!=null"
+			class="container site-content sidebar-right"
+			style="font-size: 1.4rem">
+
+			<div style="text-align: center;" class="alert alert-primary"
+				role="alert">
+				<h3 th:text="'Số điểm đạt được là: '+${result.score}+'/30'"></h3>
+				<h3 style="color: red">
+					Bạn được tham gia khóa học cấp độ <span th:if="${level}!=null"
+						th:text="${level}"></span> !
+				</h3>
+			</div>
+
+			<div class="row">
+
+				<div class="col-sm-2"></div>
+
+				<div class='col-sm-8'>
+					<div style="margin-bottom: 10px" class="ques"
+						th:each="ques,i:${testLevel.questions}">
+
+						<div class="row">
+							<h4 th:text="${i.index+1}+'.'+ ${ques.content}"></h4>
+						</div>
+
+						<div class="row">
+
+							<div th:if="${#lists.size(ques.answers)}==1" class="col-sm-5">
+								<input th:value="${list[i.index]}" readonly="true"
+									style="border: solid 1px #dcacbb;"> <span><i
+									th:if="${list[i.index]}!=null and ${list[i.index]}==${ques.answers[0].content}"
+									class="far fa-check-circle" style="color: green;"></i> </span><span
+									th:if="${list[i.index]}!=null and  ${list[i.index]}!=${ques.answers[0].content}"
+									style="color: red;" th:text="${ques.answers[0].content}"></span>
+							</div>
+
+							<div th:if="${#lists.size(ques.answers)}>1 " class="col-sm-5">
+
+								<ol type="a">
+									<li th:each="item:${ques.answers}"><input readonly="true"
+										style="margin-top: 2px; margin-left: 20px"
+										th:value="${item.id}" type="radio"
+										th:if="${list[i.index]}!=null and ${list[i.index]}==${item.id}"
+										checked> <input readonly="true"
+										th:if="${list[i.index]}!=null and ${list[i.index]}!=${item.id}"
+										style="margin-top: 2px; margin-left: 20px"
+										th:value="${item.id}" type="radio"> <span
+										th:text="${item.content}"></span> <i th:if="${item.isTrue}==1"
+										class="far fa-check-circle"
+										style="color: green; right: 20%; position: absolute; margin-top: 5px"></i></li>
+								</ol>
+								<div></div>
+
+
+							</div>
+
+						</div>
+
+
+					</div>
+					<div class="container" style="margin: 5px; margin-bottom: 20px">
+						<div class="row">
+							<div class="col-sm-2">
+								<form
+									th:action="@{'/testLevel'}">
+									<button style="width:155px" type="submit">
+										<i class="fas fa-arrow-left"></i>Làm lại
+									</button>
+								</form>
+							</div>
+							<div class="col-sm-2">
+								<form th:if="${courseId}"
+									th:action="@{'/courses/'+${courseId}}">
+									<button type="submit" style="background-color: #b3f771">
+										Xem khóa học<i class="fas fa-arrow-right"></i>
+									</button>
+								</form>
+							</div>
+
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+		</div>
+	</section>
 </div>
+</html>
