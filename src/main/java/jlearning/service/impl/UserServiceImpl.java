@@ -1,6 +1,7 @@
 package jlearning.service.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,14 +24,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		try {
 			User user = getUserDAO().findById(key);
 			List<Result> results = user.getResults();
-			/*
-			 * List<History> histories = user.getHistories(); List<Blog> blogs =
-			 * user.getBlogs();
-			 */
 			results.size();
-			/*
-			 * histories.size(); blogs.size();
-			 */
 			return user;
 		} catch (Exception e) {
 			logger.error(e);
@@ -122,6 +116,20 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public List<User> loadUsers(Role role) {
 		return getUserDAO().loadUsers(role);
+	}
+
+	@Override
+	public List<History> loadHistory(int userId,int type) {
+		User user= getUserDAO().findById(userId);
+		List<History> his= new ArrayList<History>();
+		int j=0;
+		while(j<user.getHistories().size()) {
+			if((user.getHistories().get(j).getActivityType())==type)
+				his.add(user.getHistories().get(j));
+			j++;
+		}
+		
+		return his;
 	}
 
 }

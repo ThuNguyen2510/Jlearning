@@ -2,6 +2,7 @@ package jlearning.service;
 
 import java.util.List;
 
+import jlearning.model.History;
 import jlearning.model.User;
 import jlearning.model.User.Role;
 
@@ -18,4 +19,6 @@ public interface UserService extends BaseService<Integer, User> {
 	boolean deleteUser(Integer id);
 	
 	List<User> loadUsers(Role role);
+	
+	List<History> loadHistory(int userId,int type);
 }

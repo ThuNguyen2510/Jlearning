@@ -6,6 +6,7 @@ import jlearning.dao.AlphabetDAO;
 import jlearning.dao.BlogDAO;
 import jlearning.dao.CourseDAO;
 import jlearning.dao.GrammarDAO;
+import jlearning.dao.HistoryDAO;
 import jlearning.dao.LessonDAO;
 import jlearning.dao.ListeningDAO;
 import jlearning.dao.QuestionDAO;
@@ -48,6 +49,9 @@ public class BaseServiceImpl {
 	
 	@Autowired
 	private QuestionDAO questionDAO;
+	
+	@Autowired
+	private HistoryDAO historyDAO;
 	
 	public TestDAO getTestDAO() {
 		return testDAO;
@@ -135,5 +139,13 @@ public class BaseServiceImpl {
 
 	public void setQuestionDAO(QuestionDAO questionDAO) {
 		this.questionDAO = questionDAO;
+	}
+
+	public HistoryDAO getHistoryDAO() {
+		return historyDAO;
+	}
+
+	public void setHistoryDAO(HistoryDAO historyDAO) {
+		this.historyDAO = historyDAO;
 	}
 }

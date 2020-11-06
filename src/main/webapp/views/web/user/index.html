@@ -21,15 +21,24 @@
 				</ul>
 			</div>
 		</div>
+		<div class="container" th:if="${css}">
+		<div style="font-size: 1.3rem; text-align: center; color: #f10d7f;"
+			class="alert alert-success alert-dismissible alert-autocloseable-success"
+			role="alert">
+			<h3 th:text="${css}"></h3>
+			</div>
+		</div>
+		
 		<div class="container site-content sidebar-right">
 			<div class="row">
 				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
 				</div>
-				<div class="col-sm-9" style="border:solid 1px">
+				<div class="col-sm-9" style="border: solid 1px">
 					<div class="block-dasboard">
 						<h3 class="heading">THÔNG TIN CÁ NHÂN</h3>
-						<form data-v-b6f77f7c="" action="" class="form_dasboard"
-							style="font-size: 1.4rem;">
+						<form th:object="${userInfo}" th:method="post" data-v-b6f77f7c=""
+							th:action="@{'/users/'+${userInfo.id}+'/edit'}"
+							class="form_dasboard" style="font-size: 1.4rem;">
 							<div data-v-b6f77f7c="" class="row">
 								<div data-v-b6f77f7c="" class="col-md-12">
 									<div data-v-b6f77f7c="" class="updated-message-box">
@@ -40,62 +49,77 @@
 								<div data-v-b6f77f7c="" class="col-md-6">
 									<div data-v-b6f77f7c="" class="form-group">
 										<label data-v-b6f77f7c="" for="">Họ và Tên (*)</label> <input
-											data-v-b6f77f7c="" type="text" name="name"
-											class="form-control" aria-required="true"
-											aria-invalid="false">
+											data-v-b6f77f7c="" type="text" class="form-control"
+											aria-required="true" aria-invalid="false" th:field="*{name}">
 										<p data-v-b6f77f7c="" class="error-message"
 											style="display: none;">Nhập họ và tên của bạn.</p>
 									</div>
+
 								</div>
 								<div data-v-b6f77f7c="" class="col-md-6">
 									<div data-v-b6f77f7c="" class="form-group">
 										<label data-v-b6f77f7c="" for="">Email</label> <input
 											data-v-b6f77f7c="" readonly="readonly" type="text"
 											name="email" class="form-control" aria-required="true"
-											aria-invalid="false">
+											aria-invalid="false" th:value="*{email}">
 										<p data-v-b6f77f7c="" class="error-message"
 											style="display: none;">Nhập địa chỉ E-mail của bạn.</p>
 									</div>
 								</div>
 								<div data-v-b6f77f7c="" class="col-md-6">
 									<div data-v-b6f77f7c="" class="form-group">
-										<label data-v-b6f77f7c="" for="">Trình độ tiếng Nhật
-											(*)</label> <input data-v-b6f77f7c="" type="text" name="level"
+										<label data-v-b6f77f7c="" for="">Cấp độ (*)</label> <input
+											readonly="true" data-v-b6f77f7c="" type="text" name="level"
 											placeholder="Trình độ của bạn" class="form-control"
-											aria-required="true" aria-invalid="false">
+											th:field="*{level}" aria-required="true" aria-invalid="false">
 										<p data-v-b6f77f7c="" class="error-message"
 											style="display: none;">Trình độ tiếng nhật của bạn
 											trong khoảng cấp độ nào.</p>
 									</div>
 								</div>
-								<div data-v-b6f77f7c="" class="col-md-6">
-									
-								</div>
+								<div data-v-b6f77f7c="" class="col-md-6"></div>
 								<div data-v-b6f77f7c="" class="col-md-6">
 									<div data-v-b6f77f7c="" class="form-group">
 										<label data-v-b6f77f7c="" for="">Mật khẩu (*)</label> <input
-											data-v-b6f77f7c="" type="text" name="country"
-											placeholder="Quốc gia đang sinh sống?" class="form-control"
-											aria-required="true" aria-invalid="false">
+											data-v-b6f77f7c="" type="password" name="password"
+											th:field="*{password}" placeholder="Mật khẩu?"
+											class="form-control" aria-required="true" required="true"
+											aria-invalid="false">
+										<p data-v-b6f77f7c="" class="error-message"
+											style="display: none;"></p>
+									</div>
+								</div>
+
+
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div data-v-b6f77f7c="" class="form-group">
+										<label data-v-b6f77f7c="" for="">Nhập lại mật khẩu (*)</label>
+										<input data-v-b6f77f7c="" type="password"
+											name="confirmPassword" th:field="*{confirmPassword}" required="true"
+											placeholder="Hãy điền khớp với mật khẩu?"
+											class="form-control" aria-required="true"
+											aria-invalid="false">
 										<p data-v-b6f77f7c="" class="error-message"
 											style="display: none;"></p>
 									</div>
 								</div>
 								<div data-v-b6f77f7c="" class="col-md-6">
-									<div data-v-b6f77f7c="" class="form-group">
-										<label data-v-b6f77f7c="" for="">Nhập lại mật khẩu (*)</label> <input
-											data-v-b6f77f7c="" type="text" name="country"
-											placeholder="Quốc gia đang sinh sống?" class="form-control"
-											aria-required="true" aria-invalid="false">
-										<p data-v-b6f77f7c="" class="error-message"
-											style="display: none;"></p>
+									<div th:if="${#fields.hasErrors('password')}"
+										class="alert alert-danger">
+										<span>Mật khẩu phải dài hơn 5 kí tự</span>
+									</div>
+								</div>
+								<div data-v-b6f77f7c="" class="col-md-6">
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('confirmPassword')}">
+										<span>Mật khẩu không khớp</span>
 									</div>
 								</div>
 							</div>
 							<br data-v-b6f77f7c="">
 							<div data-v-b6f77f7c="" class="form-group text-right mt20">
 								<button data-v-b6f77f7c="" type="submit" id="updateInfoUser"
-									class="btn btn-info">Lưu thay đổi</button>
+									class="btn btn-info">Sửa</button>
 							</div>
 						</form>
 					</div>

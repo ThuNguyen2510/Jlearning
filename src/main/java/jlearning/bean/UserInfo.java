@@ -1,6 +1,7 @@
 package jlearning.bean;
 
 import jlearning.model.User;
+import jlearning.model.User.Role;
 
 public class UserInfo {
 	private Integer id;
@@ -10,6 +11,8 @@ public class UserInfo {
 	private String confirmPassword;
 	private String address;
 	private String avatar;
+	private int level;
+	private Role role;
 	
 	public Integer getId() {
 		return id;
@@ -66,6 +69,19 @@ public class UserInfo {
 		user.setName(this.getName());
 		user.setEmail(this.getEmail());
 		user.setPassword(this.getPassword().trim());
+		user.setRole(this.getRole());
 		return user;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role i) {
+		this.role = i;
 	}
 }

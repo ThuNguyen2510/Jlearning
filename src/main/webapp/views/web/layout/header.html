@@ -28,10 +28,10 @@
 						aria-haspopup="true" aria-expanded="false"> <img
 						class="avatar" th:src="${session.avatar}"></a>
 					<div class="dropdown-menu" style="font-size: 1.2rem">
-						<a class="dropdown-item" href="#">Thông tin cá nhân</a> <a
-							class="dropdown-item" href="#">Lịch sử bài học</a> <a
-							class="dropdown-item" href="#">Lịch sử bài thi</a> <a
-							class="dropdown-item" href="#">Blogs của tôi</a>
+						<a class="dropdown-item" th:href="@{'/users/'+${session.currentUser}}">Thông tin cá nhân</a> <a
+							class="dropdown-item" th:href="@{'/users/'+${session.currentUser}+'/lessonHis'}">Lịch sử bài học</a> <a
+							class="dropdown-item" th:href="@{'/users/'+${session.currentUser}+'/examHis'}">Lịch sử bài thi</a> <a
+							class="dropdown-item" th:href="@{'/users/'+${session.currentUser}+'/blogs'}">Blogs của tôi</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" onclick="myFunction()">Đăng xuất</a>
 					</div>

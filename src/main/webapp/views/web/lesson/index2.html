@@ -87,7 +87,10 @@
 							<h3 th:text="'Bảng chữ cái '+${alphabet.name}"></h3>
 
 
-							<p><i class="fas fa-volume-up"></i>Click vào ảnh để nghe cách phát âm</p>
+							<p>
+								<i class="fas fa-volume-up"></i>Click vào ảnh để nghe cách phát
+								âm
+							</p>
 							<div class="row w-100">
 								<div class="col-sm-6">
 									<a th:each="item:${list1} " style="cursor: pointer"
@@ -688,7 +691,8 @@
 						<h3>Kiểm tra cuối bài</h3>
 						<p th:text="'Phần test gồm :'"></p>
 						<div class="row w-100" th:if="${alphabet}">
-							<form th:object="${form}" th:action ="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
+							<form th:object="${form}"
+								th:action="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
 								<div class="container" style="margin: 5px; margin-bottom: 20px"
 									th:each="que,i :${ques}">
@@ -710,27 +714,26 @@
 							</form>
 						</div>
 						<div class="row w-100" th:if="${alphabet}==null">
-							<form th:action ="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
+							<form th:action="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
 								<div th:each="item: ${lesson.tests[0].questions}"
 									class="container" style="margin: 5px; margin-bottom: 20px">
 									<label th:utext="${item.content}"></label> <input type="hidden"
 										th:value="${item.id}" th:name="questionId">
-										<ol type="a">
-										<li th:each="ans:${item.answers}">
-										<input 
-												th:value="${ans.id}" type="radio"
-												th:name="'answer_'+${item.id}"> <span
-												th:utext="${ans.content}"></span></li>
-										</ol>
-										<!-- <div class="row" th:each="ans:${item.answers}">
+									<ol type="a">
+										<li th:each="ans:${item.answers}"><input
+											th:value="${ans.id}" type="radio"
+											th:name="'answer_'+${item.id}"> <span
+											th:utext="${ans.content}"></span></li>
+									</ol>
+									<!-- <div class="row" th:each="ans:${item.answers}">
 											<input style="margin-top: 2px; margin-left: 20px"
 												th:value="${ans.id}" type="radio"
 												th:name="'answer_'+${item.id}"> <span
 												th:utext="${ans.content}"></span>
 										</div> -->
 
-									
+
 								</div>
 
 								<button type="submit"
@@ -756,67 +759,74 @@
 				
 			});
 			</script> -->
-			</div>
-			
-
 		</div>
+</div>
 
 
 
 
-	</section>
-	<section th:if="${chuaLogin}!=null" class="content-area">
-		<div th:insert="views/web/lesson/topheading :: top"></div>
+</section>
+<section th:if="${chuaLogin}!=null" class="content-area">
+	<div th:insert="views/web/lesson/topheading :: top"></div>
+	<script>
+		$(document).ready(function() {
+			if (document.getElementById('chuaDN').innerHTML != '') {
+
+				$("#loginModal").modal("show");
+
+			}
+		});
+	</script>
+</section>
+
+<section
+	th:if="${lowLevel}!=null or ${lowScore}!=null or ${notTest}!=null"
+	class="content-area">
+	<div th:insert="views/web/lesson/topheading :: top"></div>
+	<div th:insert="views/web/lesson/lowLevel :: lowLevel"></div>
+	<div th:insert="views/web/lesson/lowScore :: lowScore"></div>
+	<div th:insert="views/web/lesson/notTest :: notTest"></div>
+	<div th:if="${lowLevel}">
 		<script>
 			$(document).ready(function() {
-				if (document.getElementById('chuaDN').innerHTML != '') {
 
-					$("#loginModal").modal("show");
+				$("#lowLevelModal").modal("show");
 
-				}
 			});
 		</script>
-	</section>
+	</div>
+	<div th:if="${lowScore}">
+		<script>
+			$(document).ready(function() {
 
-	<section
-		th:if="${lowLevel}!=null or ${lowScore}!=null or ${notTest}!=null"
-		class="content-area">
-		<div th:insert="views/web/lesson/topheading :: top"></div>
-		<div th:insert="views/web/lesson/lowLevel :: lowLevel"></div>
-		<div th:insert="views/web/lesson/lowScore :: lowScore"></div>
-		<div th:insert="views/web/lesson/notTest :: notTest"></div>
-		<div th:if="${lowLevel}">
-			<script>
-				$(document).ready(function() {
+				$("#lowScoreModal").modal("show");
 
-					$("#lowLevelModal").modal("show");
+			});
+		</script>
+	</div>
+	<div th:if="${notTest}">
+		<script>
+			$(document).ready(function() {
 
-				});
-			</script>
-		</div>
-		<div th:if="${lowScore}">
-			<script>
-				$(document).ready(function() {
+				$("#notTestModal").modal("show");
 
-					$("#lowScoreModal").modal("show");
+			});
+		</script>
+	</div>
 
-				});
-			</script>
-		</div>
-		<div th:if="${notTest}">
-			<script>
-				$(document).ready(function() {
+	<div th:if="${chuaLogin}">
+	<div th:insert="views/web/lesson/topheading :: top"></div>
+		<script>
+		$(document).ready(function() {
+			$("#loginModal").modal("show");
+		}
+		</script>
+	</div>
 
-					$("#notTestModal").modal("show");
-
-				});
-			</script>
-		</div>
-
-	</section>
+</section>
 
 
-	<style>
+<style>
 .col {
 	font-size: 1.3rem;
 	max-width: 200px;

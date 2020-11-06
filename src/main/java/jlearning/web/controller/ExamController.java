@@ -56,7 +56,7 @@ public class ExamController extends BaseController {
 
 	@Autowired
 	private CourseService courseService;
-	
+
 	@RequestMapping("/exams")
 	public String index(Model model) {
 		checkObjectUser(model);
@@ -83,15 +83,76 @@ public class ExamController extends BaseController {
 
 	@RequestMapping("/tests/{id}/answer")
 	public String lessonAnswer(@PathVariable("id") int testId, Model model, HttpServletRequest request) {
+		/*
+		 * checkObjectUser(model); HttpSession session = request.getSession(); Result rs
+		 * = null; String notifi = null; Integer score = null; if
+		 * (session.getAttribute("currentUser") != null) { if
+		 * (session.getAttribute("notifi") != null) { notifi = (String)
+		 * session.getAttribute("notifi"); score = (Integer)
+		 * session.getAttribute("score"); model.addAttribute("notifi", notifi);
+		 * model.addAttribute("score", score); session.removeAttribute("notifi");
+		 * session.removeAttribute("score"); // remove
+		 * 
+		 * }
+		 * 
+		 * if (session.getAttribute("userAns") != null) { model.addAttribute("userAns",
+		 * session.getAttribute("userAns"));
+		 * logger.info(session.getAttribute("userAns"));
+		 * session.removeAttribute("userAns"); // remove
+		 * 
+		 * } HashMap<String, String> hashMap = new HashMap<String, String>(); if
+		 * (session.getAttribute("hashMap") != null) { hashMap = (HashMap<String,
+		 * String>) session.getAttribute("hashMap"); }
+		 * session.removeAttribute("hashMap"); TreeMap<String, String> tree = new
+		 * TreeMap<String, String>(); tree.putAll(hashMap); List<String> list = new
+		 * ArrayList<String>(); for (Map.Entry<String, String> entry : tree.entrySet())
+		 * { list.add(entry.getValue()); } model.addAttribute("list", list); Test test =
+		 * testService.findAndLoad(testId); Course course =
+		 * test.getLesson().getCourse(); Lesson lesson = test.getLesson(); int pos = 0;
+		 * int nextLessonId = 0; int courseId = course.getId(); if (notifi != null) {
+		 * 
+		 * pos = course.getLessons().indexOf(lesson); nextLessonId =
+		 * course.getLessons().get(pos + 1).getId(); logger.info("NOTIFI " + notifi);
+		 * logger.info("POS" + pos); if (lessonService.findById(nextLessonId) != null) {
+		 * model.addAttribute("nextLessonId", nextLessonId); }
+		 * 
+		 * }
+		 * 
+		 * 
+		 * if (testService.checkTestFinalOfLesson(testId)) { if (score >= 6) { User user
+		 * = userService.findById((int) session.getAttribute("currentUser"));
+		 * user.setLevel(user.getLevel() + 1); course = courseService.findById(courseId
+		 * + 1); nextLessonId = course.getLessons().get(0).getId(); notifi =
+		 * "Bạn được học khóa học ở cấp độ mới: " + course.getName();
+		 * model.addAttribute("notifi", notifi); userService.saveOrUpdate(user);
+		 * 
+		 * } }
+		 * 
+		 * 
+		 * model.addAttribute("course", course); model.addAttribute("lesson", lesson);
+		 * model.addAttribute("test", test);
+		 * 
+		 * if (testId < 3) { List<Question> ques = (List<Question>)
+		 * session.getAttribute("testAlphabet"); model.addAttribute("ques", ques);
+		 * session.removeAttribute("testAlphabet");
+		 * 
+		 * }
+		 * 
+		 * } else { model.addAttribute("chuaLogin", "Bạn chưa đăng nhập"); }
+		 * 
+		 * return "views/web/lesson/answer";
+		 */
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
 		Result rs = null;
 		String notifi = null;
+		int score = 0;
 		if (session.getAttribute("currentUser") != null) {
 			if (session.getAttribute("notifi") != null) {
 				notifi = (String) session.getAttribute("notifi");
+				score = (Integer) session.getAttribute("score");
 				model.addAttribute("notifi", notifi);
-				model.addAttribute("score", session.getAttribute("score"));
+				model.addAttribute("score", score);
 				session.removeAttribute("notifi");
 				session.removeAttribute("score");
 				// remove
@@ -120,14 +181,29 @@ public class ExamController extends BaseController {
 			Test test = testService.findAndLoad(testId);
 			Course course = test.getLesson().getCourse();
 			Lesson lesson = test.getLesson();
-
+			int courseId = course.getId();
 			if (notifi != null) {
 				int pos = course.getLessons().indexOf(lesson);
-				int nextLessonId = course.getLessons().get(pos + 1).getId();
-				if (lessonService.findById(nextLessonId) != null) {
-					model.addAttribute("nextLessonId", nextLessonId);
-				}
+				int nextLessonId = 0;
+				if (testService.checkTestFinalOfLesson(testId)) {
+					if (score >= 6) {
+						User user = userService.findById((int) session.getAttribute("currentUser"));
+						user.setLevel(user.getLevel() + 1);
+						course = courseService.findById(courseId + 1);
+						nextLessonId = course.getLessons().get(0).getId();
+						notifi = "Bạn được học khóa học ở cấp độ mới: " + course.getName();
+						model.addAttribute("notifi", notifi);
+						model.addAttribute("nextLessonId", nextLessonId);
+						userService.saveOrUpdate(user);
 
+					}
+				} else {
+					nextLessonId = course.getLessons().get(pos + 1).getId();
+					if (lessonService.findById(nextLessonId) != null) {
+						model.addAttribute("nextLessonId", nextLessonId);
+					}
+
+				}
 			}
 			model.addAttribute("course", course);
 			model.addAttribute("lesson", lesson);
@@ -227,18 +303,6 @@ public class ExamController extends BaseController {
 			}
 
 		}
-		if (testService.checkTestFinalOfLesson(testId)) {
-			logger.info("check");
-		}
-
-		/*
-		 * int lessonLength = test.getLesson().getCourse().getLessons().size(); int id=
-		 * test.getLesson().getTests().get(lessonLength - 1).getId(); if (test ==
-		 * testService.findById(id)) { if (score >= 6) { user.setLevel(user.getLevel() +
-		 * 1); model.addAttribute("upCourse", "Bạn được học khóa học ở cấp độ mới!");
-		 * userService.saveOrUpdate(user); } }
-		 */
-
 		int id2 = test.getLesson().getId();
 		int id1 = Integer.parseInt(session.getAttribute("courseId").toString());
 		return "redirect:/tests/" + id2 + "/answer";
@@ -247,7 +311,7 @@ public class ExamController extends BaseController {
 	@RequestMapping("/testLevel") /* Test Level */
 	public String testLevel(Model model, HttpServletRequest request) {
 		checkObjectUser(model);
-		//check level to do test
+		// check level to do test
 		Test testLevel = testService.findByType(Type.LEVEL);
 		model.addAttribute("testLevel", testLevel);
 		HttpSession session = request.getSession();
@@ -271,7 +335,6 @@ public class ExamController extends BaseController {
 		int score = 0;
 		int count = 0;
 		int[] level = { 0, 0, 0, 0, 0, 0 };
-		// List<Object> userAns = new ArrayList<Object>();
 		TreeMap<String, String> tree = new TreeMap<String, String>();
 		String[] questionIds = request.getParameterValues("questionId");
 		for (String id : questionIds) {
@@ -361,7 +424,7 @@ public class ExamController extends BaseController {
 		}
 		model.addAttribute("testLevel", test);
 		Course course = courseService.findByLevel(getIndexOfLargest(level) + 1);
-		model.addAttribute("courseId",course.getId());
+		model.addAttribute("courseId", course.getId());
 		session.removeAttribute("testLevel");
 		return "views/web/exam/levelResult";
 	}

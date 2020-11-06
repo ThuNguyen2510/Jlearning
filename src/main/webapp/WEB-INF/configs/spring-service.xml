@@ -75,6 +75,14 @@
 		</property>
 	</bean>
 	
+	<bean id="historyService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.HistoryServiceImpl">
+				<property name="historyDAO" ref="HistoryDAO" />
+			</bean>
+		</property>
+	</bean>
+	
 	
 	
 </beans>
