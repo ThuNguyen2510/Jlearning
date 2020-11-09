@@ -92,12 +92,13 @@ public class ExamController extends BaseController {
 			if (session.getAttribute("notifi") != null) {
 				
 				notifi = (String) session.getAttribute("notifi");
-				logger.info("NOTIFI "+notifi);
+	
 				score = (Integer) session.getAttribute("score");
 				model.addAttribute("notifi", notifi);
 				model.addAttribute("score", score);
-				session.removeAttribute("notifi");
-				session.removeAttribute("score");
+				/*
+				 * session.removeAttribute("notifi"); session.removeAttribute("score");
+				 */
 				// remove
 
 			}
@@ -131,8 +132,9 @@ public class ExamController extends BaseController {
 				if (testService.checkTestFinalOfLesson(testId)) {
 					if (score >= 6) {
 						User user = userService.findById((int) session.getAttribute("currentUser"));
-						user.setLevel(user.getLevel() + 1);
+						
 						course = courseService.findById(courseId + 1);
+						user.setLevel(course.getLevel());
 						nextLessonId = course.getLessons().get(0).getId();
 						notifi = "Bạn được học khóa học ở cấp độ mới: " + course.getName();
 						model.addAttribute("notifi", notifi);

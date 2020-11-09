@@ -54,9 +54,7 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		
 		logger.info("SIZE "+list.size());
 		logger.info("TEST ID "+testId);
-		if(list.get(list.size()-1).getTests()==null) {
-			
-			logger.info("NULLL");
+		if(list.get(list.size()-1).getTests()!=null) {
 			if(testId == list.get(list.size()-1).getTests().get(0).getId()) return true;
 		}
 		
