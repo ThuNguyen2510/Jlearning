@@ -16,7 +16,7 @@
 							<meta itemprop="position" content="1" /></a></li>
 					<li itemprop="itemListElement" itemscope
 						itemtype="http://schema.org/ListItem"><a itemprop="name"
-						th:href="@{/users/1}">Lịch sử thi</a>
+						th:href="@{'/users/'+${userFix.id}+'/examHis'}">Lịch sử thi</a>
 						<meta itemprop="position" content="2" /></li>
 				</ul>
 			</div>
@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
 				</div>
-				<div class="col-sm-9" style="border:solid 1px">
+				<div class="col-sm-9" style="border:solid 1px #7db9bb; padding: 10px; box-shadow: 5px 5px 5px 5px">
 					<div class="content-right">
 						<div class="block-dasboard">
 							<h3 class="heading">LỊCH SỬ THI</h3>

@@ -51,11 +51,15 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		Test test = getTestDAO().findById(testId);
 		int lessonId = test.getLesson().getId();
 		List<Lesson> list = getLessonDAO().findById(lessonId).getCourse().getLessons();
-		for (int i = 0; i < list.size(); i++) {
-			if (test == list.get(i).getTests().get(0)) {
-				return true;
-			}
+		
+		logger.info("SIZE "+list.size());
+		logger.info("TEST ID "+testId);
+		if(list.get(list.size()-1).getTests()==null) {
+			
+			logger.info("NULLL");
+			if(testId == list.get(list.size()-1).getTests().get(0).getId()) return true;
 		}
+		
 		return false;
 	}
 

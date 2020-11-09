@@ -3,14 +3,14 @@
 		style="border-radius: 50%; display: block; padding: 15px"
 		th:src="@{https://riki.edu.vn/online//Data/ResizeImage/images/image-web-user/user-39512/1293986177606375-200x200.png}">
 	<h3 style="text-align: center">
-		<strong>Thư Nguyễn</strong>
+		<strong th:text="${userFix.name}"></strong>
 	</h3>
-	<ul class="list-group list-group-flush">
+	<ul style="margin-left:0" class="list-group list-group-flush">
 
-		<li class="list-group-item"><a th:href="@{/users/1}">Thông tin cá nhân</a></li>
-		<li class="list-group-item"><a th:href=@{/users/1/lessonHis}>Lịch sử bài học</a></li>
-		<li class="list-group-item"><a th:href=@{/users/1/examHis}>Lịch sử thi</a></li>
-		<li class="list-group-item"><a th:href=@{/users/1/blogs}>Blog của tôi</a></li>
+		<li class="list-group-item"><a th:href="@{'/users/'+${userFix.id}}">Thông tin cá nhân</a></li>
+		<li class="list-group-item"><a th:href="@{'/users/'+${userFix.id}+'/lessonHis'}">Lịch sử bài học</a></li>
+		<li class="list-group-item"><a th:href="@{'/users/'+${userFix.id}+'/examHis'}">Lịch sử thi</a></li>
+		<li class="list-group-item"><a th:href="@{'/users/'+${userFix.id}+'/blogs'}">Blog của tôi</a></li>
 	</ul>
 
 </div>

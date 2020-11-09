@@ -16,24 +16,24 @@
 							<meta itemprop="position" content="1" /></a></li>
 					<li itemprop="itemListElement" itemscope
 						itemtype="http://schema.org/ListItem"><a itemprop="name"
-						th:href="@{/users/1}">Thông tin cá nhân</a>
+						th:href="@{'/users/'+${userFix.id}}">Thông tin cá nhân</a>
 						<meta itemprop="position" content="2" /></li>
 				</ul>
 			</div>
 		</div>
 		<div class="container" th:if="${css}">
-		<div style="font-size: 1.3rem; text-align: center; color: #f10d7f;"
-			class="alert alert-success alert-dismissible alert-autocloseable-success"
-			role="alert">
-			<h3 th:text="${css}"></h3>
+			<div style="font-size: 1.3rem; text-align: center; color: #f10d7f;"
+				class="alert alert-success alert-dismissible alert-autocloseable-success"
+				role="alert">
+				<h3 th:text="${css}"></h3>
 			</div>
 		</div>
-		
+
 		<div class="container site-content sidebar-right">
 			<div class="row">
 				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
 				</div>
-				<div class="col-sm-9" style="border: solid 1px">
+				<div class="col-sm-9" style="border: solid 1px #7db9bb;padding: 10px; box-shadow: 5px 5px 5px 5px">
 					<div class="block-dasboard">
 						<h3 class="heading">THÔNG TIN CÁ NHÂN</h3>
 						<form th:object="${userInfo}" th:method="post" data-v-b6f77f7c=""
@@ -95,23 +95,24 @@
 									<div data-v-b6f77f7c="" class="form-group">
 										<label data-v-b6f77f7c="" for="">Nhập lại mật khẩu (*)</label>
 										<input data-v-b6f77f7c="" type="password"
-											name="confirmPassword" th:field="*{confirmPassword}" required="true"
-											placeholder="Hãy điền khớp với mật khẩu?"
+											name="confirmPassword" th:field="*{confirmPassword}"
+											required="true" placeholder="Hãy điền khớp với mật khẩu?"
 											class="form-control" aria-required="true"
 											aria-invalid="false">
 										<p data-v-b6f77f7c="" class="error-message"
 											style="display: none;"></p>
 									</div>
 								</div>
-								<div data-v-b6f77f7c="" class="col-md-6">
-									<div th:if="${#fields.hasErrors('password')}"
-										class="alert alert-danger">
+								<div data-v-b6f77f7c="" class="col-md-6"
+									th:if="${session.error}!=null and ${session.error1}!=null">
+									<div class="alert alert-danger">
 										<span>Mật khẩu phải dài hơn 5 kí tự</span>
 									</div>
+
 								</div>
-								<div data-v-b6f77f7c="" class="col-md-6">
-									<div class="alert alert-danger"
-										th:if="${#fields.hasErrors('confirmPassword')}">
+								<div data-v-b6f77f7c="" class="col-md-6"
+									th:if="${session.error}!=null and ${session.error2}!=null">
+									<div class="alert alert-danger">
 										<span>Mật khẩu không khớp</span>
 									</div>
 								</div>

@@ -16,7 +16,7 @@
 							<meta itemprop="position" content="1" /></a></li>
 					<li itemprop="itemListElement" itemscope
 						itemtype="http://schema.org/ListItem"><a itemprop="name"
-						th:href="@{/users/1}">Lịch sử bài học</a>
+						th:href="@{'/users/'+${userFix.id}+'/lessonHis'}">Lịch sử bài học</a>
 						<meta itemprop="position" content="2" /></li>
 				</ul>
 			</div>
@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
 				</div>
-				<div class="col-sm-9" style="border:solid 1px">
+				<div class="col-sm-9" style="border:solid 1px #7db9bb;padding: 10px; box-shadow: 5px 5px 5px 5px">
 					<div class="block-dasboard">
 						<h3 class="heading">THỐNG KÊ KHÓA HỌC</h3>
 						<div data-v-1c01416c="" class="table-responsive">
@@ -35,13 +35,19 @@
 								<thead data-v-1c01416c="">
 									<tr data-v-1c01416c="">
 										<th data-v-1c01416c="" style="width: 8%;">#STT</th>
-										<th data-v-1c01416c="">Khóa học hiện có</th>
-										<th data-v-1c01416c="">Tiến trình học</th>
-										<th data-v-1c01416c="">Tiến trình bài tập</th>
-										<th data-v-1c01416c="">Chi tiết bài tập</th>
+										<th data-v-1c01416c="">Tên khóa học </th>
+										<th data-v-1c01416c="">Tên bài học </th>
+										<th data-v-1c01416c="">Thời gian truy cập</th>
 									</tr>
 								</thead>
-								<tbody data-v-1c01416c=""></tbody>
+								<tbody data-v-1c01416c="">
+								<tr th:each="item,i:${lessonHis}" >
+								<td th:text="${i.index+1}"></td>
+								<td th:text="${item.courseName}"></td>
+								<td  ><a th:text="${item.lessonName}" th:href="@{'/courses/'+${item.courseId}+'/lessons/'+${item.objectId}}"></a></td>
+								<td th:text="${#dates.format(new java.util.Date(item.create_time))}"></td>
+								</tr>
+								</tbody>
 							</table>
 							<div data-v-1c01416c="" id="test-chart-box">
 								<!---->

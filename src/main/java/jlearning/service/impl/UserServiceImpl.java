@@ -132,4 +132,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		return his;
 	}
 
+	@Override
+	public List<Blog> loadBlogs(int userId) {
+		List<Blog> list = getUserDAO().findById(userId).getBlogs();
+		list.size();
+		return list;
+	}
+
 }

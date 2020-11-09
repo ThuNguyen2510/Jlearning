@@ -16,7 +16,7 @@
 							<meta itemprop="position" content="1" /></a></li>
 					<li itemprop="itemListElement" itemscope
 						itemtype="http://schema.org/ListItem"><a itemprop="name"
-						th:href="@{/users/1}">Blogs của tôi</a>
+						th:href="@{'/users/'+${userFix.id}+'/blogs'}">Blogs của tôi</a>
 						<meta itemprop="position" content="2" /></li>
 				</ul>
 			</div>
@@ -25,7 +25,41 @@
 			<div class="row">
 				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
 				</div>
-				<div class="col-sm-9" style="border:solid 1px">
+				<div class="col-sm-9"
+					style="border: solid 1px #7db9bb; padding: 10px; box-shadow: 5px 5px 5px 5px">
+					<div class="block-dasboard">
+						<h3 class="heading" style="margin-bottom: 20px">BLOG CỦA TÔI</h3>
+						<div style="margin-bottom: 15px">
+							<a style="font-size: 1.4rem; color: #19f987"
+								th:href="@{'/users/'+${userFix.id}}"><i
+								class="far fa-plus-square"></i> Tạo bài</a>
+						</div>
+						<div data-v-1c01416c="" th:if="${blogs}" class="table-responsive">
+							<div class="card"  th:each="item:${blogs}"
+								style="width: 19rem; float: left; margin-right: 5px; margin-bottom: 5px">
+								<img 
+									th:src="${item.image}"
+									class="card-img-top" alt="..."
+									style="width: 188px; height: 125px;" />
+								<div class="card-body">
+									<p class="card-text" th:text="${item.title}">Some quick example text to build on
+										the card title and make up the bulk of the card's content.</p>
+									<div
+										style="position: absolute; bottom: 0; left: 35%; width: 80px; margin-bottom: 5px">
+										<a th:href="@{'/users/'+${userFix.id}+'/blogs/'+${item.id}}" style="font-size: 1.3rem; color: blue;margin:3px"><i
+											class="far fa-eye"></i></a> <a th:href="@{'/users/'+${userFix.id}+'/blogs/'+${item.id}+'/edit'}"
+											style="font-size: 1.3rem; color: violet;margin:3px"><i
+											class="fas fa-pencil-alt"></i></a> <a
+											style="font-size: 1.3rem; color: red;margin:3px"><i
+											class="far fa-minus-square"></i></a>
+									</div>
+
+								</div>
+							</div>
+
+
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
