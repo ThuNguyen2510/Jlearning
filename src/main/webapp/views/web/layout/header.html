@@ -11,7 +11,7 @@
 			<li class="nav-item"><a style="color: black"
 				th:href="@{/courses}">Học theo lộ trình</a></li>
 			<li class="nav-item"><a th:style="'padding:0;color: black'"
-				th:href="@{/exams}">Luyện thi</a></li>
+				th:href="@{/exams}">Kiểm tra</a></li>
 			<li class="nav-item"><a th:style="'padding:0;color: black'"
 				th:href="@{/blogs}">Blogs</a></li>
 			<li class="nav-item"><a style="color: black" th:href="@{/blogs}"
@@ -132,7 +132,7 @@
 								</p>
 								<div class="alert alert-danger"
 									th:if="${#fields.hasErrors('email')}">
-									<span class="errors-notification">Email invalidate</span>
+									<span class="errors-notification">Đã tồn tại email này</span>
 								</div>
 
 								<!-- registersuccess -->
@@ -144,8 +144,7 @@
 
 								<div th:if="${#fields.hasErrors('password')}"
 									class="alert alert-danger">
-									<span class="errors-notification">Password length is
-										least 5 characters</span>
+									<span class="errors-notification">Mật khẩu phải dài hơn 5 ký tự</span>
 								</div>
 
 								<p>
@@ -155,8 +154,7 @@
 								</p>
 								<div class="alert alert-danger"
 									th:if="${#fields.hasErrors('confirmPassword')}">
-									<span class="errors-notification">Confirm Password is
-										Incorect</span>
+									<span class="errors-notification">Mật khẩu không khớp</span>
 								</div>
 
 								<p>

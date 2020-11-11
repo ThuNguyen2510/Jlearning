@@ -90,15 +90,16 @@ public class ExamController extends BaseController {
 		int score = 0;
 		if (session.getAttribute("currentUser") != null) {
 			if (session.getAttribute("notifi") != null) {
-				
+
 				notifi = (String) session.getAttribute("notifi");
-	
+
 				score = (Integer) session.getAttribute("score");
 				model.addAttribute("notifi", notifi);
 				model.addAttribute("score", score);
+				
 				/*
 				 * session.removeAttribute("notifi"); session.removeAttribute("score");
-				 */
+				 */				 
 				// remove
 
 			}
@@ -132,7 +133,7 @@ public class ExamController extends BaseController {
 				if (testService.checkTestFinalOfLesson(testId)) {
 					if (score >= 6) {
 						User user = userService.findById((int) session.getAttribute("currentUser"));
-						
+
 						course = courseService.findById(courseId + 1);
 						user.setLevel(course.getLevel());
 						nextLessonId = course.getLessons().get(0).getId();
@@ -226,22 +227,30 @@ public class ExamController extends BaseController {
 			rs.setUser(user);
 			rs.setTest(test);
 			resultService.saveOrUpdate(rs);
-			notifi="Bạn được học bài tiếp theo!";
+			if (score >= 6) {
+				logger.info("SCORE: "+score);
+				notifi = "Bạn được học bài tiếp theo!";
+			} else {
+				notifi = "Bạn chưa đủ điểm để học bài tiếp theo!";
+			}
 			session.setAttribute("notifi", notifi);
 
 		} else {
 			Result oldRs = checkResultHasTestInLesson(user, test.getLesson().getId());
+			logger.info("SAII");
+			if(oldRs!=null)logger.info("AA");
 			if (score >= oldRs.getScore()) {
 				oldRs.setScore(score);
 				resultService.saveOrUpdate(oldRs);
 				if (score >= 6 && oldRs.getScore() < 6) {
+					
 					notifi = "Bạn được học bài tiếp theo!";
 					session.setAttribute("notifi", notifi);
 
 				} else if (score >= 6) {
 					notifi = "Điểm cao hơn lần trước rồi nè bạn! :))) ";
 					session.setAttribute("notifi", notifi);
-					
+
 				}
 
 			} else {

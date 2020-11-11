@@ -39,10 +39,21 @@ public class Test {
 	@Column(name = "questionQuantity")
 	private int questionQuantity;
 	
+	@Column(name = "level")
+	private int level;
+	
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	public enum Type {
 		LEVEL, LESSON,EXAM
 	}
-
+	
 	@Column(columnDefinition = "enum('LEVEL','LESSON','EXAM')", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Type type;

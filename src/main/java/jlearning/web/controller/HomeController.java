@@ -127,9 +127,11 @@ public class HomeController extends BaseController {
 			System.out.println(result.getFieldErrors());
 		} else if (userService.createUser(userInfo.convertToUser()) == false) {
 			model.addAttribute("error2", msg_error_mail);
+		}else {
+			userService.createUser(userInfo.convertToUser());
+			model.addAttribute("registersuccess", msg_register);
 		}
-		userService.createUser(userInfo.convertToUser());
-		model.addAttribute("registersuccess", msg_register);
+		
 		return "views/web/home/index";
 	}
 

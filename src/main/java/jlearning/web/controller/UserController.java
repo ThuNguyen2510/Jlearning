@@ -30,15 +30,15 @@ import jlearning.validation.UserValidation;
 
 @Controller(value = "user")
 public class UserController extends BaseController {
-	
+
 	private static final Logger logger = Logger.getLogger(UserController.class);
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private LessonService lessonService;
-	
+
 	@Autowired
 	private BlogService blogService;
 
@@ -114,8 +114,8 @@ public class UserController extends BaseController {
 		User u = userService.findById(userId);
 		model.addAttribute("userFix", u);
 		List<History> lessonHis = userService.loadHistory(userId, 2);// lesson:2
-		List<LessonHis> list= new ArrayList<LessonHis>();
-		for(int i=0;i<lessonHis.size();i++) {
+		List<LessonHis> list = new ArrayList<LessonHis>();
+		for (int i = 0; i < lessonHis.size(); i++) {
 			LessonHis lesson = new LessonHis();
 			Lesson lesson_ = lessonService.findById(lessonHis.get(i).getObjectId());
 			lesson.setObjectId(lesson_.getId());
@@ -125,7 +125,7 @@ public class UserController extends BaseController {
 			lesson.setCourseId(lesson_.getCourse().getId());
 			list.add(lesson);
 		}
-		model.addAttribute("lessonHis",list);
+		model.addAttribute("lessonHis", list);
 		return "views/web/user/lessonHistory";
 	}
 
@@ -140,9 +140,10 @@ public class UserController extends BaseController {
 		model.addAttribute("blogs", blogs);
 		return "views/web/user/myBlogs";
 	}
-	
+
 	@RequestMapping("/users/{id}/blogs/{blogId}")
-	public String blog(@PathVariable("id") int userId,@PathVariable("blogId") int blogId, Model model, HttpServletRequest request) {
+	public String blog(@PathVariable("id") int userId, @PathVariable("blogId") int blogId, Model model,
+			HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
 		deleteSession(session);
@@ -152,9 +153,10 @@ public class UserController extends BaseController {
 		model.addAttribute("blog", blog);
 		return "views/web/user/viewBlog";
 	}
-	
+
 	@RequestMapping("/users/{id}/blogs/{blogId}/edit")
-	public String blogEdit(@PathVariable("id") int userId,@PathVariable("blogId") int blogId, Model model, HttpServletRequest request) {
+	public String blogEdit(@PathVariable("id") int userId, @PathVariable("blogId") int blogId, Model model,
+			HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
 		deleteSession(session);
@@ -164,7 +166,6 @@ public class UserController extends BaseController {
 		model.addAttribute("blog", blog);
 		return "views/web/user/viewBlog";
 	}
-	
 
 	private void deleteSession(HttpSession session) {
 		if (session.getAttribute("error") != null) {

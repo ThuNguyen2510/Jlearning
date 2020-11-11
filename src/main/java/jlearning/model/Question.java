@@ -38,10 +38,10 @@ public class Question {
 	private int score;
 
 	public enum Part {
-		vocab_gram, read, listen
+		vocab, gram, read, listen
 	};
 
-	@Column(columnDefinition = "enum('vocab_gram','read','listen')", nullable = false)
+	@Column(columnDefinition = "enum('vocab','gram','read','listen')", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Part part;
 

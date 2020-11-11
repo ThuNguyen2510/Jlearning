@@ -5,6 +5,26 @@
 <div layout:fragment="body">
 	<section class="content-area">
 		<div th:insert="views/web/blog/topheading :: top"></div>
+		<div class="container" th:if="${addComment} or ${deleteComment}">
+			<div th:if="${addComment}" style="font-size: 2rem; color: #69bd35;"
+				class="alert alert-success alert-dismissible alert-autocloseable-success"
+				role="alert">
+				<h3 th:text="${addComment}"></h3>
+				<button type="button" class="close" data-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div th:if="${deleteComment}" style="font-size: 2rem; color: #69bd35;"
+				class="alert alert-success alert-dismissible alert-autocloseable-success"
+				role="alert">
+				<h3 th:text="${deleteComment}"></h3>
+				<button type="button" class="close" data-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
 		<div class="container site-content sidebar-right">
 			<div class="row">
 				<main id="main" class="site-main col-sm-9 alignleft">
@@ -121,7 +141,20 @@
 									</div>
 									<div
 										style="color: darkred; padding-top: 25px; font-weight: 600;"
-										class="author-description" th:text="${cmt.content}"></div>
+										class="author-description">
+										<p th:id="@{'commentContent'+${cmt.id}}"
+											th:text="${cmt.content}"></p>
+									</div>
+									<div 
+										th:if="${session.currentUser} and ${session.currentUser}==${cmt.user.id}">
+
+										<a th:onClick="@{'addInput('+${cmt.id}+')'}"
+											style="cursor:pointer;font-size: 1.6rem; color: violet; margin: 3px">
+											<i class="fas fa-pencil-alt"></i>
+										</a>
+										<a  th:href="@{'/blogs/'+${blog.id}+'/comments/'+${cmt.id}+'/delete'}" style="font-size: 1.6rem;cursor:pointer; color: red; margin: 3px"><i
+											class="fas fa-trash-alt"></i></a>
+									</div>
 								</div>
 							</div>
 							<div class="thim-about-author" style="width: 1000px"
@@ -137,23 +170,28 @@
 											id="cancel-comment-reply-link" href="index.html#respond"
 											style="display: none;"></a></small>
 									</h3>
-									<form method="post" id="commentform" class="comment-form"
-										novalidate>
+									<form th:object="${newComment}"
+										th:action="@{'/blogs/'+${blog.id}+'/comment'}" method="post"
+										id="commentform" class="comment-form">
 
 										<p class="comment-form-comment">
-											<textarea placeholder="Comment *" id="comment" name="comment"
-												cols="45" rows="8" aria-required="true"></textarea>
+											<textarea required placeholder="Comment *"
+												th:field="*{content}" id="comment" name="comment" cols="45"
+												rows="8"></textarea>
 										</p>
 
 										<p class="form-submit">
-											<input name="submit" type="submit" id="submit" class="submit"
-												value="Post Comment" /> <input type='hidden'
-												name='comment_post_ID' value='3697' id='comment_post_ID' />
-											<input type='hidden' name='comment_parent'
-												id='comment_parent' value='0' />
+											<input th:if="${session.currentUser}" name="submit"
+												type="submit" id="submit" class="submit"
+												value="Post Comment" /> <input style="cursor: pointer"
+												th:if="${session.currentUser}==null" name="submit"
+												onClick="show()" id="submit" class="submit"
+												value="Post Comment" />
 										</p>
-										<input type="hidden" name="comment-post-item-course"
-											value="14029" />
+										<p th:if="${session.currentUser}==null"
+											style="visibility: hidden" id="chuaLogin"
+											th:text="'Chua login'"></p>
+
 									</form>
 								</div>
 							</div>
@@ -164,6 +202,21 @@
 				<div class="col-sm-3" th:style="'padding-left: 90px;'"
 					th:insert="views/web/blog/sidebar :: sidebar"></div>
 	</section>
+	<script>
+		function show() {
+			if (document.getElementById('chuaLogin') != null) {
+				$("#loginModal").modal("show");
+			}
+		}
+		function addInput(i) {
+			var cont = document.getElementById('commentContent' + i);
+			var newdiv = document.createElement('input');
+			newdiv.value=cont.innerHTML;
+			newdiv.id=cont.id;
+			cont.parentNode.replaceChild(newdiv,cont);
+
+		}
+	</script>
 
 </div>
 

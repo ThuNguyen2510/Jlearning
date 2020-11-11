@@ -56,4 +56,8 @@
 	<bean id="HistoryDAO" class="jlearning.dao.impl.HistoryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<bean id="CommentDAO" class="jlearning.dao.impl.CommentDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

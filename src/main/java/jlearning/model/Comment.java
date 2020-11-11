@@ -32,7 +32,7 @@ public class Comment {
 
 	@ManyToOne
 	@JoinColumn(name = "blog_id", nullable = false)
-	private User blog;
+	private Blog blog;
 
 	@Column(name = "create_time", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -72,11 +72,11 @@ public class Comment {
 		this.user = user;
 	}
 
-	public User getBlog() {
+	public Blog getBlog() {
 		return blog;
 	}
 
-	public void setBlog(User blog) {
+	public void setBlog(Blog blog) {
 		this.blog = blog;
 	}
 

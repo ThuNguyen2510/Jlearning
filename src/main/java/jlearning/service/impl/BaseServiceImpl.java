@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import jlearning.dao.AlphabetDAO;
 import jlearning.dao.BlogDAO;
+import jlearning.dao.CommentDAO;
 import jlearning.dao.CourseDAO;
 import jlearning.dao.GrammarDAO;
 import jlearning.dao.HistoryDAO;
@@ -52,6 +53,9 @@ public class BaseServiceImpl {
 	
 	@Autowired
 	private HistoryDAO historyDAO;
+	
+	@Autowired
+	private CommentDAO commentDAO;
 	
 	public TestDAO getTestDAO() {
 		return testDAO;
@@ -147,5 +151,13 @@ public class BaseServiceImpl {
 
 	public void setHistoryDAO(HistoryDAO historyDAO) {
 		this.historyDAO = historyDAO;
+	}
+
+	public CommentDAO getCommentDAO() {
+		return commentDAO;
+	}
+
+	public void setCommentDAO(CommentDAO commentDAO) {
+		this.commentDAO = commentDAO;
 	}
 }
