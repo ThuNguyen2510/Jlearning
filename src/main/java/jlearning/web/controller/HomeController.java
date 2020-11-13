@@ -35,13 +35,13 @@ public class HomeController extends BaseController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CourseService courseService;
-	
+
 	@Autowired
 	private BlogService blogService;
-	
+
 	private static final int ADMIN = 0;
 	private static final int USER = 1;
 
@@ -61,10 +61,10 @@ public class HomeController extends BaseController {
 	public String index(Model model, HttpServletRequest request) {
 
 		checkObjectUser(model);
-		
+
 		List<Course> courses = courseService.loadCourses().subList(0, 3);
-		model.addAttribute("courses",courses);
-		
+		model.addAttribute("courses", courses);
+
 		List<Blog> blogs = blogService.loadBlogs();
 		Collections.sort(blogs, new Comparator<Blog>() {
 
@@ -77,9 +77,9 @@ public class HomeController extends BaseController {
 		model.addAttribute("blogs", blogs);
 		List<Blog> newBlogs = blogService.loadNewBlogs();
 		newBlogs = newBlogs.subList(0, 3);
-	
+
 		model.addAttribute("news", newBlogs);
-		
+
 		return "views/web/home/index";
 	}
 
@@ -96,10 +96,12 @@ public class HomeController extends BaseController {
 			session.setAttribute("avatar",
 					user.getAvatar() == null ? "https://riki.edu.vn/online/Content/images/icon/user.png"
 							: user.getAvatar());
-			/*
-			 * if (user.getRole().toString().equals("ADMIN")) {
-			 * session.setAttribute("roleUser", ADMIN); return "redirect:/dashboard"; }
-			 */
+
+			if (user.getRole().toString().equals("ADMIN")) {
+				session.setAttribute("roleUser", ADMIN);
+				return "redirect:/dashboard";
+			}
+
 			session.setAttribute("roleUser", USER);
 
 			return "redirect:/";
@@ -127,11 +129,11 @@ public class HomeController extends BaseController {
 			System.out.println(result.getFieldErrors());
 		} else if (userService.createUser(userInfo.convertToUser()) == false) {
 			model.addAttribute("error2", msg_error_mail);
-		}else {
+		} else {
 			userService.createUser(userInfo.convertToUser());
 			model.addAttribute("registersuccess", msg_register);
 		}
-		
+
 		return "views/web/home/index";
 	}
 
