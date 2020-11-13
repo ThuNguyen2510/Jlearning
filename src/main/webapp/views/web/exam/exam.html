@@ -8,126 +8,40 @@
 		<div class="container site-content sidebar-right"
 			style="font-size: 1.4rem">
 			<div class="row">
-				<h1 style="padding:20px">
-					<strong>TEST NĂNG LỰC N5</strong>
+				<h1 style="padding: 20px">
+					<strong th:text="@{'TEST NĂNG LỰC N'+${level}}"></strong>
 				</h1>
 			</div>
-			<div class="row" style="padding:20px">
-				<div class="col-sm-3">
+			<div th:if="${exams}" class="row" style="padding: 20px">
+				<div  th:each="item:${exams}" class="col-sm-3">
 					<div class="card" style="width: 25rem;">
 						<img class="card-img-top">
 						<div class="card-body">
-							<h5 class="card-title">Đề thi N5 #02</h5>
+							<h5 class="card-title" th:text="${item.name}"></h5>
 
 						</div>
 						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
-							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
-							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
-							
+							<li class="list-group-item"><span th:text="@{'Gồm '+${item.partCount}+' phần thi'}"></span></li>
+							<li class="list-group-item"><span
+								th:text="@{'Điểm đạt: '+${item.score}}"></span></li>
+							<li class="list-group-item"><span
+								th:text="@{'Thời gian: '+${item.time}+' phút'}"> </span></li>
+
 						</ul>
 						<div class="card-body">
-							<form th:action="@{/exams/1/1}">
+							<form th:action="@{'/exams/'+${level}+'/'+${item.id}}">
 								<button class="card-link">Chọn thi</button>
 							</form>
 
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-3">
-					<div class="card" style="width: 25rem;">
-						<img class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Đề thi N5 #02</h5>
-
-						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
-							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
-							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
-							
-						</ul>
-						<div class="card-body">
-							<button class="card-link">Chọn thi</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="card" style="width: 25rem;">
-						<img class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Đề thi N5 #02</h5>
-
-						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
-							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
-							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
-							
-						</ul>
-						<div class="card-body">
-							<button class="card-link">Chọn thi</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="card" style="width: 25rem;">
-						<img class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Đề thi N5 #02</h5>
-
-						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
-							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
-							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
-							
-						</ul>
-						<div class="card-body">
-							<button class="card-link">Chọn thi</button>
-						</div>
-					</div>
-				</div>
 			</div>
-			<div class="row" style="padding:20px">
-				<div class="col-sm-3">
-					<div class="card" style="width: 25rem;">
-						<img class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Đề thi N5 #01</h5>
-
-						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
-							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
-							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
-							
-						</ul>
-						<div class="card-body">
-							<button class="card-link">Chọn thi</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="card" style="width: 25rem;">
-						<img class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Đề thi N5 #02</h5>
-
-						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><span>Gồm 3 phần thi</span></li>
-							<li class="list-group-item"><span>Điểm đạt: 90 điểm</span></li>
-							<li class="list-group-item"><span>Thời gian: 155 phút</span></li>
-							
-						</ul>
-						<div class="card-body">
-							<button class="card-link">Chọn thi</button>
-						</div>
-					</div>
-				</div>
+			<div th:if="${exams}==null" class="row" style="padding: 20px">
+			<h3>Chưa có bài kiểm tra ở cấp độ này</h3>
 			</div>
-				</div>
+
+		</div>
 	</section>
 	<style>
 .col-sm-3 {
@@ -142,7 +56,6 @@ ul {
 	text-align: center;
 	background: antiquewhite
 }
-
 
 button {
 	border-radius: 20px;

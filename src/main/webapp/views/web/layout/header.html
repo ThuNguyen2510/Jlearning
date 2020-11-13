@@ -14,7 +14,7 @@
 				th:href="@{/exams}">Kiểm tra</a></li>
 			<li class="nav-item"><a th:style="'padding:0;color: black'"
 				th:href="@{/blogs}">Blogs</a></li>
-			<li class="nav-item"><a style="color: black" th:href="@{/blogs}"
+			<li class="nav-item" style="visibility:hidden"><a style="color: black" th:href="@{/blogs}"
 				class="tc-menu-inner">Liên hệ</a></li>
 			<li th:if="${session.currentUser}==null" class="nav-item"><a
 				type="button" data-toggle="modal" data-target="#loginModal"

@@ -74,4 +74,10 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		return test;
 	}
 
+	@Override
+	public List<Test> findByLevel(int level) {
+		
+		return getTestDAO().findByLevel(level);
+	}
+
 }

@@ -1,4 +1,4 @@
-<div class="modal" id="resultModal" th:fragment="top">
+<div class="modal" id="resultModal" th:fragment="result">
 	<div class="modal-dialog modal-dialog-scrollable"
 		th:style="' max-width: 700px'" role="document">
 		<div class="modal-content">
@@ -11,7 +11,7 @@
 			</div>
 			<div class="modal-body">
 				<h2 style="text-align: center">
-					<strong>Đề thi N5</strong>
+					<strong th:text="${nameTest}"></strong>
 				</h2>
 				<div class="certificate_info">
 					<table class="table table-borderless">
@@ -19,13 +19,12 @@
 							<tr>
 								<td style="text-align: center; font-weight: 600;">氏名 Họ
 									tên:</td>
-								<td style="font-weight: bold; color: rgb(11, 153, 148);">Trần
-									Bảo</td>
+								<td style="font-weight: bold; color: rgb(11, 153, 148);" th:text="${userName}"></td>
 							</tr>
 							<tr>
 								<td style="text-align: center; font-weight: 600;">受験日 Ngày
 									tham gia:</td>
-								<td style="font-weight: bold; color: rgb(11, 153, 148);">14/10/2020</td>
+								<td style="font-weight: bold; color: rgb(11, 153, 148);" th:text="${result}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -43,24 +42,27 @@
 								<td style="padding: 0px !important;"><table>
 										<tbody>
 											<tr>
-												<td class="text-center">Từ vựng - ngữ pháp</td>
+												<td class="text-center" >Từ vựng</td>
+												<td class="text-center">Ngữ pháp</td>
 												<td class="text-center">Đọc hiểu</td>
 												<td class="text-center">Nghe hiểu</td>
 											</tr>
 											<tr>
-												<td class="text-center">59</td>
-												<td class="text-center">52</td>
-												<td class="text-center">53</td>
+												<td class="text-center" th:text="${count[0]}"></td>
+												<td class="text-center" th:text="${count[1]}"></td>
+												<td class="text-center" th:text="${count[2]}"></td>
+												<td class="text-center" th:text="${count[3]}"></td>
 											</tr>
 										</tbody>
 									</table></td>
-								<td>164</td>
+								<td th:text="${score}"></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="center">
-					<p>おめでとうございます！</p>
+					<p th:if="${score>=20}">おめでとうございます！</p>
+					<p th:if="${score<20}">Chưa đủ điểm đạt</p>
 				</div>
 			</div>
 		</div>

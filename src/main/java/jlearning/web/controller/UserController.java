@@ -21,7 +21,9 @@ import jlearning.bean.UserInfo;
 import jlearning.model.Blog;
 import jlearning.model.History;
 import jlearning.model.User;
+import jlearning.model.Test.Type;
 import jlearning.model.Lesson;
+import jlearning.model.Result;
 import jlearning.model.User.Role;
 import jlearning.service.BlogService;
 import jlearning.service.LessonService;
@@ -103,6 +105,24 @@ public class UserController extends BaseController {
 		deleteSession(session);
 		User u = userService.findById(userId);
 		model.addAttribute("userFix", u);
+		List<Result> rsLevels = new ArrayList<Result>();
+		List<Result> rsLessons = new ArrayList<Result>();
+		List<Result> rsExams = new ArrayList<Result>();
+		for(int i=0;i<u.getResults().size();i++) {
+			Result rs= u.getResults().get(i);
+			if(rs.getTest().getType()==Type.LEVEL) {
+				rsLevels.add(rs);
+			}
+			if(rs.getTest().getType()==Type.LESSON) {
+				rsLessons.add(rs);
+			}
+			if(rs.getTest().getType()==Type.EXAM) {
+				rsExams.add(rs);
+			}
+		}
+		model.addAttribute("rsLevels",rsLevels);
+		model.addAttribute("rsLessons",rsLessons);
+		model.addAttribute("rsExams",rsExams);
 		return "views/web/user/examHistory";
 	}
 

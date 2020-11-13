@@ -1,0 +1,134 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div th:insert="views/web/exam/topheading :: top"></div>
+		<div class="container site-content sidebar-right"
+			style="font-size: 1.4rem">
+			<div class="row">
+				<div class="col-sm-3">
+					<h4>
+						<strong th:text="@{'Tổng thời gian:'+${test.time}+' phút'}">
+							<span style="color: red"> </span>
+						</strong>
+					</h4>
+					<ul>
+						<li th:if="${vocabQues} and ${#lists.size(vocabQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/vocab'}">
+								<button class="select_content">Từ vựng</button>
+							</form></li>
+						<li th:if="${gramQues} and ${#lists.size(gramQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/gram'}">
+								<button class="select_content">Ngữ pháp</button>
+							</form></li>
+						<li th:if="${readQues} and ${#lists.size(readQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/read'}">
+								<button class="select_content">Đọc hiểu</button>
+							</form></li>
+						<li th:if="${lisQues} and ${#lists.size(lisQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/listening'}">
+								<button class="select_content">Nghe</button>
+							</form></li>
+					</ul>
+					<div class="row">
+						<div class="col-sm-1"></div>
+						<div class="col-sm-10" style="width: 100%">
+							<form th:action="@{'/exams/'+${test.id}+'/examResult'}">
+								<button style="width: 100%; border-radius: 20px">HOÀN
+									THÀNH</button>
+							</form>
+							
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+				</div>
+				<div class="col-sm-1"></div>
+				<div class="col-sm-7" style="text-align: center">
+					<div class="alert alert-primary" role="alert">Bạn đã lưu phần
+						thi</div>
+					<form th:if="${next}!='done'" th:action="@{'/exams/'+${test.id}+'/doExam/'+${next}}">
+						<button class="select_content">Tiếp tục</button></form>
+						<form th:if="${next}=='done'" th:action="@{'/exams/'+${test.id}+'/examResult'}">
+						<button class="select_content">Hoàn thành</button></form>
+						<img style="width: -webkit-fill-available;"
+							th:src="@{https://i.pinimg.com/474x/2f/7e/04/2f7e04339229558db45526a69893c39d--the-japanese-japanese-language-proficiency-test.jpg}" />
+				</div>
+				<div id="col-sm-1">
+					<i class="far fa-clock"></i><strong id="time"></strong>
+
+				</div>
+				<p id="deadline" th:if="${session.start_}"
+					th:text="${session.start_}" style="visibility: hidden"></p>
+			</div>
+		</div>
+		<div th:if="${timeUp}">
+			<div th:insert="views/web/exam/timeUpModal:: timeUp"></div>
+			<script>
+				$(document).ready(function() {
+
+					$("#timeUpModal").modal("show");
+
+				});
+			</script>
+		</div>
+	</section>
+	<style>
+.col-sm-3 {
+	background-color: #ececec;
+	border-radius: 30px;
+	padding: 10px;
+	height: 50%
+}
+
+.col-sm-7 {
+	border: 2px dotted;
+}
+
+.select_content {
+	background-color: white;
+	margin: 15px
+}
+
+.col-sm-7.row {
+	margin: 5px
+}
+
+.ques {
+	padding: 10px
+}
+
+#col-sm-1 {
+	position: fixed;
+	right: 0;
+	font-size: 1.7rem;
+	color: blue;
+}
+</style>
+	<script>
+		var deadline_ = document.getElementById('deadline').innerHTML;
+		var x = setInterval(function() {
+			var now = new Date().getTime();
+			var deadline = Date.parse(deadline_) + 30 * 60000
+			var t = deadline - now;
+			var days = Math.floor(t / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((t % (1000 * 60 * 60 * 24))
+					/ (1000 * 60 * 60));
+			var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((t % (1000 * 60)) / 1000);
+			document.getElementById("time").innerHTML = hours + ":" + minutes
+					+ ":" + seconds;
+			if (t < 10) {
+				document.getElementById("time").style.color = "red"
+			}
+			if (t < 0) {
+				clearInterval(x);
+				document.getElementById("time").innerHTML = "Hết giờ";
+
+			}
+		}, 1000);
+	</script>
+</div>
+
+</html>

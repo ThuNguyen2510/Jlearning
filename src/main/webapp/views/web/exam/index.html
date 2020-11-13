@@ -14,7 +14,7 @@
 			</div>
 			<div class="row" style="padding: 20px">
 				<div class="col-sm-3">
-					<div class="card" style="width: 25rem;">
+					<div class="card" style="width: 25rem;background: antiquewhite">
 						<img class="card-img-top">
 						<div class="card-body">
 							<h5 class="card-title">Kiểm tra</h5>
@@ -26,6 +26,44 @@
 						</ul>
 						<div class="card-body">
 							<form th:action="@{/exams/1}">
+								<button class="card-link">Bắt đầu</button>
+							</form>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;background: #d7faea">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Kiểm tra</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span> N4</span></li>
+
+						</ul>
+						<div class="card-body">
+							<form th:action="@{/exams/2}">
+								<button class="card-link">Bắt đầu</button>
+							</form>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="width: 25rem;background:#e8ff68">
+						<img class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">Kiểm tra</h5>
+
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><span> N3</span></li>
+
+						</ul>
+						<div class="card-body">
+							<form th:action="@{/exams/3}">
 								<button class="card-link">Bắt đầu</button>
 							</form>
 
@@ -70,7 +108,7 @@ ul {
 
 .card {
 	text-align: center;
-	background: antiquewhite
+	
 }
 
 /* .row {

@@ -10,173 +10,271 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<h4>
-						<strong>Tổng thời gian: <span style="color: red">
-								100 phút</span></strong>
+						<strong th:text="@{'Tổng thời gian:'+${test.time}+' phút'}">
+							<span style="color: red"> </span>
+						</strong>
 					</h4>
 					<ul>
-						<li><form>
-								<button class="select_content">Từ vựng-Ngữ pháp</button>
+						<li th:if="${vocabQues} and ${#lists.size(vocabQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/vocab'}">
+								<button class="select_content">Từ vựng</button>
 							</form></li>
-						<li><form>
+						<li th:if="${gramQues} and ${#lists.size(gramQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/gram'}">
+								<button class="select_content">Ngữ pháp</button>
+							</form></li>
+						<li th:if="${readQues} and ${#lists.size(readQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/read'}">
 								<button class="select_content">Đọc hiểu</button>
 							</form></li>
-						<li><form>
+						<li th:if="${lisQues} and ${#lists.size(lisQues)>0}"><form
+								th:action="@{'/exams/'+${test.id}+'/doExam/listening'}">
 								<button class="select_content">Nghe</button>
 							</form></li>
 					</ul>
 					<div class="row">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-10" style="width: 100%">
-							<!-- <form> -->
-								<button data-toggle="modal"
-									data-target="#resultModal"
-									style="width: 100%; border-radius: 20px">HOÀN THÀNH</button>
-							<!-- </form> -->
-							<div th:insert="views/web/exam/resultModal :: top"></div>
+							<form th:action="@{'/exams/'+${test.id}+'/examResult'}">
+								<button style="width: 100%; border-radius: 20px">HOÀN
+									THÀNH</button>
+							</form>
+							
 						</div>
 						<div class="col-sm-1"></div>
 					</div>
 				</div>
 				<div class="col-sm-1"></div>
 				<div class="col-sm-7">
-					<div class="row">
+
+					<div
+						th:if="${vocabQues}!=null and ${vocabPage}!=null  and ${#lists.size(vocabQues)>0}"
+						class="row">
 						<h3>
-							<strong>Yêu cầu</strong>
+							<strong>問題1：＿＿ の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ
+								えらんで ください。</strong>
 						</h3>
 					</div>
-					<div class="ques">
-						<div class="row">
+					<form method="post"
+						th:if="${vocabQues}!=null and ${vocabPage}!=null and ${#lists.size(vocabQues)>0}"
+						th:action="@{'/exams/'+${test.id}+'/doExam/vocab/save'}">
+						<div th:each="ques,in:${vocabQues}" class="ques">
+							<div class="row">
 
-							<h4>Câu hỏi</h4>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio" checked>Option
-										1</span>
-								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										2</span>
-								</div>
+								<h4 th:utext="${in.index+1}+'.'+${ques.content}"></h4>
+								<input type="hidden" th:value="${ques.id}" th:name="questionId">
 							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+							<div class="row">
+								<div class="col-sm-5">
+									<div>
+										a.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[0].id}" type="radio"><span
+											th:text="${ques.answers[0].content}"></span>
+									</div>
+									<div>
+										b.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[1].id}" type="radio"><span
+											th:text="${ques.answers[1].content}"></span>
+									</div>
 								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-5">
+									<div>
+										c.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[2].id}" type="radio"><span
+											th:text="${ques.answers[2].content}"></span>
+									</div>
+									<div>
+										d.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[3].id}" type="radio"><span
+											th:text="${ques.answers[3].content}"></span>
+									</div>
 								</div>
+
+
+
+
 							</div>
 
-
-
 						</div>
+						<button style="margin-left:45%">Lưu</button>
+					</form>
+
+
+					<div
+						th:if="${gramQues} and ${gramPage} and ${#lists.size(gramQues)>0}"
+						class="row">
+						<h3>
+							<strong>問題2：（ ）に 何を 入れますか。１．２．３．４から いちばん いい ものを ひとつ
+								えらんでください。</strong>
+						</h3>
 					</div>
-					<div class="ques">
-						<div class="row">
+					<form method="post"
+						th:if="${gramQues} and ${gramPage} and ${#lists.size(gramQues)>0}"
+						th:action="@{'/exams/'+${test.id}+'/doExam/gram/save'}">
+						<div th:each="ques,in:${gramQues}" class="ques">
+							<div class="row">
 
-							<h4>Câu hỏi</h4>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio" checked>Option
-										1</span>
-								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										2</span>
-								</div>
+								<h4 th:utext="${in.index+1}+'.'+${ques.content}"></h4>
+								<input type="hidden" th:value="${ques.id}" th:name="questionId">
 							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+							<div class="row">
+								<div class="col-sm-5">
+									<div>
+										a.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[0].id}" type="radio"><span
+											th:text="${ques.answers[0].content}"></span>
+									</div>
+									<div>
+										b.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[1].id}" type="radio"><span
+											th:text="${ques.answers[1].content}"></span>
+									</div>
 								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-5">
+									<div>
+										c.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[2].id}" type="radio"><span
+											th:text="${ques.answers[2].content}"></span>
+									</div>
+									<div>
+										d.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[3].id}" type="radio"><span
+											th:text="${ques.answers[3].content}"></span>
+									</div>
 								</div>
+
+
+
 							</div>
-
-
-
 						</div>
+						<button style="margin-left:45%">Lưu</button>
+					</form>
+
+					<div
+						th:if="${readQues} and ${readPage} and ${#lists.size(readQues)>0}"
+						class="row">
+						<h3>
+							<strong>問題3：（ ）に 何を 入れますか。１．２．３．４から いちばん いい ものを ひとつ
+								えらんでください。</strong>
+						</h3>
 					</div>
-					<div class="ques">
-						<div class="row">
+					<form method="post"
+						th:if="${readQues} and ${readPage} and ${#lists.size(readQues)>0}"
+						th:action="@{'/exams/'+${test.id}+'/doExam/read/save'}">
+						<div th:each="ques,in:${readQues}" class="ques">
+							<div class="row">
 
-							<h4>Câu hỏi</h4>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio" checked>Option
-										1</span>
-								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										2</span>
-								</div>
+								<h4 th:utext="${in.index+1}+'.'+${ques.content}"></h4>
+								<input type="hidden" th:value="${ques.id}" th:name="questionId">
 							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+							<div class="row">
+								<div class="col-sm-5">
+									<div>
+										a.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[0].id}" type="radio"><span
+											th:text="${ques.answers[0].content}"></span>
+									</div>
+									<div>
+										b.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[1].id}" type="radio"><span
+											th:text="${ques.answers[1].content}"></span>
+									</div>
 								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-5">
+									<div>
+										c.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[2].id}" type="radio"><span
+											th:text="${ques.answers[2].content}"></span>
+									</div>
+									<div>
+										d.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[3].id}" type="radio"><span
+											th:text="${ques.answers[3].content}"></span>
+									</div>
 								</div>
+
+
+
 							</div>
-
-
-
 						</div>
+						<button style="margin-left:45%">Lưu</button>
+					</form>
+
+					<div
+						th:if="${lisQues} and ${lisPage} and ${#lists.size(lisQues)>0}"
+						class="row">
+
+						<h3>
+							<strong>問題4：（ ）に 何を 入れますか。１．２．３．４から いちばん いい ものを ひとつ
+								えらんでください。</strong>
+						</h3>
 					</div>
-					<div class="ques">
-						<div class="row">
+					<form method="post"
+						th:if="${lisQues} and ${lisPage} and ${#lists.size(lisQues)>0}"
+						th:action="@{'/exams/'+${test.id}+'/doExam/listen/save}">
+						<div th:each="ques,in:${lisQues}" class="ques">
+							<div class="row">
 
-							<h4>Câu hỏi</h4>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio" checked>Option
-										1</span>
-								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										2</span>
-								</div>
+								<h4 th:utext="${in.index+1}+'.'+${ques.content}"></h4>
+								<input type="hidden" th:value="${ques.id}" th:name="questionId">
 							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-sm-5">
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+							<div class="row">
+								<div class="col-sm-5">
+									<div>
+										a.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[0].id}" type="radio"><span
+											th:text="${ques.answers[0].content}"></span>
+									</div>
+									<div>
+										b.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[1].id}" type="radio"><span
+											th:text="${ques.answers[1].content}"></span>
+									</div>
 								</div>
-								<div>
-									<span><input type="radio" name="optradio">Option
-										3</span>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-5">
+									<div>
+										c.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[2].id}" type="radio"><span
+											th:text="${ques.answers[2].content}"></span>
+									</div>
+									<div>
+										d.<input th:name="'answer_'+${ques.id}"
+											th:value="${ques.answers[3].id}" type="radio"><span
+											th:text="${ques.answers[3].content}"></span>
+									</div>
 								</div>
+
+
+
 							</div>
-
-
-
 						</div>
-					</div>
+						<button style="margin-left:45%">Lưu</button>
+					</form>
+
+
+
 				</div>
 				<div id="col-sm-1">
 					<i class="far fa-clock"></i><strong id="time"></strong>
+
 				</div>
+				<p id="deadline" th:if="${session.start_}"
+					th:text="${session.start_}" style="visibility: hidden"></p>
 			</div>
+		</div>
+		<div th:if="${timeUp}">
+			<div th:insert="views/web/exam/timeUpModal:: timeUp"></div>
+			<script>
+				$(document).ready(function() {
+
+					$("#timeUpModal").modal("show");
+
+				});
+			</script>
 		</div>
 	</section>
 	<style>
@@ -212,25 +310,27 @@
 }
 </style>
 	<script>
-		//var deadline = new Date("Oct 21, 2020 16:00:00").getTime(); 
-		var x = setInterval(
-				function() {
-					var now = new Date().getTime();
-					var deadline = new Date("Oct 21, 2020 15:30:00").getTime() + 30 * 60000
-					var t = deadline - now;
-					var days = Math.floor(t / (1000 * 60 * 60 * 24));
-					var hours = Math.floor((t % (1000 * 60 * 60 * 24))
-							/ (1000 * 60 * 60));
-					var minutes = Math.floor((t % (1000 * 60 * 60))
-							/ (1000 * 60));
-					var seconds = Math.floor((t % (1000 * 60)) / 1000);
-					document.getElementById("time").innerHTML = hours + ":"
-							+ minutes + ":" + seconds;
-					if (t < 0) {
-						clearInterval(x);
-						document.getElementById("time").innerHTML = "EXPIRED";
-					}
-				}, 1000);
+		var deadline_ = document.getElementById('deadline').innerHTML;
+		var x = setInterval(function() {
+			var now = new Date().getTime();
+			var deadline = Date.parse(deadline_) + 30 * 60000
+			var t = deadline - now;
+			var days = Math.floor(t / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((t % (1000 * 60 * 60 * 24))
+					/ (1000 * 60 * 60));
+			var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((t % (1000 * 60)) / 1000);
+			document.getElementById("time").innerHTML = hours + ":" + minutes
+					+ ":" + seconds;
+			if (t < 10) {
+				document.getElementById("time").style.color = "red"
+			}
+			if (t < 0) {
+				clearInterval(x);
+				document.getElementById("time").innerHTML = "Hết giờ";
+
+			}
+		}, 1000);
 	</script>
 </div>
 

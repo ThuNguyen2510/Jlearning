@@ -5,7 +5,7 @@
 <div layout:fragment="body">
 	<section class="content-area">
 		<div th:insert="views/web/exam/topheading :: top"></div>
-		<div class="container site-content sidebar-right"
+		<div th:if="${test}" class="container site-content sidebar-right"
 			style="font-size: 1.4rem">
 			<div class="row">
 				<h1 style="padding: 20px">
@@ -13,33 +13,47 @@
 				</h1>
 			</div>
 			<div class="row" style="padding: 20px">
-				<div class="col-sm-4">
+				<div th:if="${vocabQues}>0 "
+					class="col-sm-4">
 					<div class="left">
 						<img th:src="@{https://riki.edu.vn/online/images/icon/tuvung.png}">
 					</div>
 					<div class="left ">
-						<h3>Phần từ vựng-ngữ pháp</h3>
-						<p>Số câu hỏi: 10</p>
+						<h3>Phần từ vựng</h3>
+						<p th:text="@{'Số câu hỏi: '+${vocabQues}}"></p>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div th:if="${gramQues}>0 "
+					class="col-sm-4">
+					<div class="left">
+						<img style="height: 76px"
+							th:src="@{https://img.cdn.schooljotter2.com/sampled/15159609/900/0/nocrop//}">
+					</div>
+					<div class="left ">
+						<h3>Phần ngữ pháp</h3>
+						<p th:text="@{'Số câu hỏi: '+${gramQues}}"></p>
+					</div>
+				</div>
+				<div th:if="${readQues} >0"
+					class="col-sm-4">
 					<div class="left">
 						<img
 							th:src="@{https://riki.edu.vn/online/images/icon/reading-icon.png}">
 					</div>
 					<div class="left ">
 						<h3>Phần đọc hiểu</h3>
-						<p>Số câu hỏi: 10</p>
+						<p th:text="@{'Số câu hỏi: '+${readQues}}"></p>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div th:if="${lisQues}>0"
+					class="col-sm-4">
 					<div class="left">
 						<img
 							th:src="@{https://riki.edu.vn/online/images/icon/nghehieu.png}">
 					</div>
 					<div class="left ">
 						<h3>Phần nghe</h3>
-						<p>Số câu hỏi: 10</p>
+						<p th:text="@{'Số câu hỏi: '+${lisQues}}"></p>
 					</div>
 				</div>
 
@@ -47,16 +61,20 @@
 			<div class="row">
 				<div class="col-sm-5"></div>
 				<div class="col-sm-2">
-					<form th:action="@{/exams/doExam}">
-						<button class="start">Bắt đầu thi</button>
+					<form th:action="@{'/exams/'+${test.id}+'/doExam/vocab'}">
+						<button th:if="${session.currentUser}" class="start">Bắt
+							đầu thi</button>
 					</form>
+					<button th:if="${session.currentUser}==null" onClick="show()"
+						class="start">Bắt đầu thi</button>
+
 
 				</div>
 				<div class="col-sm-5"></div>
 			</div>
 			<div class="row">
 				<h1 style="padding: 20px">
-					<strong>Top 10 BXH Đề Thi</strong>
+					<strong>Top 5 BXH Đề Thi</strong>
 				</h1>
 
 			</div>
@@ -73,47 +91,66 @@
 
 						</tr>
 					</thead>
-					<tbody style="font-weigth: 500">
-						<tr id="rank1">
+					<tbody th:if="${rank}" style="font-weigth: 500">
+						<tr id="rank1" th:if="${#lists.size(rank)>=1}"> 
 							<td class="STT"><img style="width: 40px"
 								th:src="@{https://riki.edu.vn/online/Content/images/icon/item_rank_1.png}"
 								alt="" class="ic_rank"></td>
-							<td><img class="avatar"
-								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
-									Văn A</strong></td>
+							<td><img class="avatar1"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong
+								th:text="${rank[0].user.name}"></strong></td>
 
-							<td><strong>100</strong></td>
-							<td>25/10/2020</td>
+							<td><strong th:text="${rank[0].score}"></strong></td>
+							<td th:text="${rank[0].create_time}"></td>
 						</tr>
-						<tr id="rank2">
+						<tr id="rank2" th:if="${#lists.size(rank)>=2}">
 							<td class="STT"><img style="width: 40px"
 								th:src="@{https://riki.edu.vn/online/Content/images/icon/item_rank_2.png}"
 								alt="" class="ic_rank"></td>
-							<td><img class="avatar"
-								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
-									Văn A</strong></td>
-							<td><strong>100</strong></td>
-							<td><strong>25/10/2020</strong></td>
+							<td><img class="avatar1"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong
+								th:text="${rank[1].user.name}"></strong></td>
+							<td><strong th:text="${rank[1].score}"></strong></td>
+							<td><strong th:text="${rank[1].create_time}"></strong></td>
 						</tr>
-						<tr id="rank3">
+						<tr id="rank3" th:if="${#lists.size(rank)>=3}">
 							<td class="STT"><img style="width: 40px"
 								th:src="@{https://riki.edu.vn/online/Content/images/icon/item_rank_3.png}"
 								alt="" class="ic_rank"></td>
-							<td><img class="avatar"
-								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
-									Văn A</strong></td>
-							<td><strong>100</strong></td>
-							<td><strong>25/10/2020</strong></td>
+							<td><img class="avatar1"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong
+								th:text="${rank[2].user.name}"></strong></td>
+							<td><strong th:text="${rank[2].score}"></strong></td>
+							<td><strong th:text="${rank[2].create_time}"></strong></td>
 						</tr>
-						<tr>
+						<tr th:if="${#lists.size(rank)>=4}">
 							<td class="STT"><strong>4</strong></td>
 							<td><img class="avatar"
-								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong>Nguyễn
-									Văn A</strong></td>
-							<td><strong>100</strong></td>
-							<td><strong>25/10/2020</strong></td>
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong
+								th:text="${rank[3].user.name}"> </strong></td>
+							<td><strong th:text="${rank[3].score}"></strong></td>
+							<td><strong th:text="${rank[3].create_time}"></strong></td>>
+						</tr>
+						<tr th:if="${#lists.size(rank)>=5}">
+							<td class="STT"><strong>5</strong></td>
+							<td><img class="avatar1"
+								th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}"><strong
+								th:text="${rank[4].user.name}"> </strong></td>
+							<td><strong th:text="${rank[4].score}"></strong></td>
+							<td><strong th:text="${rank[4].create_time}"></strong></td>
 						</tr>
 				</table>
+			</div>
+			<div th:if="${resultExam}">
+				
+				<div th:insert="views/web/exam/resultModal :: result"></div>
+				<script>
+					$(document).ready(function() {
+
+						$("#resultModal").modal("show");
+
+					});
+				</script>
 			</div>
 		</div>
 	</section>
@@ -148,7 +185,7 @@
 	color: white
 }
 
-.avatar {
+.avatar1 {
 	width: 35px;
 	height: 35px;
 	margin-right: 10px;
@@ -160,7 +197,15 @@
 	text-align: center
 }
 </style>
+	<script>
+		function show() {
+			$(document).ready(function() {
 
+				$("#loginModal").modal("show");
+
+			});
+		}
+	</script>
 </div>
 
 </html>

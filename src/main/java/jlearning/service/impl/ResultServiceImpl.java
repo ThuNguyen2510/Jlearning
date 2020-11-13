@@ -1,6 +1,7 @@
 package jlearning.service.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -35,6 +36,21 @@ public class ResultServiceImpl  extends BaseServiceImpl implements ResultService
 	@Override
 	public Result create(Result entity) {
 		return getResultDAO().saveOrUpdate(entity);
+	}
+
+	@Override
+	public List<Result> rankingByTest(int testId) {
+		try {
+			
+			if(getResultDAO().rankingByTest(testId).size()>=5)
+			return getResultDAO().rankingByTest(testId).subList(0, 5);
+			else return getResultDAO().rankingByTest(testId);
+		} catch (Exception e) {
+			logger.error(e);
+			throw e;
+		}
+		
+		 
 	}
 
 }
