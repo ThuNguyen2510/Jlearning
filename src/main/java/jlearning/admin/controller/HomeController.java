@@ -30,6 +30,7 @@ public class HomeController extends BaseController {
 			redirectAttributes.addFlashAttribute("msg", msg_notAlow);
 			return "redirect:/";
 		}
+		
 		return "views/admin/home/index";
 	}
 

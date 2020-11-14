@@ -8,7 +8,7 @@ import jlearning.bean.UserInfo;
 import jlearning.model.User;
 
 public class UserValidation implements Validator {
-	
+
 	@Override
 	public boolean supports(Class<?> type) {
 		return User.class.isAssignableFrom(type);
@@ -27,16 +27,36 @@ public class UserValidation implements Validator {
 		} else if (new EmailValidator().isValid(user.getEmail(), null) == false) {
 			errors.rejectValue("email", "Error.Email.Format");
 		}
-		
+
 		if (StringUtils.isBlank(user.getPassword())) {
 			errors.rejectValue("password", "NotEmpty");
 		} else if (user.getPassword().length() < 5) {
-			errors.rejectValue("password",  "Error.Pass.Size");
-		}
-		else if(!user.getPassword().equals(user.getConfirmPassword())) {
+			errors.rejectValue("password", "Error.Pass.Size");
+		} else if (!user.getPassword().equals(user.getConfirmPassword())) {
 			errors.rejectValue("confirmPassword", "Error.Pass.Incorrect");
 		}
-		
+
+	}
+
+	public void validate_(Object object, Errors errors) {
+		User user = (User) object;
+
+		if (StringUtils.isBlank(user.getName())) {
+			errors.rejectValue("name", "NotEmpty");
+		}
+
+		if (StringUtils.isBlank(user.getEmail())) {
+			errors.rejectValue("email", "NotEmpty");
+		} else if (new EmailValidator().isValid(user.getEmail(), null) == false) {
+			errors.rejectValue("email", "Error.Email.Format");
+		}
+
+		if (StringUtils.isBlank(user.getPassword())) {
+			errors.rejectValue("password", "NotEmpty");
+		} else if (user.getPassword().length() < 5) {
+			errors.rejectValue("password", "Error.Pass.Size");
+		}
+
 	}
 
 }

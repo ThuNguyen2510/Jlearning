@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head
+	th:replace="views/admin/layout/base-layout :: head(~{this :: title}, ~{this :: .custom-link}, ~{this :: .custom-script})">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="admin page">
+
+<title>User Information</title>
+
+<link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css">
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link th:href="@{/assets/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+
+<link class="custom-link"
+	th:href="@{/assets/admin/css/user-profile.css}" rel="stylesheet" />
+
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<div th:replace="views/admin/layout/sidebar:: sidebar"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<div th:replace="views/admin/layout/topbar:: topbar"></div>
+
+				<!-- Begin Page Content -->
+
+				<div class="container-fluid">
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #user-info})">
+						<div id="user-info" class="container emp-profile">
+							<div class="row">
+								<a th:href="@{'/admin/users'}"><i class="fas fa-arrow-left"></i>Trở
+									về</a>
+							</div>
+							<form method="post">
+								<div class="row">
+									<div class="col-md-2">
+										<div class="profile-img">
+											<img th:if="${user.avatar}"
+												th:src="@{'/assets/images/'+${user.avatar}}" alt="" /> <img
+												th:if="${user.avatar}==null"
+												th:src="@{https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png}"
+												alt="" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="profile-head ">
+											<h3 th:text="${user.name}"></h3>
+											<h4>
+												<span th:text="${user.role}"
+													class="badge badge-pill badge-success"></span>
+											</h4>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-2"></div>
+									<div class="col-md-10">
+										<div class="tab-content profile-tab" id="myTabContent">
+											<div class="tab-pane fade show active" id="home"
+												role="tabpanel" aria-labelledby="home-tab">
+												<div class="row">
+													<div class="col-md-3">
+														<label>Level</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${user.level}></p>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3">
+														<label>Name</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${user.name}></p>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3">
+														<label>Email</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${user.email}></p>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Joined date</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${user.create_time}></p>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3">
+														<label>Last updated</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${user.update_time}></p>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Kết quả các bài test</label>
+													</div>
+													<div class="col-md-9">
+														<div class="block-dasboard">
+															
+															<div data-v-427d2be1="" class="table-responsive"
+																style="margin-bottom: 20px;">
+																
+																<p>
+																	<i class="fas fa-cubes"></i>Test level
+																</p>
+																<button class="btn btn-primary" type="button"
+																	data-toggle="collapse" data-target="#level"
+																	aria-expanded="false" aria-controls="level">Xem</button>
+																<!---->
+																<div id="level" class="collapse">
+																	<table data-v-427d2be1="" class="table table-striped"
+																		>
+																		<thead data-v-427d2be1="">
+																			<tr data-v-427d2be1="">
+																				<th data-v-427d2be1="" scope="col"
+																					style="width: 7%;">#STT</th>
+																				<th data-v-427d2be1="" scope="col">Đề thi</th>
+																				<th data-v-427d2be1="" scope="col">Ngày thi</th>
+
+																				<th data-v-427d2be1="" scope="col">Điểm</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody data-v-427d2be1="">
+																			<tr th:each="rs,i:${rsLevels}" data-v-427d2be1="">
+																				<th data-v-427d2be1="" scope="row"
+																					class="center order"><strong
+																					data-v-427d2be1="" th:text="${i.index+1}"></strong></th>
+																				<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
+																				<td data-v-427d2be1=""><span data-v-427d2be1=""
+																					class="datehistory"
+																					th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
+																						14:52</span></td>
+
+																				<td data-v-427d2be1="" th:text="${rs.score}">0</td>
+																				
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+
+															<div data-v-427d2be1="" class="table-responsive"
+																style="margin-bottom: 20px;">
+																<!---->
+																<p>
+																	<i class="fas fa-paw"></i>Kiểm tra sau mỗi bài học
+																</p>
+																<button class="btn btn-primary" type="button"
+																	data-toggle="collapse" data-target="#less"
+																	aria-expanded="false" aria-controls="less">Xem</button>
+																<div class="collapse" id="less">
+																	<table data-v-427d2be1="" class="table table-striped"
+																		>
+																		<thead data-v-427d2be1="">
+																			<tr data-v-427d2be1="">
+																				<th data-v-427d2be1="" scope="col"
+																					style="width: 7%;">#STT</th>
+																				<th data-v-427d2be1="" scope="col">Đề thi</th>
+																				<th data-v-427d2be1="" scope="col">Ngày thi</th>
+
+																				<th data-v-427d2be1="" scope="col">Điểm</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody data-v-427d2be1="">
+
+																			<tr th:each="rs,i:${rsLessons}" data-v-427d2be1="">
+																				<th data-v-427d2be1="" scope="row"
+																					class="center order"><strong
+																					data-v-427d2be1="" th:text="${i.index+1}"></strong></th>
+																				<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
+																				<td data-v-427d2be1=""><span data-v-427d2be1=""
+																					class="datehistory"
+																					th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
+																						14:52</span></td>
+
+																				<td data-v-427d2be1="" th:text="${rs.score}">0</td>
+																				
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+
+															<div data-v-427d2be1="" class="table-responsive"
+																style="margin-bottom: 20px;">
+																<!---->
+																<p>
+																	<i class="fab fa-angellist"></i>Kiểm tra tự do
+																</p>
+																<button class="btn btn-primary" type="button"
+																	data-toggle="collapse" data-target="#free"
+																	aria-expanded="false" aria-controls="free">Xem</button>
+																<div class="collapse" id="free">
+																	<table data-v-427d2be1="" class="table table-striped"
+																		>
+																		<thead data-v-427d2be1="">
+																			<tr data-v-427d2be1="">
+																				<th data-v-427d2be1="" scope="col"
+																					style="width: 7%;">#STT</th>
+																				<th data-v-427d2be1="" scope="col">Đề thi</th>
+																				<th data-v-427d2be1="" scope="col">Ngày thi</th>
+
+																				<th data-v-427d2be1="" scope="col">Điểm</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody data-v-427d2be1="">
+
+																			<tr th:each="rs,i:${rsExams}" data-v-427d2be1="">
+																				<th data-v-427d2be1="" scope="row"
+																					class="center order"><strong
+																					data-v-427d2be1="" th:text="${i.index+1}"></strong></th>
+																				<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
+																				<td data-v-427d2be1=""><span data-v-427d2be1=""
+																					class="datehistory"
+																					th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
+																						14:52</span></td>
+
+																				<td data-v-427d2be1="" th:text="${rs.score}">0</td>
+																				
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<div th:replace="views/admin/layout/footer:: footer"></div>
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+
+	<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
+	<script
+		th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+	<script
+		th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+
+	<script class="custom-script"
+		th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+
+
+
+</body>
+
+</html>
