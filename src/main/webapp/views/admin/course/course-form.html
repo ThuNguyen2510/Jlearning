@@ -100,7 +100,7 @@
 											</div>
 											<div class="row">
 												<label>Danh sách bài học</label>
-												<button style="margin-left:20px"  class="btn btn-outline-info" >Thêm bài</button>
+												<a th:href="@{'/admin/courses/'+${courseForm.id}+'/lessons/add'}" style="margin-left:20px"  class="btn btn-outline-info" >Thêm bài</a>
 											</div>	
 												<ol >
 													<li class="row" th:each="lesson,i:${courseForm.lessons}">

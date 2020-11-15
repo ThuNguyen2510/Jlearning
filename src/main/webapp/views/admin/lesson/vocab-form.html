@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="admin page">
 
-<title>Lesson Form</title>
+<title>Vocab Form</title>
 
 <link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -41,10 +41,8 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid">
-					<a th:if="${status != 'add'}" 
-						th:href="@{'/admin/lessons/'+${lessonForm.id}}"><i
-						class="fas fa-arrow-left"></i>Trở về</a> <a
-						th:if="${status == 'add'}"  th:href="@{'/admin/lessons/'}"><i
+					<a 
+						th:href="@{'/admin/lessons/'+${lessonId}}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
@@ -64,12 +62,12 @@
 
 							<div class="card shadow mb-4" style="width: 800px;">
 								<div class="card-header text-center">
-									<h2 th:if="${status == 'add'}">Thêm Bài học</h2>
-									<h2 th:unless="${status == 'add'}">Sửa bài học</h2>
+									<h2 >Thêm Từ vựng</h2>
+									
 								</div>
-								<div th:if="${status == 'add'}" class="card-body">
+								<div  class="card-body">
 									<li>
-										<form th:action="@{'/admin/lessons/addNormal'}">
+										<form th:action="@{'/admin/lessons/addVocabNormal'}">
 											<button class="btn btn-outline-primary">Thêm thủ
 												công</button>
 										</form>
@@ -82,50 +80,7 @@
 									</li>
 
 								</div>
-								<div th:unless="${status == 'add'}" class="card-body">
-									<form th:action="@{/admin/lessons/saveupdate}" method="post"
-										th:object="${lessonForm}">
-										<div class="form">
-											<input th:if="${status=='update'}" type="hidden"
-												th:field="*{id}">
-											<div class="row">
-												<label for="inputName">Tên</label> <input type="text"
-													th:field="*{name}" class="form-control" id="inputName"
-													placeholder="Nhập tên" required>
-
-											</div>
-
-											<div class="row">
-												<label for="inputEmail4">Mô tả</label> <input
-													th:field="*{description}" class="form-control" required>
-
-											</div>
-											<div class="row">
-
-
-												<a th:href="@{'/admin/lessons/'+${lessonForm.id}+'/vocabs'}"
-													class="btn btn-outline-primary">Phần từ vựng</a> <a
-													th:href="@{'/admin/lessons/'+${lessonForm.id}+'/grams'}"
-													class="btn btn-outline-secondary"
-													th:if="${#lists.size(lessonForm.grammars)}>0">Phần ngữ
-													pháp</a> <a
-													th:href="@{'/admin/lessons/'+${lessonForm.id}+'/listens'}"
-													class="btn btn-outline-success"
-													th:if="${#lists.size(lessonForm.listenings)}>0">Phần
-													nghe</a>
-
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4"></div>
-											<div class="col-sm-4" style="text-align: center">
-												<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
-											</div>
-											<div class="col-sm-4"></div>
-										</div>
-
-									</form>
-								</div>
+	
 
 							</div>
 						</div>

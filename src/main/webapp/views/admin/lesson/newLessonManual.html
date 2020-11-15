@@ -40,9 +40,9 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid">
-					<a  th:href="@{'/admin/lessons/add'}"><i class="fas fa-arrow-left"></i>Trở
-						về</a>
-						
+					<a th:href="@{'/admin/lessons/'}"><i
+						class="fas fa-arrow-left"></i>Trở về</a>
+
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
 						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
@@ -62,24 +62,23 @@
 							<div class="card shadow mb-4" style="width: 1000px;">
 								<div class="card-header text-center">
 									<h2 th:if="${status == 'add'}">Thêm Bài học</h2>
-									
+
 								</div>
 								<div class="card-body">
 									<form th:action="@{/admin/lessons/update}" method="post"
 										th:object="${lessonForm}">
 										<div class="form">
-											
-												
+
+
 											<div class="row">
-												<label for="inputName">Khóa học</label> 
+												<label for="inputName">Khóa học</label>
 												<!-- <select >
 												<option th:each="c:${course.name}"></option>
 												</select> -->
-												<input type="text"
-													th:field="*{course.id}" class="form-control"
-													placeholder="Nhập id" required>
+												<input type="text" th:field="*{course.id}"
+													class="form-control" placeholder="Nhập id" required>
 
-											</div>	
+											</div>
 											<div class="row">
 												<label for="inputName">Tên</label> <input type="text"
 													th:field="*{name}" class="form-control"
@@ -90,6 +89,19 @@
 												<label>Mô tả</label>
 												<textarea class="form-control" th:field="*{description} "
 													aria-label="With textarea"></textarea>
+											</div>
+											<div class="row">
+
+
+												<a th:href="@{'/admin/lessons/'+${lessonForm.id}+'/vocab/add'}"
+													class="btn btn-outline-primary">Phần từ vựng</a> <a
+													th:href="@{'/admin/lessons/'+${lessonForm.id}+'/gram/add'}"
+													class="btn btn-outline-secondary">Phần
+													ngữ pháp</a> <a
+													th:href="@{'/admin/lessons/'+${lessonForm.id}+'/listen/add'}"
+													class="btn btn-outline-success">Phần
+													nghe</a>
+
 											</div>
 
 

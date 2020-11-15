@@ -23,22 +23,25 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 	public Lesson findById(Serializable key) {
 		try {
 			Lesson lesson = getLessonDAO().findById(key);
-			List<Vocabulary> listVocab = lesson.getVocabularies();
-			List<Grammar> listGramr = lesson.getGrammars();
-			List<Listening> listListening = lesson.getListenings();
-			List<Test> test = lesson.getTests();
-			for (int i = 0; i < test.size(); i++) {
-				List<jlearning.model.Question> ques = test.get(i).getQuestions();
-				ques.size();
-				for (int j = 0; j < ques.size(); j++) {
-					List<Answer> anss = ques.get(j).getAnswers();
-					anss.size();
+			if(lesson!=null) {
+				List<Vocabulary> listVocab = lesson.getVocabularies();
+				List<Grammar> listGramr = lesson.getGrammars();
+				List<Listening> listListening = lesson.getListenings();
+				List<Test> test = lesson.getTests();
+				for (int i = 0; i < test.size(); i++) {
+					List<jlearning.model.Question> ques = test.get(i).getQuestions();
+					ques.size();
+					for (int j = 0; j < ques.size(); j++) {
+						List<Answer> anss = ques.get(j).getAnswers();
+						anss.size();
+					}
 				}
+				listGramr.size();
+				listListening.size();
+				listVocab.size();
+				test.size();
 			}
-			listGramr.size();
-			listListening.size();
-			listVocab.size();
-			test.size();
+			
 			return lesson;
 
 		} catch (Exception e) {

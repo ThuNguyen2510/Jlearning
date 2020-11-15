@@ -82,8 +82,9 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/{courseId}/lessons/add")
-	public String addLesson( Model model) {
-		return "";
+	public String addLesson( Model model,@PathVariable("courseId") Integer id) {
+		model.addAttribute("status", "add");
+		return "views/admin/lesson/lesson-form";
 	}
 	
 	@GetMapping(value = "/{id}/delete")
