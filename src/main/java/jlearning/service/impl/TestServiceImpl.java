@@ -80,4 +80,10 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		return getTestDAO().findByLevel(level);
 	}
 
+	@Override
+	public List<Test> loadAllTest() {
+		
+		return getTestDAO().loadAllTest();
+	}
+
 }

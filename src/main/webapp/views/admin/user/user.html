@@ -46,7 +46,7 @@
 					<div
 						th:insert="views/admin/layout/base-layout :: content(~{ :: #user-info})">
 						<div id="user-info" class="container emp-profile">
-							<div class="row">
+							<div class="row" style="margin-bottom: 20px;">
 								<a th:href="@{'/admin/users'}"><i class="fas fa-arrow-left"></i>Trở
 									về</a>
 							</div>
@@ -54,9 +54,8 @@
 								<div class="row">
 									<div class="col-md-2">
 										<div class="profile-img">
-											<img th:if="${user.avatar}"
-												th:src="@{'/assets/images/'+${user.avatar}}" alt="" /> <img
-												th:if="${user.avatar}==null"
+											<img th:if="${user.avatar}" th:src="${user.avatar}" alt="" />
+											<img th:if="${user.avatar}==null"
 												th:src="@{https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png}"
 												alt="" />
 										</div>
@@ -125,138 +124,177 @@
 													</div>
 													<div class="col-md-9">
 														<div class="block-dasboard">
-															
-															<div data-v-427d2be1="" class="table-responsive"
+
+															<div data-v-427d2be1="" class="row"
 																style="margin-bottom: 20px;">
-																
-																<p>
-																	<i class="fas fa-cubes"></i>Test level
-																</p>
-																<button class="btn btn-primary" type="button"
-																	data-toggle="collapse" data-target="#level"
-																	aria-expanded="false" aria-controls="level">Xem</button>
-																<!---->
-																<div id="level" class="collapse">
-																	<table data-v-427d2be1="" class="table table-striped"
-																		>
-																		<thead data-v-427d2be1="">
-																			<tr data-v-427d2be1="">
-																				<th data-v-427d2be1="" scope="col"
-																					style="width: 7%;">#STT</th>
-																				<th data-v-427d2be1="" scope="col">Đề thi</th>
-																				<th data-v-427d2be1="" scope="col">Ngày thi</th>
-
-																				<th data-v-427d2be1="" scope="col">Điểm</th>
-																				
-																			</tr>
-																		</thead>
-																		<tbody data-v-427d2be1="">
-																			<tr th:each="rs,i:${rsLevels}" data-v-427d2be1="">
-																				<th data-v-427d2be1="" scope="row"
-																					class="center order"><strong
-																					data-v-427d2be1="" th:text="${i.index+1}"></strong></th>
-																				<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
-																				<td data-v-427d2be1=""><span data-v-427d2be1=""
-																					class="datehistory"
-																					th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
-																						14:52</span></td>
-
-																				<td data-v-427d2be1="" th:text="${rs.score}">0</td>
-																				
-																			</tr>
-
-																		</tbody>
-																	</table>
+																<div class="col-sm-5">
+																	<p>
+																		<i class="fas fa-cubes"></i>Test level
+																	</p>
 																</div>
-															</div>
-
-															<div data-v-427d2be1="" class="table-responsive"
-																style="margin-bottom: 20px;">
-																<!---->
-																<p>
-																	<i class="fas fa-paw"></i>Kiểm tra sau mỗi bài học
-																</p>
-																<button class="btn btn-primary" type="button"
-																	data-toggle="collapse" data-target="#less"
-																	aria-expanded="false" aria-controls="less">Xem</button>
-																<div class="collapse" id="less">
-																	<table data-v-427d2be1="" class="table table-striped"
-																		>
-																		<thead data-v-427d2be1="">
-																			<tr data-v-427d2be1="">
-																				<th data-v-427d2be1="" scope="col"
-																					style="width: 7%;">#STT</th>
-																				<th data-v-427d2be1="" scope="col">Đề thi</th>
-																				<th data-v-427d2be1="" scope="col">Ngày thi</th>
-
-																				<th data-v-427d2be1="" scope="col">Điểm</th>
-																				
-																			</tr>
-																		</thead>
-																		<tbody data-v-427d2be1="">
-
-																			<tr th:each="rs,i:${rsLessons}" data-v-427d2be1="">
-																				<th data-v-427d2be1="" scope="row"
-																					class="center order"><strong
-																					data-v-427d2be1="" th:text="${i.index+1}"></strong></th>
-																				<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
-																				<td data-v-427d2be1=""><span data-v-427d2be1=""
-																					class="datehistory"
-																					th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
-																						14:52</span></td>
-
-																				<td data-v-427d2be1="" th:text="${rs.score}">0</td>
-																				
-																			</tr>
-
-																		</tbody>
-																	</table>
+																<div class="col-sm-2">
+																	<button class="btn btn-primary" type="button"
+																		data-toggle="collapse" data-target="#level"
+																		aria-expanded="false" aria-controls="level">Xem</button>
 																</div>
-															</div>
 
-															<div data-v-427d2be1="" class="table-responsive"
-																style="margin-bottom: 20px;">
 																<!---->
-																<p>
-																	<i class="fab fa-angellist"></i>Kiểm tra tự do
-																</p>
-																<button class="btn btn-primary" type="button"
-																	data-toggle="collapse" data-target="#free"
-																	aria-expanded="false" aria-controls="free">Xem</button>
-																<div class="collapse" id="free">
-																	<table data-v-427d2be1="" class="table table-striped"
-																		>
-																		<thead data-v-427d2be1="">
-																			<tr data-v-427d2be1="">
-																				<th data-v-427d2be1="" scope="col"
-																					style="width: 7%;">#STT</th>
-																				<th data-v-427d2be1="" scope="col">Đề thi</th>
-																				<th data-v-427d2be1="" scope="col">Ngày thi</th>
-
-																				<th data-v-427d2be1="" scope="col">Điểm</th>
-																				
-																			</tr>
-																		</thead>
-																		<tbody data-v-427d2be1="">
-
-																			<tr th:each="rs,i:${rsExams}" data-v-427d2be1="">
-																				<th data-v-427d2be1="" scope="row"
-																					class="center order"><strong
-																					data-v-427d2be1="" th:text="${i.index+1}"></strong></th>
-																				<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
-																				<td data-v-427d2be1=""><span data-v-427d2be1=""
-																					class="datehistory"
-																					th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
-																						14:52</span></td>
-
-																				<td data-v-427d2be1="" th:text="${rs.score}">0</td>
-																				
-																			</tr>
-																		</tbody>
-																	</table>
-																</div>
 															</div>
 														</div>
+													</div>
+													<div  class="row" style="margin: 10px;">
+														<div class="block-dasboard">
+															<div  style="width:600px" id="level" class="collapse">
+																<table data-v-427d2be1="" class="table table-striped">
+																	<thead data-v-427d2be1="">
+																		<tr data-v-427d2be1="">
+																			<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+																			<th data-v-427d2be1="" scope="col">Đề thi</th>
+																			<th data-v-427d2be1="" scope="col">Ngày thi</th>
+
+																			<th data-v-427d2be1="" scope="col">Điểm</th>
+
+																		</tr>
+																	</thead>
+																	<tbody data-v-427d2be1="">
+																		<tr th:each="rs,i:${rsLevels}" data-v-427d2be1="">
+																			<th data-v-427d2be1="" scope="row"
+																				class="center order"><strong data-v-427d2be1=""
+																				th:text="${i.index+1}"></strong></th>
+																			<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
+																			<td data-v-427d2be1=""><span data-v-427d2be1=""
+																				class="datehistory"
+																				th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
+																					14:52</span></td>
+
+																			<td data-v-427d2be1="" th:text="${rs.score}">0</td>
+
+																		</tr>
+
+																	</tbody>
+																</table>
+															</div>
+														</div>
+
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3"></div>
+													<div class="col-md-9">
+														<div class="block-dasboard">
+
+															<div data-v-427d2be1="" class="row"
+																style="margin-bottom: 20px;">
+																<div class="col-sm-5">
+																	<p>
+																		<i class="fas fa-paw"></i>Kiểm tra sau mỗi bài học
+																	</p>
+																</div>
+																<div class="col-sm-2">
+																	<button class="btn btn-primary" type="button"
+																		data-toggle="collapse" data-target="#less"
+																		aria-expanded="false" aria-controls="less">Xem</button>
+																</div>
+																<!---->
+															</div>
+														</div>
+													</div>
+													<div  class="row">
+														<div class="block-dasboard">
+															<div style="width:600px" class="collapse" id="less">
+																<table  data-v-427d2be1="" class="table table-striped">
+																	<thead data-v-427d2be1="">
+																		<tr data-v-427d2be1="">
+																			<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+																			<th data-v-427d2be1="" scope="col">Đề thi</th>
+																			<th data-v-427d2be1="" scope="col">Ngày thi</th>
+
+																			<th data-v-427d2be1="" scope="col">Điểm</th>
+
+																		</tr>
+																	</thead>
+																	<tbody data-v-427d2be1="">
+
+																		<tr th:each="rs,i:${rsLessons}" data-v-427d2be1="">
+																			<th data-v-427d2be1="" scope="row"
+																				class="center order"><strong data-v-427d2be1=""
+																				th:text="${i.index+1}"></strong></th>
+																			<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
+																			<td data-v-427d2be1=""><span data-v-427d2be1=""
+																				class="datehistory"
+																				th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
+																					14:52</span></td>
+
+																			<td data-v-427d2be1="" th:text="${rs.score}">0</td>
+
+																		</tr>
+
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3"></div>
+													<div class="col-md-9">
+														<div class="block-dasboard">
+
+															<div data-v-427d2be1="" class="row"
+																style="margin-bottom: 20px;">
+																<div class="col-sm-5">
+																	<p>
+																		<i class="fab fa-angellist"></i>Kiểm tra tự do
+																	</p>
+																</div>
+																<div class="col-sm-2">
+																	<button class="btn btn-primary" type="button"
+																		data-toggle="collapse" data-target="#free"
+																		aria-expanded="false" aria-controls="free">Xem</button>
+																</div>
+
+																<!---->
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="block-dasboard">
+															<div  style="width:600px" class="collapse" id="free">
+																<table data-v-427d2be1="" class="table table-striped">
+																	<thead data-v-427d2be1="">
+																		<tr data-v-427d2be1="">
+																			<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+																			<th data-v-427d2be1="" scope="col">Đề thi</th>
+																			<th data-v-427d2be1="" scope="col">Ngày thi</th>
+
+																			<th data-v-427d2be1="" scope="col">Điểm</th>
+
+																		</tr>
+																	</thead>
+																	<tbody data-v-427d2be1="">
+
+																		<tr th:each="rs,i:${rsExams}" data-v-427d2be1="">
+																			<th data-v-427d2be1="" scope="row"
+																				class="center order"><strong data-v-427d2be1=""
+																				th:text="${i.index+1}"></strong></th>
+																			<td data-v-427d2be1="" th:text="${rs.test.name}"></td>
+																			<td data-v-427d2be1=""><span data-v-427d2be1=""
+																				class="datehistory"
+																				th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
+																					14:52</span></td>
+
+																			<td data-v-427d2be1="" th:text="${rs.score}">0</td>
+
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+
+
+
+
 													</div>
 												</div>
 											</div>

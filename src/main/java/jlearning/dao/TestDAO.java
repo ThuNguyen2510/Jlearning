@@ -9,5 +9,6 @@ public interface TestDAO extends BaseDAO<Integer,Test> {
 	
 	Test findByType(Type type);
 	List<Test> findByLevel(int level);
+	List<Test> loadAllTest();
 
 }

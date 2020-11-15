@@ -11,4 +11,5 @@ public interface TestService extends BaseService<Integer,Test>{
 	boolean checkTestFinalOfLesson(int testId);
 	Test findAndLoad(int id);
 	List<Test> findByLevel(int level);
+	List<Test> loadAllTest();
 }

@@ -8,4 +8,6 @@ public interface CourseService extends BaseService<Integer,Course> {
 	List<Course> loadCourses();
 	List<Course> LatestCourses();
 	Course findByLevel(int level);
+	Course deleteCourse(int level);
+	
 }

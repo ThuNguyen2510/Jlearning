@@ -9,7 +9,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="admin page">
 
-<title>Manage User</title>
+<title>Manage Lesson</title>
 
 <link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -62,11 +62,11 @@
 							<!-- Page Heading -->
 							<div
 								class="d-sm-flex align-items-center justify-content-between mb-4">
-								<h1 class="h3 mb-0 text-gray-800">QUẢN LÝ USERS</h1>
+								<h1 class="h3 mb-0 text-gray-800">QUẢN LÝ BÀI HỌC</h1>
 								<div>
-									<a th:href="@{/admin/users/add}"
+									<a th:href="@{/admin/lessons/add}"
 										class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-										class="fas fa-plus fa-sm text-white-50"></i>Thêm user</a>
+										class="fas fa-plus fa-sm text-white-50"></i>Thêm bài học</a>
 								</div>
 
 							</div>
@@ -74,7 +74,7 @@
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
 									<h6 class="m-0 font-weight-bold text-primary">Danh sách
-										users</h6>
+										bài học</h6>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
@@ -83,10 +83,9 @@
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Name</th>
-													<th>Email</th>
-													<th>Level</th>
-													<th>Role</th>
+													<th>Tên bài học</th>
+													<th>Khóa học</th>
+
 													<!-- <th>Joined at</th>
 													<th>Deleted at</th> -->
 													<th>Action</th>
@@ -95,44 +94,34 @@
 											<tfoot>
 												<tr>
 													<th>#</th>
-													<th>Name</th>
-													<th>Email</th>
-													<th>Cấp độ</th>
-													<th>Role</th>
+													<th>Tên bài học</th>
+													<th>Khóa học</th>
+
 													<!-- <th>Joined at</th>
 													<th>Deleted at</th> -->
 													<th>Action</th>
 												</tr>
 											</tfoot>
 											<tbody>
-												<th:block th:each="user, iter : ${users}">
+												<th:block th:each="lesson, iter : ${lessons}">
 													<tr>
 														<td th:text="${iter.index+1}"></td>
-														<td th:text="${user.name}"></td>
-														<td th:text="${user.email}"></td>
-														<td th:text="${user.level}"></td>
-														<td th:text="${user.role}"></td>
+														<td th:text="${lesson.name}"></td>
+														<td th:text="${lesson.course.name}"></td>
+
 														<!-- <td th:text="${user.create_time}"></td>
 														<td th:text="${user.delete_time}"></td> -->
-														<td class="text-center">
-															<div class="row">
-																<div class="col-sm">
-																	<a th:href="@{'/admin/users/'+${user.id}}"
-																		class=" btn btn-info btn-circle"> <i
-																		class="fas fa-info-circle"></i>
-																	</a>
-																</div>
-																<div class="col-sm">
-																	<a th:href="@{'/admin/users/'+${user.id}+'/delete'}"
-																		class="btn btn-danger btn-circle"> <i
-																		class="fas fa-trash"></i>
-																	</a>
-																</div>
-															</div> <!-- <a th:href="@{'/admin/users/'+${user.id}+'/edit'}"
-															class="btn btn-warning btn-circle my-2">
-															<i class="far fa-edit"></i>
-														</a> -->
-														</td>
+														<td class="text-center"><a
+															th:href="@{'/admin/lessons/'+${lesson.id}}"
+															class=" btn btn-info btn-circle"> <i
+																class="fas fa-info-circle"></i>
+														</a> <a th:href="@{'/admin/lessons/'+${lesson.id}+'/edit'}"
+															class="btn btn-warning btn-circle"> <i
+																class="far fa-edit"></i>
+														</a> <a th:href="@{'/admin/lessons/'+${lesson.id}+'/delete'}"
+															class="btn btn-danger btn-circle"> <i
+																class="fas fa-trash"></i>
+														</a></td>
 													</tr>
 												</th:block>
 

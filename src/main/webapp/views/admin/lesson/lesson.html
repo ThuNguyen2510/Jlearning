@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head
+	th:replace="views/admin/layout/base-layout :: head(~{this :: title}, ~{this :: .custom-link}, ~{this :: .custom-script})">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="admin page">
+
+<title>Lesson Information</title>
+
+<link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css">
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link th:href="@{/assets/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+
+<link class="custom-link"
+	th:href="@{/assets/admin/css/user-profile.css}" rel="stylesheet" />
+
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<div th:replace="views/admin/layout/sidebar:: sidebar"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<div th:replace="views/admin/layout/topbar:: topbar"></div>
+
+				<!-- Begin Page Content -->
+
+				<div class="container-fluid">
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-info})">
+						<div id="lesson-info" class="container emp-profile">
+							<div th:if="${msg != null}"
+								class="alert alert-dismissible fade show"
+								th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+								role="alert">
+								<strong th:text="${msg}"></strong>
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="row" style="margin-bottom: 20px;">
+								<a th:href="@{'/admin/lessons'}"><i
+									class="fas fa-arrow-left"></i>Trở về</a>
+							</div>
+							<form method="post">
+								<div class="row">
+									<div class="col-md-2"></div>
+									<div class="col-md-6">
+										<div class="profile-head ">
+											<h3 style="color: red" th:text="${lesson.name}"></h3>
+
+
+										</div>
+									</div>
+									<div class="col-md-4" style="text-align: end">
+
+										<a th:href="@{'/admin/lessons/'+${lesson.id}+'/edit'}">
+											<button type="button" class="btn btn-warning">Sửa
+												thông tin</button>
+										</a>
+
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-2"></div>
+									<div class="col-md-10">
+										<div class="tab-content profile-tab" id="myTabContent">
+											<div class="tab-pane fade show active" id="home"
+												role="tabpanel" aria-labelledby="home-tab">
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Mô tả</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${lesson.description}></p>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Nội dung</label>
+													</div>
+													<div class="col-md-9">
+														<button class="btn btn-primary" type="button"
+															data-toggle="collapse" data-target="#vocabs"
+															aria-expanded="false" aria-controls="level"
+															th:if="${alphabet} or ${#lists.size(lesson.vocabularies)}>0">Từ
+															vựng</button>
+														<button class="btn btn-primary" type="button"
+															data-toggle="collapse" data-target="#grams"
+															aria-expanded="false" aria-controls="level"
+															th:if="${#lists.size(lesson.grammars)}>0">Ngữ
+															pháp</button>
+														<button class="btn btn-primary" type="button"
+															data-toggle="collapse" data-target="#listen"
+															aria-expanded="false" aria-controls="level"
+															th:if="${#lists.size(lesson.listenings)}>0">Nghe</button>
+
+													</div>
+												</div>
+												<div class="row" style="margin-top: 10px;">
+													<div th:if="${alphabet}==null" class="collapse" id="vocabs">
+														<div
+															style="position: relative; height: 200px; overflow: auto; width: 600px">
+															<table data-v-427d2be1="" class="table table-striped">
+																<thead data-v-427d2be1="">
+																	<tr data-v-427d2be1="">
+																		<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+																		<th data-v-427d2be1="" scope="col">Từ vựng</th>
+																		<th data-v-427d2be1="" scope="col">Nghĩa</th>
+																		<th data-v-427d2be1="" scope="col">Kanji</th>
+																		<th data-v-427d2be1="" scope="col">Âm thanh</th>
+
+																	</tr>
+																</thead>
+																<tbody data-v-427d2be1="">
+
+																	<tr th:each="vocab,i:${lesson.vocabularies}"
+																		data-v-427d2be1="">
+																		<th data-v-427d2be1="" scope="row"
+																			class="center order"><strong data-v-427d2be1=""
+																			th:text="${i.index+1}"></strong></th>
+																		<td data-v-427d2be1="" th:text="${vocab.content}"></td>
+																		<td data-v-427d2be1="" th:text="${vocab.means}"></td>
+																		<td data-v-427d2be1="" th:text="${vocab.kanji}"></td>
+																		<td data-v-427d2be1=""><a th:if="${vocab.audio}"
+																			style="cursor: pointer"
+																			th:onclick="'playAudio('+${vocab.id}+')'"><i
+																				class="fab fa-google-play"></i></a> <audio
+																				th:id="${vocab.id}">
+																				<source th:src="${vocab.audio}" type="audio/ogg">
+																			</audio></td>
+
+
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+
+													<div th:if="${alphabet}" class="collapse" id="vocabs">
+														<div
+															style="position: relative; height: 200px; overflow: auto; width: 600px">
+															<table data-v-427d2be1="" class="table table-striped">
+																<thead data-v-427d2be1="">
+																	<tr data-v-427d2be1="">
+																		<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+																		<th data-v-427d2be1="" scope="col">Từ vựng</th>
+																		<th data-v-427d2be1="" scope="col">Hình ảnh</th>
+																		<th data-v-427d2be1="" scope="col">Âm thanh</th>
+
+																	</tr>
+																</thead>
+																<tbody data-v-427d2be1="">
+
+																	<tr th:each="charac,i:${alphabet.characters}"
+																		data-v-427d2be1="">
+																		<th data-v-427d2be1="" scope="row"
+																			class="center order"><strong data-v-427d2be1=""
+																			th:text="${i.index+1}"></strong></th>
+																		<td data-v-427d2be1="" th:text="${charac.content}"></td>
+																		<td data-v-427d2be1=""><img style="width: 40px"
+																			th:src="${charac.image}"></td>
+
+																		<td data-v-427d2be1=""><a th:if="${charac.audio}"
+																			style="cursor: pointer"
+																			th:onclick="'playAudio('+${charac.id}+')'"><i
+																				class="fab fa-google-play"></i></a> <audio
+																				th:id="${charac.id}">
+																				<source th:src="${charac.audio}" type="audio/ogg">
+																			</audio></td>
+
+
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+												<div class="row" style="margin-top: 10px;">
+													<div th:if="${#lists.size(lesson.grammars)}>0"
+														class="collapse" id="grams" style="width: 600px">
+														<ul id="grammar" class="nav nav-tabs w-100">
+
+															<li th:if="${#lists.size(lesson.grammars)}>=1"
+																class="nav-item"><a class="nav-link active"
+																data-toggle="tab" href="#home" th:text="'文法 1'"></a></li>
+															<li th:if="${#lists.size(lesson.grammars)}>=2"
+																class="nav-item"><a class="nav-link"
+																data-toggle="tab" href="#menu1" th:text="'文法 2'"></a></li>
+															<li th:if="${#lists.size(lesson.grammars)}>=3"
+																class="nav-item"><a class="nav-link"
+																data-toggle="tab" href="#menu2" th:text="'文法 3'"></a></li>
+															<li th:if="${#lists.size(lesson.grammars)}>=4"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#menu3" th:text="'文法 4'"></a></li>
+															<li th:if="${#lists.size(lesson.grammars)}>=5"
+																class="nav-item"><a class="nav-link"
+																data-toggle="tab" href="#menu4">文法5</a></li>
+															<li th:if="${#lists.size(lesson.grammars)}>=6"
+																class="nav-item"><a class="nav-link"
+																data-toggle="tab" href="#menu5">文法6</a></li>
+															<li th:if="${#lists.size(lesson.grammars)}>=7"
+																class="nav-item"><a class="nav-link"
+																data-toggle="tab" href="#menu6">文法7</a></li>
+
+
+														</ul>
+
+														<!-- Tab panes -->
+														<div class="tab-content">
+															<div th:if="${#lists.size(lesson.grammars)}>=1" id="home"
+																class="container tab-pane active">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[0].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[0].content}">
+
+
+																</table>
+																<hr>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[0].description}"></table>
+															</div>
+															<div th:if="${#lists.size(lesson.grammars)}>=2"
+																id="menu1" class="container tab-pane fade">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[1].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[1].content}">
+
+																</table>
+																<hr>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[1].description}"></table>
+															</div>
+															<div th:if="${#lists.size(lesson.grammars)}>=3"
+																id="menu2" class="container tab-pane fade">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[2].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[2].content}">
+
+																</table>
+																<hr>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[2].description}"></table>
+															</div>
+															<div th:if="${#lists.size(lesson.grammars)}>=4"
+																id="menu3" class="container tab-pane fade">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[3].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[3].content}">
+
+																</table>
+																<hr>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[3].description}"></table>
+															</div>
+															<div th:if="${#lists.size(lesson.grammars)}>=5"
+																id="menu4" class="container tab-pane fade">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[4].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[4].content}">
+
+																</table>
+																<hr>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[4].description}"></table>
+															</div>
+															<div th:if="${#lists.size(lesson.grammars)}>=6"
+																id="menu5" class="container tab-pane fade">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[5].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[5].content}">
+
+																</table>
+																<hr>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[5].description}"></table>
+															</div>
+															<div th:if="${#lists.size(lesson.grammars)}>=7"
+																id="menu6" class="container tab-pane fade">
+																<h3 style="margin: 20px"
+																	th:text="${lesson.grammars[6].name}"></h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[6].content}">
+
+																</table>
+																<hr>
+																<h3>Ví dụ:</h3>
+																<table style="border-color: #6f6161; width: 100%"
+																	th:utext="${lesson.grammars[6].description}"></table>
+															</div>
+
+														</div>
+													</div>
+												</div>
+
+												<div class="row" style="margin-top: 10px;">
+													<div th:if="${#lists.size(lesson.listenings)}>0"
+														class="collapse" id="listen" style="width: 600px">
+														<p>Nghe và trả lời câu hỏi</p>
+														<ul id="listen" class="nav nav-tabs w-100">
+															<li th:if="${#lists.size(lesson.listenings)}>=1"
+																class="nav-item "><a class="nav-link active"
+																data-toggle="tab" href="#mon1">問題 1</a>
+															<li th:if="${#lists.size(lesson.listenings)}>=2"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#mon2">問題2</a></li>
+															<li th:if="${#lists.size(lesson.listenings)}>=3"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#mon3">問題3</a></li>
+															<li th:if="${#lists.size(lesson.listenings)}>=4"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#mon4">問題4</a></li>
+															<li th:if="${#lists.size(lesson.listenings)}>=5"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#mon5">問題5</a></li>
+															<li th:if="${#lists.size(lesson.listenings)}>=6"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#mon6">問題6</a></li>
+															<li th:if="${#lists.size(lesson.listenings)}>=7"
+																class="nav-item"><a class="nav-link "
+																data-toggle="tab" href="#mon7">問題7</a></li>
+
+
+														</ul>
+
+														<!-- Tab panes -->
+														<div class="tab-content">
+
+															<div th:if="${#lists.size(lesson.listenings)}>=1"
+																id="mon1" class="container tab-pane active ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[0].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[0].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[0].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#boxnoidung" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung" class="collapse"
+																				th:utext="${lesson.listenings[0].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[0].content2}">
+																		<td>1</td>
+																		<td><a href="#boxnoidung1" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung1" class="collapse"
+																				th:utext="${lesson.listenings[0].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[0].content3}">
+																		<td>2</td>
+																		<td><a href="#boxnoidung2" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung2" class="collapse"
+																				th:utext="${lesson.listenings[0].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[0].content4}">
+																		<td>3）</td>
+																		<td><a href="#boxnoidung3" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung3" class="collapse"
+																				th:utext="${lesson.listenings[0].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[0].content5}">
+																		<td>4</td>
+																		<td><a href="#boxnoidung4" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung4" class="collapse"
+																				th:utext="${lesson.listenings[0].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[0].content6}">
+																		<td>5</td>
+																		<td><a href="#boxnoidung5" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung5" class="collapse"
+																				th:utext="${lesson.listenings[0].content6}"></div></td>
+																	</tr>
+
+																</table>
+															</div>
+
+															<div th:if="${#lists.size(lesson.listenings)}>=2"
+																id="mon2" class="container tab-pane fade ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[1].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[1].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[1].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#boxnoidung6" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung6" class="collapse"
+																				th:utext="${lesson.listenings[1].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[1].content2}">
+																		<td>1</td>
+																		<td><a href="#boxnoidung7" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung7" class="collapse"
+																				th:utext="${lesson.listenings[1].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[1].content3}">
+																		<td>2</td>
+																		<td><a href="#boxnoidung8" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung8" class="collapse"
+																				th:utext="${lesson.listenings[1].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[1].content4}">
+																		<td>3）</td>
+																		<td><a href="#boxnoidung9" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung9" class="collapse"
+																				th:utext="${lesson.listenings[1].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[1].content5}">
+																		<td>4</td>
+																		<td><a href="#boxnoidung10" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung10" class="collapse"
+																				th:utext="${lesson.listenings[1].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[1].content6}">
+																		<td>5</td>
+																		<td><a href="#boxnoidung11" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="boxnoidung11" class="collapse"
+																				th:utext="${lesson.listenings[1].content6}"></div></td>
+																	</tr>
+
+																</table>
+
+															</div>
+
+															<div th:if="${#lists.size(lesson.listenings)}>=3"
+																id="mon3" class="container tab-pane fade ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[2].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[2].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[2].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#box1" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box1" class="collapse"
+																				th:utext="${lesson.listenings[2].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[2].content2}">
+																		<td>1</td>
+																		<td><a href="#box2" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box2" class="collapse"
+																				th:utext="${lesson.listenings[2].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[2].content3}">
+																		<td>2</td>
+																		<td><a href="#box3" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box3" class="collapse"
+																				th:utext="${lesson.listenings[2].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[2].content4}">
+																		<td>3）</td>
+																		<td><a href="#b3" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="b3" class="collapse"
+																				th:utext="${lesson.listenings[2].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[2].content5}">
+																		<td>4</td>
+																		<td><a href="#box4" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box4" class="collapse"
+																				th:utext="${lesson.listenings[2].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[2].content6}">
+																		<td>5</td>
+																		<td><a href="#box5" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box5" class="collapse"
+																				th:utext="${lesson.listenings[2].content6}"></div></td>
+																	</tr>
+
+																</table>
+
+															</div>
+
+															<div th:if="${#lists.size(lesson.listenings)}>=4"
+																id="mon4" class="container tab-pane fade ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[3].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[3].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[3].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#box6" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box6" class="collapse"
+																				th:utext="${lesson.listenings[3].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[3].content2}">
+																		<td>1</td>
+																		<td><a href="#box7" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box7" class="collapse"
+																				th:utext="${lesson.listenings[3].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[3].content3}">
+																		<td>2</td>
+																		<td><a href="#box8" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box8" class="collapse"
+																				th:utext="${lesson.listenings[3].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[3].content4}">
+																		<td>3）</td>
+																		<td><a href="#box9" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box9" class="collapse"
+																				th:utext="${lesson.listenings[3].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[3].content5}">
+																		<td>4</td>
+																		<td><a href="#box10" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box10" class="collapse"
+																				th:utext="${lesson.listenings[3].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[3].content6}">
+																		<td>5</td>
+																		<td><a href="#box11" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box11" class="collapse"
+																				th:utext="${lesson.listenings[3].content6}"></div></td>
+																	</tr>
+
+																</table>
+
+															</div>
+
+															<div th:if="${#lists.size(lesson.listenings)}>=5"
+																id="mon5" class="container tab-pane fade ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[4].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[4].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[4].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#box12" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box12" class="collapse"
+																				th:utext="${lesson.listenings[4].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[4].content2}">
+																		<td>1</td>
+																		<td><a href="#box13" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box13" class="collapse"
+																				th:utext="${lesson.listenings[4].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[4].content3}">
+																		<td>2</td>
+																		<td><a href="#box14" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box14" class="collapse"
+																				th:utext="${lesson.listenings[4].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[4].content4}">
+																		<td>3）</td>
+																		<td><a href="#box15" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box15" class="collapse"
+																				th:utext="${lesson.listenings[4].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[4].content5}">
+																		<td>4</td>
+																		<td><a href="#box16" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box16" class="collapse"
+																				th:utext="${lesson.listenings[4].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[4].content6}">
+																		<td>5</td>
+																		<td><a href="#box17" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box17" class="collapse"
+																				th:utext="${lesson.listenings[4].content6}"></div></td>
+																	</tr>
+
+																</table>
+
+															</div>
+
+															<div th:if="${#lists.size(lesson.listenings)}>=6"
+																id="mon6" class="container tab-pane fade ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[5].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[5].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[5].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#box18" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box18" class="collapse"
+																				th:utext="${lesson.listenings[5].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[5].content2}">
+																		<td>1</td>
+																		<td><a href="#box19" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="box19" class="collapse"
+																				th:utext="${lesson.listenings[5].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[5].content3}">
+																		<td>2</td>
+																		<td><a href="#bx1" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx1" class="collapse"
+																				th:utext="${lesson.listenings[5].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[5].content4}">
+																		<td>3）</td>
+																		<td><a href="#bx2" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx2" class="collapse"
+																				th:utext="${lesson.listenings[5].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[5].content5}">
+																		<td>4</td>
+																		<td><a href="#bx12" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx12" class="collapse"
+																				th:utext="${lesson.listenings[5].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[5].content6}">
+																		<td>5</td>
+																		<td><a href="#bx13" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx13" class="collapse"
+																				th:utext="${lesson.listenings[5].content6}"></div></td>
+																	</tr>
+
+																</table>
+
+															</div>
+
+															<div th:if="${#lists.size(lesson.listenings)}>=7"
+																id="mon7" class="container tab-pane fade ">
+																<audio controls>
+																	<source th:src="${lesson.listenings[6].audio}"
+																		type="audio/ogg">
+																</audio>
+																<img th:src="${lesson.listenings[6].image}">
+																<table border="1" style="width: 800px">
+
+																	<tr th:if="${lesson.listenings[6].content1}">
+																		<td style="width: 137px">れい）</td>
+																		<td><a href="#bx14" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx14" class="collapse"
+																				th:utext="${lesson.listenings[6].content1}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[6].content2}">
+																		<td>1</td>
+																		<td><a href="#bx15" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx15" class="collapse"
+																				th:utext="${lesson.listenings[6].content2}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[6].content3}">
+																		<td>2</td>
+																		<td><a href="#bx16" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx16" class="collapse"
+																				th:utext="${lesson.listenings[6].content3}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[6].content4}">
+																		<td>3</td>
+																		<td><a href="#bx17" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx17" class="collapse"
+																				th:utext="${lesson.listenings[6].content4}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[6].content5}">
+																		<td>4</td>
+																		<td><a href="#bx18" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx18" class="collapse"
+																				th:utext="${lesson.listenings[6].content5}"></div></td>
+																	</tr>
+																	<tr th:if="${lesson.listenings[6].content6}">
+																		<td>5</td>
+																		<td><a href="#bx19" aria-expanded="false"
+																			data-toggle="collapse">Đáp án</a>
+																			<div id="bx19" class="collapse"
+																				th:utext="${lesson.listenings[6].content6}"></div></td>
+																	</tr>
+
+																</table>
+
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Ngày tạo</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${lesson.create_time}></p>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3">
+														<label>Last updated</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${lesson.update_time}></p>
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<div th:replace="views/admin/layout/footer:: footer"></div>
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+
+	<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
+	<script
+		th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+	<script
+		th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+
+	<script class="custom-script"
+		th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+	<script>
+		function playAudio(audioId) {
+			var x = document.getElementById(audioId);
+			x.play();
+		}
+	</script>
+	<style>
+table, td, tr {
+	border: 1px solid #ccc;
+}
+</style>
+
+</body>
+
+</html>

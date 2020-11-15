@@ -31,5 +31,10 @@ public class TestDAOImpl  extends GenericDAO<Integer, Test> implements TestDAO {
 	public List<Test> findByLevel(int level) {
 		return  getSession().createQuery("from Test where level=: level").setParameter("level", level).getResultList();
 	}
+	@Override
+	public List<Test> loadAllTest() {
+		// TODO Auto-generated method stub
+		return  getSession().createQuery("from Test ").getResultList();
+	}
 
 }

@@ -9,7 +9,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="admin page">
 
-<title>Manage User</title>
+<title>Manage Course</title>
 
 <link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -56,17 +56,17 @@
 
 					<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
 					<div
-						th:insert="views/admin/layout/base-layout :: content(~{ :: #users-list})">
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #courses-list})">
 
-						<div id="users-list">
+						<div id="courses-list">
 							<!-- Page Heading -->
 							<div
 								class="d-sm-flex align-items-center justify-content-between mb-4">
-								<h1 class="h3 mb-0 text-gray-800">QUẢN LÝ USERS</h1>
+								<h1 class="h3 mb-0 text-gray-800">QUẢN LÝ COURSES</h1>
 								<div>
-									<a th:href="@{/admin/users/add}"
+									<a th:href="@{/admin/courses/add}"
 										class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-										class="fas fa-plus fa-sm text-white-50"></i>Thêm user</a>
+										class="fas fa-plus fa-sm text-white-50"></i>Thêm course</a>
 								</div>
 
 							</div>
@@ -74,7 +74,7 @@
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
 									<h6 class="m-0 font-weight-bold text-primary">Danh sách
-										users</h6>
+										khóa học</h6>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
@@ -83,10 +83,10 @@
 											<thead>
 												<tr>
 													<th>#</th>
+													<th>Logo</th>
 													<th>Name</th>
-													<th>Email</th>
 													<th>Level</th>
-													<th>Role</th>
+													<!-- <th>Description</th> -->
 													<!-- <th>Joined at</th>
 													<th>Deleted at</th> -->
 													<th>Action</th>
@@ -95,44 +95,37 @@
 											<tfoot>
 												<tr>
 													<th>#</th>
+													<th>Logo</th>
 													<th>Name</th>
-													<th>Email</th>
-													<th>Cấp độ</th>
-													<th>Role</th>
+													<th>Level</th>
+													<!-- <th>Description</th> -->
 													<!-- <th>Joined at</th>
 													<th>Deleted at</th> -->
 													<th>Action</th>
 												</tr>
 											</tfoot>
 											<tbody>
-												<th:block th:each="user, iter : ${users}">
+												<th:block th:each="course, iter : ${courses}">
 													<tr>
 														<td th:text="${iter.index+1}"></td>
-														<td th:text="${user.name}"></td>
-														<td th:text="${user.email}"></td>
-														<td th:text="${user.level}"></td>
-														<td th:text="${user.role}"></td>
-														<!-- <td th:text="${user.create_time}"></td>
-														<td th:text="${user.delete_time}"></td> -->
-														<td class="text-center">
-															<div class="row">
-																<div class="col-sm">
-																	<a th:href="@{'/admin/users/'+${user.id}}"
-																		class=" btn btn-info btn-circle"> <i
-																		class="fas fa-info-circle"></i>
-																	</a>
-																</div>
-																<div class="col-sm">
-																	<a th:href="@{'/admin/users/'+${user.id}+'/delete'}"
-																		class="btn btn-danger btn-circle"> <i
-																		class="fas fa-trash"></i>
-																	</a>
-																</div>
-															</div> <!-- <a th:href="@{'/admin/users/'+${user.id}+'/edit'}"
-															class="btn btn-warning btn-circle my-2">
-															<i class="far fa-edit"></i>
-														</a> -->
-														</td>
+														<td style="text-align:center"><img style="height: 50px" th:src="${course.image}"></td>
+														<td th:text="${course.name}"></td>
+
+														<td th:text="${course.level}"></td>
+														<!-- <td th:text="${course.description}"></td> -->
+														<!-- <td th:text="${course.create_time}"></td>
+														<td th:text="${course.delete_time}"></td> -->
+														<td class="text-center"><a
+															th:href="@{'/admin/courses/'+${course.id}}"
+															class=" btn btn-info btn-circle"> <i
+																class="fas fa-info-circle"></i>
+														</a> <a th:href="@{'/admin/courses/'+${course.id}+'/edit'}"
+															class="btn btn-warning btn-circle my-2"> <i
+																class="far fa-edit"></i>
+														</a> <a th:href="@{'/admin/courses/'+${course.id}+'/delete'}"
+															class="btn btn-danger btn-circle"> <i
+																class="fas fa-trash"></i>
+														</a></td>
 													</tr>
 												</th:block>
 
