@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="admin page">
 
-<title>Vocab Form</title>
+<title>Grammar Form</title>
 
 <link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -41,7 +41,8 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid">
-					<a th:if="${status == 'add'} " th:href="@{'/admin/lessons/'+${lessonId}+'/vocabs'}"><i
+					<a 
+						th:href="@{'/admin/lessons/'+${lessonId}}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
@@ -55,57 +56,31 @@
 					</div>
 
 					<div
-						th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-form})">
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #gram-form})">
 
-						<div id="lesson-form" class="row justify-content-center">
+						<div id="gram-form" class="row justify-content-center">
 
 							<div class="card shadow mb-4" style="width: 800px;">
 								<div class="card-header text-center">
-									<h2 th:if="${status == 'add'}">Thêm Từ vựng</h2>
-									<h2 th:unless="${status == 'add'}">Sửa từ vựng</h2>
+									<h2 >Thêm Ngữ pháp</h2>
+									
 								</div>
-								<div th:if="${status == 'add'}" class="card-body">
+								<div  class="card-body">
+									<li>
+										<form th:action="@{'/admin/lessons/addGramNormal'}">
+											<button class="btn btn-outline-primary">Thêm thủ
+												công</button>
+										</form>
+									</li>
+									<li>
+										<form th:action="@{'/admin/lessons/addImport'}">
+											<button class="btn btn-outline-success">Thêm bằng
+												file excel</button>
+										</form>
+									</li>
 
-									<form th:action="@{/admin/lessons/vocabs/add}" method="post"
-										th:object="${vocabForm}">
-										<div class="form">
-											<input th:if="${status=='update'}" type="hidden"
-												th:field="*{id}">
-											<input th:value="${lessonId}" th:if="${lessonId}" type="hidden">
-											<div class="row">
-												<label>Từ</label> <input type="text"
-													th:field="*{content}" class="form-control" id="inputName"
-													placeholder="Nhập từ" required>
-
-											</div>
-
-											<div class="row">
-												<label >Kanji</label> <input
-													th:field="*{kanji}" class="form-control" >
-
-											</div>
-											<div class="row">
-												<label >Audio</label> <input
-													th:field="*{audio}" class="form-control" >
-
-											</div><div class="row">
-												<label >Nghĩa</label> <input
-													th:field="*{means}" class="form-control" required>
-
-											</div>
-										
-										</div>
-										<div class="row">
-											<div class="col-sm-4"></div>
-											<div class="col-sm-4" style="text-align: center">
-												<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
-											</div>
-											<div class="col-sm-4"></div>
-										</div>
-
-									</form>
 								</div>
-								<div th:unless="${status == 'add'}" class="card-body"></div>
+	
 
 							</div>
 						</div>

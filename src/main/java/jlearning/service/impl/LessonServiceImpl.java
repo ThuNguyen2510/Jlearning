@@ -61,16 +61,6 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		return getLessonDAO().saveOrUpdate(entity);
 	}
 
-	private void createListen(ListenInfo listenInfo, int id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void createGram(GramInfo gramInfo, int id) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public boolean delete(Lesson entity) {
 		// TODO Auto-generated method stub
@@ -88,6 +78,8 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		Lesson newLesson = new Lesson();
 		Course course = getCourseDAO().findById(courseId);
 		newLesson.setCourse(course);
+		newLesson.setDescription(lesson.getDescription());
+		newLesson.setName(lesson.getName());
 		getLessonDAO().saveOrUpdate(newLesson);
 		if (lesson.getVocabs() != null && lesson.getVocabs().size() > 0)
 			for (int i = 0; i < lesson.getVocabs().size(); i++) {
@@ -106,7 +98,7 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		return getLessonDAO().saveOrUpdate(newLesson);
 
 	}
-
+	
 	public void createVocab(VocabInfo vocab, int lessonId) {
 		Vocabulary vocabulary = new Vocabulary();
 		Lesson lesson = getLessonDAO().findById(lessonId);
@@ -117,6 +109,43 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		vocabulary.setLesson(lesson);
 		getVocabularyDAO().saveOrUpdate(vocabulary);
 
+	}
+
+	@Override
+	public boolean deleteGram(int id) {
+		try {
+			
+			Grammar entity = getGrammarDAO().findById(id);
+			Lesson lesson = getLessonDAO().findById(entity.getLesson().getId());
+			lesson.getGrammars().remove(entity);
+			logger.info("SIZE "+lesson.getGrammars().size());
+			getLessonDAO().saveOrUpdate(lesson);
+			logger.info("SIZE "+lesson.getGrammars().size());
+			getGrammarDAO().delete(entity);
+			return true;
+		} catch (Exception e) {
+
+		}
+
+		return false;
+	}
+
+	@Override
+	public void createGram(GramInfo gram, int lessonId) {
+		Grammar gramNew = new Grammar();
+		gramNew.setContent(gram.getContent());
+		gramNew.setName(gram.getName());
+		gramNew.setDescription(gram.getDescription());
+		Lesson lesson = getLessonDAO().findById(lessonId);
+		gramNew.setLesson(lesson);
+		getGrammarDAO().saveOrUpdate(gramNew);
+		
+	}
+
+	@Override
+	public void createListen(ListenInfo vocab, int lessonId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

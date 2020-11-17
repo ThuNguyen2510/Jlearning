@@ -3,28 +3,24 @@ package jlearning.dao.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
+
 import jlearning.dao.GenericDAO;
 import jlearning.dao.GrammarDAO;
+import jlearning.model.Course;
 import jlearning.model.Grammar;
 
-public class GrammarDAOImpl extends GenericDAO<Integer, Grammar> implements GrammarDAO{
+public class GrammarDAOImpl extends GenericDAO<Integer, Grammar> implements GrammarDAO {
 
-	@Override
-	public void delete(Grammar entity) {
-		// TODO Auto-generated method stub
-		
+	Logger logger = Logger.getLogger(GrammarDAOImpl.class);
+
+	public GrammarDAOImpl() {
+		super(Grammar.class);
 	}
 
-	@Override
-	public Grammar saveOrUpdate(Grammar entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Grammar findById(Serializable key) {
-		// TODO Auto-generated method stub
-		return null;
+	public GrammarDAOImpl(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
 	}
 
 	@Override

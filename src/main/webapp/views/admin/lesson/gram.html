@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head
+	th:replace="views/admin/layout/base-layout :: head(~{this :: title}, ~{this :: .custom-link}, ~{this :: .custom-script})">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="admin page">
+
+<title>Grammar of Lesson</title>
+
+<link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css">
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link th:href="@{/assets/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+
+<link class="custom-link"
+	th:href="@{/assets/admin/css/user-profile.css}" rel="stylesheet" />
+
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<div th:replace="views/admin/layout/sidebar:: sidebar"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<div th:replace="views/admin/layout/topbar:: topbar"></div>
+
+				<!-- Begin Page Content -->
+
+				<div class="container-fluid">
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #vocab-info})">
+						<div id="vocab-info" class="container emp-profile">
+							<div th:if="${msg != null}"
+								class="alert alert-dismissible fade show"
+								th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+								role="alert">
+								<strong th:text="${msg}"></strong>
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="row" style="margin-bottom: 20px;">
+								<a th:if="${lessonId}!='0' "
+									th:href="@{'/admin/lessons/'+${lessonId}}"><i
+									class="fas fa-arrow-left"></i>Trở về</a> <a
+									th:if="${lessonId}=='0' " th:href="@{'/admin/lessons/add'}"><i
+									class="fas fa-arrow-left"></i>Trở về</a>
+							</div>
+							<div class="card shadow mb-10" style="width: 800px;">
+								<div class="card-header text-center">
+									<h2>Ngữ pháp</h2>
+									<div class="row">
+										<a th:href="@{'/admin/lessons/'+${lessonId}+'/gram/add'}"
+											class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+											class="fas fa-plus fa-sm text-white-50"></i>Thêm ngữ pháp</a>
+									</div>
+									<div class="row" style="margin-top: 10px; margin-left: 10%">
+										<div class="row" style="margin-top: 10px;">
+											<div style="width: 600px;">
+												<div th:if="${grams}" th:each="gram,i:${grams}">
+
+													<div class="row">
+														<div class="col-sm-6" style="text-align: left;">
+															<h5 th:text="@{${i.index+1}+'. '+${gram.name}}"></h5>
+														</div>
+														<div class="col-sm-6"
+															style="text-align: right; margin-bottom: 10px;">
+															<a type="button"
+																th:href="@{'/admin/lessons/'+${lessonId}+'/grams/'+${gram.id}+'/delete'}"
+																class="btn btn-danger">Xóa</a> <a type="button"
+																th:href="@{'/admin/lessons/'+${lessonId}+'/grams/'+${gram.id}+'/edit'}"
+																class="btn btn-warning">Sửa</a>
+														</div>
+													</div>
+													<div class="row">
+														<table style="margin-bottom: 10px"
+															th:utext="${gram.content}">
+
+														</table>
+													</div>
+													<div class="row">
+														<h5>Ví dụ</h5>
+													</div>
+													<div class="row">
+														<table style="margin-bottom: 10px"
+															th:utext="${gram.description}"></table>
+													</div>
+
+												</div>
+
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<!-- /.container-fluid -->
+
+				</div>
+				<!-- End of Main Content -->
+
+				<div th:replace="views/admin/layout/footer:: footer"></div>
+			</div>
+			<!-- End of Content Wrapper -->
+
+		</div>
+		<!-- End of Page Wrapper -->
+
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fas fa-angle-up"></i>
+		</a>
+
+
+		<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
+		<script
+			th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+		<script
+			th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+
+		<script class="custom-script"
+			th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+		<script>
+			function playAudio(audioId) {
+				var x = document.getElementById(audioId);
+				x.play();
+			}
+		</script>
+		<style>
+table, td, tr {
+	border: 1px solid #ccc;
+}
+</style>
+</body>
+
+</html>

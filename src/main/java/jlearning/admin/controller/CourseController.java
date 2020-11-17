@@ -69,7 +69,6 @@ public class CourseController {
 		if (session.getAttribute("newLesson") != null) {
 			List<LessonInfo> lessons = (List<LessonInfo>) session.getAttribute("newLesson");
 			courseService.create(lessons, course);
-			
 			typeCss = "success";
 			message = "Tạo khóa học thành công!!";
 			session.removeAttribute("newLesson");
@@ -77,7 +76,7 @@ public class CourseController {
 			session.removeAttribute("grams");
 			session.removeAttribute("listens");
 			session.removeAttribute("courseId");
-			
+			session.removeAttribute("newCourse");
 		}
 		/*
 		 * if (courseService.saveOrUpdate(course) == null) {

@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="admin page">
 
-<title>Vocab Form</title>
+<title>Gram Form</title>
 
 <link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -41,7 +41,8 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid">
-					<a th:if="${status == 'add'} " th:href="@{'/admin/lessons/'+${lessonId}+'/vocabs'}"><i
+					<a th:if="${status == 'add'} "
+						th:href="@{'/admin/lessons/'+${lessonId}+'/grams'}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
@@ -66,34 +67,42 @@
 								</div>
 								<div th:if="${status == 'add'}" class="card-body">
 
-									<form th:action="@{/admin/lessons/vocabs/add}" method="post"
-										th:object="${vocabForm}">
+									<form th:action="@{/admin/lessons/grams/add}" method="post"
+										th:object="${gramForm}">
 										<div class="form">
-											<input th:if="${status=='update'}" type="hidden"
-												th:field="*{id}">
-											<input th:value="${lessonId}" th:if="${lessonId}" type="hidden">
+
+											<input th:value="${lessonId}" th:if="${lessonId}"
+												type="hidden">
 											<div class="row">
-												<label>Từ</label> <input type="text"
-													th:field="*{content}" class="form-control" id="inputName"
-													placeholder="Nhập từ" required>
+												<label>Tên mẫu ngữ pháp</label> <input type="text"
+													th:field="*{name}" class="form-control" id="inputName"
+													placeholder="Tên" required>
 
 											</div>
 
 											<div class="row">
-												<label >Kanji</label> <input
-													th:field="*{kanji}" class="form-control" >
+												<label>Nội dung</label> <input th:field="*{content}"
+													class="form-control" id="content">
+												<textarea>
+    
+  </textarea>
+												<script>
+													tinymce
+															.init({
+																selector : 'textarea',
+																toolbar_mode : 'floating',
+																tinycomments_mode : 'embedded',
+																tinycomments_author : 'Author name'
+															});
+												</script>
 
 											</div>
 											<div class="row">
-												<label >Audio</label> <input
-													th:field="*{audio}" class="form-control" >
-
-											</div><div class="row">
-												<label >Nghĩa</label> <input
-													th:field="*{means}" class="form-control" required>
+												<label>Ví dụ</label> <input th:field="*{description}"
+													class="form-control">
 
 											</div>
-										
+
 										</div>
 										<div class="row">
 											<div class="col-sm-4"></div>
@@ -105,7 +114,10 @@
 
 									</form>
 								</div>
-								<div th:unless="${status == 'add'}" class="card-body"></div>
+								<div th:unless="${status == 'add'}" class="card-body">
+									<input th:if="${status=='update'}" type="hidden"
+										th:field="*{id}">
+								</div>
 
 							</div>
 						</div>
@@ -146,7 +158,9 @@
 			selector : 'textarea'
 		});
 	</script>
-
+	<script
+		src="https://cdn.tiny.cloud/1/e1p4f6d2dasspjp89gk4o4oheuuq5aui4y2adbrwey8uz0de/tinymce/5/tinymce.min.js"
+		referrerpolicy="origin"></script>
 	<script class="custom-script"
 		th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
 
