@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 
 import jlearning.model.Answer;
+import jlearning.model.Course;
 import jlearning.model.Grammar;
 import jlearning.model.Lesson;
 import jlearning.model.Listening;
@@ -14,6 +15,10 @@ import jlearning.model.Vocabulary;
 import jlearning.model.Test;
 
 import jlearning.service.LessonService;
+import jlearning.bean.GramInfo;
+import jlearning.bean.LessonInfo;
+import jlearning.bean.ListenInfo;
+import jlearning.bean.VocabInfo;
 
 public class LessonServiceImpl extends BaseServiceImpl implements LessonService {
 
@@ -23,7 +28,7 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 	public Lesson findById(Serializable key) {
 		try {
 			Lesson lesson = getLessonDAO().findById(key);
-			if(lesson!=null) {
+			if (lesson != null) {
 				List<Vocabulary> listVocab = lesson.getVocabularies();
 				List<Grammar> listGramr = lesson.getGrammars();
 				List<Listening> listListening = lesson.getListenings();
@@ -41,7 +46,7 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 				listVocab.size();
 				test.size();
 			}
-			
+
 			return lesson;
 
 		} catch (Exception e) {
@@ -56,6 +61,16 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		return getLessonDAO().saveOrUpdate(entity);
 	}
 
+	private void createListen(ListenInfo listenInfo, int id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void createGram(GramInfo gramInfo, int id) {
+		// TODO Auto-generated method stub
+
+	}
+
 	@Override
 	public boolean delete(Lesson entity) {
 		// TODO Auto-generated method stub
@@ -66,6 +81,42 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 	public List<Lesson> loadAllLessons() {
 
 		return getLessonDAO().loadAllLessons();
+	}
+
+	public Lesson createLessonWithListContent(LessonInfo lesson, int courseId) {
+
+		Lesson newLesson = new Lesson();
+		Course course = getCourseDAO().findById(courseId);
+		newLesson.setCourse(course);
+		getLessonDAO().saveOrUpdate(newLesson);
+		if (lesson.getVocabs() != null && lesson.getVocabs().size() > 0)
+			for (int i = 0; i < lesson.getVocabs().size(); i++) {
+				createVocab(lesson.getVocabs().get(i), newLesson.getId());
+			}
+
+		/*
+		 * if (lesson.getGrams() != null && lesson.getGrams().size() > 0) for (int i =
+		 * 0; i < lesson.getGrams().size(); i++) { createGram(lesson.getGrams().get(i),
+		 * newLesson.getId()); } if (lesson.getListens() != null &&
+		 * lesson.getListens().size() > 0) for (int i = 0; i <
+		 * lesson.getListens().size(); i++) { createListen(lesson.getListens().get(i),
+		 * newLesson.getId()); }
+		 */
+
+		return getLessonDAO().saveOrUpdate(newLesson);
+
+	}
+
+	public void createVocab(VocabInfo vocab, int lessonId) {
+		Vocabulary vocabulary = new Vocabulary();
+		Lesson lesson = getLessonDAO().findById(lessonId);
+		vocabulary.setAudio(vocab.getAudio());
+		vocabulary.setContent(vocab.getContent());
+		vocabulary.setKanji(vocab.getKanji());
+		vocabulary.setMeans(vocab.getMeans());
+		vocabulary.setLesson(lesson);
+		getVocabularyDAO().saveOrUpdate(vocabulary);
+
 	}
 
 }

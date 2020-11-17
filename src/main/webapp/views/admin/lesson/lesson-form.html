@@ -41,11 +41,11 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid">
-					<a th:if="${status != 'add'}" 
+					<a th:if="${status != 'add'}"
 						th:href="@{'/admin/lessons/'+${lessonForm.id}}"><i
-						class="fas fa-arrow-left"></i>Trở về</a> <a
-						th:if="${status == 'add'}"  th:href="@{'/admin/lessons/'}"><i
-						class="fas fa-arrow-left"></i>Trở về</a>
+						class="fas fa-arrow-left"></i>Trở về</a> <a th:if="${status == 'add'}"
+						th:href="@{'/admin/lessons/'}"><i class="fas fa-arrow-left"></i>Trở
+						về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
 						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
@@ -73,6 +73,7 @@
 											<button class="btn btn-outline-primary">Thêm thủ
 												công</button>
 										</form>
+								
 									</li>
 									<li>
 										<form th:action="@{'/admin/lessons/addImport'}">
@@ -83,7 +84,7 @@
 
 								</div>
 								<div th:unless="${status == 'add'}" class="card-body">
-									<form th:action="@{/admin/lessons/saveupdate}" method="post"
+									<form th:action="@{/admin/lessons/update}" method="post"
 										th:object="${lessonForm}">
 										<div class="form">
 											<input th:if="${status=='update'}" type="hidden"
@@ -106,12 +107,10 @@
 												<a th:href="@{'/admin/lessons/'+${lessonForm.id}+'/vocabs'}"
 													class="btn btn-outline-primary">Phần từ vựng</a> <a
 													th:href="@{'/admin/lessons/'+${lessonForm.id}+'/grams'}"
-													class="btn btn-outline-secondary"
-													th:if="${#lists.size(lessonForm.grammars)}>0">Phần ngữ
-													pháp</a> <a
+													class="btn btn-outline-secondary">Phần
+													ngữ pháp</a> <a
 													th:href="@{'/admin/lessons/'+${lessonForm.id}+'/listens'}"
-													class="btn btn-outline-success"
-													th:if="${#lists.size(lessonForm.listenings)}>0">Phần
+													class="btn btn-outline-success">Phần
 													nghe</a>
 
 											</div>

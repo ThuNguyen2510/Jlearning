@@ -40,7 +40,10 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid">
-					<a th:href="@{'/admin/courses/'+${courseForm.id}}"><i class="fas fa-arrow-left"></i>Trở
+					<a th:if="${status=='update'}"
+						th:href="@{'/admin/courses/'+${courseForm.id}}"><i
+						class="fas fa-arrow-left"></i>Trở về</a> <a th:if="${status=='add'}"
+						th:href="@{'/admin/courses/'}"><i class="fas fa-arrow-left"></i>Trở
 						về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
@@ -99,22 +102,45 @@
 													class="form-control">
 											</div>
 											<div class="row">
-												<label>Danh sách bài học</label>
-												<a th:href="@{'/admin/courses/'+${courseForm.id}+'/lessons/add'}" style="margin-left:20px"  class="btn btn-outline-info" >Thêm bài</a>
-											</div>	
-												<ol >
-													<li class="row" th:each="lesson,i:${courseForm.lessons}">
-													
+												<label>Danh sách bài học</label> <a
+													th:href="@{'/admin/courses/'+${courseForm.id}+'/lessons/add'}"
+													style="margin-left: 20px" class="btn btn-outline-info">Thêm
+													bài</a>
+											</div>
+
+											<ol>
+												<li class="row" th:each="lesson,i:${courseForm.lessons}">
+
 													<a class="col-sm-5"
-														th:text="@{${i.index+1}+'.'+${lesson.name}}"> </a> <a class="col-sm-1"
-														th:href="@{'/admin/lessons/'+${lesson.id}}">
-															<i class="fas fa-info-circle"></i>
-													</a> <a style="color:yellow" class="col-sm-1" th:href="@{'/admin/lessons/'+${lesson.id}+'/edit'}">
-															<i class="far fa-edit"></i>
-													</a> <a style="color:red"  class="col-sm-1" th:href="@{'/admin/lessons/'+${lesson.id}+'/delete'}">
-															<i class="fas fa-trash"></i>
-													</a></li>
-												</ol>
+													th:text="@{${i.index+1}+'.'+${lesson.name}}"> </a> <a
+													class="col-sm-1"
+													th:href="@{'/admin/lessons/'+${lesson.id}}"> <i
+														class="fas fa-info-circle"></i>
+												</a> <a style="color: yellow" class="col-sm-1"
+													th:href="@{'/admin/lessons/'+${lesson.id}+'/edit'}"> <i
+														class="far fa-edit"></i>
+												</a> <a style="color: red" class="col-sm-1"
+													th:href="@{'/admin/lessons/'+${lesson.id}+'/delete'}">
+														<i class="fas fa-trash"></i>
+												</a>
+												</li>
+											</ol>
+
+											<ol>
+												<li class="row" th:each="lesson,i:${newLesson}"><a
+													class="col-sm-5"
+													th:text="@{${i.index+1}+'.'+${lesson.name}}"> </a> <a
+													th:href="@{'/admin/lessons/'+${i.index}+'/lessonSession'}"
+													class="col-sm-1"> <i
+														class="fas fa-info-circle"></i>
+												</a> <a style="color: yellow" class="col-sm-1"
+													th:href="@{'/admin/lessons/'+${i.index}+'/editLessonSession'}"> <i
+														class="far fa-edit"></i>
+												</a> <a style="color: red" class="col-sm-1"
+													th:href="@{'/admin/lessons/'+${i.index}+'/deleteLessonSession'}">
+														<i class="fas fa-trash"></i>
+												</a></li>
+											</ol>
 
 											<!-- </div> -->
 

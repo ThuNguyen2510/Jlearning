@@ -1,6 +1,10 @@
 package jlearning.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import jlearning.bean.ListenInfo;
+import jlearning.bean.GramInfo;
+import jlearning.bean.LessonInfo;
+import jlearning.bean.VocabInfo;
 import jlearning.model.Alphabet;
 import jlearning.model.Course;
 import jlearning.model.Lesson;
@@ -32,6 +39,9 @@ public class LessonController {
 	@Autowired
 	private AlphabetService alphabetService;
 
+	@Autowired
+	private CourseService courseService;
+
 	@GetMapping(value = { "", "/" })
 	public String index(Model model) {
 		List<Lesson> lessons = lessonService.loadAllLessons();
@@ -49,6 +59,30 @@ public class LessonController {
 		}
 		model.addAttribute("lesson", lesson);
 		return "views/admin/lesson/lesson";
+	}
+	
+	@GetMapping(value = "/{index}/lessonSession")
+	public String showLessonInSesson(Model model, HttpServletRequest request, @PathVariable("index") int id) {
+		HttpSession session = request.getSession();
+		List<LessonInfo> list = (List<LessonInfo>)session.getAttribute("newLesson");
+		LessonInfo lesson = list.get(id);
+		model.addAttribute("lesson",lesson);
+		model.addAttribute("pos",id);
+		return "views/admin/lesson/lessonSession";
+	}
+	
+	@GetMapping(value = "/{index}/editLessonSession")
+	public String editInSession(Model model, @PathVariable("id") int id) {
+		
+		return "views/admin/lesson/lessonSession";
+	}
+	@GetMapping(value = "/{id}/deleteLessonSession")
+	public String deleteInSession(Model model, @PathVariable("id") int id,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		List<LessonInfo> list = (List<LessonInfo>)session.getAttribute("newLesson");
+		list.remove(id);
+		session.setAttribute("newLesson", list);
+		return "redirect:/admin/courses/add";
 	}
 
 	@GetMapping("/{id}/edit")
@@ -77,6 +111,7 @@ public class LessonController {
 			} else {
 				List<Vocabulary> vocabs = lessonService.findById(id).getVocabularies();
 				model.addAttribute("vocabs", vocabs);
+				model.addAttribute("lessonId",id);
 
 			}
 
@@ -89,65 +124,107 @@ public class LessonController {
 	}
 
 	@GetMapping("/{id}/vocab/add") // show-edit-delete
-	public String vocabAdd(@PathVariable("id") int id, Model model) {
-		model.addAttribute("lessonId", id);
+	public String vocabAdd(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("lessonId", id);
 		return "views/admin/lesson/vocab-form";
 	}
 
 	@RequestMapping(value = "/addVocabNormal")
-	public String addVocabManual(Model model) {
-		
+	public String addVocabManual(Model model, HttpServletRequest request) {
+		// if id!=0 thi save ; ko thi luu vao session
+		HttpSession session = request.getSession();
+		model.addAttribute("status", "add");
+		model.addAttribute("lessonId", session.getAttribute("lessonId"));
+		model.addAttribute("vocabForm", new VocabInfo());
 		return "views/admin/lesson/newVocabNormal";
+	}
+
+	@RequestMapping(value = "/vocabs/add")
+	public String saveVocab(Model model, @ModelAttribute("vocabForm") VocabInfo vocab, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		// if id!=0 thi save ; ko thi luu vao session
+		int lessonId = 0;
+		if (session.getAttribute("lessonId") != null) {
+			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
+		}
+		if (lessonId != 0) {
+			lessonService.createVocab(vocab, lessonId);
+
+		} else {
+
+			List<VocabInfo> vocabs = new ArrayList<VocabInfo>();
+			if (session.getAttribute("vocabs") != null) {
+				vocabs = (List<VocabInfo>) session.getAttribute("vocabs");
+			}
+			vocabs.add(vocab);
+			session.setAttribute("vocabs", vocabs);
+
+		}
+		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
+
 	}
 
 	@GetMapping("/{id}/grams")
 	public String grams(@PathVariable("id") int id, Model model) {
 		return "views/admin/lessons";
 	}
+
 	@GetMapping("/{id}/gram/add") // show-edit-delete
 	public String gramAdd(@PathVariable("id") int id, Model model) {
 		model.addAttribute("lessonId", id);
 		return "views/admin/lesson/vocab-form";
 	}
+
 	@RequestMapping(value = "/addGramNormal")
 	public String addGramManual(Model model) {
-		
+
 		return "views/admin/lesson/newVocabNormal";
 	}
 
-	
 	@GetMapping("/{id}/listens") // show-edit-delete
 	public String listens(@PathVariable("id") int id, Model model) {
 		return "views/admin/lessons";
 	}
-	
-	@GetMapping("/{id}/listen/add") 
+
+	@GetMapping("/{id}/listen/add")
 	public String listenAdd(@PathVariable("id") int id, Model model) {
 		model.addAttribute("lessonId", id);
 		return "views/admin/lesson/vocab-form";
 	}
+
 	@RequestMapping(value = "/addListenNormal")
 	public String addListenManual(Model model) {
-		
+
 		return "views/admin/lesson/newVocabNormal";
 	}
 
 	@RequestMapping(value = "/add")
 	public String add(Model model) {
-		Lesson course = new Lesson();
-		model.addAttribute("lessonForm", course);
+		Lesson lesson = new Lesson();
+		model.addAttribute("lessonForm", lesson);
+		List<Course> courses = courseService.loadCourses();
+		model.addAttribute("courses", courses);
 		model.addAttribute("status", "add");
 		return "views/admin/lesson/newLessonManual";
 	}
 
 	@RequestMapping(value = "/addNormal")
-	public String addManual(Model model) {
-		Lesson course = new Lesson();
-		model.addAttribute("lessonForm", course);
+	public String addManual(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Lesson lesson = new Lesson();
+		model.addAttribute("lessonForm", lesson);
+		List<Course> courses = courseService.loadCourses();
+		model.addAttribute("courses", courses);
+		model.addAttribute("courseId", session.getAttribute("courseId"));
 		model.addAttribute("status", "add");
+		if (session.getAttribute("courseId").toString().compareTo("0") != 0) {
+			String courseName = courseService.findById(Integer.parseInt(session.getAttribute("courseId").toString()))
+					.getName();
+			model.addAttribute("courseName", courseName);
+		}
 		return "views/admin/lesson/newLessonManual";
 	}
-	
 
 	@RequestMapping(value = "/addImport")
 	public String addImport(Model model) {
@@ -157,12 +234,91 @@ public class LessonController {
 		return "views/admin/lesson/newLessonImport";
 	}
 
+	@RequestMapping(value = "/new")
+	public String newLesson(@ModelAttribute("lessonForm") Lesson lesson, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		String typeCss = "error";
+		String message = "Input sai!";
+		HttpSession session = request.getSession();
+		LessonInfo lf = new LessonInfo();
+		lf.setName(lesson.getName());
+		lf.setDescription(lesson.getDescription());
+		if(session.getAttribute("vocabs")!=null) {
+			lf.setVocabs((List<VocabInfo>)session.getAttribute("vocabs"));
+		}
+		if(session.getAttribute("grams")!=null) {
+			lf.setGrams((List<GramInfo>)session.getAttribute("grams"));
+		}
+		if(session.getAttribute("listens")!=null) {
+			lf.setListens((List<ListenInfo>)session.getAttribute("listens"));
+		}
+		List<LessonInfo> list = new ArrayList<LessonInfo>();
+		if (session.getAttribute("newLesson") != null) {
+			list = (List<LessonInfo>) session.getAttribute("newLesson");
+		}
+		list.add(lf);
+		session.setAttribute("newLesson", list);
+		logger.info("COURSEID"+ session.getAttribute("courseId"));
+		logger.info("PARAM "+request.getParameter("course"));
+		session.removeAttribute("newCourse");
+		if (session.getAttribute("courseId") != null) {
+			if(session.getAttribute("courseId").toString().compareTo("0")!=0) {
+				lesson.setCourse(courseService.findById(Integer.parseInt(request.getParameter("course"))));
+				if (session.getAttribute("courseId") != null) // có course 
+					session.removeAttribute("courseId");
+				if (lessonService.saveOrUpdate(lesson) == null) {
+					
+					redirectAttributes.addFlashAttribute("css", typeCss);
+					redirectAttributes.addFlashAttribute("msg", message);
+					return "redirect:/admin/lessons";
+				} else {
+					typeCss = "success";
+					message = "Sửa/Tạo bài học thành công!!";
+					session.removeAttribute("vocabs");
+					session.removeAttribute("grams");
+					session.removeAttribute("listens");
+					session.removeAttribute("courseId");
+					redirectAttributes.addFlashAttribute("css", typeCss);
+					redirectAttributes.addFlashAttribute("msg", message);
+					return "redirect:/admin/lessons/" + lesson.getId();
+				}
+			}else {
+				// chua co course
+				return "redirect:/admin/courses/add";
+			}
+			
+
+		} else if (request.getParameter("course") != null) { // select course
+			lesson.setCourse(courseService.findById(Integer.parseInt(request.getParameter("course"))));
+			if (lessonService.saveOrUpdate(lesson) == null) {
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons";
+			} else {
+				typeCss = "success";
+				message = "Sửa/Tạo bài học thành công!!";
+				session.removeAttribute("vocabs");
+				session.removeAttribute("grams");
+				session.removeAttribute("listens");
+				session.removeAttribute("courseId");
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/" + lesson.getId();
+			}
+
+		}
+	
+		return  "redirect:/admin/lessons/" + lesson.getId();
+
+	}
+
 	@RequestMapping(value = "/update")
-	public String saveOrUpdate(@ModelAttribute("lessonForm") Lesson lesson, BindingResult result, Model model,
-			final RedirectAttributes redirectAttributes) {
+	public String Update(@ModelAttribute("lessonForm") Lesson lesson, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		String typeCss = "error";
 		String message = "Input sai!";
 		Lesson old = lessonService.findById(lesson.getId());
+		HttpSession session = request.getSession();
 		lesson.setCourse(old.getCourse());
 		if (lessonService.saveOrUpdate(lesson) == null) {
 			redirectAttributes.addFlashAttribute("css", typeCss);
@@ -171,6 +327,11 @@ public class LessonController {
 		} else {
 			typeCss = "success";
 			message = "Sửa/Tạo khóa học thành công!!";
+			session.removeAttribute("vocabs");
+			session.removeAttribute("grams");
+			session.removeAttribute("listens");
+			session.removeAttribute("courseId");
+			session.removeAttribute("newLesson");
 			redirectAttributes.addFlashAttribute("css", typeCss);
 			redirectAttributes.addFlashAttribute("msg", message);
 			return "redirect:/admin/lessons/" + lesson.getId();

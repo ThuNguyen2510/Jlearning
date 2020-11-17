@@ -65,19 +65,28 @@
 
 								</div>
 								<div class="card-body">
-									<form th:action="@{/admin/lessons/update}" method="post"
+									<form th:action="@{/admin/lessons/new}" method="post"
 										th:object="${lessonForm}">
 										<div class="form">
 
 
-											<div class="row">
+											<div th:if="${courseId}==null and ${session.newCourse}==null"class="row">
 												<label for="inputName">Khóa học</label>
-												<!-- <select >
-												<option th:each="c:${course.name}"></option>
-												</select> -->
-												<input type="text" th:field="*{course.id}"
-													class="form-control" placeholder="Nhập id" required>
-
+												<select  th:field="*{course}" >
+												<option  th:value="${c.id}" th:each="c:${courses}" th:text="${c.name}"></option>
+												</select>
+												
+											</div>
+											<div th:if="${courseId}!=null and ${courseId}!=0"class="row">
+												<label for="inputName">Khóa học</label>
+												<input readonly th:value="${courseName}">
+												<input type="hidden" th:name="course" th:value="${courseId}">
+											</div>
+											<div th:if="${courseId}!=null and ${courseId}==0"class="row">											
+												<input type="hidden" th:name="course" th:value="${courseId}">
+											</div>
+											<div th:if="${session.newCourse}!=null "class="row">											
+												<input type="hidden" th:name="course" th:value="${session.newCourse}">
 											</div>
 											<div class="row">
 												<label for="inputName">Tên</label> <input type="text"

@@ -2,6 +2,8 @@ package jlearning.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import jlearning.bean.LessonInfo;
+import jlearning.bean.VocabInfo;
 import jlearning.dao.AlphabetDAO;
 import jlearning.dao.BlogDAO;
 import jlearning.dao.CommentDAO;
@@ -15,48 +17,51 @@ import jlearning.dao.ResultDAO;
 import jlearning.dao.TestDAO;
 import jlearning.dao.UserDAO;
 import jlearning.dao.VocabularyDAO;
+import jlearning.model.Course;
+import jlearning.model.Lesson;
+import jlearning.model.Vocabulary;
 
 public class BaseServiceImpl {
-	
+
 	@Autowired
 	private UserDAO userDAO;
-	
+
 	@Autowired
 	private BlogDAO blogDAO;
 
 	@Autowired
 	private CourseDAO courseDAO;
-	
+
 	@Autowired
 	private LessonDAO lessonDAO;
-	
+
 	@Autowired
 	private AlphabetDAO alphabetDAO;
-	
+
 	@Autowired
 	private VocabularyDAO vocabularyDAO;
-	
+
 	@Autowired
 	private GrammarDAO grammarDAO;
-	
+
 	@Autowired
 	private ListeningDAO listeningDAO;
-	
+
 	@Autowired
 	private TestDAO testDAO;
-	
+
 	@Autowired
 	private ResultDAO resultDAO;
-	
+
 	@Autowired
 	private QuestionDAO questionDAO;
-	
+
 	@Autowired
 	private HistoryDAO historyDAO;
-	
+
 	@Autowired
 	private CommentDAO commentDAO;
-	
+
 	public TestDAO getTestDAO() {
 		return testDAO;
 	}
@@ -160,4 +165,6 @@ public class BaseServiceImpl {
 	public void setCommentDAO(CommentDAO commentDAO) {
 		this.commentDAO = commentDAO;
 	}
+
+
 }

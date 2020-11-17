@@ -2,6 +2,9 @@ package jlearning.admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jlearning.bean.LessonInfo;
 import jlearning.model.Course;
 import jlearning.model.User;
 import jlearning.service.CourseService;
@@ -21,23 +25,24 @@ import jlearning.service.CourseService;
 @RequestMapping("/admin/courses")
 public class CourseController {
 	private static final Logger logger = Logger.getLogger(CourseController.class);
-	
+
 	@Autowired
 	private CourseService courseService;
-	
+
 	@GetMapping(value = { "", "/" })
 	public String index(Model model) {
-		List<Course> courses= courseService.loadCourses();
+		List<Course> courses = courseService.loadCourses();
 		model.addAttribute("courses", courses);
 		return "views/admin/course/courses";
 	}
-	
+
 	@GetMapping("/{id}")
-	public String show(@PathVariable("id") int id,Model model) {
-		Course course= courseService.findById(id);
+	public String show(@PathVariable("id") int id, Model model) {
+		Course course = courseService.findById(id);
 		model.addAttribute("course", course);
 		return "views/admin/course/course";
 	}
+
 	@GetMapping("/{id}/edit")
 	public String editCourse(@PathVariable("id") int id, Model model, final RedirectAttributes redirectAttributes) {
 		String typeCss = "error";
@@ -53,40 +58,67 @@ public class CourseController {
 		return "redirect:/admin/courses";
 
 	}
-	
+
 	@RequestMapping(value = "/saveupdate")
 	public String saveOrUpdate(@ModelAttribute("courseForm") Course course, BindingResult result, Model model,
-			final RedirectAttributes redirectAttributes) {
-		
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
 		String typeCss = "error";
 		String message = "Input sai!";
-		if (courseService.saveOrUpdate(course) == null) {
-			redirectAttributes.addFlashAttribute("css", typeCss);
-			redirectAttributes.addFlashAttribute("msg", message);
-			return "redirect:/admin/courses";
-		}else {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("newLesson") != null) {
+			List<LessonInfo> lessons = (List<LessonInfo>) session.getAttribute("newLesson");
+			courseService.create(lessons, course);
+			
 			typeCss = "success";
-			message = "Sửa/Tạo khóa học thành công!!";
+			message = "Tạo khóa học thành công!!";
+			session.removeAttribute("newLesson");
+			session.removeAttribute("vocabs");
+			session.removeAttribute("grams");
+			session.removeAttribute("listens");
+			session.removeAttribute("courseId");
+			
+		}
+		/*
+		 * if (courseService.saveOrUpdate(course) == null) {
+		 * redirectAttributes.addFlashAttribute("css", typeCss);
+		 * redirectAttributes.addFlashAttribute("msg", message); return
+		 * "redirect:/admin/courses"; }
+		 */else {
+			typeCss = "success";
+			message = "Sửa khóa học thành công!!";
+			courseService.saveOrUpdate(course);
 			redirectAttributes.addFlashAttribute("css", typeCss);
 			redirectAttributes.addFlashAttribute("msg", message);
-			return "redirect:/admin/courses/"+course.getId();
+
 		}
-		
+		return "redirect:/admin/courses/" + course.getId();
 	}
+
 	@RequestMapping(value = "/add")
-	public String add( Model model) {
+	public String add(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		Course course = new Course();
 		model.addAttribute("courseForm", course);
+		if (session.getAttribute("newLesson") != "") {
+			List<LessonInfo> lessons = (List<LessonInfo>) session.getAttribute("newLesson");
+			model.addAttribute("newLesson", lessons);
+		}
+		session.setAttribute("newCourse", "0");
 		model.addAttribute("status", "add");
+
 		return "views/admin/course/course-form";
 	}
-	
+
 	@RequestMapping(value = "/{courseId}/lessons/add")
-	public String addLesson( Model model,@PathVariable("courseId") Integer id) {
+	public String addLesson(Model model, @PathVariable("courseId") Integer id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		model.addAttribute("status", "add");
+		session.setAttribute("courseId", id);
+
 		return "views/admin/lesson/lesson-form";
 	}
-	
+
 	@GetMapping(value = "/{id}/delete")
 	public String deleteUser(@PathVariable("id") Integer id, final RedirectAttributes redirectAttributes) {
 		Course course = courseService.findById(id);
@@ -99,7 +131,7 @@ public class CourseController {
 		}
 		typeCss = "error";
 		message = "Fail to delete course!";
-		if (courseService.deleteCourse(id)!=null) {
+		if (courseService.deleteCourse(id) != null) {
 			typeCss = "success";
 			message = "Course is deleted!";
 		}
