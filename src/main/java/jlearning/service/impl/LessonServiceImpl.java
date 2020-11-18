@@ -85,20 +85,33 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 			for (int i = 0; i < lesson.getVocabs().size(); i++) {
 				createVocab(lesson.getVocabs().get(i), newLesson.getId());
 			}
+		if (lesson.getGrams() != null && lesson.getGrams().size() > 0) {
+			if (lesson.getGrams().size() <= 6)
+				for (int i = 0; i < lesson.getGrams().size(); i++) {
+					createGram(lesson.getGrams().get(i), newLesson.getId());
+				}
+			else {
+				for (int i = 0; i < 6; i++) {
+					createGram(lesson.getGrams().get(i), newLesson.getId());
+				}
+			}
+		}
 
-		/*
-		 * if (lesson.getGrams() != null && lesson.getGrams().size() > 0) for (int i =
-		 * 0; i < lesson.getGrams().size(); i++) { createGram(lesson.getGrams().get(i),
-		 * newLesson.getId()); } if (lesson.getListens() != null &&
-		 * lesson.getListens().size() > 0) for (int i = 0; i <
-		 * lesson.getListens().size(); i++) { createListen(lesson.getListens().get(i),
-		 * newLesson.getId()); }
-		 */
-
+		if (lesson.getListens() != null && lesson.getListens().size() > 0) {
+			if (lesson.getListens().size() <= 6) {
+				for (int i = 0; i < lesson.getListens().size(); i++) {
+					createListen(lesson.getListens().get(i), newLesson.getId());
+				}
+			} else {
+				for (int i = 0; i < 6; i++) {
+					createListen(lesson.getListens().get(i), newLesson.getId());
+				}
+			}
+		}
 		return getLessonDAO().saveOrUpdate(newLesson);
 
 	}
-	
+
 	public void createVocab(VocabInfo vocab, int lessonId) {
 		Vocabulary vocabulary = new Vocabulary();
 		Lesson lesson = getLessonDAO().findById(lessonId);
@@ -114,13 +127,13 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 	@Override
 	public boolean deleteGram(int id) {
 		try {
-			
+
 			Grammar entity = getGrammarDAO().findById(id);
 			Lesson lesson = getLessonDAO().findById(entity.getLesson().getId());
 			lesson.getGrammars().remove(entity);
-			logger.info("SIZE "+lesson.getGrammars().size());
+			logger.info("SIZE " + lesson.getGrammars().size());
 			getLessonDAO().saveOrUpdate(lesson);
-			logger.info("SIZE "+lesson.getGrammars().size());
+			logger.info("SIZE " + lesson.getGrammars().size());
 			getGrammarDAO().delete(entity);
 			return true;
 		} catch (Exception e) {
@@ -139,13 +152,64 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		Lesson lesson = getLessonDAO().findById(lessonId);
 		gramNew.setLesson(lesson);
 		getGrammarDAO().saveOrUpdate(gramNew);
-		
+
 	}
 
 	@Override
-	public void createListen(ListenInfo vocab, int lessonId) {
-		// TODO Auto-generated method stub
-		
+	public void createListen(ListenInfo listen, int lessonId) {
+		Listening listenNew = new Listening();
+		Lesson lesson = getLessonDAO().findById(lessonId);
+		listenNew.setAudio(listen.getAudio());
+		listenNew.setImage(listen.getImage());
+		if (listen.getContent1() != null)
+			listenNew.setContent1(listen.getContent1());
+		if (listen.getContent2() != null)
+			listenNew.setContent2(listen.getContent2());
+		if (listen.getContent3() != null)
+			listenNew.setContent3(listen.getContent3());
+		if (listen.getContent4() != null)
+			listenNew.setContent4(listen.getContent4());
+		if (listen.getContent5() != null)
+			listenNew.setContent5(listen.getContent5());
+		if (listen.getContent6() != null)
+			listenNew.setContent6(listen.getContent6());
+		listenNew.setLesson(lesson);
+		getListeningDAO().saveOrUpdate(listenNew);
+
+	}
+
+	@Override
+	public boolean deleteVocab(int id) {
+		try {
+
+			Vocabulary entity = getVocabularyDAO().findById(id);
+			Lesson lesson = getLessonDAO().findById(entity.getLesson().getId());
+			lesson.getGrammars().remove(entity);
+			getLessonDAO().saveOrUpdate(lesson);
+			getVocabularyDAO().delete(entity);
+			return true;
+		} catch (Exception e) {
+
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean deleteListen(int id) {
+		try {
+
+			Listening entity = getListeningDAO().findById(id);
+			Lesson lesson = getLessonDAO().findById(entity.getLesson().getId());
+			lesson.getListenings().remove(entity);
+			getLessonDAO().saveOrUpdate(lesson);
+			getListeningDAO().delete(entity);
+			return true;
+		} catch (Exception e) {
+
+		}
+
+		return false;
 	}
 
 }

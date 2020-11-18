@@ -714,7 +714,7 @@
 							</form>
 						</div>
 						<div class="row w-100" th:if="${alphabet}==null">
-							<form th:action="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
+							<form th:if="${lesson.tests}!=null and ${#lists.size(lesson.tests)}>0" th:action="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
 								<div th:each="item: ${lesson.tests[0].questions}"
 									class="container" style="margin: 5px; margin-bottom: 20px">

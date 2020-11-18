@@ -85,8 +85,14 @@ public class CourseController {
 		 * "redirect:/admin/courses"; }
 		 */else {
 			typeCss = "success";
-			message = "Sửa khóa học thành công!!";
+			message = "Tạo/Sửa khóa học thành công!!";
 			courseService.saveOrUpdate(course);
+			session.removeAttribute("newLesson");
+			session.removeAttribute("vocabs");
+			session.removeAttribute("grams");
+			session.removeAttribute("listens");
+			session.removeAttribute("courseId");
+			session.removeAttribute("newCourse");
 			redirectAttributes.addFlashAttribute("css", typeCss);
 			redirectAttributes.addFlashAttribute("msg", message);
 
