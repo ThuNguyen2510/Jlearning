@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import jlearning.bean.LessonInfo;
 import jlearning.bean.VocabInfo;
 import jlearning.dao.AlphabetDAO;
+import jlearning.dao.AnswerDAO;
 import jlearning.dao.BlogDAO;
 import jlearning.dao.CommentDAO;
 import jlearning.dao.CourseDAO;
@@ -55,6 +56,16 @@ public class BaseServiceImpl {
 
 	@Autowired
 	private QuestionDAO questionDAO;
+	@Autowired
+	private AnswerDAO answerDAO;
+
+	public AnswerDAO getAnswerDAO() {
+		return answerDAO;
+	}
+
+	public void setAnswerDAO(AnswerDAO answerDAO) {
+		this.answerDAO = answerDAO;
+	}
 
 	@Autowired
 	private HistoryDAO historyDAO;
@@ -165,6 +176,5 @@ public class BaseServiceImpl {
 	public void setCommentDAO(CommentDAO commentDAO) {
 		this.commentDAO = commentDAO;
 	}
-
 
 }

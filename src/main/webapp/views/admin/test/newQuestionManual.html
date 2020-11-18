@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head
+	th:replace="views/admin/layout/base-layout :: head(~{this :: title}, ~{this :: .custom-link}, ~{this :: .custom-script})">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="admin page">
+
+<title>Question Form</title>
+
+<link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css">
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link class="custom-link"
+	th:href="@{/assets/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<div th:replace="views/admin/layout/sidebar:: sidebar"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<div th:replace="views/admin/layout/topbar:: topbar"></div>
+
+				<!-- Begin Page Content -->
+
+				<div class="container-fluid">
+					<a th:href="@{'/admin/tests/add'}"><i class="fas fa-arrow-left"></i>Trở
+						về</a>
+
+					<div th:if="${msg != null}"
+						class="alert alert-dismissible fade show"
+						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+						role="alert">
+						<strong th:text="${msg}"></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #ques-form})">
+
+						<div id="ques-form" class="row justify-content-center">
+
+							<div class="card shadow mb-4" style="width: 1000px;">
+								<div class="card-header text-center">
+									<h2 th:if="${status == 'add'}">Tạo câu hỏi</h2>
+
+								</div>
+								<div class="card-body">
+									<form th:action="@{/admin/tests/questions/new}" method="post"
+										th:object="${quesForm}">
+										<div class="form">
+											<div class="row">
+												<label for="inputName">Nội dung câu hỏi</label>
+												<textarea type="text" th:field="*{content}"
+													class="form-control" required></textarea>
+
+											</div>
+											<div class="row">
+												<label>Phương án</label>
+
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+												<div class="col-sm">
+
+													<label>Phương án 1: </label> <label>Đúng? </label><input
+														th:name="ans" th:value="0" style="margin-left: 40px;"
+														type="radio" required>
+												</div>
+												<input th:field="*{ansList[0].content}" class="form-control" required>
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+
+												<div class="col-sm">
+													<label>Phương án 2: </label> <label>Đúng? </label><input
+														th:name="ans" th:value="1" style="margin-left: 40px;"
+														type="radio">
+												</div>
+												<input th:field="*{ansList[1].content}" class="form-control" required>
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+
+												<div class="col-sm">
+													<label>Phương án 3: </label> <label>Đúng? </label><input
+														th:name="ans" th:value="2" style="margin-left: 40px;"
+														type="radio">
+												</div>
+												<input th:field="*{ansList[2].content}" class="form-control" required>
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+
+												<div class="col-sm">
+													<label>Phương án 4: </label> <label>Đúng? </label><input
+														th:name="ans" th:value="3" style="margin-left: 40px;"
+														type="radio">
+												</div>
+												<input th:field="*{ansList[3].content}" class="form-control" required>
+
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-4"></div>
+											<div class="col-sm-4" style="text-align: center">
+												<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
+											</div>
+											<div class="col-sm-4"></div>
+										</div>
+
+									</form>
+								</div>
+
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<div th:replace="views/admin/layout/footer:: footer"></div>
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+
+	<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
+	<script
+		th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+	<script
+		th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+
+	<script class="custom-script"
+		th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+
+	<style>
+.row {
+	margin-bottom: 20px
+}
+</style>
+
+</body>
+
+</html>

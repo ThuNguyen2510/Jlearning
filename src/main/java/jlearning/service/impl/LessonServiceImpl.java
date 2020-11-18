@@ -13,7 +13,7 @@ import jlearning.model.Lesson;
 import jlearning.model.Listening;
 import jlearning.model.Vocabulary;
 import jlearning.model.Test;
-
+import jlearning.model.Test.Type;
 import jlearning.service.LessonService;
 import jlearning.bean.GramInfo;
 import jlearning.bean.LessonInfo;
@@ -210,6 +210,12 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		}
 
 		return false;
+	}
+
+	@Override
+	public List<Lesson> loadByType(Type type) {
+		
+		return getLessonDAO().loadByType(type);
 	}
 
 }

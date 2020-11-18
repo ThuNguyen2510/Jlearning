@@ -53,6 +53,11 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
+	<bean id="AnswerDAO" class="jlearning.dao.impl.AnswerDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
 	<bean id="HistoryDAO" class="jlearning.dao.impl.HistoryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>

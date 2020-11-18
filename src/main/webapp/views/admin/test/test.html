@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head
+	th:replace="views/admin/layout/base-layout :: head(~{this :: title}, ~{this :: .custom-link}, ~{this :: .custom-script})">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="admin page">
+
+<title>Test Information</title>
+
+<link th:href="@{/assets/admin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css">
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link th:href="@{/assets/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+
+<link class="custom-link"
+	th:href="@{/assets/admin/css/user-profile.css}" rel="stylesheet" />
+
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<div th:replace="views/admin/layout/sidebar:: sidebar"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<div th:replace="views/admin/layout/topbar:: topbar"></div>
+
+				<!-- Begin Page Content -->
+
+				<div class="container-fluid">
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #course-info})">
+						<div id="course-info" class="container emp-profile">
+							<div th:if="${msg != null}"
+								class="alert alert-dismissible fade show"
+								th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+								role="alert">
+								<strong th:text="${msg}"></strong>
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="row" style="margin-bottom: 20px;">
+								<a th:href="@{'/admin/tests'}"><i class="fas fa-arrow-left"></i>Trở
+									về</a>
+							</div>
+							<form th:action="@{'/admin/tests/'+${test.id}+'/addQuestion'}"
+								>
+								<div class="row">
+									<div class="col-md-2"></div>
+									<div class="col-md-6">
+										<div class="profile-head ">
+											<h3 style="color: red" th:text="${test.name}"></h3>
+											<h5>
+												<span
+													th:text="@{'Số câu hỏi: '+${#lists.size(test.questions)}+' câu'}"></span>
+											</h5>
+
+										</div>
+									</div>
+									<div class="col-md-4" style="text-align: end">
+
+										<a th:href="@{'/admin/tests/'+${test.id}+'/edit'}">
+											<button type="button" class="btn btn-warning">Sửa
+												thông tin</button>
+										</a>
+
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-2"></div>
+									<div class="col-md-10">
+										<div class="tab-content profile-tab" id="myTabContent">
+											<div class="tab-pane fade show active" id="home"
+												role="tabpanel" aria-labelledby="home-tab">
+												<div th:if="${#strings.equals(type, 'EXAM')}" class="row">
+													<div class="col-md-3">
+														<label>Level</label>
+													</div>
+													<div class="col-md-9">
+														<span th:text="${test.level}"
+															class="badge badge-pill badge-success"></span>
+													</div>
+												</div>
+												
+												<div  class="row">
+													<div class="col-md-3">
+														<label>Thời gian</label>
+													</div>
+													<div class="col-md-9">
+														<span th:text="@{${test.time}+' phút'}"
+															class="badge badge-pill badge-success"></span>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Danh sách câu hỏi</label>
+													</div>
+													<div class="col-md-9">
+														<button th:if="${#lists.size(test.questions)}>0"
+															class="btn btn-primary" type="button"
+															data-toggle="collapse" data-target="#lessons"
+															aria-expanded="false" aria-controls="level">Xem</button>
+														<button type="submit" class="btn btn-info">Thêm
+															câu hỏi</button>
+
+													</div>
+												</div>
+												<div class="row">
+													<div style="width: 600px" id="lessons" class="collapse">
+														<table data-v-427d2be1="" class="table table-striped">
+															<thead data-v-427d2be1="">
+																<tr data-v-427d2be1="">
+																	<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
+																	<th data-v-427d2be1="" scope="col">Câu hỏi</th>
+																	<th data-v-427d2be1="" scope="col">Đáp án</th>
+
+
+																</tr>
+															</thead>
+															<tbody data-v-427d2be1="">
+																<tr th:each="ques,i:${test.questions}"
+																	data-v-427d2be1="">
+																	<td data-v-427d2be1="" scope="row" class="center order"><strong
+																		data-v-427d2be1="" th:text="${i.index+1}"></strong></td>
+																	<td data-v-427d2be1=""><a
+																		th:href="@{'/admin/tests/'+${ques.id}}"
+																		th:utext="${ques.content}"></a></td>
+																	<td data-v-427d2be1="">
+																		<li style="list-style-type: none;" th:each="ans:${ques.answers}"
+																		 th:if="${ans.isTrue}==0"><span th:text="${ans.content}"></span></li>
+																		<li  th:each="ans:${ques.answers}"
+																	style="color: green;list-style-type: none;"
+																		th:if="${ans.isTrue}==1"><span th:text="${ans.content}"></span><i class="far fa-check-circle"></i></li>
+																	</td>
+
+																</tr>
+
+															</tbody>
+														</table>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<label>Ngày tạo</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${test.create_time}></p>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3">
+														<label>Last updated</label>
+													</div>
+													<div class="col-md-9">
+														<p th:text=${test.update_time}></p>
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<div th:replace="views/admin/layout/footer:: footer"></div>
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+
+	<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
+	<script
+		th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+	<script
+		th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+
+	<script class="custom-script"
+		th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+
+
+
+</body>
+
+</html>

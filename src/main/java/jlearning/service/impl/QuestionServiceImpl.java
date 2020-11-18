@@ -28,8 +28,8 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
 
 	@Override
 	public Question saveOrUpdate(Question entity) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return getQuestionDAO().saveOrUpdate(entity);
 	}
 
 	@Override

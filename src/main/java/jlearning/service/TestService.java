@@ -2,6 +2,8 @@ package jlearning.service;
 
 import java.util.List;
 
+import jlearning.bean.QuestionInfo;
+import jlearning.bean.TestInfo;
 import jlearning.model.Test;
 import jlearning.model.Test.Type;
 
@@ -12,4 +14,7 @@ public interface TestService extends BaseService<Integer,Test>{
 	Test findAndLoad(int id);
 	List<Test> findByLevel(int level);
 	List<Test> loadAllTest();
+	boolean createQuestion(QuestionInfo ques, int testId);
+	void createTest(List<QuestionInfo> quesList,TestInfo testInfo);
+	void saveOrUpdate_(TestInfo test);
 }

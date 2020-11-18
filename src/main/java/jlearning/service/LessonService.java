@@ -7,9 +7,11 @@ import jlearning.bean.LessonInfo;
 import jlearning.bean.ListenInfo;
 import jlearning.bean.VocabInfo;
 import jlearning.model.Lesson;
+import jlearning.model.Test.Type;
 
 public interface LessonService extends BaseService<Integer,Lesson> {
 	 List<Lesson> loadAllLessons() ;
+	 List<Lesson> loadByType(Type type);
 	 void createVocab(VocabInfo vocab,int lessonId);
 	 void createGram(GramInfo vocab,int lessonId);
 	 void createListen(ListenInfo vocab,int lessonId);
