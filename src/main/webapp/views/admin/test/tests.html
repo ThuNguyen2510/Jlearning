@@ -103,11 +103,11 @@
 												<th:block th:each="test, iter : ${tests}">
 													<tr>
 														<td th:text="${iter.index+1}"></td>
-														
+
 														<td th:text="${test.name}"></td>
 
 														<td th:text="${test.type}"></td>
-														
+
 														<td class="text-center"><a
 															th:href="@{'/admin/tests/'+${test.id}}"
 															class=" btn btn-info btn-circle"> <i
@@ -115,7 +115,7 @@
 														</a> <a th:href="@{'/admin/tests/'+${test.id}+'/edit'}"
 															class="btn btn-warning btn-circle my-2"> <i
 																class="far fa-edit"></i>
-														</a> <a th:href="@{'/admin/tests/'+${test.id}+'/delete'}"
+														</a> <a th:onclick="'deleteTest('+${test.id}+')'"
 															class="btn btn-danger btn-circle"> <i
 																class="fas fa-trash"></i>
 														</a></td>
@@ -130,7 +130,17 @@
 							</div>
 						</div>
 					</div>
+					<script>
+						function deleteTest(id) {
+							var a = confirm('Bạn muốn xóa đề!')
+							if (a) {
 
+								location.href = 'http://localhost:8080/haru/admin/tests/'
+										+ id + '/delete'
+							}
+
+						}
+					</script>
 				</div>
 				<!-- /.container-fluid -->
 

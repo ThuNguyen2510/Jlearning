@@ -60,8 +60,7 @@
 								<a th:href="@{'/admin/tests'}"><i class="fas fa-arrow-left"></i>Trở
 									về</a>
 							</div>
-							<form th:action="@{'/admin/tests/'+${test.id}+'/addQuestion'}"
-								>
+							<form th:action="@{'/admin/tests/'+${test.id}+'/addQuestion'}">
 								<div class="row">
 									<div class="col-md-2"></div>
 									<div class="col-md-6">
@@ -99,8 +98,18 @@
 															class="badge badge-pill badge-success"></span>
 													</div>
 												</div>
-												
-												<div  class="row">
+												<div th:if="${#strings.equals(type, 'LESSON')}" class="row">
+													<div class="col-md-3">
+														<label>Thuộc bài</label>
+													</div>
+													<div class="col-md-9">
+														<span
+															th:text="@{${test.lesson.name}+'-'+${test.lesson.course.name}}"
+															class="badge badge-pill badge-dark"></span>
+													</div>
+												</div>
+
+												<div class="row">
 													<div class="col-md-3">
 														<label>Thời gian</label>
 													</div>
@@ -132,7 +141,7 @@
 																	<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
 																	<th data-v-427d2be1="" scope="col">Câu hỏi</th>
 																	<th data-v-427d2be1="" scope="col">Đáp án</th>
-
+																	<th data-v-427d2be1="" scope="col">Action</th>
 
 																</tr>
 															</thead>
@@ -145,12 +154,19 @@
 																		th:href="@{'/admin/tests/'+${ques.id}}"
 																		th:utext="${ques.content}"></a></td>
 																	<td data-v-427d2be1="">
-																		<li style="list-style-type: none;" th:each="ans:${ques.answers}"
-																		 th:if="${ans.isTrue}==0"><span th:text="${ans.content}"></span></li>
-																		<li  th:each="ans:${ques.answers}"
-																	style="color: green;list-style-type: none;"
-																		th:if="${ans.isTrue}==1"><span th:text="${ans.content}"></span><i class="far fa-check-circle"></i></li>
+																		<li style="list-style-type: none;"
+																		th:each="ans:${ques.answers}" th:if="${ans.isTrue}==0"><span
+																			th:text="${ans.content}"></span></li>
+																		<li th:each="ans:${ques.answers}"
+																		style="color: green; list-style-type: none;"
+																		th:if="${ans.isTrue}==1"><span
+																			th:text="${ans.content}"></span><i
+																			class="far fa-check-circle"></i></li>
 																	</td>
+																	<td data-v-427d2be1=""><a style="cursor: pointer;"
+																		th:onclick="'deleteQues('+${test.id}+','+${ques.id}+')'">
+																			<i style="color: red" class="fas fa-trash">
+																	</a></td>
 
 																</tr>
 
@@ -175,7 +191,21 @@
 														<p th:text=${test.update_time}></p>
 													</div>
 												</div>
+												<script>
+													function deleteQues(id1,
+															id2) {
+														var a = confirm('Bạn muốn xóa câu hỏi?')
+														if (a) {
 
+															location.href = 'http://localhost:8080/haru/admin/tests/'
+																	+ id1
+																	+ '/questions/'
+																	+ id2
+																	+ '/delete'
+														}
+
+													}
+												</script>
 
 											</div>
 										</div>

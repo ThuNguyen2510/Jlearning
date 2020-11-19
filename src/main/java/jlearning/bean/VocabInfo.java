@@ -5,6 +5,7 @@ public class VocabInfo {
 	private String kanji;
 	private String audio;
 	private String means;
+	
 	public String getContent() {
 		return content;
 	}

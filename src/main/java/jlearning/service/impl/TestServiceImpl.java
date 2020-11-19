@@ -35,8 +35,22 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 
 	@Override
 	public boolean delete(Test entity) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			Test entity_ = findAndLoad(entity.getId());
+			for (int i = 0; i < entity_.getQuestions().size(); i++) {
+				int q = entity_.getQuestions().get(i).getId();
+				deleteQuestion(q);
+
+			}
+			getTestDAO().delete(entity_);
+
+			return true;
+		} catch (
+
+		Exception ecx) {
+			return false;
+		}
+
 	}
 
 	@Override
@@ -97,13 +111,25 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		try {
 			Question q = new Question();
 			q.setContent(ques.getContent());
-			q.setLevel(0);
-			q.setPart(Part.vocab);
+			q.setLevel(ques.getLevel());
+			if(ques.getPart()==1) {
+				q.setPart(Part.vocab);
+			}
+			if(ques.getPart()==2) {
+				q.setPart(Part.gram);
+			}
+			if(ques.getPart()==3) {
+				q.setPart(Part.listen);
+			}
+			if(ques.getPart()==4) {
+				q.setPart(Part.read);
+			}
 			q.setScore(1);
 			Test test = getTestDAO().findById(testId);
 			q.setTest(test);
+			int qu=test.getQuestionQuantity();
+			test.setQuestionQuantity(qu++);
 			getQuestionDAO().saveOrUpdate(q);
-			logger.info("ANS1 " + ques.getAnsList().get(0).getContent());
 			for (int i = 0; i < ques.getAnsList().size(); i++) {
 				Answer a = new Answer();
 				AnswerInfo_ a_ = ques.getAnsList().get(i);
@@ -112,7 +138,7 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 				a.setQuestion(q);
 				getAnswerDAO().saveOrUpdate(a);
 			}
-
+			
 			return true;
 		} catch (Exception ex) {
 			return false;
@@ -143,6 +169,8 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		for (int i = 0; i < quesList.size(); i++) {
 			createQuestion(quesList.get(i), test.getId());
 		}
+		test.setQuestionQuantity(quesList.size());
+		getTestDAO().saveOrUpdate(test);
 
 	}
 
@@ -163,6 +191,23 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		// set Lesson
 		test.setName(testInfo.getName());
 		getTestDAO().saveOrUpdate(test);
+
+	}
+
+	@Override
+	public boolean deleteQuestion(int id2) {
+		try {
+			Question q = getQuestionDAO().findById(id2);
+			for (int j = 0; j < q.getAnswers().size(); j++) {
+				getAnswerDAO().delete(q.getAnswers().get(j));
+			}
+			getQuestionDAO().delete(q);
+			return true;
+
+		} catch (Exception ex) {
+
+			return false;
+		}
 
 	}
 

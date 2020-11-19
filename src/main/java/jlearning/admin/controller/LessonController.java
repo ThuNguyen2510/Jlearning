@@ -62,6 +62,19 @@ public class LessonController {
 		model.addAttribute("lesson", lesson);
 		return "views/admin/lesson/lesson";
 	}
+	
+	@GetMapping(value = "/{id}/delete")
+	public String delete(Model model, @PathVariable("id") int id,final RedirectAttributes redirectAttributes) {
+		Lesson lesson = lessonService.findById(id);
+		if(lessonService.delete(lesson)) {
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Xóa bài học thành công");
+		}else {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Xóa bài học thất bài");
+		}
+		return "redirect:/admin/lessons";
+	}
 
 	@RequestMapping(value = "/add")
 	public String add(Model model, HttpServletRequest request) {
@@ -70,7 +83,7 @@ public class LessonController {
 		model.addAttribute("lessonForm", lesson);
 		List<Course> courses = courseService.loadCourses();
 		model.addAttribute("courses", courses);
-		model.addAttribute("status", "add");
+		model.addAttribute("status", "add1");
 		return "views/admin/lesson/newLessonManual";
 	}
 

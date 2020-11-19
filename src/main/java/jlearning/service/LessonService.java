@@ -18,5 +18,5 @@ public interface LessonService extends BaseService<Integer,Lesson> {
 	 Lesson createLessonWithListContent(LessonInfo lesson, int courseId);
 	 boolean deleteGram(int id);
 	 boolean deleteVocab(int id2);
-	boolean deleteListen(int id2);
+	 boolean deleteListen(int id2);
 }

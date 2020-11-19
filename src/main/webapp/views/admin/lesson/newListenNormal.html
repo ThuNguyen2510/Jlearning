@@ -74,14 +74,14 @@
 												th:field="*{id}"> <input th:value="${lessonId}"
 												th:if="${lessonId}" type="hidden">
 											<div class="row">
-												<label>File nghe(URL)*</label> <input type="text"
+												<label>File nghe(URL)*</label> <input type="text" type="url"
 													th:field="*{audio}" class="form-control" id="inputName"
 													placeholder="Nhập URL" required>
 
 											</div>
 
 											<div class="row">
-												<label>Hình ảnh(URL)*</label> <input required
+												<label>Hình ảnh(URL)*</label> <input required type="url"
 													th:field="*{image}" placeholder="Nhập URL"  class="form-control">
 
 											</div>

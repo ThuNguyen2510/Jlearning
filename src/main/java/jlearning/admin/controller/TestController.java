@@ -49,6 +49,21 @@ public class TestController {
 		return "views/admin/test/test";
 	}
 
+	@GetMapping(value = "/{id}/edit")
+	public String edit(Model model, @PathVariable("id") int id) {
+		Test test = testService.findById(id);
+		model.addAttribute("testForm", test);
+		List<Type> type = new ArrayList<Type>();
+		type.add(Type.LEVEL);
+		type.add(Type.EXAM);
+		type.add(Type.LESSON);
+		model.addAttribute("types", type);
+		model.addAttribute("type", test.getType().toString());
+		model.addAttribute("lessons", lessonService.loadAllLessons());
+		model.addAttribute("status", "update");
+		return "views/admin/test/test-form";
+	}
+
 	@GetMapping(value = "/add")
 	public String addTest(Model model) {
 		model.addAttribute("testForm", new TestInfo());
@@ -57,7 +72,7 @@ public class TestController {
 		type.add("LEVEL");
 		type.add("EXAM");
 		model.addAttribute("types", type);
-		model.addAttribute("lessons",lessonService.loadAllLessons());
+		model.addAttribute("lessons", lessonService.loadAllLessons());
 		model.addAttribute("status", "add");
 		return "views/admin/test/test-form";
 	}
@@ -68,17 +83,56 @@ public class TestController {
 		HttpSession session = request.getSession();
 		if (session.getAttribute("questions") != null) {
 			List<QuestionInfo> quesList = (List<QuestionInfo>) session.getAttribute("questions");
-			testService.createTest(quesList,test);
+			testService.createTest(quesList, test);
 			session.removeAttribute("questions");
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Tạo đề thành công");
-		}
-		else {
+		} else {
 			testService.saveOrUpdate_(test);
 			session.removeAttribute("questions");
 		}
 
 		return "redirect:/admin/tests";
+	}
+	@GetMapping(value = "{id}/delete")
+	public String deleteTest(Model model, @PathVariable("id") int id,final RedirectAttributes redirectAttributes) {
+		Test test = testService.findById(id);
+		if(testService.delete(test)) {
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Xóa đề thành công");
+		}else {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Xóa đề thất bại");
+		}
+		return "redirect:/admin/tests";
+				
+	}
+	@GetMapping(value = "{id}/questions/{id2}/delete")
+	public String deleteQues(Model model, @PathVariable("id") int id,@PathVariable("id2") int id2,final RedirectAttributes redirectAttributes) {
+		Test test = testService.findById(id);
+		if(testService.deleteQuestion(id2)) {
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thành công");
+		}else {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thất bại");
+		}
+		return "redirect:/admin/tests/"+id;
+				
+	}
+	
+	@RequestMapping(value = "{id}/save")
+	public String updateTest(Model model, @ModelAttribute("testForm") Test test, @PathVariable("id") int id,
+			final RedirectAttributes redirectAttributes) {
+		if (testService.saveOrUpdate(test) != null) {
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Sửa đề thành công");
+		}
+		else {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Sửa đề thất bại");
+		}
+		return "redirect:/admin/tests/" + id;
 	}
 
 	@GetMapping(value = "/{id}/addQuestionManual")
@@ -89,7 +143,7 @@ public class TestController {
 		session.setAttribute("testId", id); // session
 		return "views/admin/test/newQuestionManual";
 	}
-	
+
 	@GetMapping(value = "/{id}/addQuestion")
 	public String addQuestionF(Model model, @PathVariable("id") int id, HttpServletRequest request) {
 		HttpSession session = request.getSession();

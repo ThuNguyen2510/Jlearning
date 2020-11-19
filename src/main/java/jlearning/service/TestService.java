@@ -17,4 +17,5 @@ public interface TestService extends BaseService<Integer,Test>{
 	boolean createQuestion(QuestionInfo ques, int testId);
 	void createTest(List<QuestionInfo> quesList,TestInfo testInfo);
 	void saveOrUpdate_(TestInfo test);
+	boolean deleteQuestion(int id2);
 }

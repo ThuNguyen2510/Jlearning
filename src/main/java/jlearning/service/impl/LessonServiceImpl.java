@@ -63,8 +63,33 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 
 	@Override
 	public boolean delete(Lesson entity) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			if (entity.getVocabularies() != null)
+				for (int i = 0; i < entity.getVocabularies().size(); i++) {
+					getVocabularyDAO().delete(entity.getVocabularies().get(i));
+				}
+			if (entity.getGrammars() != null)
+				for (int i = 0; i < entity.getGrammars().size(); i++) {
+					getGrammarDAO().delete(entity.getGrammars().get(i));
+
+				}
+			if (entity.getListenings() != null)
+				for (int i = 0; i < entity.getListenings().size(); i++) {
+					getListeningDAO().delete(entity.getListenings().get(i));
+
+				}
+			if (entity.getTests() != null)
+				for (int i = 0; i < entity.getTests().size(); i++) {
+					getTestDAO().delete(entity.getTests().get(i));
+
+				}
+			getLessonDAO().delete(entity);
+			return true;
+
+		} catch (Exception ex) {
+			return false;
+		}
+
 	}
 
 	@Override
@@ -214,7 +239,7 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 
 	@Override
 	public List<Lesson> loadByType(Type type) {
-		
+
 		return getLessonDAO().loadByType(type);
 	}
 

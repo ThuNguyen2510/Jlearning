@@ -175,18 +175,19 @@
 																	th:id="${charac.id}">
 																	<source th:src="${charac.audio}" type="audio/ogg">
 																</audio></td>
-															<td><a
-																th:href="@{'/admin/lessons/'+${alphabet.id}+'/vocabs/'+${charac.id}+'/edit'}"
+															<td><a 
+																th:href="@{'/admin/lessons/'+${alphabet.id}+'/characters/'+${charac.id}+'/edit'}"
 																class="btn btn-warning btn-circle"> <i
 																	class="far fa-edit"></i>
 															</a> <a
-																th:href="@{'/admin/lessons/'+${alphabet.id}+'/vocabs/'+${charac.id}+'/delete'}"
+																th:href="@{'/admin/lessons/'+${alphabet.id}+'/characters/'+${charac.id}+'/delete'}"
 																class="btn btn-danger btn-circle"> <i
 																	class="fas fa-trash"></i>
 															</a></td>
 
 
 														</tr>
+														
 													</tbody>
 												</table>
 											</div>

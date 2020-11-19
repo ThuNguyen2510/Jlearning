@@ -60,7 +60,9 @@
 								<a th:href="@{'/admin/courses'}"><i
 									class="fas fa-arrow-left"></i>Trở về</a>
 							</div>
-							<form th:action="@{'/admin/courses/'+${course.id}+'/lessons/add'}"  method="post">
+							<form
+								th:action="@{'/admin/courses/'+${course.id}+'/lessons/add'}"
+								method="post">
 								<div class="row">
 									<div class="col-md-2">
 										<div class="profile-img">
@@ -127,18 +129,20 @@
 														<label>Danh sách bài học</label>
 													</div>
 													<div class="col-md-9">
-														<button th:if="${#lists.size(course.lessons)}>0" class="btn btn-primary" type="button"
+														<button th:if="${#lists.size(course.lessons)}>0"
+															class="btn btn-primary" type="button"
 															data-toggle="collapse" data-target="#lessons"
 															aria-expanded="false" aria-controls="level">Xem</button>
-														<button type="submit" class="btn btn-info" >Thêm bài học</button>
-														<div  style="width:600px" id="lessons" class="collapse">
+														<button type="submit" class="btn btn-info">Thêm
+															bài học</button>
+														<div style="width: 600px" id="lessons" class="collapse">
 															<table data-v-427d2be1="" class="table table-striped">
 																<thead data-v-427d2be1="">
 																	<tr data-v-427d2be1="">
 																		<th data-v-427d2be1="" scope="col" style="width: 7%;">#STT</th>
 																		<th data-v-427d2be1="" scope="col">Tên bài</th>
 																		<th data-v-427d2be1="" scope="col">Ngày tạo</th>
-
+																		<th data-v-427d2be1="" scope="col">Action</th>
 
 																	</tr>
 																</thead>
@@ -147,11 +151,21 @@
 																		<td data-v-427d2be1="" scope="row"
 																			class="center order"><strong data-v-427d2be1=""
 																			th:text="${i.index+1}"></strong></td>
-																		<td data-v-427d2be1=""><a th:href="@{'/admin/lessons/'+${rs.id}}" th:text="${rs.name}"></a></td>
+																		<td data-v-427d2be1=""><a
+																			th:href="@{'/admin/lessons/'+${rs.id}}"
+																			th:text="${rs.name}"></a></td>
 																		<td data-v-427d2be1=""><span data-v-427d2be1=""
 																			class="datehistory"
 																			th:text="${#dates.format(new java.util.Date(rs.create_time))}">21-10-2020
 																				14:52</span></td>
+																		<td class="text-center"><a
+																			th:href="@{'/admin/lessons/'+${rs.id}}"> <i
+																				class="fas fa-info-circle" style="cursor:pointer"></i>
+																		</a> <a th:href="@{'/admin/lessons/'+${rs.id}+'/edit'}">
+																				<i class="far fa-edit" style="color: yellow; cursor:pointer"></i>
+																		</a> <a th:onclick="'deleteLesson('+${rs.id}+')'"> <i
+																				style="color: red;cursor:pointer" class="fas fa-trash"></i>
+																		</a></td>
 
 																	</tr>
 
@@ -160,6 +174,18 @@
 														</div>
 													</div>
 												</div>
+												<script>
+													function deleteLesson(id) {
+														var a = confirm('Bạn muốn xóa bài học!')
+														if (a) {
+
+															location.href = 'http://localhost:8080/haru/admin/lessons/'
+																	+ id
+																	+ '/delete'
+														}
+
+													}
+												</script>
 
 												<div class="row">
 													<div class="col-md-3">

@@ -46,6 +46,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements CourseService 
 	@Override
 	public boolean delete(Course entity) {
 		try {
+			
 			getCourseDAO().delete(entity);
 			return true;
 		} catch (Exception e) {
@@ -123,17 +124,16 @@ public class CourseServiceImpl extends BaseServiceImpl implements CourseService 
 		}
 
 		if (lesson.getListens() != null && lesson.getListens().size() > 0) {
-			if(lesson.getListens().size()<=6) {
+			if (lesson.getListens().size() <= 6) {
 				for (int i = 0; i < lesson.getListens().size(); i++) {
 					createListen(lesson.getListens().get(i), newLesson.getId());
 				}
-			}else {
+			} else {
 				for (int i = 0; i < 6; i++) {
 					createListen(lesson.getListens().get(i), newLesson.getId());
 				}
 			}
 		}
-			
 
 		return getLessonDAO().saveOrUpdate(newLesson);
 

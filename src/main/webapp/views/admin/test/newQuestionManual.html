@@ -75,6 +75,22 @@
 
 											</div>
 											<div class="row">
+												<label for="inputName">Phạm vi</label>
+												<select type="text" th:field="*{part}"
+													class="form-control" required>
+													<option value="1"  selected="selected">Từ vựng</option>
+													<option value="2">Ngữ pháp</option>
+													<option value="3">Nghe</option>
+													<option value="4">Đọc</option>
+													</select>
+
+											</div>
+											<div class="row">
+												<label for="inputName">Level</label>
+												<input th:field="*{level}" placeholder="cấp độ 1-5" class="form-control" required>
+
+											</div>
+											<div class="row">
 												<label>Phương án</label>
 
 

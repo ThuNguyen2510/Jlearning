@@ -39,7 +39,7 @@
 
 				<!-- Begin Page Content -->
 
-				<div class="container-fluid">
+				<div class="container-fluid" th:if="${status}=='add'">
 					<a th:href="@{'/admin/tests/'}"><i class="fas fa-arrow-left"></i>Trở
 						về</a>
 
@@ -57,148 +57,249 @@
 					<div
 						th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-form})">
 
-						<div id="lesson-form" class="row justify-content-center">
+						<div th:if="${status}=='add'" id="lesson-form"
+							class="row justify-content-center">
 
 							<div class="card shadow mb-4" style="width: 1000px;">
 								<div class="card-header text-center">
 									<h2 th:if="${status}=='add'">Tạo đề</h2>
 
 								</div>
-								<div th:if="${status}=='add'" class="card-body">
-									<form th:action="@{/admin/tests/new}" method="post"
-										th:object="${testForm}">
-										<div class="form">
+								<div class="card-body">
+								<form th:action="@{/admin/tests/new}" method="post"
+									th:object="${testForm}">
+									<div class="form">
 
 
-											<div class="row">
-												<div class="col-sm-2">
-													<label for="inputName">Loại</label>
-												</div>
-												<div class="col-sm-4">
-													<select class="required" id="mySelect" onchange="myFunction()" th:field="*{type}">
-													<option  value="" >Chọn</option>
-														<option th:value="${i.index}" th:each="c,i:${types}"
-															th:text="${c}"></option>
-													</select>
-												</div>
-												<div class="col-sm-4" id="lessonDiv" style="visibility:hidden">
-													<h5>Bài học</h5>
-													<select  th:field="*{lessonId}">
-														<option th:value="${c.id}" th:each="c,i:${lessons}"
-															th:text="@{${c.course.name}+'-'+${c.name}}"></option>
-													</select>
-												</div>
-	<script>
-	function myFunction(){
-		 var x = document.getElementById("mySelect").value;
-		 if(x=='0'){
-			 document.getElementById('lessonDiv').style.visibility='visible';
-		 }else{
-			 document.getElementById('lessonDiv').style.visibility='hidden';
-		 }
-	}
-	</script>
+										<div class="row">
+											<div class="col-sm-2">
+												<label for="inputName">Loại</label>
 											</div>
-											<div class="row">
-												<label>Level</label> <input class="form-control"
-													th:field="*{level} " aria-label="With textarea"></input>
+											<div class="col-sm-4">
+												<select class="required" id="mySelect"
+													onchange="myFunction()" th:field="*{type}">
+													<option value="">Chọn</option>
+													<option th:value="${i.index}" th:each="c,i:${types}"
+														th:text="${c}"></option>
+												</select>
 											</div>
-
-											<div class="row">
-												<label for="inputName">Tên</label> <input type="text"
-													th:field="*{name}" class="form-control"
-													placeholder="Nhập tên" required>
-
+											<div class="col-sm-4" id="lessonDiv"
+												style="visibility: hidden">
+												<h5>Bài học</h5>
+												<select th:field="*{lessonId}">
+													<option th:value="${c.id}" th:each="c,i:${lessons}"
+														th:text="@{${c.course.name}+'-'+${c.name}}"></option>
+												</select>
 											</div>
-											<div class="row">
-												<label>Thời gian</label> <input class="form-control"
-													th:field="*{time} " aria-label="With textarea"></input>
-											</div>
-
-											<div class="row">
-
-
-												<a th:if="${test}"
-													th:href="@{'/admin/tests/'+${test.id}+'/addQuestionManual'}"
-													class="btn btn-outline-sucesss">Thêm câu hỏi thủ công</a> <a
-													th:if="${test}==null"
-													th:href="@{'/admin/tests/addQuestionManual'}"
-													class="btn btn-outline-success">Thêm câu hỏi thủ công</a> <a
-													th:if="${test}"
-													th:href="@{'/admin/tests/'+${test.id}+'/addQuestionFile'}"
-													class="btn btn-outline-primary">Thêm câu hỏi bằng file</a> <a
-													th:if="${test}==null"
-													th:href="@{'/admin/tests/addQuestionFile'}"
-													class="btn btn-outline-primary">Thêm câu hỏi bằng file</a>
-
-											</div>
-											
-											<div class="row" th:if="${session.questions}">
-											<h5>Danh sách câu hỏi</h5>
-											<ol type="1">
-											<li th:each="q,i:${session.questions}" >
-											<span th:text="${q.content}"></span>
-											 <a style="color:red" th:href="@{'/admin/tests/'+${i.index}+'/deleteQuesSession'}">Xóa</a></li>
-											</ol>
-											</div>
+											<script>
+												function myFunction() {
+													var x = document
+															.getElementById("mySelect").value;
+													if (x == '0') {
+														document
+																.getElementById('lessonDiv').style.visibility = 'visible';
+													} else {
+														document
+																.getElementById('lessonDiv').style.visibility = 'hidden';
+													}
+												}
+											</script>
+										</div>
+										<div class="row">
+											<label>Level</label> <input class="form-control"
+												th:field="*{level} " aria-label="With textarea"></input>
 										</div>
 
 										<div class="row">
-											<div class="col-sm-4"></div>
-											<div class="col-sm-4" style="text-align: center">
-												<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
-											</div>
-											<div class="col-sm-4"></div>
+											<label for="inputName">Tên</label> <input type="text"
+												th:field="*{name}" class="form-control"
+												placeholder="Nhập tên" required>
+
+										</div>
+										<div class="row">
+											<label>Thời gian</label> <input class="form-control"
+												th:field="*{time} " aria-label="With textarea"></input>
 										</div>
 
-									</form>
-								</div>
+										<div class="row">
 
-								<div th:unless="${status}=='add'" class="card-body"></div>
 
+											<a th:if="${test}"
+												th:href="@{'/admin/tests/'+${test.id}+'/addQuestionManual'}"
+												class="btn btn-outline-sucesss">Thêm câu hỏi thủ công</a> <a
+												th:if="${test}==null"
+												th:href="@{'/admin/tests/addQuestionManual'}"
+												class="btn btn-outline-success">Thêm câu hỏi thủ công</a> <a
+												th:if="${test}"
+												th:href="@{'/admin/tests/'+${test.id}+'/addQuestionFile'}"
+												class="btn btn-outline-primary">Thêm câu hỏi bằng file</a> <a
+												th:if="${test}==null"
+												th:href="@{'/admin/tests/addQuestionFile'}"
+												class="btn btn-outline-primary">Thêm câu hỏi bằng file</a>
+
+										</div>
+
+										<div class="row" th:if="${session.questions}">
+											<h5>Danh sách câu hỏi</h5>
+											<ol type="1">
+												<li th:each="q,i:${session.questions}"><span
+													th:text="${q.content}"></span> <a style="color: red"
+													th:href="@{'/admin/tests/'+${i.index}+'/deleteQuesSession'}">Xóa</a></li>
+											</ol>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-4" style="text-align: center">
+											<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
+										</div>
+										<div class="col-sm-4"></div>
+									</div>
+
+								</form>
 							</div>
+
+							<!-- <div th:unless="${status}=='add'" class="card-body"></div> -->
+
 						</div>
-
-
 					</div>
 
+
 				</div>
-				<!-- /.container-fluid -->
 
 			</div>
-			<!-- End of Main Content -->
+			<div class="container-fluid" th:unless="${status}=='add'">
+				<a th:href="@{'/admin/tests/'+${testForm.id}}"><i
+					class="fas fa-arrow-left"></i>Trở về</a>
 
-			<div th:replace="views/admin/layout/footer:: footer"></div>
-		</div>
-		<!-- End of Content Wrapper -->
+				<div th:if="${msg != null}"
+					class="alert alert-dismissible fade show"
+					th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+					role="alert">
+					<strong th:text="${msg}"></strong>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 
-	</div>
-	<!-- End of Page Wrapper -->
+				<div
+					th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-form})">
 
-	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top"> <i
-		class="fas fa-angle-up"></i>
-	</a>
+					<div id="lesson-form" class="row justify-content-center">
 
+						<div class="card shadow mb-4" style="width: 1000px;">
+							<div class="card-header text-center">
+								<h2 th:if="${status}=='update'">Sửa đề</h2>
 
-	<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
-	<script
-		th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-
-
-	<script
-		th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+							</div>
+							<div class="card-body">
+								<form th:action="@{'/admin/tests/'+${testForm.id}+'/save'}"
+									method="post" th:object="${testForm}">
+									<div class="form">
 
 
-	<script class="custom-script"
-		th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+										<div class="row">
+											<div class="col-sm-2">
+												<label for="inputName">Loại</label>
+											</div>
+											<div class="col-sm-4">
+												<select class="required" id="mySelect"
+													onchange="myFunction()" th:field="*{type}">
 
-	<style>
+													<option th:value="${c}" th:each="c,i:${types}"
+														th:text="${c}" th:selected="${c}==${testForm.type}"></option>
+												</select>
+											</div>
+											<div class="col-sm-4" id="lessonDiv"
+												th:if="${type}=='LESSON'">
+												<label>Bài học</label> <select th:field="*{lesson.id}">
+													<option th:selected="${c.id}==${testForm.lesson.id}"
+														th:value="${c.id}" th:each="c,i:${lessons}"
+														th:text="@{${c.course.name}+'-'+${c.name}}"></option>
+												</select>
+											</div>
+
+										</div>
+										<div class="row" th:if="${type}=='EXAM'">
+											<label>Level</label> <input class="form-control"
+												th:field="*{level} " aria-label="With textarea"></input>
+										</div>
+
+										<div class="row">
+											<label for="inputName">Tên</label> <input type="text"
+												th:field="*{name}" class="form-control"
+												placeholder="Nhập tên" required>
+
+										</div>
+										<div class="row">
+											<label>Thời gian</label> <input class="form-control"
+												th:field="*{time} " aria-label="With textarea"></input>
+										</div>
+
+										<div class="row">
+
+
+											<a 
+												th:href="@{'/admin/tests/'+${testForm.id}+'/addQuestionManual'}"
+												class="btn btn-outline-sucesss">Thêm câu hỏi thủ công</a><a
+												
+												th:href="@{'/admin/tests/'+${testForm.id}+'/addQuestionFile'}"
+												class="btn btn-outline-primary">Thêm câu hỏi bằng file</a>
+
+
+										</div>
+
+
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-4" style="text-align: center">
+											<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
+										</div>
+										<div class="col-sm-4"></div>
+									</div>
+
+								</form>
+							</div>
+							<!-- /.container-fluid -->
+
+						</div>
+						<!-- End of Main Content -->
+
+						<div th:replace="views/admin/layout/footer:: footer"></div>
+					</div>
+					<!-- End of Content Wrapper -->
+
+				</div>
+			</div>
+			<!-- End of Page Wrapper -->
+
+			<!-- Scroll to Top Button-->
+			<a class="scroll-to-top rounded" href="#page-top"> <i
+				class="fas fa-angle-up"></i>
+			</a>
+
+
+			<script th:src="@{/assets/admin/vendor/jquery/jquery.min.js}"></script>
+			<script
+				th:src="@{/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+			<script
+				th:src="@{/assets/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+
+			<script class="custom-script"
+				th:src="@{/assets/admin/js/sb-admin-2.min.js}"></script>
+
+			<style>
 .row {
 	margin-bottom: 20px
 }
 </style>
-
 </body>
 
 </html>

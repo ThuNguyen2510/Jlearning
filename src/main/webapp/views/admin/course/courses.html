@@ -108,7 +108,8 @@
 												<th:block th:each="course, iter : ${courses}">
 													<tr>
 														<td th:text="${iter.index+1}"></td>
-														<td style="text-align:center"><img style="height: 50px" th:src="${course.image}"></td>
+														<td style="text-align: center"><img
+															style="height: 50px" th:src="${course.image}"></td>
 														<td th:text="${course.name}"></td>
 
 														<td th:text="${course.level}"></td>
@@ -122,7 +123,7 @@
 														</a> <a th:href="@{'/admin/courses/'+${course.id}+'/edit'}"
 															class="btn btn-warning btn-circle my-2"> <i
 																class="far fa-edit"></i>
-														</a> <a th:href="@{'/admin/courses/'+${course.id}+'/delete'}"
+														</a> <a th:onclick="'deleteCourse('+${course.id}+')'"
 															class="btn btn-danger btn-circle"> <i
 																class="fas fa-trash"></i>
 														</a></td>
@@ -137,7 +138,17 @@
 							</div>
 						</div>
 					</div>
+					<script>
+						function deleteCourse(id) {
+							var a = confirm('Bạn muốn xóa khóa học?')
+							if (a) {
 
+								location.href = 'http://localhost:8080/haru/admin/courses/'
+										+ id + '/delete'
+							}
+
+						}
+					</script>
 				</div>
 				<!-- /.container-fluid -->
 

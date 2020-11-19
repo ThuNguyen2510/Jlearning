@@ -127,18 +127,18 @@ public class CourseController {
 	@GetMapping(value = "/{id}/delete")
 	public String deleteUser(@PathVariable("id") Integer id, final RedirectAttributes redirectAttributes) {
 		Course course = courseService.findById(id);
-		String typeCss = "error";
-		String message = "User not found!";
+		String typeCss = "";
+		String message = "";
 		if (course == null) {
 			redirectAttributes.addFlashAttribute("css", typeCss);
 			redirectAttributes.addFlashAttribute("msg", message);
 			return "redirect:/admin/courses";
 		}
 		typeCss = "error";
-		message = "Fail to delete course!";
-		if (courseService.deleteCourse(id) != null) {
+		message = "Xóa khóa học thất bại!";
+		if (courseService.delete(course) != false) {
 			typeCss = "success";
-			message = "Course is deleted!";
+			message = "Xóa khóa học thành công!";
 		}
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);

@@ -118,7 +118,7 @@
 														</a> <a th:href="@{'/admin/lessons/'+${lesson.id}+'/edit'}"
 															class="btn btn-warning btn-circle"> <i
 																class="far fa-edit"></i>
-														</a> <a th:href="@{'/admin/lessons/'+${lesson.id}+'/delete'}"
+														</a> <a th:onclick="'deleteLesson('+${lesson.id}+')'"
 															class="btn btn-danger btn-circle"> <i
 																class="fas fa-trash"></i>
 														</a></td>
@@ -133,7 +133,17 @@
 							</div>
 						</div>
 					</div>
+					<script>
+						function deleteLesson(id) {
+							var a = confirm('Bạn muốn xóa bài học!')
+							if (a) {
 
+								location.href = 'http://localhost:8080/haru/admin/lessons/'
+										+ id + '/delete'
+							}
+
+						}
+					</script>
 				</div>
 				<!-- /.container-fluid -->
 
