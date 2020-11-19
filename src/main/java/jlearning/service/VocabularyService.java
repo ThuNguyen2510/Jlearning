@@ -7,4 +7,5 @@ import jlearning.model.Vocabulary;
 public interface VocabularyService extends BaseService<Integer, Vocabulary> {
 
 	List<Vocabulary> listVocab(int lessonId);
+	Vocabulary find(int id);
 }

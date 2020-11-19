@@ -156,9 +156,9 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 			Grammar entity = getGrammarDAO().findById(id);
 			Lesson lesson = getLessonDAO().findById(entity.getLesson().getId());
 			lesson.getGrammars().remove(entity);
-			logger.info("SIZE " + lesson.getGrammars().size());
+			
 			getLessonDAO().saveOrUpdate(lesson);
-			logger.info("SIZE " + lesson.getGrammars().size());
+			
 			getGrammarDAO().delete(entity);
 			return true;
 		} catch (Exception e) {
@@ -241,6 +241,41 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 	public List<Lesson> loadByType(Type type) {
 
 		return getLessonDAO().loadByType(type);
+	}
+
+	@Override
+	public boolean editGram(Grammar gram) {
+		try {
+			/*
+			 * Grammar g= getGrammarDAO().findById(gram.getId());
+			 * g.setContent(gram.getContent()); g.setDescription(gram.getDescription());
+			 * g.setName(gram.getName()); logger.info("DES"+gram.getDescription());
+			 */
+			getGrammarDAO().saveOrUpdate(gram);
+			return true;
+
+		} catch (Exception ex) {
+			return false;
+		}
+
+	}
+
+	@Override
+	public boolean editListen(Listening lis) {
+		try {
+			getListeningDAO().saveOrUpdate(lis);
+			return true;
+			
+		}catch(Exception ex) {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public Grammar getGram(int id) {
+		// TODO Auto-generated method stub
+		return getGrammarDAO().findById(id);
 	}
 
 }

@@ -28,7 +28,9 @@ import jlearning.model.Listening;
 import jlearning.model.Vocabulary;
 import jlearning.service.AlphabetService;
 import jlearning.service.CourseService;
+import jlearning.service.GrammarService;
 import jlearning.service.LessonService;
+import jlearning.service.VocabularyService;
 
 @Controller
 @RequestMapping("/admin/lessons")
@@ -43,6 +45,12 @@ public class LessonController {
 
 	@Autowired
 	private CourseService courseService;
+
+	@Autowired
+	private VocabularyService vocabularyService;
+
+	@Autowired
+	private GrammarService grammarService;
 
 	@GetMapping(value = { "", "/" })
 	public String index(Model model) {
@@ -62,14 +70,14 @@ public class LessonController {
 		model.addAttribute("lesson", lesson);
 		return "views/admin/lesson/lesson";
 	}
-	
+
 	@GetMapping(value = "/{id}/delete")
-	public String delete(Model model, @PathVariable("id") int id,final RedirectAttributes redirectAttributes) {
+	public String delete(Model model, @PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 		Lesson lesson = lessonService.findById(id);
-		if(lessonService.delete(lesson)) {
+		if (lessonService.delete(lesson)) {
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Xóa bài học thành công");
-		}else {
+		} else {
 			redirectAttributes.addFlashAttribute("css", "error");
 			redirectAttributes.addFlashAttribute("msg", "Xóa bài học thất bài");
 		}
@@ -309,15 +317,20 @@ public class LessonController {
 	}
 
 	@RequestMapping(value = "/vocabs/add")
-	public String saveVocab(Model model, @ModelAttribute("vocabForm") VocabInfo vocab, HttpServletRequest request) {
+	public String saveVocab(Model model, @ModelAttribute("vocabForm") VocabInfo vocab,
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		// if id!=0 thi save ; ko thi luu vao session
+		String typeCss = "";
+		String message = "";
 		int lessonId = 0;
 		if (session.getAttribute("lessonId") != null) {
 			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
 		}
 		if (lessonId != 0) {
 			lessonService.createVocab(vocab, lessonId);
+			typeCss = "success";
+			message = "Thêm thành công!!";
 
 		} else {
 
@@ -327,29 +340,74 @@ public class LessonController {
 			}
 			vocabs.add(vocab);
 			session.setAttribute("vocabs", vocabs);
+			typeCss = "success";
+			message = "Thêm thành công!!";
 
 		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+
 		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
 
 	}
 
 	@RequestMapping(value = "/{id}/vocabs/{id2}/delete")
 	public String vocabdelete(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
-			final RedirectAttributes redirectAttributes) {
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		String typeCss = "";
 		String message = "";
-		if (lessonService.deleteVocab(id2)) {
+		if (id == 0) {
+			HttpSession session = request.getSession();
+			List<VocabInfo> list = (List<VocabInfo>) session.getAttribute("vocabs");
+			list.remove(id2);
+			session.setAttribute("vocabs", list);
+			if (list.size() == 0)
+				session.removeAttribute("vocabs");
 			typeCss = "success";
 			message = "Xoá thành công!!";
 
 		} else {
-			typeCss = "fail";
-			message = "Xoá thất bại!!";
+			if (lessonService.deleteVocab(id2)) {
+				typeCss = "success";
+				message = "Xoá thành công!!";
+
+			} else {
+				typeCss = "error";
+				message = "Xoá thất bại!!";
+			}
 		}
+
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);
 
 		return "redirect:/admin/lessons/" + id + "/vocabs";
+	}
+
+	@RequestMapping(value = "/{id}/vocabs/{id2}/edit")
+	public String vocabEdit(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
+			final RedirectAttributes redirectAttributes) {
+
+		Vocabulary vocab = vocabularyService.findById(id2);
+		model.addAttribute("vocabForm", vocab);
+		return "views/admin/lesson/editVocab";
+	}
+
+	@RequestMapping(value = "/{id}/vocabs/{id2}/save")
+	public String vocabSave(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
+			final RedirectAttributes redirectAttributes, @ModelAttribute("vocabForm") Vocabulary vocab) {
+		String typeCss = "";
+		String message = "";
+		if (vocabularyService.saveOrUpdate(vocab) != null) {
+			typeCss = "success";
+			message = "Sửa thành công!!";
+
+		} else {
+			typeCss = "error";
+			message = "Sửa thất bại!!";
+		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+		return "redirect:/admin/lessons/" + id;
 	}
 
 	@GetMapping("/{id}/grams")
@@ -368,9 +426,27 @@ public class LessonController {
 
 	@GetMapping("/{id}/grams/{id2}/edit")
 	public String gramEdit(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model) {
-		model.addAttribute("gramForm", lessonService.findById(id).getGrammars().get(id2));
+		model.addAttribute("gramForm", lessonService.getGram(id2));
+		model.addAttribute("status", "update");
+		return "views/admin/lesson/newGramNormal";
+	}
 
-		return "views/admin/lesson/gram-form";
+	@RequestMapping("{id2}/grams/{id}/save")
+	public String gramEdit(HttpServletRequest request, @PathVariable("id") int id, @PathVariable("id2") int id2,
+			Model model, @ModelAttribute("gramForm") Grammar gram, final RedirectAttributes redirectAttributes) {
+		String typeCss = "";
+		String message = "";
+
+		if (grammarService.saveOrUpdate(gram) != null) {
+			typeCss = "success";
+			message = "Sửa thành công!!";
+		} else {
+			typeCss = "error";
+			message = "Sửa thất bại!!";
+		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+		return "redirect:/admin/lessons/" + id2 + "/grams";
 	}
 
 	@GetMapping("/{id}/grams/{id2}/delete")

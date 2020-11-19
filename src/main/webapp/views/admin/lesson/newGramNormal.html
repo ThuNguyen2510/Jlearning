@@ -40,7 +40,7 @@
 
 				<!-- Begin Page Content -->
 
-				<div class="container-fluid">
+				<div th:if="${status == 'add'} " class="container-fluid">
 					<a th:if="${status == 'add'} "
 						th:href="@{'/admin/lessons/'+${lessonId}+'/grams'}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
@@ -58,7 +58,8 @@
 					<div
 						th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-form})">
 
-						<div id="lesson-form" class="row justify-content-center">
+						<div th:if="${status == 'add'} " id="lesson-form"
+							class="row justify-content-center">
 
 							<div class="card shadow mb-4" style="width: 800px;">
 								<div class="card-header text-center">
@@ -80,14 +81,15 @@
 
 											</div>
 											<script>
-										
-	function setContent(){
-		console.log("NOO");
-		var iframe = document.getElementById("bodyContent").contentWindow.document.body.innerHTML;
-		document.getElementById('content1').value=iframe;
+												function setContent() {
 
-	};
-	</script>
+													var iframe = document
+															.getElementById("bodyContent").contentWindow.document.body.innerHTML;
+													document
+															.getElementById('content1').value = iframe;
+
+												};
+											</script>
 											<div class="row">
 												<label>Nội dung</label> <input th:field="*{content}"
 													class="form-control" id="content1" type="hidden">
@@ -200,57 +202,58 @@
 														<button onclick="execCmd('selectAll');">Select
 															All</button>
 													</div>
-													<iframe  name="richTextField" id="bodyContent"
+													<iframe name="richTextField" id="bodyContent"
 														style="width: 700px; height: 200px;"></iframe>
 													<script type="text/javascript">
-													var showingSourceCode = false;
-													var isInEditMode = true;
+														var showingSourceCode = false;
+														var isInEditMode = true;
 
-													function enableEditMode() {
-														richTextField.document.designMode = 'On';
-													}
-
-													function execCmd(command) {
-														richTextField.document
-																.execCommand(
-																		command,
-																		false,
-																		null);
-													}
-
-													function execCommandWithArg(
-															command, arg) {
-														richTextField.document
-																.execCommand(
-																		command,
-																		false,
-																		arg);
-													}
-
-													function toggleSource() {
-														if (showingSourceCode) {
-															richTextField.document
-																	.getElementsByTagName('body')[0].innerHTML = richTextField.document
-																	.getElementsByTagName('body')[0].textContent;
-															showingSourceCode = false;
-														} else {
-															richTextField.document
-																	.getElementsByTagName('body')[0].textContent = richTextField.document
-																	.getElementsByTagName('body')[0].innerHTML;
-															showingSourceCode = true;
-														}
-													}
-
-													function toggleEdit() {
-														if (isInEditMode) {
-															richTextField.document.designMode = 'Off';
-															isInEditMode = false;
-														} else {
+														function enableEditMode() {
 															richTextField.document.designMode = 'On';
-															isInEditMode = true;
 														}
-													}
-												</script>
+
+														function execCmd(
+																command) {
+															richTextField.document
+																	.execCommand(
+																			command,
+																			false,
+																			null);
+														}
+
+														function execCommandWithArg(
+																command, arg) {
+															richTextField.document
+																	.execCommand(
+																			command,
+																			false,
+																			arg);
+														}
+
+														function toggleSource() {
+															if (showingSourceCode) {
+																richTextField.document
+																		.getElementsByTagName('body')[0].innerHTML = richTextField.document
+																		.getElementsByTagName('body')[0].textContent;
+																showingSourceCode = false;
+															} else {
+																richTextField.document
+																		.getElementsByTagName('body')[0].textContent = richTextField.document
+																		.getElementsByTagName('body')[0].innerHTML;
+																showingSourceCode = true;
+															}
+														}
+
+														function toggleEdit() {
+															if (isInEditMode) {
+																richTextField.document.designMode = 'Off';
+																isInEditMode = false;
+															} else {
+																richTextField.document.designMode = 'On';
+																isInEditMode = true;
+															}
+														}
+													</script>
 
 
 
@@ -274,10 +277,105 @@
 
 								</form>
 							</div>
-							<div th:unless="${status == 'add'}" class="card-body">
-								<input th:if="${status=='update'}" type="hidden"
-									th:field="*{id}">
+
+
+						</div>
+					</div>
+
+
+				</div>
+
+				<div th:if="${status == 'update'} " class="container-fluid">
+					<a th:if="${status == 'update'} "
+						th:href="@{'/admin/lessons/'+${gramForm.lesson.id}}"><i
+						class="fas fa-arrow-left"></i>Trở về</a>
+					<div th:if="${msg != null}"
+						class="alert alert-dismissible fade show"
+						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+						role="alert">
+						<strong th:text="${msg}"></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-form})">
+
+						<div th:unless="${status == 'add'} " id="lesson-form"
+							class="row justify-content-center">
+
+							<div class="card shadow mb-4" style="width: 800px;">
+								<div class="card-header text-center">
+									<h2>Sửa ngữ pháp</h2>
+
+								</div>
+								<div class="card-body">
+
+									<form
+										th:action="@{'/admin/lessons/'+${gramForm.lesson.id}+'/grams/'+${gramForm.id}+'/save'}"
+										method="post" th:object="${gramForm}">
+										<div class="form">
+
+											<input th:value="${gramForm.id}" th:field="*{id}"
+												type="hidden"> <input
+												th:value="${gramForm.lesson.id}" th:field="*{lesson.id}"
+												type="hidden">
+											<div class="row">
+												<label>Tên mẫu ngữ pháp</label> <input type="text"
+													th:field="*{name}" class="form-control" id="inputName"
+													placeholder="Tên" required>
+
+											</div>
+
+											<div class="row">
+												<label>Nội dung</label> <input th:field="*{content}"
+													type="hidden" id="content_">
+												<table id="cont" contenteditable="true"
+													th:utext="${gramForm.content}"></table>
+
+
+											</div>
+
+											<div class="row">
+												<label>Ví dụ</label> <input id="description"
+													th:field="*{description}" type="hidden">
+												<table id="des" contenteditable="true"
+													th:utext="${gramForm.description}">
+												</table>
+												<script>
+													document
+															.getElementById(
+																	"des")
+															.addEventListener(
+																	"input",
+																	function() {
+																		var k = document
+																				.getElementById('des');
+																		document
+																				.getElementById('description').value = k.innerHTML
+																		var f = document
+																				.getElementById('cont');
+																		document
+																				.getElementById('content_').value = k = f.innerHTML
+
+																	}, false);
+												</script>
+											</div>
+										</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4"></div>
+									<div class="col-sm-4" style="text-align: center">
+										<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
+									</div>
+									<div class="col-sm-4"></div>
+								</div>
+
+								</form>
 							</div>
+
 
 						</div>
 					</div>
@@ -319,6 +417,10 @@
 	<style>
 .row {
 	margin-bottom: 20px
+}
+
+table, tr, th, td {
+	border: solid 1px
 }
 </style>
 

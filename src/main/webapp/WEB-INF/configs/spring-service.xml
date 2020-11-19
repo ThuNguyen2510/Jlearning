@@ -42,6 +42,22 @@
 		</property>
 	</bean>
 	
+	<bean id="vocabularyService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.VocabularyServiceImpl">
+				<property name="vocabularyDAO" ref="VocabularyDAO" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="grammarService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.GrammarServiceImpl">
+				<property name="grammarDAO" ref="GrammarDAO" />
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="alphabetService" parent="baseTransactionProxy">
 		<property name="target">
 			<bean class="jlearning.service.impl.AlphabetServiceImpl">

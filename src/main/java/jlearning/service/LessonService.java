@@ -6,7 +6,9 @@ import jlearning.bean.GramInfo;
 import jlearning.bean.LessonInfo;
 import jlearning.bean.ListenInfo;
 import jlearning.bean.VocabInfo;
+import jlearning.model.Grammar;
 import jlearning.model.Lesson;
+import jlearning.model.Listening;
 import jlearning.model.Test.Type;
 
 public interface LessonService extends BaseService<Integer,Lesson> {
@@ -19,4 +21,7 @@ public interface LessonService extends BaseService<Integer,Lesson> {
 	 boolean deleteGram(int id);
 	 boolean deleteVocab(int id2);
 	 boolean deleteListen(int id2);
+	 boolean editGram(Grammar gram);
+	 boolean editListen(Listening lis);
+	 Grammar getGram(int id);
 }
