@@ -11,17 +11,30 @@ import jlearning.model.Lesson;
 import jlearning.model.Listening;
 import jlearning.model.Test.Type;
 
-public interface LessonService extends BaseService<Integer,Lesson> {
-	 List<Lesson> loadAllLessons() ;
-	 List<Lesson> loadByType(Type type);
-	 void createVocab(VocabInfo vocab,int lessonId);
-	 void createGram(GramInfo vocab,int lessonId);
-	 void createListen(ListenInfo vocab,int lessonId);
-	 Lesson createLessonWithListContent(LessonInfo lesson, int courseId);
-	 boolean deleteGram(int id);
-	 boolean deleteVocab(int id2);
-	 boolean deleteListen(int id2);
-	 boolean editGram(Grammar gram);
-	 boolean editListen(Listening lis);
-	 Grammar getGram(int id);
+public interface LessonService extends BaseService<Integer, Lesson> {
+	List<Lesson> loadAllLessons();
+
+	List<Lesson> loadByType(Type type);
+
+	void createVocab(VocabInfo vocab, int lessonId);
+
+	void createGram(GramInfo vocab, int lessonId);
+
+	void createListen(ListenInfo vocab, int lessonId);
+
+	Lesson createLessonWithListContent(LessonInfo lesson, int courseId);
+
+	boolean deleteGram(int id);
+
+	boolean deleteVocab(int id2);
+
+	boolean deleteListen(int id2);
+
+	boolean editGram(Grammar gram);
+
+	boolean editListen(Listening lis);
+
+	Grammar getGram(int id);
+
+	Listening getListen(int id2);
 }

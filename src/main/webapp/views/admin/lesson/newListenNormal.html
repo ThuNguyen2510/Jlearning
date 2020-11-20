@@ -40,7 +40,7 @@
 
 				<!-- Begin Page Content -->
 
-				<div class="container-fluid">
+				<div th:if="${status == 'add'} " class="container-fluid">
 					<a th:if="${status == 'add'} "
 						th:href="@{'/admin/lessons/'+${lessonId}+'/listens'}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
@@ -60,21 +60,21 @@
 
 						<div id="listen-form" class="row justify-content-center">
 
-							<div class="card shadow mb-4" style="width: 800px;">
+							<div th:if="${status == 'add'} " class="card shadow mb-4"
+								style="width: 800px;">
 								<div class="card-header text-center">
 									<h2 th:if="${status == 'add'}">Thêm câu nghe</h2>
-									<h2 th:unless="${status == 'add'}">Sửa từ vựng</h2>
+
 								</div>
 								<div th:if="${status == 'add'}" class="card-body">
 
 									<form th:action="@{/admin/lessons/listens/add}" method="post"
 										th:object="${listenForm}">
 										<div class="form">
-											<input th:if="${status=='update'}" type="hidden"
-												th:field="*{id}"> <input th:value="${lessonId}"
-												th:if="${lessonId}" type="hidden">
+											<input th:value="${lessonId}" th:if="${lessonId}"
+												type="hidden">
 											<div class="row">
-												<label>File nghe(URL)*</label> <input type="text" type="url"
+												<label>File nghe(URL)*</label> <input type="url"
 													th:field="*{audio}" class="form-control" id="inputName"
 													placeholder="Nhập URL" required>
 
@@ -82,7 +82,8 @@
 
 											<div class="row">
 												<label>Hình ảnh(URL)*</label> <input required type="url"
-													th:field="*{image}" placeholder="Nhập URL"  class="form-control">
+													th:field="*{image}" placeholder="Nhập URL"
+													class="form-control">
 
 											</div>
 											<div class="row">
@@ -140,8 +141,247 @@
 
 				</div>
 
+				<div th:if="${status == 'update'} " class="container-fluid">
+					<a th:if="${status == 'update'} "
+						th:href="@{'/admin/lessons/'+${listenForm.lesson.id}+'/listens'}"><i
+						class="fas fa-arrow-left"></i>Trở về</a>
+					<div th:if="${msg != null}"
+						class="alert alert-dismissible fade show"
+						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+						role="alert">
+						<strong th:text="${msg}"></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #listen-form})">
+
+						<div id="listen-form" class="row justify-content-center">
+
+							<div th:if="${status == 'update'} " class="card shadow mb-4"
+								style="width: 800px;">
+								<div class="card-header text-center">
+									<h2 th:if="${status == 'update'}">Sửa câu nghe</h2>
+
+								</div>
+								<script>
+									function setEdit(id) {
+
+										id.setAttribute("contenteditable",
+												"true");
+										id.style.border = "solid 1.3px"
+
+									};
+								</script>
+
+								<div th:if="${status == 'update'}" class="card-body">
+
+									<form
+										th:action="@{'/admin/lessons/'+${listenForm.lesson.id}+'/listens/'+${listenForm.id}+'/save'}"
+										method="post" th:object="${listenForm}">
+										<div class="form">
+											<input th:value="${listenForm.id}" th:field="*{id}"
+												type="hidden">
+												<input
+												th:value="${listenForm.lesson.id}" th:field="*{lesson.id}"
+												type="hidden">
+											<div class="row">
+												<label>File nghe(URL)*</label> <input type="url"
+													th:field="*{audio}" class="form-control" id="inputName"
+													placeholder="Nhập URL" required>
+
+											</div>
+
+											<div class="row">
+												<label>Hình ảnh(URL)*</label> <input required type="url"
+													th:field="*{image}" placeholder="Nhập URL"
+													class="form-control">
+
+											</div>
+											<div class="row">
+												<label>Đáp án</label>
+
+											</div>
+											<div class="row">
+												<div class="col-sm-2">
+													<label>Câu 1</label> <input th:field="*{content1}"
+														class="form-control" type="hidden" id="content1">
+												</div>
+												<div class="col-sm-8">
+													<p id="cont1" th:utext="${listenForm.content1}"></p>
+												</div>
+												<div class="col-sm-2">
+													<a onclick="setEdit(cont1)" type="button"><i
+														class="far fa-edit" style="color: yellow"></i></a>
+												</div>
+
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<label>Câu 2</label> <input th:field="*{content2}"
+													class="form-control" type="hidden" id="content2">
+											</div>
+											<div class="col-sm-5">
+												<p id="cont2" th:utext="${listenForm.content2}"></p>
+											</div>
+											<div class="col-sm-2">
+												<a onclick="setEdit(cont2)" type="button"><i
+													class="far fa-edit" style="color: yellow"></i></a>
+											</div>
+
+										</div>
+										<div th:if="${content3}" class="row">
+											<div class="col-sm-2">
+												<label>Câu 3</label> <input th:field="*{content3}"
+													class="form-control" type="hidden" id="content3">
+											</div>
+											<div class="col-sm-5">
+												<p id="cont3" th:utext="${listenForm.content3}"></p>
+											</div>
+											<div class="col-sm-2">
+												<a onclick="setEdit(cont3)" type="button"><i
+													class="far fa-edit" style="color: yellow"></i></a>
+											</div>
+
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<label>Câu 4</label> <input th:field="*{content4}"
+													class="form-control" id="content4" type="hidden">
+											</div>
+											<div class="col-sm-5">
+												<p id="cont4" th:utext="${listenForm.content4}"></p>
+											</div>
+											<div class="col-sm-2">
+												<a onclick="setEdit(cont4)" type="button"><i
+													class="far fa-edit" style="color: yellow"></i></a>
+											</div>
+
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<label>Câu 5</label> <input th:field="*{content5}"
+													class="form-control" type="hidden" id="content5">
+											</div>
+											<div class="col-sm-5">
+												<p id="cont5" th:utext="${listenForm.content5}"></p>
+											</div>
+											<div class="col-sm-2">
+												<a onclick="setEdit(cont5)" type="button"><i
+													class="far fa-edit" style="color: yellow"></i></a>
+											</div>
+
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<label>Câu 6</label> <input th:field="*{content6}"
+													class="form-control" type="hidden" id="content6">
+											</div>
+											<div class="col-sm-5">
+												<p id="cont6" th:utext="${listenForm.content6}"></p>
+											</div>
+											<div class="col-sm-2">
+												<a onclick="setEdit(cont6)" type="button"><i
+													class="far fa-edit" style="color: yellow"></i></a>
+											</div>
+
+										</div>
+										<div class="row">
+											<div class="col-sm-4"></div>
+											<div class="col-sm-4" style="text-align: center">
+												<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
+											</div>
+											<div class="col-sm-4"></div>
+										</div>
+
+									</form>
+								</div>
+								<script>
+									document
+											.getElementById("cont1")
+											.addEventListener(
+													"input",
+													function() {
+														var k = document
+																.getElementById('cont1');
+														document
+																.getElementById('content1').value = k.innerHTML;
+
+													}, false);
+									document
+									.getElementById("cont2")
+									.addEventListener(
+											"input",
+											function() {
+												var k = document
+														.getElementById('cont2');
+												document
+														.getElementById('content2').value = k.innerHTML;
+
+											}, false);
+									document
+									.getElementById("cont3")
+									.addEventListener(
+											"input",
+											function() {
+												var k = document
+														.getElementById('cont3');
+												document
+														.getElementById('content3').value = k.innerHTML;
+
+											}, false);
+									document
+									.getElementById("cont4")
+									.addEventListener(
+											"input",
+											function() {
+												var k = document
+														.getElementById('cont4');
+												document
+														.getElementById('content4').value = k.innerHTML;
+
+											}, false);
+									document
+									.getElementById("cont5")
+									.addEventListener(
+											"input",
+											function() {
+												var k = document
+														.getElementById('cont5');
+												document
+														.getElementById('content5').value = k.innerHTML;
+
+											}, false);
+									document
+									.getElementById("cont6")
+									.addEventListener(
+											"input",
+											function() {
+												var k = document
+														.getElementById('cont6');
+												document
+														.getElementById('content6').value = k.innerHTML;
+
+											}, false);
+								</script>
+
+
+							</div>
+
+						</div>
+
+					</div>
+
+
+				</div>
+
 			</div>
-			<div th:unless="${status == 'add'}" class="card-body"></div>
+
 
 		</div>
 	</div>

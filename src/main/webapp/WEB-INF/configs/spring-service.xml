@@ -58,6 +58,14 @@
 		</property>
 	</bean>
 	
+		<bean id="listeningService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="jlearning.service.impl.ListeningServiceImpl">
+				<property name="listeningDAO" ref="ListeningDAO" />
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="alphabetService" parent="baseTransactionProxy">
 		<property name="target">
 			<bean class="jlearning.service.impl.AlphabetServiceImpl">

@@ -30,6 +30,8 @@ import jlearning.service.AlphabetService;
 import jlearning.service.CourseService;
 import jlearning.service.GrammarService;
 import jlearning.service.LessonService;
+
+import jlearning.service.ListeningService;
 import jlearning.service.VocabularyService;
 
 @Controller
@@ -51,6 +53,9 @@ public class LessonController {
 
 	@Autowired
 	private GrammarService grammarService;
+	
+	@Autowired
+	private ListeningService listeningService;
 
 	@GetMapping(value = { "", "/" })
 	public String index(Model model) {
@@ -99,6 +104,7 @@ public class LessonController {
 	public String addManual(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Lesson lesson = new Lesson();
+		
 		model.addAttribute("lessonForm", lesson);
 		List<Course> courses = courseService.loadCourses();
 		model.addAttribute("courses", courses);
@@ -242,6 +248,7 @@ public class LessonController {
 		LessonInfo lesson = list.get(id);
 		model.addAttribute("lesson", lesson);
 		model.addAttribute("pos", id);
+		model.addAttribute("inSession","session");
 		return "views/admin/lesson/lessonSession";
 	}
 
@@ -583,6 +590,34 @@ public class LessonController {
 		redirectAttributes.addFlashAttribute("msg", message);
 
 		return "redirect:/admin/lessons/" + id + "/listens";
+	}
+
+	@GetMapping("/{id}/listens/{id2}/edit")
+	public String listeEdit(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
+			final RedirectAttributes redirectAttributes) {
+		model.addAttribute("status", "update");
+		model.addAttribute("listenForm",lessonService.getListen(id2));
+
+		return "views/admin/lesson/newListenNormal";
+	}
+	
+	@RequestMapping("/{id}/listens/{id2}/save")
+	public String listenSave(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
+			final RedirectAttributes redirectAttributes,@ModelAttribute("listenForm") Listening listen) {
+		String typeCss = "";
+		String message = "";
+
+		if (listeningService.saveOrUpdate(listen) != null) {
+			typeCss = "success";
+			message = "Sửa thành công!!";
+		} else {
+			typeCss = "error";
+			message = "Sửa thất bại!!";
+		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+		return "redirect:/admin/lessons/" + id + "/listens";
+
 	}
 
 }

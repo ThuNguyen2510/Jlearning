@@ -278,4 +278,10 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		return getGrammarDAO().findById(id);
 	}
 
+	@Override
+	public Listening getListen(int id2) {
+		// TODO Auto-generated method stub
+		return getListeningDAO().findById(id2);
+	}
+
 }

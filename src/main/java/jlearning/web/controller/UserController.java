@@ -108,21 +108,21 @@ public class UserController extends BaseController {
 		List<Result> rsLevels = new ArrayList<Result>();
 		List<Result> rsLessons = new ArrayList<Result>();
 		List<Result> rsExams = new ArrayList<Result>();
-		for(int i=0;i<u.getResults().size();i++) {
-			Result rs= u.getResults().get(i);
-			if(rs.getTest().getType()==Type.LEVEL) {
+		for (int i = 0; i < u.getResults().size(); i++) {
+			Result rs = u.getResults().get(i);
+			if (rs.getTest().getType() == Type.LEVEL) {
 				rsLevels.add(rs);
 			}
-			if(rs.getTest().getType()==Type.LESSON) {
+			if (rs.getTest().getType() == Type.LESSON) {
 				rsLessons.add(rs);
 			}
-			if(rs.getTest().getType()==Type.EXAM) {
+			if (rs.getTest().getType() == Type.EXAM) {
 				rsExams.add(rs);
 			}
 		}
-		model.addAttribute("rsLevels",rsLevels);
-		model.addAttribute("rsLessons",rsLessons);
-		model.addAttribute("rsExams",rsExams);
+		model.addAttribute("rsLevels", rsLevels);
+		model.addAttribute("rsLessons", rsLessons);
+		model.addAttribute("rsExams", rsExams);
 		return "views/web/user/examHistory";
 	}
 
@@ -135,16 +135,22 @@ public class UserController extends BaseController {
 		model.addAttribute("userFix", u);
 		List<History> lessonHis = userService.loadHistory(userId, 2);// lesson:2
 		List<LessonHis> list = new ArrayList<LessonHis>();
-		for (int i = 0; i < lessonHis.size(); i++) {
-			LessonHis lesson = new LessonHis();
-			Lesson lesson_ = lessonService.findById(lessonHis.get(i).getObjectId());
-			lesson.setObjectId(lesson_.getId());
-			lesson.setLessonName(lesson_.getName());
-			lesson.setCourseName(lesson_.getCourse().getName());
-			lesson.setCreate_time(lessonHis.get(i).getCreate_time());
-			lesson.setCourseId(lesson_.getCourse().getId());
-			list.add(lesson);
+		if (lessonHis != null) {
+			for (int i = 0; i < lessonHis.size(); i++) {
+				LessonHis lesson = new LessonHis();
+				if (lessonService.findById(lessonHis.get(i).getObjectId()) != null) {
+					Lesson lesson_ = lessonService.findById(lessonHis.get(i).getObjectId());
+					lesson.setObjectId(lesson_.getId());
+					lesson.setLessonName(lesson_.getName());
+					lesson.setCourseName(lesson_.getCourse().getName());
+					lesson.setCreate_time(lessonHis.get(i).getCreate_time());
+					lesson.setCourseId(lesson_.getCourse().getId());
+					list.add(lesson);
+				}
+
+			}
 		}
+
 		model.addAttribute("lessonHis", list);
 		return "views/web/user/lessonHistory";
 	}
