@@ -66,7 +66,7 @@
 								</div>
 								<div th:if="${status == 'add'}" class="card-body">
 
-									<form th:action="@{/admin/lessons/vocabs/add}" method="post"
+									<form th:action="@{/admin/lessons/vocabs/add}" method="post"  enctype="multipart/form-data"
 										th:object="${vocabForm}">
 										<div class="form">
 											<input th:if="${status=='update'}" type="hidden"
@@ -85,12 +85,16 @@
 
 											</div>
 											<div class="row">
-												<label >Audio(URL)</label> <input type="url"
-													th:field="*{audio}" class="form-control" >
+												<label >Audio(URL)</label> 
+												<input type="file" name="file"  accept="audio/mp3"
+													class="form-control" required >
+												
+												
 
 											</div><div class="row">
 												<label >Nghĩa</label> <input 
 													th:field="*{means}" class="form-control" required>
+													
 
 											</div>
 											
@@ -106,7 +110,7 @@
 
 									</form>
 								</div>
-								<div th:unless="${status == 'add'}" class="card-body"></div>
+								
 
 							</div>
 						</div>

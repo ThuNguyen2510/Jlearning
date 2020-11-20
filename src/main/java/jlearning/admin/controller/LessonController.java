@@ -1,5 +1,9 @@
 package jlearning.admin.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jlearning.bean.ListenInfo;
+import jlearning.bean.MyFile;
 import jlearning.bean.GramInfo;
 import jlearning.bean.LessonInfo;
 import jlearning.bean.VocabInfo;
@@ -53,7 +60,7 @@ public class LessonController {
 
 	@Autowired
 	private GrammarService grammarService;
-	
+
 	@Autowired
 	private ListeningService listeningService;
 
@@ -104,7 +111,7 @@ public class LessonController {
 	public String addManual(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Lesson lesson = new Lesson();
-		
+
 		model.addAttribute("lessonForm", lesson);
 		List<Course> courses = courseService.loadCourses();
 		model.addAttribute("courses", courses);
@@ -248,7 +255,7 @@ public class LessonController {
 		LessonInfo lesson = list.get(id);
 		model.addAttribute("lesson", lesson);
 		model.addAttribute("pos", id);
-		model.addAttribute("inSession","session");
+		model.addAttribute("inSession", "session");
 		return "views/admin/lesson/lessonSession";
 	}
 
@@ -317,6 +324,7 @@ public class LessonController {
 	public String addVocabManual(Model model, HttpServletRequest request) {
 		// if id!=0 thi save ; ko thi luu vao session
 		HttpSession session = request.getSession();
+		model.addAttribute("myAudio", new MyFile());
 		model.addAttribute("status", "add");
 		model.addAttribute("lessonId", session.getAttribute("lessonId"));
 		model.addAttribute("vocabForm", new VocabInfo());
@@ -325,12 +333,18 @@ public class LessonController {
 
 	@RequestMapping(value = "/vocabs/add")
 	public String saveVocab(Model model, @ModelAttribute("vocabForm") VocabInfo vocab,
-			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
+			final RedirectAttributes redirectAttributes, HttpServletRequest request,
+			@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
 		HttpSession session = request.getSession();
 		// if id!=0 thi save ; ko thi luu vao session
 		String typeCss = "";
 		String message = "";
 		int lessonId = 0;
+		File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+				file.getOriginalFilename());
+		file.transferTo(fileNew);
+
+		vocab.setAudio("/haru/assets/upload/" + file.getOriginalFilename());
 		if (session.getAttribute("lessonId") != null) {
 			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
 		}
@@ -401,9 +415,19 @@ public class LessonController {
 
 	@RequestMapping(value = "/{id}/vocabs/{id2}/save")
 	public String vocabSave(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
-			final RedirectAttributes redirectAttributes, @ModelAttribute("vocabForm") Vocabulary vocab) {
+			final RedirectAttributes redirectAttributes, @ModelAttribute("vocabForm") Vocabulary vocab,
+			@RequestParam(value = "file", required = false) MultipartFile file)
+			throws IllegalStateException, IOException {
 		String typeCss = "";
 		String message = "";
+
+		if (file.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					file.getOriginalFilename());
+			file.transferTo(fileNew);
+			vocab.setAudio("/haru/assets/upload/" + file.getOriginalFilename());
+		}
+
 		if (vocabularyService.saveOrUpdate(vocab) != null) {
 			typeCss = "success";
 			message = "Sửa thành công!!";
@@ -549,7 +573,25 @@ public class LessonController {
 	}
 
 	@RequestMapping(value = "/listens/add")
-	public String saveListen(Model model, @ModelAttribute("listenForm") ListenInfo listen, HttpServletRequest request) {
+	public String saveListen(Model model, @ModelAttribute("listenForm") ListenInfo listen, HttpServletRequest request,
+			@RequestParam(value = "fileAudio") MultipartFile fileAudio,final RedirectAttributes redirectAttributes,
+			@RequestParam(value = "fileImage", required = false) MultipartFile fileImage)
+			throws IllegalStateException, IOException {
+		String typeCss = "";
+		String message = "";
+		if (fileAudio.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					fileAudio.getOriginalFilename());
+			fileAudio.transferTo(fileNew);
+			listen.setAudio("/haru/assets/upload/" + fileAudio.getOriginalFilename());
+		}
+		if (fileImage.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					fileImage.getOriginalFilename());
+			fileImage.transferTo(fileNew);
+			listen.setImage("/haru/assets/upload/" + fileImage.getOriginalFilename());
+		}
+
 		HttpSession session = request.getSession();
 		// if id!=0 thi save ; ko thi luu vao session
 		int lessonId = 0;
@@ -558,6 +600,8 @@ public class LessonController {
 		}
 		if (lessonId != 0) {
 			lessonService.createListen(listen, lessonId);
+			typeCss = "success";
+			message = "Thêm thành công!!";
 
 		} else {
 
@@ -567,8 +611,13 @@ public class LessonController {
 			}
 			listens.add(listen);
 			session.setAttribute("listens", listens);
+			typeCss = "success";
+			message = "Thêm thành công!!";
 
 		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+		
 		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/listens";
 
 	}
@@ -596,17 +645,31 @@ public class LessonController {
 	public String listeEdit(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
 			final RedirectAttributes redirectAttributes) {
 		model.addAttribute("status", "update");
-		model.addAttribute("listenForm",lessonService.getListen(id2));
+		model.addAttribute("listenForm", lessonService.getListen(id2));
 
 		return "views/admin/lesson/newListenNormal";
 	}
-	
+
 	@RequestMapping("/{id}/listens/{id2}/save")
 	public String listenSave(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
-			final RedirectAttributes redirectAttributes,@ModelAttribute("listenForm") Listening listen) {
+			final RedirectAttributes redirectAttributes, @ModelAttribute("listenForm") Listening listen,
+			@RequestParam(value = "fileAudio") MultipartFile fileAudio,
+			@RequestParam(value = "fileImage", required = false) MultipartFile fileImage)
+			throws IllegalStateException, IOException {
 		String typeCss = "";
 		String message = "";
-
+		if (fileAudio.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					fileAudio.getOriginalFilename());
+			fileAudio.transferTo(fileNew);
+			listen.setAudio("/haru/assets/upload/" + fileAudio.getOriginalFilename());
+		}
+		if (fileImage.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					fileImage.getOriginalFilename());
+			fileImage.transferTo(fileNew);
+			listen.setImage("/haru/assets/upload/" + fileImage.getOriginalFilename());
+		}
 		if (listeningService.saveOrUpdate(listen) != null) {
 			typeCss = "success";
 			message = "Sửa thành công!!";

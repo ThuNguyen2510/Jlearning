@@ -67,7 +67,7 @@
 									<h2 th:unless="${status == 'add'}">Sửa khóa học</h2>
 								</div>
 								<div class="card-body">
-									<form th:action="@{/admin/courses/saveupdate}" method="post"
+									<form th:action="@{/admin/courses/saveupdate}" method="post"  enctype="multipart/form-data"
 										th:object="${courseForm}">
 										<div class="form">
 											<input th:if="${status=='update'}" type="hidden"
@@ -93,13 +93,15 @@
 											</div>
 
 											<div class="row">
-												<label>Logo(URL)</label> <input th:field="*{logo}" type="url"
-													class="form-control" placeholder="Nhập URL">
+												<label>Logo</label> <input type="file" name="fileLogo" accept="jpg/png"
+													class="form-control"> <input th:field="*{logo}"
+													type="hidden">
 											</div>
 
 											<div class="row">
-												<label>Image(URL)</label> <input type="url" th:field="*{image}"
-													class="form-control" placeholder="Nhập URL">
+												<label>Image</label> <input type="file" name="fileImage" accept="jpg/png"
+													class="form-control" > <input
+													th:field="*{image}" type="hidden">
 											</div>
 											<div class="row">
 												<label>Danh sách bài học</label> <a
@@ -131,8 +133,7 @@
 													class="col-sm-5"
 													th:text="@{${i.index+1}+'.'+${lesson.name}}"> </a> <a
 													th:href="@{'/admin/lessons/'+${i.index}+'/lessonSession'}"
-													class="col-sm-1"> <i
-														class="fas fa-info-circle"></i>
+													class="col-sm-1"> <i class="fas fa-info-circle"></i>
 												</a> <!-- <a style="color: yellow" class="col-sm-1"
 													th:href="@{'/admin/lessons/'+${i.index}+'/editLessonSession'}"> <i
 														class="far fa-edit"></i>

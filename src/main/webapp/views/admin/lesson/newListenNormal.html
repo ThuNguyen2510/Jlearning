@@ -69,21 +69,20 @@
 								<div th:if="${status == 'add'}" class="card-body">
 
 									<form th:action="@{/admin/lessons/listens/add}" method="post"
-										th:object="${listenForm}">
+										enctype="multipart/form-data" th:object="${listenForm}">
 										<div class="form">
 											<input th:value="${lessonId}" th:if="${lessonId}"
 												type="hidden">
 											<div class="row">
-												<label>File nghe(URL)*</label> <input type="url"
-													th:field="*{audio}" class="form-control" id="inputName"
-													placeholder="Nhập URL" required>
+												<label>File nghe</label> <input type="file" name="fileAudio"
+													accept="audio/mp3" class="form-control" id="inputName"
+													required>
 
 											</div>
 
 											<div class="row">
-												<label>Hình ảnh(URL)*</label> <input required type="url"
-													th:field="*{image}" placeholder="Nhập URL"
-													class="form-control">
+												<label>Hình ảnh</label> <input type="file" name="fileImage"
+													accept="jpg/png" class="form-control">
 
 											</div>
 											<div class="row">
@@ -179,27 +178,25 @@
 
 								<div th:if="${status == 'update'}" class="card-body">
 
-									<form
+									<form enctype="multipart/form-data"
 										th:action="@{'/admin/lessons/'+${listenForm.lesson.id}+'/listens/'+${listenForm.id}+'/save'}"
 										method="post" th:object="${listenForm}">
 										<div class="form">
 											<input th:value="${listenForm.id}" th:field="*{id}"
-												type="hidden">
-												<input
+												type="hidden"> <input
 												th:value="${listenForm.lesson.id}" th:field="*{lesson.id}"
 												type="hidden">
 											<div class="row">
-												<label>File nghe(URL)*</label> <input type="url"
-													th:field="*{audio}" class="form-control" id="inputName"
-													placeholder="Nhập URL" required>
+												<label>File nghe</label> <input type="file" name="fileAudio"
+													accept="audio/mp3" class="form-control" id="inputName"
+													> <input th:field="*{audio}" type="hidden">
 
 											</div>
 
 											<div class="row">
-												<label>Hình ảnh(URL)*</label> <input required type="url"
-													th:field="*{image}" placeholder="Nhập URL"
-													class="form-control">
-
+												<label>Hình ảnh</label> <input type="file"
+													name="fileImage" accept="jpg/png" class="form-control">
+												<input th:field="*{image}" type="hidden">
 											</div>
 											<div class="row">
 												<label>Đáp án</label>
@@ -314,60 +311,60 @@
 
 													}, false);
 									document
-									.getElementById("cont2")
-									.addEventListener(
-											"input",
-											function() {
-												var k = document
-														.getElementById('cont2');
-												document
-														.getElementById('content2').value = k.innerHTML;
+											.getElementById("cont2")
+											.addEventListener(
+													"input",
+													function() {
+														var k = document
+																.getElementById('cont2');
+														document
+																.getElementById('content2').value = k.innerHTML;
 
-											}, false);
+													}, false);
 									document
-									.getElementById("cont3")
-									.addEventListener(
-											"input",
-											function() {
-												var k = document
-														.getElementById('cont3');
-												document
-														.getElementById('content3').value = k.innerHTML;
+											.getElementById("cont3")
+											.addEventListener(
+													"input",
+													function() {
+														var k = document
+																.getElementById('cont3');
+														document
+																.getElementById('content3').value = k.innerHTML;
 
-											}, false);
+													}, false);
 									document
-									.getElementById("cont4")
-									.addEventListener(
-											"input",
-											function() {
-												var k = document
-														.getElementById('cont4');
-												document
-														.getElementById('content4').value = k.innerHTML;
+											.getElementById("cont4")
+											.addEventListener(
+													"input",
+													function() {
+														var k = document
+																.getElementById('cont4');
+														document
+																.getElementById('content4').value = k.innerHTML;
 
-											}, false);
+													}, false);
 									document
-									.getElementById("cont5")
-									.addEventListener(
-											"input",
-											function() {
-												var k = document
-														.getElementById('cont5');
-												document
-														.getElementById('content5').value = k.innerHTML;
+											.getElementById("cont5")
+											.addEventListener(
+													"input",
+													function() {
+														var k = document
+																.getElementById('cont5');
+														document
+																.getElementById('content5').value = k.innerHTML;
 
-											}, false);
+													}, false);
 									document
-									.getElementById("cont6")
-									.addEventListener(
-											"input",
-											function() {
-												var k = document
-														.getElementById('cont6');
-												document
-														.getElementById('content6').value = k.innerHTML;
+											.getElementById("cont6")
+											.addEventListener(
+													"input",
+													function() {
+														var k = document
+																.getElementById('cont6');
+														document
+																.getElementById('content6').value = k.innerHTML;
 
-											}, false);
+													}, false);
 								</script>
 
 

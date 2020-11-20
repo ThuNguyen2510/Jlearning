@@ -66,12 +66,13 @@
 								</div>
 								<div class="card-body">
 
-									<form
+									<form  enctype="multipart/form-data"
 										th:action="@{'/admin/lessons/'+${vocabForm.lesson.id}+'/vocabs/'+${vocabForm.id}+'/save'}"
 										method="post" th:object="${vocabForm}">
 										<div class="form">
 											<input type="hidden" th:field="*{id}"> <input
-												type="hidden" th:field="*{lesson.id}" th:value="${vocabForm.lesson.id}">
+												type="hidden" th:field="*{lesson.id}"
+												th:value="${vocabForm.lesson.id}">
 
 											<div class="row">
 												<label>Từ</label> <input type="text" th:field="*{content}"
@@ -86,13 +87,13 @@
 
 											</div>
 											<div class="row">
-												<label>Audio(URL)</label> <input type="url"
-													th:field="*{audio}" class="form-control">
-
+												<label>Audio</label> <input type="file" name="file"
+													accept="audio/mp3" class="form-control"> <input
+													th:field="*{audio}" type="hidden">
 											</div>
 											<div class="row">
-												<label>Nghĩa(URL)</label> <input 
-													th:field="*{means}" class="form-control" required>
+												<label>Nghĩa</label> <input th:field="*{means}"
+													class="form-control" required>
 
 											</div>
 

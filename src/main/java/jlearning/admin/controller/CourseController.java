@@ -1,5 +1,7 @@
 package jlearning.admin.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jlearning.bean.LessonInfo;
@@ -61,8 +65,22 @@ public class CourseController {
 
 	@RequestMapping(value = "/saveupdate")
 	public String saveOrUpdate(@ModelAttribute("courseForm") Course course, BindingResult result, Model model,
-			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
-
+			final RedirectAttributes redirectAttributes, HttpServletRequest request,
+			@RequestParam(value = "fileLogo", required = false) MultipartFile fileLogo,
+			@RequestParam(value = "fileImage", required = false) MultipartFile fileImage)
+			throws IllegalStateException, IOException {
+		if (fileLogo.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					fileLogo.getOriginalFilename());
+			fileLogo.transferTo(fileNew);
+			course.setLogo("/haru/assets/upload/" + fileLogo.getOriginalFilename());
+		}
+		if (fileImage.isEmpty() != true) {
+			File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+					fileImage.getOriginalFilename());
+			fileImage.transferTo(fileNew);
+			course.setImage("/haru/assets/upload/" + fileImage.getOriginalFilename());
+		}
 		String typeCss = "error";
 		String message = "Input sai!";
 		HttpSession session = request.getSession();
@@ -78,12 +96,8 @@ public class CourseController {
 			session.removeAttribute("courseId");
 			session.removeAttribute("newCourse");
 		}
-		/*
-		 * if (courseService.saveOrUpdate(course) == null) {
-		 * redirectAttributes.addFlashAttribute("css", typeCss);
-		 * redirectAttributes.addFlashAttribute("msg", message); return
-		 * "redirect:/admin/courses"; }
-		 */else {
+
+		else {
 			typeCss = "success";
 			message = "Tạo/Sửa khóa học thành công!!";
 			courseService.saveOrUpdate(course);

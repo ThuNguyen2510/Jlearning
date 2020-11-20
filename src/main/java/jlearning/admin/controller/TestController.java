@@ -192,9 +192,9 @@ public class TestController {
 	@GetMapping(value = "/{id}/addQuestionFile")
 	public String addQuestion3(Model model, @PathVariable("id") int id) {
 		model.addAttribute("status", "add");
-		model.addAttribute("quesForm", new QuestionInfo());
+		
 
-		return "views/admin/test/newQuestionManual";
+		return "views/admin/test/newQuestionFile";
 	}
 
 	@GetMapping(value = "/addQuestionFile")
