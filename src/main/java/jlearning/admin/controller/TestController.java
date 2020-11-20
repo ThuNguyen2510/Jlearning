@@ -1,12 +1,21 @@
 package jlearning.admin.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +23,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mchange.v2.cfg.PropertiesConfigSource.Parse;
+
+import jlearning.bean.AnswerInfo;
+import jlearning.bean.AnswerInfo_;
 import jlearning.bean.QuestionInfo;
 import jlearning.bean.TestInfo;
+import jlearning.bean.UserInfo;
+import jlearning.helper.ExcelHelper;
 import jlearning.model.Course;
+import jlearning.model.Question;
+import jlearning.model.Question.Part;
 import jlearning.model.Test;
 import jlearning.model.Test.Type;
 import jlearning.service.LessonService;
+import jlearning.service.QuestionService;
 import jlearning.service.TestService;
 
 @Controller
@@ -94,41 +114,64 @@ public class TestController {
 
 		return "redirect:/admin/tests";
 	}
+
 	@GetMapping(value = "{id}/delete")
-	public String deleteTest(Model model, @PathVariable("id") int id,final RedirectAttributes redirectAttributes) {
+	public String deleteTest(Model model, @PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 		Test test = testService.findById(id);
-		if(testService.delete(test)) {
+		if (testService.delete(test)) {
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Xóa đề thành công");
-		}else {
+		} else {
 			redirectAttributes.addFlashAttribute("css", "error");
 			redirectAttributes.addFlashAttribute("msg", "Xóa đề thất bại");
 		}
 		return "redirect:/admin/tests";
-				
+
 	}
+
 	@GetMapping(value = "{id}/questions/{id2}/delete")
-	public String deleteQues(Model model, @PathVariable("id") int id,@PathVariable("id2") int id2,final RedirectAttributes redirectAttributes) {
+	public String deleteQues(Model model, @PathVariable("id") int id, @PathVariable("id2") int id2,
+			final RedirectAttributes redirectAttributes) {
 		Test test = testService.findById(id);
-		if(testService.deleteQuestion(id2)) {
+		if (testService.deleteQuestion(id2)) {
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thành công");
-		}else {
+		} else {
 			redirectAttributes.addFlashAttribute("css", "error");
 			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thất bại");
 		}
-		return "redirect:/admin/tests/"+id;
-				
+		return "redirect:/admin/tests/" + id;
+
+	}
+
+	@GetMapping(value = "{id}/questions/{id2}/save")
+	public String updateQues(Model model, @PathVariable("id") int id, @PathVariable("id2") int id2,
+			final RedirectAttributes redirectAttributes,@ModelAttribute("quesForm") Question question) {
+		
+		return "";
 	}
 	
+	@GetMapping(value = "/questions/{id2}/edit")
+	public String editQues(Model model, @PathVariable("id2") int id2,
+			final RedirectAttributes redirectAttributes) {
+		model.addAttribute("status","update");
+		List<Part> list= new ArrayList<Part>();
+		list.add(Part.vocab);
+		list.add(Part.listen);
+		list.add(Part.gram);
+		list.add(Part.read);
+		model.addAttribute("parts",list);
+		model.addAttribute("quesForm",testService.getQuestion(id2));
+		return "views/admin/test/newQuestionManual";
+	}
+
 	@RequestMapping(value = "{id}/save")
 	public String updateTest(Model model, @ModelAttribute("testForm") Test test, @PathVariable("id") int id,
 			final RedirectAttributes redirectAttributes) {
 		if (testService.saveOrUpdate(test) != null) {
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Sửa đề thành công");
-		}
-		else {
+		} else {
 			redirectAttributes.addFlashAttribute("css", "error");
 			redirectAttributes.addFlashAttribute("msg", "Sửa đề thất bại");
 		}
@@ -190,11 +233,49 @@ public class TestController {
 	}
 
 	@GetMapping(value = "/{id}/addQuestionFile")
-	public String addQuestion3(Model model, @PathVariable("id") int id) {
+	public String addQuestion3(Model model, @PathVariable("id") int id) throws Exception {
 		model.addAttribute("status", "add");
-		
-
+		model.addAttribute("testId", id);
 		return "views/admin/test/newQuestionFile";
+	}
+
+	@RequestMapping(value = "{id}/process")
+	public String importFile(@RequestParam("file") MultipartFile excelfile, @PathVariable("id") int testId, Model model)
+			throws Exception {
+		List<QuestionInfo> questions = new ArrayList<>();
+		int i = 0;
+		// Creates a workbook object from the uploaded excelfile
+		XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+		// Creates a worksheet object representing the first sheet
+		XSSFSheet worksheet = workbook.getSheetAt(0);
+		// Reads the data in excel file until last row is encountered
+		while (i <= worksheet.getLastRowNum()) {
+			// Creates an object for the UserInfo Model
+			QuestionInfo ques = new QuestionInfo();
+			// Creates an object representing a single row in excel
+			XSSFRow row = worksheet.getRow(i++);
+			// Sets the Read data to the model class
+			ques.setContent(row.getCell(0).getStringCellValue());
+			ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
+			ques.setPart((int) (row.getCell(2).getNumericCellValue()));
+			int sizeAns = (int) row.getCell(3).getNumericCellValue();
+			int k = 4, g = 5;
+			List<AnswerInfo_> list = new ArrayList<>();
+			for (int j = 1; j <= sizeAns; j++) {
+				AnswerInfo_ ans = new AnswerInfo_();
+				ans.setContent(row.getCell(k).getStringCellValue());
+				ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
+				k += 2;
+				g += 2;
+				list.add(ans);
+
+			}
+			ques.setAnsList(list);
+			testService.createQuestion(ques, testId);
+
+		}
+
+		return "redirect:/admin/tests/" + testId;
 	}
 
 	@GetMapping(value = "/addQuestionFile")

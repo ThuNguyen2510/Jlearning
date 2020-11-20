@@ -163,9 +163,14 @@
 																			th:text="${ans.content}"></span><i
 																			class="far fa-check-circle"></i></li>
 																	</td>
-																	<td data-v-427d2be1=""><a style="cursor: pointer;"
+																	<td data-v-427d2be1="">
+																	<a style="cursor: pointer;"
+																		th:href="@{'/admin/tests/questions/'+${ques.id}+'/edit'}">
+																			<i style="color:yellow" class="fas fa-edit"></i>
+																	</a>
+																	<a style="cursor: pointer;"
 																		th:onclick="'deleteQues('+${test.id}+','+${ques.id}+')'">
-																			<i style="color: red" class="fas fa-trash">
+																			<i style="color: red" class="fas fa-trash"></i>
 																	</a></td>
 
 																</tr>

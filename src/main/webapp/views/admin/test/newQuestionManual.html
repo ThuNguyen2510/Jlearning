@@ -39,7 +39,7 @@
 
 				<!-- Begin Page Content -->
 
-				<div class="container-fluid">
+				<div th:if="${status == 'add'}" class="container-fluid">
 					<a th:href="@{'/admin/tests/add'}"><i class="fas fa-arrow-left"></i>Trở
 						về</a>
 
@@ -59,12 +59,13 @@
 
 						<div id="ques-form" class="row justify-content-center">
 
-							<div class="card shadow mb-4" style="width: 1000px;">
+							<div class="card shadow mb-4" th:if="${status == 'add'}"
+								style="width: 1000px;">
 								<div class="card-header text-center">
 									<h2 th:if="${status == 'add'}">Tạo câu hỏi</h2>
 
 								</div>
-								<div class="card-body">
+								<div th:if="${status == 'add'}" class="card-body">
 									<form th:action="@{/admin/tests/questions/new}" method="post"
 										th:object="${quesForm}">
 										<div class="form">
@@ -75,19 +76,19 @@
 
 											</div>
 											<div class="row">
-												<label for="inputName">Phạm vi</label>
-												<select type="text" th:field="*{part}"
-													class="form-control" required>
-													<option value="1"  selected="selected">Từ vựng</option>
+												<label for="inputName">Phạm vi</label> <select type="text"
+													th:field="*{part}" class="form-control" required>
+													<option value="1" selected="selected">Từ vựng</option>
 													<option value="2">Ngữ pháp</option>
 													<option value="3">Nghe</option>
 													<option value="4">Đọc</option>
-													</select>
+												</select>
 
 											</div>
 											<div class="row">
-												<label for="inputName">Level</label>
-												<input th:field="*{level}" placeholder="cấp độ 1-5" class="form-control" required>
+												<label for="inputName">Level</label> <input
+													th:field="*{level}" placeholder="cấp độ 1-5"
+													class="form-control" required>
 
 											</div>
 											<div class="row">
@@ -102,7 +103,8 @@
 														th:name="ans" th:value="0" style="margin-left: 40px;"
 														type="radio" required>
 												</div>
-												<input th:field="*{ansList[0].content}" class="form-control" required>
+												<input th:field="*{ansList[0].content}" class="form-control"
+													required>
 
 											</div>
 											<div style="margin-left: 10px;" class="row">
@@ -112,7 +114,8 @@
 														th:name="ans" th:value="1" style="margin-left: 40px;"
 														type="radio">
 												</div>
-												<input th:field="*{ansList[1].content}" class="form-control" required>
+												<input th:field="*{ansList[1].content}" class="form-control"
+													required>
 
 											</div>
 											<div style="margin-left: 10px;" class="row">
@@ -122,7 +125,8 @@
 														th:name="ans" th:value="2" style="margin-left: 40px;"
 														type="radio">
 												</div>
-												<input th:field="*{ansList[2].content}" class="form-control" required>
+												<input th:field="*{ansList[2].content}" class="form-control"
+													required>
 
 											</div>
 											<div style="margin-left: 10px;" class="row">
@@ -132,7 +136,133 @@
 														th:name="ans" th:value="3" style="margin-left: 40px;"
 														type="radio">
 												</div>
-												<input th:field="*{ansList[3].content}" class="form-control" required>
+												<input th:field="*{ansList[3].content}" class="form-control"
+													required>
+
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-4"></div>
+											<div class="col-sm-4" style="text-align: center">
+												<button type="submit" value="Submit" class="btn btn-primary">Lưu</button>
+											</div>
+											<div class="col-sm-4"></div>
+										</div>
+
+									</form>
+								</div>
+
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+
+
+				<div th:if="${status == 'update'}" class="container-fluid">
+					<a th:href="@{'/admin/tests/'+${quesForm.test.id}}"><i
+						class="fas fa-arrow-left"></i>Trở về</a>
+
+					<div th:if="${msg != null}"
+						class="alert alert-dismissible fade show"
+						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+						role="alert">
+						<strong th:text="${msg}"></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #ques-form})">
+
+						<div id="ques-form" class="row justify-content-center">
+
+							<div class="card shadow mb-4" th:if="${status == 'update'}"
+								style="width: 1000px;">
+								<div class="card-header text-center">
+									<h2 th:if="${status == 'update'}">Sửa câu hỏi</h2>
+
+								</div>
+								<div th:if="${status == 'update'}" class="card-body">
+									<form
+										th:action="@{'/admin/tests/questions/'+${quesForm.id}+'/save'}"
+										method="post" th:object="${quesForm}">
+										<div class="form">
+											<div class="row">
+												<label for="inputName">Nội dung câu hỏi</label>
+												<textarea type="text" th:field="*{content}"
+													class="form-control" required></textarea>
+
+											</div>
+											<div class="row">
+												<label for="inputName">Phạm vi</label> <select type="text"
+													th:field="*{part}" class="form-control" required>
+													<option  th:selected="${c}==${quesForm.part}" th:each="c:${parts}"
+														th:value="${c}" th:text="${c}"></option>
+													<!-- <option value="2">Ngữ pháp</option>
+													<option value="3">Nghe</option>
+													<option value="4">Đọc</option> -->
+												</select>
+
+											</div>
+											<div class="row">
+												<label for="inputName">Level</label> <input
+													th:field="*{level}" placeholder="cấp độ 1-5"
+													class="form-control" required>
+
+											</div>
+											<div class="row">
+												<label>Phương án</label>
+
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+												<div class="col-sm">
+
+													<label>Phương án 1: </label> <label>Đúng? </label><input
+														style="margin-left: 40px;" type="radio"
+														th:value="*{answers[0].isTrue}">
+												</div>
+												<input th:field="*{answers[0].content}" class="form-control"
+													required>
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+
+												<div class="col-sm">
+													<label>Phương án 2: </label> <label>Đúng? </label><input
+														th:value="*{answers[1].isTrue}" style="margin-left: 40px;"
+														type="radio">
+												</div>
+												<input th:field="*{answers[1].content}" class="form-control"
+													required>
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+
+												<div class="col-sm">
+													<label>Phương án 3: </label> <label>Đúng? </label><input
+														th:value="*{answers[2].isTrue}" style="margin-left: 40px;"
+														type="radio">
+												</div>
+												<input th:field="*{answers[2].content}" class="form-control"
+													required>
+
+											</div>
+											<div style="margin-left: 10px;" class="row">
+
+												<div class="col-sm">
+													<label>Phương án 4: </label> <label>Đúng? </label><input
+														th:value="*{answers[3].isTrue}" style="margin-left: 40px;"
+														type="radio">
+												</div>
+												<input th:field="*{answers[3].content}" class="form-control"
+													required>
 
 											</div>
 										</div>

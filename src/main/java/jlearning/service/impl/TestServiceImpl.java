@@ -211,4 +211,12 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 
 	}
 
+	@Override
+	public Question getQuestion(int id2) {
+		Question q= getQuestionDAO().findById(id2);
+		List<Answer> ans= q.getAnswers();
+		ans.size();
+		return q;
+	}
+
 }
