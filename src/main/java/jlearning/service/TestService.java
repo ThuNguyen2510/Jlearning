@@ -20,4 +20,5 @@ public interface TestService extends BaseService<Integer,Test>{
 	void saveOrUpdate_(TestInfo test);
 	boolean deleteQuestion(int id2);
 	Question getQuestion(int id2);
+	Question updateQuestion(Question question);
 }

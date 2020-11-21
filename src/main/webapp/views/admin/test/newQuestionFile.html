@@ -40,8 +40,8 @@
 
 				<!-- Begin Page Content -->
 
-				<div class="container-fluid" th:if="${testId}">
-					<a th:href="@{'/admin/tests/'+${testId}}"><i
+				<div class="container-fluid" th:if="${status}=='add'">
+					<a th:if="${status}=='add'" th:href="@{'/admin/tests/'+${testId}}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
@@ -59,13 +59,55 @@
 
 						<div id="ques-form" class="row justify-content-center">
 
-							<div  th:if="${testId}" class="card shadow mb-4" style="width: 800px;">
+							<div th:if="${status}=='add'" class="card shadow mb-4" style="width: 800px;">
 								<div class="card-header text-center">
 									<h2>Thêm Câu hỏi</h2>
 
 								</div>
 								<div class="card-body">
 								<form  th:action="@{'/admin/tests/'+${testId}+'/process'}" method="post" enctype="multipart/form-data">
+								<input type="file" name="file" >
+								<input type="submit"  value="Import">
+								</form>
+									
+
+								</div>
+
+
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+				
+					<div class="container-fluid" th:if="${status}=='add1'">
+					<a th:href="@{'/admin/tests/add'}"><i
+						class="fas fa-arrow-left"></i>Trở về</a>
+					<div th:if="${msg != null}"
+						class="alert alert-dismissible fade show"
+						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
+						role="alert">
+						<strong th:text="${msg}"></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #ques-form})">
+
+						<div id="ques-form" class="row justify-content-center">
+
+							<div  th:if="${status}=='add1'" class="card shadow mb-4" style="width: 800px;">
+								<div class="card-header text-center">
+									<h2>Thêm Câu hỏi</h2>
+
+								</div>
+								<div class="card-body">
+								<form  th:action="@{'/admin/tests/process'}" method="post" enctype="multipart/form-data">
 								<input type="file" name="file" >
 								<input type="submit"  value="Import">
 								</form>

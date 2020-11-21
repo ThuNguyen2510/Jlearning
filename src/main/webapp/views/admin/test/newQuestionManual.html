@@ -190,9 +190,12 @@
 								</div>
 								<div th:if="${status == 'update'}" class="card-body">
 									<form
-										th:action="@{'/admin/tests/questions/'+${quesForm.id}+'/save'}"
+										th:action="@{'/admin/tests/'+${quesForm.test.id}+'/questions/'+${quesForm.id}+'/save'}"
 										method="post" th:object="${quesForm}">
 										<div class="form">
+											<input th:field="*{id}" type="hidden"> <input
+												th:field="*{test.id}" type="hidden"
+												th:value="${quesForm.test.id}">
 											<div class="row">
 												<label for="inputName">Nội dung câu hỏi</label>
 												<textarea type="text" th:field="*{content}"
@@ -202,11 +205,9 @@
 											<div class="row">
 												<label for="inputName">Phạm vi</label> <select type="text"
 													th:field="*{part}" class="form-control" required>
-													<option  th:selected="${c}==${quesForm.part}" th:each="c:${parts}"
-														th:value="${c}" th:text="${c}"></option>
-													<!-- <option value="2">Ngữ pháp</option>
-													<option value="3">Nghe</option>
-													<option value="4">Đọc</option> -->
+													<option th:selected="${c}==${quesForm.part}"
+														th:each="c:${parts}" th:value="${c}" th:text="${c}"></option>
+
 												</select>
 
 											</div>
@@ -225,8 +226,13 @@
 												<div class="col-sm">
 
 													<label>Phương án 1: </label> <label>Đúng? </label><input
+														style="margin-left: 40px;" type="radio" checked
+														th:if="*{answers[0].isTrue}==1" th:name="ans" th:value="0">
+													<input th:name="ans" th:value="0"
 														style="margin-left: 40px;" type="radio"
-														th:value="*{answers[0].isTrue}">
+														th:if="*{answers[0].isTrue}==0"> <input
+														th:field="*{answers[0].question.id}"
+														th:value="${quesForm.id}" type="hidden">
 												</div>
 												<input th:field="*{answers[0].content}" class="form-control"
 													required>
@@ -236,8 +242,13 @@
 
 												<div class="col-sm">
 													<label>Phương án 2: </label> <label>Đúng? </label><input
-														th:value="*{answers[1].isTrue}" style="margin-left: 40px;"
-														type="radio">
+														th:name="ans" th:if="*{answers[1].isTrue}==1"
+														style="margin-left: 40px;" type="radio" checked
+														th:value="1"> <input th:name="ans"
+														th:if="*{answers[1].isTrue}==0" style="margin-left: 40px;"
+														type="radio" th:value="1"> <input
+														th:field="*{answers[1].question.id}"
+														th:value="${quesForm.id}" type="hidden">
 												</div>
 												<input th:field="*{answers[1].content}" class="form-control"
 													required>
@@ -247,8 +258,12 @@
 
 												<div class="col-sm">
 													<label>Phương án 3: </label> <label>Đúng? </label><input
-														th:value="*{answers[2].isTrue}" style="margin-left: 40px;"
-														type="radio">
+														th:name="ans" th:if="*{answers[2].isTrue}==1" checked
+														style="margin-left: 40px;" type="radio" th:value="2">
+													<input th:name="ans" th:if="*{answers[2].isTrue}==0"
+														style="margin-left: 40px;" type="radio" th:value="2">
+													<input th:field="*{answers[2].question.id}"
+														th:value="${quesForm.id}" type="hidden">
 												</div>
 												<input th:field="*{answers[2].content}" class="form-control"
 													required>
@@ -258,8 +273,12 @@
 
 												<div class="col-sm">
 													<label>Phương án 4: </label> <label>Đúng? </label><input
-														th:value="*{answers[3].isTrue}" style="margin-left: 40px;"
-														type="radio">
+														th:name="ans" th:if="*{answers[3].isTrue}==1" checked
+														style="margin-left: 40px;" type="radio" th:value="3">
+													<input th:name="ans" th:if="*{answers[3].isTrue}==0"
+														th:value="3" style="margin-left: 40px;" type="radio">
+													<input th:field="*{answers[3].question.id}"
+														th:value="${quesForm.id}" type="hidden">
 												</div>
 												<input th:field="*{answers[3].content}" class="form-control"
 													required>

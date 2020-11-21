@@ -219,4 +219,21 @@ public class TestServiceImpl extends BaseServiceImpl implements TestService {
 		return q;
 	}
 
+	@Override
+	public Question updateQuestion(Question question) {
+		// TODO Auto-generated method stub
+		Question up= getQuestionDAO().findById(question.getId());
+		up.setContent(question.getContent());
+		up.setLevel(question.getLevel());
+		up.setPart(question.getPart());
+		for(int i=0;i<question.getAnswers().size();i++) {
+			Answer ans= up.getAnswers().get(i);
+			ans.setContent(question.getAnswers().get(i).getContent());
+			ans.setIsTrue(question.getAnswers().get(i).getIsTrue());
+			getAnswerDAO().saveOrUpdate(ans);	
+		}
+		return getQuestionDAO().saveOrUpdate(up);
+		
+	}
+
 }

@@ -169,8 +169,8 @@
 				</div>
 
 			</div>
-			<div class="container-fluid" th:unless="${status}=='add'">
-				<a th:href="@{'/admin/tests/'+${testForm.id}}"><i
+			<div class="container-fluid" th:if="${status}=='update'">
+				<a th:if="${status}=='update'" th:href="@{'/admin/tests/'+${testForm.id}}"><i
 					class="fas fa-arrow-left"></i>Trở về</a>
 
 				<div th:if="${msg != null}"
@@ -189,7 +189,7 @@
 
 					<div id="lesson-form" class="row justify-content-center">
 
-						<div class="card shadow mb-4" style="width: 1000px;">
+						<div class="card shadow mb-4" style="width: 1000px;" th:if="${status}=='update'">
 							<div class="card-header text-center">
 								<h2 th:if="${status}=='update'">Sửa đề</h2>
 
@@ -237,6 +237,17 @@
 											<label>Thời gian</label> <input class="form-control"
 												th:field="*{time} " aria-label="With textarea"></input>
 										</div>
+									<!-- 	<div class="row" th:if="${testForm.questions}">
+											<h5>Danh sách câu hỏi</h5>
+											<ol type="1">
+												<li th:each="q,i:${testForm.questions}"><span
+													th:text="${q.content}"></span>
+													<a style="color: yellow"
+													th:href="@{'/admin/tests/'+${testForm.id}+'/questions/'+${q.id}+'/edit'}">Sửa</a>
+													 <a style="color: red"
+													th:href="@{'/admin/tests/'+${testForm.id}+'/questions/'+${q.id}+'/delete'}">Xóa</a></li>
+											</ol>
+										</div> -->
 
 										<div class="row">
 

@@ -144,24 +144,56 @@ public class TestController {
 
 	}
 
-	@GetMapping(value = "{id}/questions/{id2}/save")
-	public String updateQues(Model model, @PathVariable("id") int id, @PathVariable("id2") int id2,
-			final RedirectAttributes redirectAttributes,@ModelAttribute("quesForm") Question question) {
-		
-		return "";
+	@GetMapping(value = "/{id2}/deleteQuesSession")
+	public String deleteQuesSession(Model model,@PathVariable("id2") int id2,
+			HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+		List<Question> questions = new ArrayList<>();
+		HttpSession session = request.getSession();
+		if (session.getAttribute("questions") != null) {
+			questions = (List<Question>) session.getAttribute("questions");
+		}
+		if (questions.get(id2) != null) {
+			questions.remove(id2);
+			session.setAttribute("questions", questions);
+			model.addAttribute("status","add");
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thành công");
+
+		} else {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thất bại");
+		}
+		return "redirect:/admin/tests/add";
+
 	}
-	
+
+	@RequestMapping(value = "{id}/questions/{id2}/save")
+	public String updateQues(Model model, @PathVariable("id") int id, @PathVariable("id2") int id2,
+			HttpServletRequest request, final RedirectAttributes redirectAttributes,
+			@ModelAttribute("quesForm") Question question) {
+		for (int i = 0; i < 4; i++) {
+			if (request.getParameter("ans").compareTo(Integer.toString(i)) == 0) {
+				logger.info(request.getParameter("ans"));
+
+				question.getAnswers().get(i).setIsTrue(1);
+			}
+		}
+		if (testService.updateQuestion(question) != null) {
+
+		}
+		return "redirect:/admin/tests/" + id;
+	}
+
 	@GetMapping(value = "/questions/{id2}/edit")
-	public String editQues(Model model, @PathVariable("id2") int id2,
-			final RedirectAttributes redirectAttributes) {
-		model.addAttribute("status","update");
-		List<Part> list= new ArrayList<Part>();
+	public String editQues(Model model, @PathVariable("id2") int id2, final RedirectAttributes redirectAttributes) {
+		model.addAttribute("status", "update");
+		List<Part> list = new ArrayList<Part>();
 		list.add(Part.vocab);
 		list.add(Part.listen);
 		list.add(Part.gram);
 		list.add(Part.read);
-		model.addAttribute("parts",list);
-		model.addAttribute("quesForm",testService.getQuestion(id2));
+		model.addAttribute("parts", list);
+		model.addAttribute("quesForm", testService.getQuestion(id2));
 		return "views/admin/test/newQuestionManual";
 	}
 
@@ -279,9 +311,51 @@ public class TestController {
 	}
 
 	@GetMapping(value = "/addQuestionFile")
-	public String addQuestion4(Model model, @PathVariable("id") int id) {
-		model.addAttribute("status", "add");
+	public String addQuestion4(Model model) {
+		model.addAttribute("status", "add1");
 		model.addAttribute("quesForm", new QuestionInfo());
-		return "views/admin/test/newQuestionManual";
+		return "views/admin/test/newQuestionFile";
+	}
+
+	@RequestMapping(value = "/process")
+	public String importFile2(@RequestParam("file") MultipartFile excelfile, Model model, HttpServletRequest request)
+			throws Exception {
+		List<QuestionInfo> questions = new ArrayList<>();
+		HttpSession session = request.getSession();
+		if (session.getAttribute("questions") != null) {
+			questions = (List<QuestionInfo>) session.getAttribute("questions");
+		}
+		int i = 0;
+		// Creates a workbook object from the uploaded excelfile
+		XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+		// Creates a worksheet object representing the first sheet
+		XSSFSheet worksheet = workbook.getSheetAt(0);
+		// Reads the data in excel file until last row is encountered
+		while (i <= worksheet.getLastRowNum()) {
+			// Creates an object for the UserInfo Model
+			QuestionInfo ques = new QuestionInfo();
+			// Creates an object representing a single row in excel
+			XSSFRow row = worksheet.getRow(i++);
+			// Sets the Read data to the model class
+			ques.setContent(row.getCell(0).getStringCellValue());
+			ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
+			ques.setPart((int) (row.getCell(2).getNumericCellValue()));
+			int sizeAns = (int) row.getCell(3).getNumericCellValue();
+			int k = 4, g = 5;
+			List<AnswerInfo_> list = new ArrayList<>();
+			for (int j = 1; j <= sizeAns; j++) {
+				AnswerInfo_ ans = new AnswerInfo_();
+				ans.setContent(row.getCell(k).getStringCellValue());
+				ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
+				k += 2;
+				g += 2;
+				list.add(ans);
+
+			}
+			ques.setAnsList(list);
+			questions.add(ques);
+		}
+		session.setAttribute("questions", questions);
+		return "redirect:/admin/tests/add";
 	}
 }
