@@ -135,7 +135,8 @@ public class CourseController {
 		model.addAttribute("status", "add");
 		session.setAttribute("courseId", id);
 
-		return "views/admin/lesson/lesson-form";
+		//return "views/admin/lesson/lesson-form";
+		return "redirect:/admin/lessons/addNormal";
 	}
 
 	@GetMapping(value = "/{id}/delete")

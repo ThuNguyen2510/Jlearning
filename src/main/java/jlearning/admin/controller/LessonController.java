@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jlearning.bean.ListenInfo;
 import jlearning.bean.MyFile;
+import jlearning.bean.QuestionInfo;
+import jlearning.bean.AnswerInfo_;
 import jlearning.bean.GramInfo;
 import jlearning.bean.LessonInfo;
 import jlearning.bean.VocabInfo;
@@ -118,7 +124,7 @@ public class LessonController {
 
 		model.addAttribute("courseId", session.getAttribute("courseId"));
 		model.addAttribute("status", "add");
-		if (session.getAttribute("courseId").toString().compareTo("0") != 0) {
+		if (session.getAttribute("courseId")!=null && session.getAttribute("courseId").toString().compareTo("0") != 0) {
 			String courseName = courseService.findById(Integer.parseInt(session.getAttribute("courseId").toString()))
 					.getName();
 			model.addAttribute("courseName", courseName);
@@ -159,8 +165,7 @@ public class LessonController {
 		}
 		list.add(lf);
 		session.setAttribute("newLesson", list);
-		logger.info("COURSEID" + session.getAttribute("courseId"));
-		logger.info("PARAM " + request.getParameter("course"));
+
 		session.removeAttribute("newCourse");
 		if (session.getAttribute("courseId") != null) {
 			if (session.getAttribute("courseId").toString().compareTo("0") != 0) {
@@ -308,6 +313,7 @@ public class LessonController {
 		} else {
 			model.addAttribute("vocabForm", new Vocabulary());
 		}
+	
 		model.addAttribute("lessonId", id);
 		session.setAttribute("lessonId", id);
 		return "views/admin/lesson/vocab";
@@ -329,6 +335,95 @@ public class LessonController {
 		model.addAttribute("lessonId", session.getAttribute("lessonId"));
 		model.addAttribute("vocabForm", new VocabInfo());
 		return "views/admin/lesson/newVocabNormal";
+	}
+
+	@GetMapping(value = "/addVocabImport")
+	public String addVocabFile(Model model, HttpServletRequest request) {
+		// render form
+		Lesson lesson = new Lesson();
+		model.addAttribute("lessonForm", lesson);
+		List<Course> courses = courseService.loadCourses();
+		model.addAttribute("courses", courses);
+		model.addAttribute("status", "add1");
+		return "views/admin/lesson/newVocabImport";
+	}
+
+	@RequestMapping(value = "/addVocabImport/save")
+	public String vocabImportSave(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file,final RedirectAttributes redirectAttributes)
+			throws IllegalStateException, IOException {
+		// in new lesson and invalid lesson
+		int lessonId = 0;
+		String typeCss = "";
+		String message = "";
+
+		HttpSession session = request.getSession();
+		if (session.getAttribute("lessonId") != null) {
+			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
+		}
+		if (lessonId != 0) {
+			// invalid
+			// 
+			ImportFileVocab(file, lessonId);
+
+			typeCss = "success";
+			message = "Thêm thành công!!";
+		} else {
+			// new add vao session lessonId==0 in session
+			List<VocabInfo> vocabularies = new ArrayList<>();
+			if(session.getAttribute("vocabs")!=null) {
+				vocabularies = (List<VocabInfo>) session.getAttribute("vocabs");
+			}
+			int i = 0;
+			// Creates a workbook object from the uploaded excelfile
+			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+			// Creates a worksheet object representing the first sheet
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			// Reads the data in excel file until last row is encountered
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				VocabInfo vocab = new VocabInfo();
+				// Creates an object representing a single row in excel
+				XSSFRow row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setContent(row.getCell(0).getStringCellValue());
+				if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setKanji(row.getCell(1).getStringCellValue());
+				if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setMeans(row.getCell(2).getStringCellValue());
+				if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setAudio(row.getCell(3).getStringCellValue());
+				vocabularies.add(vocab);
+			}
+			session.setAttribute("vocabs", vocabularies);
+			
+			typeCss = "success";
+			message = "Thêm thành công!!";
+		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+		//return "";
+		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
+	}
+
+	private void ImportFileVocab(MultipartFile excelfile, int lessonId) throws IOException {
+		List<VocabInfo> vocabularies = new ArrayList<>();
+		int i = 0;
+		// Creates a workbook object from the uploaded excelfile
+		XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+		// Creates a worksheet object representing the first sheet
+		XSSFSheet worksheet = workbook.getSheetAt(0);
+		// Reads the data in excel file until last row is encountered
+		while (i <= worksheet.getLastRowNum()) {
+			// Creates an object for the UserInfo Model
+			VocabInfo vocab = new VocabInfo();
+			// Creates an object representing a single row in excel
+			XSSFRow row = worksheet.getRow(i++);
+			// Sets the Read data to the model class
+			if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setContent(row.getCell(0).getStringCellValue());
+			if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setKanji(row.getCell(1).getStringCellValue());
+			if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setMeans(row.getCell(2).getStringCellValue());
+			if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setAudio(row.getCell(3).getStringCellValue());
+			vocabularies.add(vocab);
+		}
+		lessonService.createVocabs(vocabularies, lessonId);
+
 	}
 
 	@RequestMapping(value = "/vocabs/add")
@@ -574,7 +669,7 @@ public class LessonController {
 
 	@RequestMapping(value = "/listens/add")
 	public String saveListen(Model model, @ModelAttribute("listenForm") ListenInfo listen, HttpServletRequest request,
-			@RequestParam(value = "fileAudio") MultipartFile fileAudio,final RedirectAttributes redirectAttributes,
+			@RequestParam(value = "fileAudio") MultipartFile fileAudio, final RedirectAttributes redirectAttributes,
 			@RequestParam(value = "fileImage", required = false) MultipartFile fileImage)
 			throws IllegalStateException, IOException {
 		String typeCss = "";
@@ -617,7 +712,7 @@ public class LessonController {
 		}
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);
-		
+
 		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/listens";
 
 	}

@@ -695,9 +695,9 @@
 								th:action="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
 								<div class="container" style="margin: 5px; margin-bottom: 20px"
-									th:each="que,i :${ques}">
+									th:each="que,ie :${ques}">
 
-									<label th:text="${i.index+1}+'.'+ ${que.content}"></label> <input
+									<label th:text="${ie.index+1}+'.'+ ${que.content}"></label> <input
 										type="hidden" th:value="${que.id}" th:name="questionTextId">
 									<div th:each="ans:${que}">
 										<span><input th:name="'answer_'+${que.id}"
@@ -716,9 +716,9 @@
 						<div class="row w-100" th:if="${alphabet}==null">
 							<form th:if="${lesson.tests}!=null and ${#lists.size(lesson.tests)}>0" th:action="@{'/exams/'+${lesson.tests[0].id}+'/result'}">
 
-								<div th:each="item: ${lesson.tests[0].questions}"
+								<div th:each="item,i: ${lesson.tests[0].questions}"
 									class="container" style="margin: 5px; margin-bottom: 20px">
-									<label th:utext="${item.content}"></label> <input type="hidden"
+									<label th:utext="${i.index+1}+'.'+${item.content}"></label> <input type="hidden"
 										th:value="${item.id}" th:name="questionId">
 									<ol type="a">
 										<li th:each="ans:${item.answers}"><input

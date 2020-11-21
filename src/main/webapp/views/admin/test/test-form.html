@@ -237,17 +237,17 @@
 											<label>Thời gian</label> <input class="form-control"
 												th:field="*{time} " aria-label="With textarea"></input>
 										</div>
-									<!-- 	<div class="row" th:if="${testForm.questions}">
+										<div class="row" th:if="${testForm.questions}">
 											<h5>Danh sách câu hỏi</h5>
 											<ol type="1">
 												<li th:each="q,i:${testForm.questions}"><span
-													th:text="${q.content}"></span>
+													th:utext="${q.content}"></span>
 													<a style="color: yellow"
 													th:href="@{'/admin/tests/'+${testForm.id}+'/questions/'+${q.id}+'/edit'}">Sửa</a>
 													 <a style="color: red"
 													th:href="@{'/admin/tests/'+${testForm.id}+'/questions/'+${q.id}+'/delete'}">Xóa</a></li>
 											</ol>
-										</div> -->
+										</div>
 
 										<div class="row">
 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -71,7 +72,7 @@ public class TestController {
 
 	@GetMapping(value = "/{id}/edit")
 	public String edit(Model model, @PathVariable("id") int id) {
-		Test test = testService.findById(id);
+		Test test = testService.findAndLoad(id);
 		model.addAttribute("testForm", test);
 		List<Type> type = new ArrayList<Type>();
 		type.add(Type.LEVEL);
@@ -171,16 +172,21 @@ public class TestController {
 	public String updateQues(Model model, @PathVariable("id") int id, @PathVariable("id2") int id2,
 			HttpServletRequest request, final RedirectAttributes redirectAttributes,
 			@ModelAttribute("quesForm") Question question) {
+		String typeCss = "";
+		String message = "";
 		for (int i = 0; i < 4; i++) {
 			if (request.getParameter("ans").compareTo(Integer.toString(i)) == 0) {
 				logger.info(request.getParameter("ans"));
-
 				question.getAnswers().get(i).setIsTrue(1);
+				
 			}
 		}
 		if (testService.updateQuestion(question) != null) {
-
+			typeCss = "success";
+			message = "Sửa thành công!!";
 		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
 		return "redirect:/admin/tests/" + id;
 	}
 
@@ -237,9 +243,10 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/questions/new")
-	public String saveQuestion(Model model, @ModelAttribute("quesForm") QuestionInfo questionInfo,
+	public String saveQuestion(Model model, final RedirectAttributes redirectAttributes,@ModelAttribute("quesForm") QuestionInfo questionInfo,
 			HttpServletRequest request) {
-
+		String typeCss = "";
+		String message = "";
 		for (int i = 0; i < 4; i++) {
 			if (request.getParameter("ans").compareTo(Integer.toString(i)) == 0) {
 				questionInfo.getAnsList().get(i).setIsTrue(1);
@@ -253,14 +260,22 @@ public class TestController {
 		}
 		questions.add(questionInfo);
 		session.setAttribute("questions", questions);
+		typeCss = "success";
+		message = "Tạo thành công!!";
 
 		if (session.getAttribute("testId") != null) {
 			int testId = Integer.parseInt(session.getAttribute("testId").toString());
 			testService.createQuestion(questionInfo, testId);
+			typeCss = "success";
+			message = "Tạo thành công!!";
 			session.removeAttribute("questions");
 			session.removeAttribute("testId");
+			redirectAttributes.addFlashAttribute("css", typeCss);
+			redirectAttributes.addFlashAttribute("msg", message);
 			return "redirect:/admin/tests/" + testId;
 		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
 		return "redirect:/admin/tests/add";
 	}
 
@@ -287,16 +302,18 @@ public class TestController {
 			// Creates an object representing a single row in excel
 			XSSFRow row = worksheet.getRow(i++);
 			// Sets the Read data to the model class
-			ques.setContent(row.getCell(0).getStringCellValue());
-			ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
-			ques.setPart((int) (row.getCell(2).getNumericCellValue()));
+			if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )ques.setContent(row.getCell(0).getStringCellValue());
+			if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
+			else ques.setLevel(0);
+			if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )ques.setPart((int) (row.getCell(2).getNumericCellValue()));
+			else ques.setPart(1);
 			int sizeAns = (int) row.getCell(3).getNumericCellValue();
 			int k = 4, g = 5;
 			List<AnswerInfo_> list = new ArrayList<>();
 			for (int j = 1; j <= sizeAns; j++) {
 				AnswerInfo_ ans = new AnswerInfo_();
-				ans.setContent(row.getCell(k).getStringCellValue());
-				ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
+				if(row.getCell(k)!=null && row.getCell(k).getCellType()!= Cell.CELL_TYPE_BLANK )ans.setContent(row.getCell(k).getStringCellValue());
+				if(row.getCell(g)!=null && row.getCell(g).getCellType()!= Cell.CELL_TYPE_BLANK )ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
 				k += 2;
 				g += 2;
 				list.add(ans);
@@ -320,6 +337,7 @@ public class TestController {
 	@RequestMapping(value = "/process")
 	public String importFile2(@RequestParam("file") MultipartFile excelfile, Model model, HttpServletRequest request)
 			throws Exception {
+		
 		List<QuestionInfo> questions = new ArrayList<>();
 		HttpSession session = request.getSession();
 		if (session.getAttribute("questions") != null) {

@@ -284,4 +284,12 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		return getListeningDAO().findById(id2);
 	}
 
+	@Override
+	public void createVocabs(List<VocabInfo> vocabularies, int lessonId) {
+		for(int i=0;i<vocabularies.size();i++) {
+			createVocab(vocabularies.get(i), lessonId);
+		}
+		
+	}
+
 }
