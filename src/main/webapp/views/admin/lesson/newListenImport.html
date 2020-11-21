@@ -40,13 +40,10 @@
 
 				<!-- Begin Page Content -->
 
+
 				<div class="container-fluid">
-					<a th:if="${lessonId}!=null"
-						th:href="@{'/admin/lessons/'+${lessonId}}"><i
-						class="fas fa-arrow-left"></i>Trở về</a>
-						<a th:if="${lessonId}==null"
-						th:href="@{'/admin/lessons/add'}"><i
-						class="fas fa-arrow-left"></i>Trở về</a>
+					<a th:href="@{'/admin/lessons/add'}"><i class="fas fa-arrow-left"></i>Trở
+						về</a>
 					<div th:if="${msg != null}"
 						class="alert alert-dismissible fade show"
 						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
@@ -59,31 +56,26 @@
 					</div>
 
 					<div
-						th:insert="views/admin/layout/base-layout :: content(~{ :: #lesson-form})">
+						th:insert="views/admin/layout/base-layout :: content(~{ :: #ques-form})">
 
-						<div id="lesson-form" class="row justify-content-center">
+						<div id="ques-form" class="row justify-content-center">
 
-							<div class="card shadow mb-4" style="width: 800px;">
+							<div class="card shadow mb-4"
+								style="width: 800px;">
 								<div class="card-header text-center">
-									<h2 >Thêm câu nghe</h2>
-									
-								</div>
-								<div  class="card-body">
-									<li>
-										<form th:action="@{'/admin/lessons/addListenNormal'}">
-											<button class="btn btn-outline-primary">Thêm thủ
-												công</button>
-										</form>
-									</li>
-									<li>
-										<form th:action="@{'/admin/lessons/addListenImport'}">
-											<button class="btn btn-outline-success">Thêm bằng
-												file excel</button>
-										</form>
-									</li>
+									<h2>Thêm bài nghe</h2>
 
 								</div>
-	
+								<div class="card-body">
+									<form th:action="@{'/admin/lessons/addListenImport/save'}"
+										method="post" enctype="multipart/form-data">
+										<input type="file" name="file"> <input type="submit"
+											value="Import">
+									</form>
+
+
+								</div>
+
 
 							</div>
 						</div>
@@ -92,6 +84,7 @@
 					</div>
 
 				</div>
+
 				<!-- /.container-fluid -->
 
 			</div>

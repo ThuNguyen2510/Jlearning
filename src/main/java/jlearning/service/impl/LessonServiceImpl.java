@@ -292,4 +292,12 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		
 	}
 
+	@Override
+	public void createListens(List<ListenInfo> listens, int lessonId) {
+		for(int i=0;i<listens.size();i++) {
+			createListen(listens.get(i), lessonId);
+		}
+		
+	}
+
 }

@@ -666,6 +666,92 @@ public class LessonController {
 		model.addAttribute("listenForm", new ListenInfo());
 		return "views/admin/lesson/newListenNormal";
 	}
+	
+	@GetMapping(value = "/addListenImport")
+	public String addListenImport(Model model, HttpServletRequest request) {
+		return "views/admin/lesson/newListenImport";
+	}
+	@RequestMapping(value = "/addListenImport/save")
+	public String saveListenImport(Model model, HttpServletRequest request,
+			@RequestParam(value = "file") MultipartFile file,final RedirectAttributes redirectAttributes) throws IOException {
+		HttpSession session = request.getSession();
+		String typeCss="";
+		String message="";
+		// if id!=0 thi save ; ko thi luu vao session
+		int lessonId = 0;
+		if (session.getAttribute("lessonId") != null) {
+			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
+		}
+		
+		if (lessonId != 0) {
+			//add invalid lesson
+			List<ListenInfo> listens = new ArrayList<ListenInfo>();
+			int i = 0;
+			// Creates a workbook object from the uploaded excelfile
+			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				ListenInfo listen = new ListenInfo();
+				// Creates an object representing a single row in excel
+				XSSFRow row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setAudio(row.getCell(0).getStringCellValue());
+				if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setImage(row.getCell(1).getStringCellValue());
+				if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent1(row.getCell(2).getStringCellValue());
+				if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent2(row.getCell(3).getStringCellValue());
+				if(row.getCell(4)!=null && row.getCell(4).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent3(row.getCell(4).getStringCellValue());
+				if(row.getCell(5)!=null && row.getCell(5).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent4(row.getCell(5).getStringCellValue());
+				if(row.getCell(6)!=null && row.getCell(6).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent5(row.getCell(6).getStringCellValue());
+				if(row.getCell(7)!=null && row.getCell(7).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent6(row.getCell(7).getStringCellValue());
+				listens.add(listen);
+			}
+			lessonService.createListens(listens,lessonId);
+			typeCss = "success";
+			message = "Thêm thành công!!";
+
+		} else {
+
+			List<ListenInfo> listens = new ArrayList<>();
+			if (session.getAttribute("listens") != null) {
+				listens = (List<ListenInfo>) session.getAttribute("listens");
+			}
+			int i = 0;
+			// Creates a workbook object from the uploaded excelfile
+			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				ListenInfo listen = new ListenInfo();
+				// Creates an object representing a single row in excel
+				XSSFRow row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setAudio(row.getCell(0).getStringCellValue());
+				if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setImage(row.getCell(1).getStringCellValue());
+				if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent1(row.getCell(2).getStringCellValue());
+				if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent2(row.getCell(3).getStringCellValue());
+				if(row.getCell(4)!=null && row.getCell(4).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent3(row.getCell(4).getStringCellValue());
+				if(row.getCell(5)!=null && row.getCell(5).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent4(row.getCell(5).getStringCellValue());
+				if(row.getCell(6)!=null && row.getCell(6).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent5(row.getCell(6).getStringCellValue());
+				if(row.getCell(7)!=null && row.getCell(7).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent6(row.getCell(7).getStringCellValue());
+				listens.add(listen);
+			}
+			
+			session.setAttribute("listens", listens);
+			typeCss = "success";
+			message = "Thêm thành công!!";
+
+		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+
+		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/listens";
+		
+	}
 
 	@RequestMapping(value = "/listens/add")
 	public String saveListen(Model model, @ModelAttribute("listenForm") ListenInfo listen, HttpServletRequest request,

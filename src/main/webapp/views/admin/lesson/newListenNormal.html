@@ -208,7 +208,7 @@
 														class="form-control" type="hidden" id="content1">
 												</div>
 												<div class="col-sm-8">
-													<p id="cont1" th:utext="${listenForm.content1}"></p>
+													<div id="cont1" th:utext="${listenForm.content1}"></div>
 												</div>
 												<div class="col-sm-2">
 													<a onclick="setEdit(cont1)" type="button"><i
@@ -223,8 +223,8 @@
 												<label>Câu 2</label> <input th:field="*{content2}"
 													class="form-control" type="hidden" id="content2">
 											</div>
-											<div class="col-sm-5">
-												<p id="cont2" th:utext="${listenForm.content2}"></p>
+											<div class="col-sm-8">
+												<div id="cont2" th:utext="${listenForm.content2}"></div>
 											</div>
 											<div class="col-sm-2">
 												<a onclick="setEdit(cont2)" type="button"><i
@@ -232,13 +232,13 @@
 											</div>
 
 										</div>
-										<div th:if="${content3}" class="row">
+										<div  class="row">
 											<div class="col-sm-2">
 												<label>Câu 3</label> <input th:field="*{content3}"
 													class="form-control" type="hidden" id="content3">
 											</div>
-											<div class="col-sm-5">
-												<p id="cont3" th:utext="${listenForm.content3}"></p>
+											<div class="col-sm-8">
+												<div id="cont3" th:utext="${listenForm.content3}"></div>
 											</div>
 											<div class="col-sm-2">
 												<a onclick="setEdit(cont3)" type="button"><i
@@ -251,8 +251,8 @@
 												<label>Câu 4</label> <input th:field="*{content4}"
 													class="form-control" id="content4" type="hidden">
 											</div>
-											<div class="col-sm-5">
-												<p id="cont4" th:utext="${listenForm.content4}"></p>
+											<div class="col-sm-8">
+												<div id="cont4" th:utext="${listenForm.content4}"></div>
 											</div>
 											<div class="col-sm-2">
 												<a onclick="setEdit(cont4)" type="button"><i
@@ -265,8 +265,8 @@
 												<label>Câu 5</label> <input th:field="*{content5}"
 													class="form-control" type="hidden" id="content5">
 											</div>
-											<div class="col-sm-5">
-												<p id="cont5" th:utext="${listenForm.content5}"></p>
+											<div class="col-sm-8">
+												<div id="cont5" th:utext="${listenForm.content5}"></div>
 											</div>
 											<div class="col-sm-2">
 												<a onclick="setEdit(cont5)" type="button"><i
@@ -279,8 +279,8 @@
 												<label>Câu 6</label> <input th:field="*{content6}"
 													class="form-control" type="hidden" id="content6">
 											</div>
-											<div class="col-sm-5">
-												<p id="cont6" th:utext="${listenForm.content6}"></p>
+											<div class="col-sm-8">
+												<div id="cont6" th:utext="${listenForm.content6}"></div>
 											</div>
 											<div class="col-sm-2">
 												<a onclick="setEdit(cont6)" type="button"><i

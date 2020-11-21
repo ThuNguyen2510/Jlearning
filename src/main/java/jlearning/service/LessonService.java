@@ -39,4 +39,6 @@ public interface LessonService extends BaseService<Integer, Lesson> {
 	Listening getListen(int id2);
 
 	void createVocabs(List<VocabInfo> vocabularies, int lessonId);
+
+	void createListens(List<ListenInfo> listens, int lessonId);
 }
