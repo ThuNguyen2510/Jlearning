@@ -53,4 +53,10 @@ public class ResultServiceImpl  extends BaseServiceImpl implements ResultService
 		 
 	}
 
+	@Override
+	public List<Result> loadAllResult() {
+		
+		return getResultDAO().loadAllResult();
+	}
+
 }
