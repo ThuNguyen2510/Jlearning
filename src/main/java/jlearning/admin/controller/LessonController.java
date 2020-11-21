@@ -124,7 +124,8 @@ public class LessonController {
 
 		model.addAttribute("courseId", session.getAttribute("courseId"));
 		model.addAttribute("status", "add");
-		if (session.getAttribute("courseId")!=null && session.getAttribute("courseId").toString().compareTo("0") != 0) {
+		if (session.getAttribute("courseId") != null
+				&& session.getAttribute("courseId").toString().compareTo("0") != 0) {
 			String courseName = courseService.findById(Integer.parseInt(session.getAttribute("courseId").toString()))
 					.getName();
 			model.addAttribute("courseName", courseName);
@@ -313,7 +314,7 @@ public class LessonController {
 		} else {
 			model.addAttribute("vocabForm", new Vocabulary());
 		}
-	
+
 		model.addAttribute("lessonId", id);
 		session.setAttribute("lessonId", id);
 		return "views/admin/lesson/vocab";
@@ -349,8 +350,8 @@ public class LessonController {
 	}
 
 	@RequestMapping(value = "/addVocabImport/save")
-	public String vocabImportSave(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file,final RedirectAttributes redirectAttributes)
-			throws IllegalStateException, IOException {
+	public String vocabImportSave(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file,
+			final RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
 		// in new lesson and invalid lesson
 		int lessonId = 0;
 		String typeCss = "";
@@ -362,7 +363,7 @@ public class LessonController {
 		}
 		if (lessonId != 0) {
 			// invalid
-			// 
+			//
 			ImportFileVocab(file, lessonId);
 
 			typeCss = "success";
@@ -370,7 +371,7 @@ public class LessonController {
 		} else {
 			// new add vao session lessonId==0 in session
 			List<VocabInfo> vocabularies = new ArrayList<>();
-			if(session.getAttribute("vocabs")!=null) {
+			if (session.getAttribute("vocabs") != null) {
 				vocabularies = (List<VocabInfo>) session.getAttribute("vocabs");
 			}
 			int i = 0;
@@ -385,20 +386,24 @@ public class LessonController {
 				// Creates an object representing a single row in excel
 				XSSFRow row = worksheet.getRow(i++);
 				// Sets the Read data to the model class
-				if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setContent(row.getCell(0).getStringCellValue());
-				if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setKanji(row.getCell(1).getStringCellValue());
-				if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setMeans(row.getCell(2).getStringCellValue());
-				if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setAudio(row.getCell(3).getStringCellValue());
+				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					vocab.setContent(row.getCell(0).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					vocab.setKanji(row.getCell(1).getStringCellValue());
+				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					vocab.setMeans(row.getCell(2).getStringCellValue());
+				if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					vocab.setAudio(row.getCell(3).getStringCellValue());
 				vocabularies.add(vocab);
 			}
 			session.setAttribute("vocabs", vocabularies);
-			
+
 			typeCss = "success";
 			message = "Thêm thành công!!";
 		}
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);
-		//return "";
+		// return "";
 		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
 	}
 
@@ -416,10 +421,14 @@ public class LessonController {
 			// Creates an object representing a single row in excel
 			XSSFRow row = worksheet.getRow(i++);
 			// Sets the Read data to the model class
-			if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setContent(row.getCell(0).getStringCellValue());
-			if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setKanji(row.getCell(1).getStringCellValue());
-			if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setMeans(row.getCell(2).getStringCellValue());
-			if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )vocab.setAudio(row.getCell(3).getStringCellValue());
+			if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+				vocab.setContent(row.getCell(0).getStringCellValue());
+			if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+				vocab.setKanji(row.getCell(1).getStringCellValue());
+			if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+				vocab.setMeans(row.getCell(2).getStringCellValue());
+			if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+				vocab.setAudio(row.getCell(3).getStringCellValue());
 			vocabularies.add(vocab);
 		}
 		lessonService.createVocabs(vocabularies, lessonId);
@@ -611,16 +620,98 @@ public class LessonController {
 		return "views/admin/lesson/newGramNormal";
 	}
 
+	@GetMapping(value = "/addGramImport")
+	public String addGramImport(Model model, HttpServletRequest request) {
+		Lesson lesson = new Lesson();
+		model.addAttribute("lessonForm", lesson);
+		List<Course> courses = courseService.loadCourses();
+		model.addAttribute("courses", courses);
+		return "views/admin/lesson/newGramImport";
+	}
+
+	@RequestMapping(value = "/addGramImport/save")
+	public String saveGramImport(Model model, HttpServletRequest request,
+			@RequestParam(value = "file") MultipartFile file, final RedirectAttributes redirectAttributes)
+			throws IOException {
+		HttpSession session = request.getSession();
+		String typeCss = "";
+		String message = "";
+		int lessonId = 0;
+		int i = 0;
+		// Creates a workbook object from the uploaded excelfile
+		XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+
+		XSSFSheet worksheet = workbook.getSheetAt(0);
+		if (session.getAttribute("lessonId") != null) {
+			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
+		}
+		if (lessonId != 0) {
+			List<GramInfo> grams = new ArrayList<>();
+
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				GramInfo gram = new GramInfo();
+				// Creates an object representing a single row in excel
+				XSSFRow row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					gram.setName(row.getCell(0).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					gram.setContent(row.getCell(1).getStringCellValue());
+				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					gram.setDescription(row.getCell(2).getStringCellValue());
+				grams.add(gram);
+			}
+			lessonService.createGrams(grams, lessonId);
+			typeCss = "success";
+			message = "Thêm thành công!!";
+
+		} else {
+
+			List<GramInfo> grams = new ArrayList<GramInfo>();
+			if (session.getAttribute("grams") != null) {
+				grams = (List<GramInfo>) session.getAttribute("grams");
+			}
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				GramInfo gram = new GramInfo();
+				// Creates an object representing a single row in excel
+				XSSFRow row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					gram.setName(row.getCell(0).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					gram.setContent(row.getCell(1).getStringCellValue());
+				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					gram.setDescription(row.getCell(2).getStringCellValue());
+				grams.add(gram);
+			}
+			session.setAttribute("grams", grams);
+			typeCss = "success";
+			message = "Thêm thành công!!";
+
+		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/grams";
+
+	}
+
 	@RequestMapping(value = "/grams/add")
-	public String saveGram(Model model, @ModelAttribute("gramForm") GramInfo gram, HttpServletRequest request) {
+	public String saveGram(Model model, @ModelAttribute("gramForm") GramInfo gram, HttpServletRequest request,
+			final RedirectAttributes redirectAttributes) {
 		HttpSession session = request.getSession();
 		// if id!=0 thi save ; ko thi luu vao session
+		String typeCss = "";
+		String message = "";
 		int lessonId = 0;
 		if (session.getAttribute("lessonId") != null) {
 			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
 		}
 		if (lessonId != 0) {
 			lessonService.createGram(gram, lessonId);
+			typeCss = "success";
+			message = "Thêm thành công!!";
 
 		} else {
 
@@ -630,8 +721,13 @@ public class LessonController {
 			}
 			grams.add(gram);
 			session.setAttribute("grams", grams);
+			typeCss = "success";
+			message = "Thêm thành công!!";
 
 		}
+		redirectAttributes.addFlashAttribute("css", typeCss);
+		redirectAttributes.addFlashAttribute("msg", message);
+
 		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/grams";
 
 	}
@@ -653,8 +749,10 @@ public class LessonController {
 	}
 
 	@GetMapping("/{id}/listen/add")
-	public String listenAdd(@PathVariable("id") int id, Model model) {
+	public String listenAdd(@PathVariable("id") int id, Model model, HttpServletRequest request) {
 		model.addAttribute("lessonId", id);
+		HttpSession session = request.getSession();
+		session.setAttribute("lessonId", id);
 		return "views/admin/lesson/listen-form";
 	}
 
@@ -666,49 +764,59 @@ public class LessonController {
 		model.addAttribute("listenForm", new ListenInfo());
 		return "views/admin/lesson/newListenNormal";
 	}
-	
+
 	@GetMapping(value = "/addListenImport")
 	public String addListenImport(Model model, HttpServletRequest request) {
 		return "views/admin/lesson/newListenImport";
 	}
+
 	@RequestMapping(value = "/addListenImport/save")
 	public String saveListenImport(Model model, HttpServletRequest request,
-			@RequestParam(value = "file") MultipartFile file,final RedirectAttributes redirectAttributes) throws IOException {
+			@RequestParam(value = "file") MultipartFile file, final RedirectAttributes redirectAttributes)
+			throws IOException {
 		HttpSession session = request.getSession();
-		String typeCss="";
-		String message="";
+		String typeCss = "";
+		String message = "";
 		// if id!=0 thi save ; ko thi luu vao session
 		int lessonId = 0;
 		if (session.getAttribute("lessonId") != null) {
 			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
 		}
-		
+
 		if (lessonId != 0) {
-			//add invalid lesson
+			// add invalid lesson
 			List<ListenInfo> listens = new ArrayList<ListenInfo>();
 			int i = 0;
 			// Creates a workbook object from the uploaded excelfile
 			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
 			XSSFSheet worksheet = workbook.getSheetAt(0);
-			
+
 			while (i <= worksheet.getLastRowNum()) {
 				// Creates an object for the UserInfo Model
 				ListenInfo listen = new ListenInfo();
 				// Creates an object representing a single row in excel
 				XSSFRow row = worksheet.getRow(i++);
 				// Sets the Read data to the model class
-				if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setAudio(row.getCell(0).getStringCellValue());
-				if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setImage(row.getCell(1).getStringCellValue());
-				if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent1(row.getCell(2).getStringCellValue());
-				if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent2(row.getCell(3).getStringCellValue());
-				if(row.getCell(4)!=null && row.getCell(4).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent3(row.getCell(4).getStringCellValue());
-				if(row.getCell(5)!=null && row.getCell(5).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent4(row.getCell(5).getStringCellValue());
-				if(row.getCell(6)!=null && row.getCell(6).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent5(row.getCell(6).getStringCellValue());
-				if(row.getCell(7)!=null && row.getCell(7).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent6(row.getCell(7).getStringCellValue());
+				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setAudio(row.getCell(0).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setImage(row.getCell(1).getStringCellValue());
+				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent1(row.getCell(2).getStringCellValue());
+				if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent2(row.getCell(3).getStringCellValue());
+				if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent3(row.getCell(4).getStringCellValue());
+				if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent4(row.getCell(5).getStringCellValue());
+				if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent5(row.getCell(6).getStringCellValue());
+				if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent6(row.getCell(7).getStringCellValue());
 				listens.add(listen);
 			}
-			lessonService.createListens(listens,lessonId);
+			lessonService.createListens(listens, lessonId);
 			typeCss = "success";
 			message = "Thêm thành công!!";
 
@@ -723,24 +831,32 @@ public class LessonController {
 			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
 			XSSFSheet worksheet = workbook.getSheetAt(0);
-			
+
 			while (i <= worksheet.getLastRowNum()) {
 				// Creates an object for the UserInfo Model
 				ListenInfo listen = new ListenInfo();
 				// Creates an object representing a single row in excel
 				XSSFRow row = worksheet.getRow(i++);
 				// Sets the Read data to the model class
-				if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setAudio(row.getCell(0).getStringCellValue());
-				if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setImage(row.getCell(1).getStringCellValue());
-				if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent1(row.getCell(2).getStringCellValue());
-				if(row.getCell(3)!=null && row.getCell(3).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent2(row.getCell(3).getStringCellValue());
-				if(row.getCell(4)!=null && row.getCell(4).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent3(row.getCell(4).getStringCellValue());
-				if(row.getCell(5)!=null && row.getCell(5).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent4(row.getCell(5).getStringCellValue());
-				if(row.getCell(6)!=null && row.getCell(6).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent5(row.getCell(6).getStringCellValue());
-				if(row.getCell(7)!=null && row.getCell(7).getCellType()!= Cell.CELL_TYPE_BLANK )listen.setContent6(row.getCell(7).getStringCellValue());
+				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setAudio(row.getCell(0).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setImage(row.getCell(1).getStringCellValue());
+				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent1(row.getCell(2).getStringCellValue());
+				if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent2(row.getCell(3).getStringCellValue());
+				if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent3(row.getCell(4).getStringCellValue());
+				if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent4(row.getCell(5).getStringCellValue());
+				if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent5(row.getCell(6).getStringCellValue());
+				if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+					listen.setContent6(row.getCell(7).getStringCellValue());
 				listens.add(listen);
 			}
-			
+
 			session.setAttribute("listens", listens);
 			typeCss = "success";
 			message = "Thêm thành công!!";
@@ -750,7 +866,7 @@ public class LessonController {
 		redirectAttributes.addFlashAttribute("msg", message);
 
 		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/listens";
-		
+
 	}
 
 	@RequestMapping(value = "/listens/add")
@@ -861,7 +977,6 @@ public class LessonController {
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);
 		return "redirect:/admin/lessons/" + id + "/listens";
-
 	}
 
 }

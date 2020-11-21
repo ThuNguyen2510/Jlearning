@@ -332,8 +332,8 @@
 											<div class="row">
 												<label>Nội dung</label> <input th:field="*{content}"
 													type="hidden" id="content_">
-												<table id="cont" contenteditable="true"
-													th:utext="${gramForm.content}"></table>
+												<div id="cont" contenteditable="true"
+													th:utext="${gramForm.content}"></div>
 
 
 											</div>
@@ -341,9 +341,9 @@
 											<div class="row">
 												<label>Ví dụ</label> <input id="description"
 													th:field="*{description}" type="hidden">
-												<table id="des" contenteditable="true"
+												<div id="des" contenteditable="true"
 													th:utext="${gramForm.description}">
-												</table>
+												</div>
 												<script>
 													document
 															.getElementById(

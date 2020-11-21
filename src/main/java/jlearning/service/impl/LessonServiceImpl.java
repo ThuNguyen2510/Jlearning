@@ -300,4 +300,12 @@ public class LessonServiceImpl extends BaseServiceImpl implements LessonService 
 		
 	}
 
+	@Override
+	public void createGrams(List<GramInfo> grams, int lessonId) {
+		for(int i=0;i<grams.size();i++) {
+			createGram(grams.get(i),lessonId);
+		}
+		
+	}
+
 }

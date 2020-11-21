@@ -46,11 +46,45 @@ public class CourseServiceImpl extends BaseServiceImpl implements CourseService 
 	@Override
 	public boolean delete(Course entity) {
 		try {
-			
-			getCourseDAO().delete(entity);
+			for(int i=0;i<entity.getLessons().size();i++) {
+				Lesson le= getLessonDAO().findById(entity.getLessons().get(i).getId());
+				deleteLesson(le);
+			}
+			Course c= getCourseDAO().findById(entity.getId());
+			getCourseDAO().delete(c);
 			return true;
 		} catch (Exception e) {
 			throw e;
+		}
+
+	}
+	
+	public boolean deleteLesson(Lesson entity) {
+		try {
+			if (entity.getVocabularies() != null)
+				for (int i = 0; i < entity.getVocabularies().size(); i++) {
+					getVocabularyDAO().delete(entity.getVocabularies().get(i));
+				}
+			if (entity.getGrammars() != null)
+				for (int i = 0; i < entity.getGrammars().size(); i++) {
+					getGrammarDAO().delete(entity.getGrammars().get(i));
+
+				}
+			if (entity.getListenings() != null)
+				for (int i = 0; i < entity.getListenings().size(); i++) {
+					getListeningDAO().delete(entity.getListenings().get(i));
+
+				}
+			if (entity.getTests() != null)
+				for (int i = 0; i < entity.getTests().size(); i++) {
+					getTestDAO().delete(entity.getTests().get(i));
+
+				}
+			getLessonDAO().delete(entity);
+			return true;
+
+		} catch (Exception ex) {
+			return false;
 		}
 
 	}
