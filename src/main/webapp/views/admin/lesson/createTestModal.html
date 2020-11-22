@@ -1,0 +1,32 @@
+<div class="modal" id="createTestModal" th:fragment="notHasTest">
+	<div class="modal-dialog modal-dialog-scrollable"
+		th:style="' max-width: 700px'" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalScrollableTitle">THÔNG
+					BÁO</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-4">
+						<img style="width: 200px"
+							th:src="@{https://miro.medium.com/max/712/1*c3cQvYJrVezv_Az0CoDcbA.jpeg}">
+					</div>
+
+					<div class="col-sm-8">
+						<h5 >Bài học chưa có phần kiểm tra cuối bài</h5>
+						<a th:href="@{'/admin/tests/add'}" class="btn btn-outline-success">Tạo bài test</a>
+					</div>
+				</div>
+
+				<br>
+
+
+			</div>
+		</div>
+	</div>
+</div>

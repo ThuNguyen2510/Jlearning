@@ -3,7 +3,8 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="views/web/layout/base-layout">
 <div layout:fragment="body">
-	<section class="content-area">
+	<section th:if="${status}=='view'" class="content-area">
+
 		<div class="breadcrumbs-wrapper">
 			<div class="container">
 				<ul itemprop="breadcrumb" itemscope
@@ -21,7 +22,8 @@
 
 					<li itemprop="itemListElement" itemscope
 						itemtype="http://schema.org/ListItem"><a itemprop="name"
-						th:href="@{'/users/'+${userFix.id}+'/blogs/'+${blog.id}}" th:text="${blog.title}"></a>
+						th:href="@{'/users/'+${userFix.id}+'/blogs/'+${blog.id}}"
+						th:text="${blog.title}"></a>
 						<meta itemprop="position" content="2" /></li>
 				</ul>
 			</div>
@@ -32,19 +34,102 @@
 				</div>
 				<div class="col-sm-9"
 					style="border: solid 1px #7db9bb; padding: 10px; box-shadow: 5px 5px 5px 5px">
-					<div class="block-dasboard" style="font-size:1.3rem">
-						<h3 class="heading" style="margin-bottom: 20px" th:text="${blog.title}"></h3>
+					<div class="block-dasboard" style="font-size: 1.3rem">
+						<div class="row">
+						<div class="col-sm-8" >
+						<h3 class="heading" style="margin-bottom: 20px"
+							th:text="${blog.title}"></h3>
+						</div>
+						<div class="col-sm-4">
+						<a th:href="@{'/users/'+${blog.user.id}+'/blogs/'+${blog.id}+'/edit'}">Sửa</a>
+						</div>
+						</div>
 						<strong>Thể loại</strong>
 						<p th:text="${blog.type}"></p>
-						<strong th:text="'Thời gian: '+${blog.create_time}"></strong>
-						<br><br>
-						<strong>Mô tả</strong>
-						<p th:text="${blog.des}"></p>
-						
+						<strong th:text="'Thời gian: '+${blog.create_time}"></strong> <br>
+						<br> <strong>Mô tả</strong>
+						<div th:text="${blog.des}"></div>
+
 						<strong>Nội dung</strong>
-						<p th:utext="${blog.content}"></p>
-						
+						<div th:utext="${blog.content}"></div>
+
 					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section th:if="${status}=='update'" class="content-area">
+		<div class="breadcrumbs-wrapper">
+			<div class="container">
+				<ul itemprop="breadcrumb" itemscope
+					itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+					class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="item"
+						th:href="@{/}" title="Home"><span itemprop="name">Trang
+								chủ</span>
+							<meta itemprop="position" content="1" /></a></li>
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{'/users/'+${userFix.id}+'/blogs'}">Blogs của tôi</a>
+						<meta itemprop="position" content="2" /></li>
+
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{'/users/'+${userFix.id}+'/blogs/'+${blog.id}}"
+						th:text="${blog.title}"></a>
+						<meta itemprop="position" content="2" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
+				</div>
+				<div class="col-sm-9"
+					style="border: solid 1px #7db9bb; padding: 10px; box-shadow: 5px 5px 5px 5px">
+					<form  enctype="multipart/form-data"
+						th:action="@{'/users/'+${userFix.id}+'/blogs/'+${blog.id}+'/save'}"
+						th:object="${blog}" method="post">
+						<div class="block-dasboard" style="font-size: 1.3rem">
+							<input type="hidden" th:field="*{id}">
+							<input type="hidden" th:field="*{user.id}">
+							<input type="hidden" th:field="*{image}">
+						
+							 <input
+								class="heading" style="margin-bottom: 20px; width: 100%"
+								th:field="*{title}"> <strong>Thể loại</strong> <select
+								th:field="*{type}">
+								<option th:select="${t}==${blog.type}" th:each="t:${types}"
+									th:value="${t}" th:text="${t}"></option>
+							</select> <br> <br> <strong>Mô tả</strong>
+							<textarea style="width: 100%" th:field="*{des}"></textarea>
+							
+							<!-- <input th:field="*{image}" type="hidden"> -->
+							<strong>Nội dung</strong>
+
+							<div id="sample">
+								<script type="text/javascript"
+									src="http://js.nicedit.com/nicEdit-latest.js"></script>
+								<script type="text/javascript">
+									//<![CDATA[
+									bkLib.onDomLoaded(function() {
+										nicEditors.allTextAreas()
+									});
+									//]]>
+								</script>
+
+								<textarea th:field="*{content}" name="area3"
+									style="width: 800px; height: 500px;"> </textarea>
+							</div>
+							<div class="row"  style="margin-left: 10px; margin-top: 10px">
+							<button type="submit"  value="submit">Lưu</button>
+							</div>
+							
+						</div>
+
+					</form>
 				</div>
 			</div>
 		</div>

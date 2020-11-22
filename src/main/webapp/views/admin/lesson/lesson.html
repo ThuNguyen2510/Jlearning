@@ -834,6 +834,8 @@
 													<div class="col-md-9">
 														<p th:text=${lesson.update_time}></p>
 													</div>
+													<p id="notTest" style="visibility:hidden" th:text="notTest" th:if="${hasTest}==0" ></p>
+														<div th:insert="views/admin/lesson/createTestModal :: notHasTest"></div>
 												</div>
 
 
@@ -841,9 +843,11 @@
 										</div>
 									</div>
 								</div>
+							
 							</form>
 						</div>
 					</div>
+					
 
 				</div>
 				<!-- /.container-fluid -->
@@ -880,6 +884,14 @@
 			var x = document.getElementById(audioId);
 			x.play();
 		}
+		
+		$(document).ready(function() {
+			if (document.getElementById('notTest').innerHTML != '') {
+
+				$("#createTestModal").modal("show");
+
+			}
+		});
 	</script>
 	<style>
 table, td, tr {

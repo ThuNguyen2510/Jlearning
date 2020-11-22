@@ -1,7 +1,10 @@
 <div th:fragment="left" class="card" style="width: 25rem; background: aliceblue">
 	<img class="card-img-top"
-		style="border-radius: 50%; display: block; padding: 15px"
-		th:src="@{https://riki.edu.vn/online//Data/ResizeImage/images/image-web-user/user-39512/1293986177606375-200x200.png}">
+		style="border-radius: 50%; display: block; padding: 15px" th:if="${userFix.avatar}==null"
+		th:src="@{https://riki.edu.vn/online/Content/images/icon/user.png}">
+		<img class="card-img-top"
+		style="border-radius: 50%; display: block; padding: 15px" th:if="${userFix.avatar}"
+		th:src="@{userFix.avatar}">
 	<h3 style="text-align: center">
 		<strong th:text="${userFix.name}"></strong>
 	</h3>

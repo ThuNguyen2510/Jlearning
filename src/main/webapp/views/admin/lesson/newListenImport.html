@@ -69,8 +69,8 @@
 								<div class="card-body">
 									<form th:action="@{'/admin/lessons/addListenImport/save'}"
 										method="post" enctype="multipart/form-data">
-										<input type="file" name="file"> <input type="submit"
-											value="Import">
+										<input type="file" required name="file"> <input type="submit"
+											value="Import" >
 									</form>
 
 

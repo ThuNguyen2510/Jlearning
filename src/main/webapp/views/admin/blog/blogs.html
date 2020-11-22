@@ -112,7 +112,7 @@
 															th:href="@{'/admin/blogs/'+${blog.id}}"
 															class=" btn btn-info btn-circle"> <i
 																class="fas fa-info-circle"></i>
-														</a> </a> <a th:onclick="'deleteBlog('+${blog.id}+')'"
+														</a> </a> <a th:href="@{'/admin/blogs/'+${blog.id}+'/delete'}"
 															class="btn btn-danger btn-circle"> <i
 																class="fas fa-trash"></i>
 														</a></td>

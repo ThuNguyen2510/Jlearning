@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import jlearning.model.Blog;
 import jlearning.model.Blog.Type;
+import jlearning.model.User;
 import jlearning.service.BlogService;
 
 public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
@@ -27,14 +28,24 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
 
 	@Override
 	public Blog saveOrUpdate(Blog entity) {
-		// TODO Auto-generated method stub
-		return null;
+		Blog b= getBlogDAO().findById(entity.getId());
+		b.setUser(entity.getUser());
+		b.setContent(entity.getContent());
+		b.setComments(entity.getComments());
+		b.setDes(entity.getDes());
+		b.setImage(entity.getImage());
+		b.setTitle(entity.getTitle());
+		b.setType(entity.getType());
+		return getBlogDAO().saveOrUpdate(b);
 	}
 
 	@Override
 	public boolean delete(Blog entity) {
-		// TODO Auto-generated method stub
-		return false;
+		for(int i=0;i<entity.getComments().size();i++) {
+			getCommentDAO().delete(entity.getComments().get(i));
+		}
+		getBlogDAO().delete(entity);
+		return true;
 	}
 
 	@Override
@@ -74,6 +85,14 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService {
 			logger.error(e);
 			return null;
 		}
+	}
+
+	@Override
+	public void createBlog(Blog blog, int userId) {
+		User user = getUserDAO().findById(userId);
+		blog.setUser(user);
+		getBlogDAO().saveOrUpdate(blog);
+		
 	}
 
 }

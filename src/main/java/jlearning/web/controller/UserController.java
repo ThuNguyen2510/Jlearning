@@ -1,5 +1,7 @@
 package jlearning.web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jlearning.bean.LessonHis;
@@ -44,7 +49,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private BlogService blogService;
 
-	@RequestMapping("/users/{id}")
+	@GetMapping("/users/{id}")
 	public String index(@PathVariable("id") int userId, Model model, HttpServletRequest request) {
 		checkObjectUser(model);
 		User u = userService.findById(userId);
@@ -98,7 +103,7 @@ public class UserController extends BaseController {
 		return "redirect:/users/" + userId;
 	}
 
-	@RequestMapping("/users/{id}/examHis")
+	@GetMapping("/users/{id}/examHis")
 	public String exams(Model model, @PathVariable("id") int userId, HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
@@ -126,7 +131,7 @@ public class UserController extends BaseController {
 		return "views/web/user/examHistory";
 	}
 
-	@RequestMapping("/users/{id}/lessonHis")
+	@GetMapping("/users/{id}/lessonHis")
 	public String lessons(@PathVariable("id") int userId, Model model, HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
@@ -155,7 +160,7 @@ public class UserController extends BaseController {
 		return "views/web/user/lessonHistory";
 	}
 
-	@RequestMapping("/users/{id}/blogs")
+	@GetMapping("/users/{id}/blogs")
 	public String blogs(@PathVariable("id") int userId, Model model, HttpServletRequest request) {
 		checkObjectUser(model);
 		HttpSession session = request.getSession();
@@ -167,7 +172,23 @@ public class UserController extends BaseController {
 		return "views/web/user/myBlogs";
 	}
 
-	@RequestMapping("/users/{id}/blogs/{blogId}")
+	@GetMapping("/users/{id}/blogs/new")
+	public String newBlog(@PathVariable("id") int userId, Model model, HttpServletRequest request) {
+		checkObjectUser(model);
+		HttpSession session = request.getSession();
+		deleteSession(session);
+		User u = userService.findById(userId);
+		model.addAttribute("userFix", u);
+		model.addAttribute("blogForm", new Blog());
+		List<jlearning.model.Blog.Type> types = new ArrayList<>();
+		types.add(jlearning.model.Blog.Type.culture);
+		types.add(jlearning.model.Blog.Type.experience);
+		types.add(jlearning.model.Blog.Type.general);
+		model.addAttribute("types", types);
+		return "views/web/user/newBlog";
+	}
+
+	@GetMapping("/users/{id}/blogs/{blogId}")
 	public String blog(@PathVariable("id") int userId, @PathVariable("blogId") int blogId, Model model,
 			HttpServletRequest request) {
 		checkObjectUser(model);
@@ -177,10 +198,11 @@ public class UserController extends BaseController {
 		model.addAttribute("userFix", u);
 		Blog blog = blogService.findById(blogId);
 		model.addAttribute("blog", blog);
+		model.addAttribute("status", "view");
 		return "views/web/user/viewBlog";
 	}
 
-	@RequestMapping("/users/{id}/blogs/{blogId}/edit")
+	@GetMapping("/users/{id}/blogs/{blogId}/edit")
 	public String blogEdit(@PathVariable("id") int userId, @PathVariable("blogId") int blogId, Model model,
 			HttpServletRequest request) {
 		checkObjectUser(model);
@@ -190,9 +212,50 @@ public class UserController extends BaseController {
 		model.addAttribute("userFix", u);
 		Blog blog = blogService.findById(blogId);
 		model.addAttribute("blog", blog);
+		List<jlearning.model.Blog.Type> types = new ArrayList<>();
+		types.add(jlearning.model.Blog.Type.culture);
+		types.add(jlearning.model.Blog.Type.experience);
+		types.add(jlearning.model.Blog.Type.general);
+		model.addAttribute("types", types);
+		model.addAttribute("status", "update");
 		return "views/web/user/viewBlog";
 	}
 
+	@RequestMapping("/users/{id}/blogs/{blogId}/save")
+	public String blogSave(@PathVariable("id") int userId, @PathVariable("blogId") int blogId, Model model,
+			@ModelAttribute("blog") Blog blog, @RequestParam(value = "image", required = false) MultipartFile file)
+			throws IllegalStateException, IOException {
+
+		checkObjectUser(model);
+		/*
+		 * File fileNew = new File(
+		 * "C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+		 * file.getOriginalFilename()); file.transferTo(fileNew); if(file!=null) {
+		 * blog.setImage("/haru/assets/upload/" + file.getOriginalFilename()); }
+		 */
+		blogService.saveOrUpdate(blog);
+		return "redirect:/users/" + userId + "/blogs";
+	}
+
+	@RequestMapping("/users/{id}/blogs/save")
+	public String blogCreate(@PathVariable("id") int userId, Model model, @ModelAttribute("blogForm") Blog blog,
+			@RequestParam("imageFile") MultipartFile file)
+			throws IllegalStateException, IOException {
+		checkObjectUser(model);
+		File fileNew = new File("C:/Users/nguye/eclipse-workspace/Jlearning/src/main/webapp/assets/upload",
+				file.getOriginalFilename());
+		file.transferTo(fileNew);
+		blog.setImage("/haru/assets/upload/" + file.getOriginalFilename());
+		blogService.createBlog(blog, userId);
+		return "redirect:/users/" + userId + "/blogs";
+	}
+
+	@RequestMapping("/users/{id1}/blogs/{id2}/delete")
+	public String blogDelete(@PathVariable("id2") int blogId,@PathVariable("id1") int userId) {
+		Blog blog = blogService.findById(blogId);
+		blogService.delete(blog);
+		return "redirect:/users/" + userId + "/blogs";
+	}
 	private void deleteSession(HttpSession session) {
 		if (session.getAttribute("error") != null) {
 			session.removeAttribute("error");

@@ -31,7 +31,7 @@
 						<h3 class="heading" style="margin-bottom: 20px">BLOG CỦA TÔI</h3>
 						<div style="margin-bottom: 15px">
 							<a style="font-size: 1.4rem; color: #19f987"
-								th:href="@{'/users/'+${userFix.id}}"><i
+								th:href="@{'/users/'+${userFix.id}+'/blogs/new'}"><i
 								class="far fa-plus-square"></i> Tạo bài</a>
 						</div>
 						<div data-v-1c01416c="" th:if="${blogs}" class="table-responsive">
@@ -49,7 +49,7 @@
 										<a th:href="@{'/users/'+${userFix.id}+'/blogs/'+${item.id}}" style="font-size: 1.3rem; color: blue;margin:3px"><i
 											class="far fa-eye"></i></a> <a th:href="@{'/users/'+${userFix.id}+'/blogs/'+${item.id}+'/edit'}"
 											style="font-size: 1.3rem; color: violet;margin:3px"><i
-											class="fas fa-pencil-alt"></i></a> <a
+											class="fas fa-pencil-alt"></i></a> <a th:href="@{'/users/'+${userFix.id}+'/blogs/'+${item.id}+'/delete'}"
 											style="font-size: 1.3rem; color: red;margin:3px"><i
 											class="far fa-minus-square"></i></a>
 									</div>

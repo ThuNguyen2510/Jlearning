@@ -1,0 +1,96 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="views/web/layout/base-layout">
+<div layout:fragment="body">
+	<section class="content-area">
+		<div class="breadcrumbs-wrapper">
+			<div class="container">
+				<ul itemprop="breadcrumb" itemscope
+					itemtype="http://schema.org/BreadcrumbList" id="breadcrumbs"
+					class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="item"
+						th:href="@{/}" title="Home"><span itemprop="name">Trang
+								chủ</span>
+							<meta itemprop="position" content="1" /></a></li>
+					<li itemprop="itemListElement" itemscope
+						itemtype="http://schema.org/ListItem"><a itemprop="name"
+						th:href="@{'/users/'+${userFix.id}}">Thông tin cá nhân</a>
+						<meta itemprop="position" content="2" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container" th:if="${css}">
+			<div style="font-size: 1.3rem; text-align: center; color: #f10d7f;"
+				class="alert alert-success alert-dismissible alert-autocloseable-success"
+				role="alert">
+				<h3 th:text="${css}"></h3>
+			</div>
+		</div>
+
+		<div class="container site-content sidebar-right">
+			<div class="row">
+				<div class="col-sm-3" th:insert="views/web/user/leftTable :: left">
+				</div>
+				<div class="col-sm-9"
+					style="border: solid 1px #7db9bb; padding: 10px; box-shadow: 5px 5px 5px 5px">
+					<div class="block-dasboard">
+						<form th:object="${blogForm}"  enctype="multipart/form-data" method="post" th:action="@{'/users/'+${userFix.id}+'/blogs/save'}" >
+							<input type="hidden" th:field="*{id}">
+							<div class="row" style="margin-left: 10px; margin-bottom: 10px">
+								<h4>Tiêu đề</h4>
+								<input type="text" th:field="*{title}" class="form-control"
+									style="width: 95%" placeholder="Nhập tiêu đề" required>
+							</div>
+							<div class="row" style="margin-left: 10px; margin-bottom: 10px">
+								<h4>Thể loại</h4>
+								<select th:field="*{type}">
+									<option th:each="t:${types}" th:value="${t}" th:text="${t}"></option>
+								</select>
+							</div>
+
+							<div class="row" style="margin-left: 10px; margin-bottom: 10px">
+								<h4>Hình ảnh</h4>
+								<input type="file" style="width: 95%" name="imageFile"
+									class="form-control" required>
+							</div>
+
+							<div class="row" style="margin-left: 10px; margin-bottom: 10px">
+								<h4>Mô tả</h4>
+								<input th:field="*{des}" class="form-control"
+									style="width: 95.3%" required></input>
+							</div>
+
+							<div class="row" style="margin-left: 10px; margin-bottom: 10px">
+								<h4>Nội dung</h4>
+								<div id="sample">
+									<script type="text/javascript"
+										src="http://js.nicedit.com/nicEdit-latest.js"></script>
+									<script type="text/javascript">
+										//<![CDATA[
+										bkLib.onDomLoaded(function() {
+											nicEditors.allTextAreas()
+										});
+										//]]>
+									</script>
+
+									<textarea name="area3" style="width: 800px; height: 500px;" th:field="*{content}"> </textarea>
+								</div>
+							</div>
+
+
+							<div class="row" style="margin-left: 10px; margin-top: 10px">
+								<button type="submit" value="submit" >Lưu</button>
+							</div>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+</section>
+</div>
+</html>

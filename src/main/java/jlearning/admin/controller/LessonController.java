@@ -86,6 +86,7 @@ public class LessonController {
 			model.addAttribute("alphabet", alphabet);
 		}
 		model.addAttribute("lesson", lesson);
+		model.addAttribute("hasTest",lesson.getTests().size());
 		return "views/admin/lesson/lesson";
 	}
 

@@ -29,7 +29,8 @@ public class TestDAOImpl  extends GenericDAO<Integer, Test> implements TestDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Test> findByLevel(int level) {
-		return  getSession().createQuery("from Test where level=: level").setParameter("level", level).getResultList();
+		Type type=Type.EXAM;
+		return  getSession().createQuery("from Test where type=: type AND level=: level").setParameter("type", type).setParameter("level", level).getResultList();
 	}
 	@Override
 	public List<Test> loadAllTest() {

@@ -14,8 +14,9 @@
 				th:href="@{/exams}">Kiểm tra</a></li>
 			<li class="nav-item"><a th:style="'padding:0;color: black'"
 				th:href="@{/blogs}">Blogs</a></li>
-			<li class="nav-item" style="visibility:hidden"><a style="color: black" th:href="@{/blogs}"
-				class="tc-menu-inner">Liên hệ</a></li>
+			<li class="nav-item" style="visibility: hidden"><a
+				style="color: black" th:href="@{/blogs}" class="tc-menu-inner">Liên
+					hệ</a></li>
 			<li th:if="${session.currentUser}==null" class="nav-item"><a
 				type="button" data-toggle="modal" data-target="#loginModal"
 				th:style="'color: #e6bc23d9;margin-left:100px'"><i
@@ -28,10 +29,17 @@
 						aria-haspopup="true" aria-expanded="false"> <img
 						class="avatar" th:src="${session.avatar}"></a>
 					<div class="dropdown-menu" style="font-size: 1.2rem">
-						<a class="dropdown-item" th:href="@{'/users/'+${session.currentUser}}">Thông tin cá nhân</a> <a
-							class="dropdown-item" th:href="@{'/users/'+${session.currentUser}+'/lessonHis'}">Lịch sử bài học</a> <a
-							class="dropdown-item" th:href="@{'/users/'+${session.currentUser}+'/examHis'}">Lịch sử bài thi</a> <a
-							class="dropdown-item" th:href="@{'/users/'+${session.currentUser}+'/blogs'}">Blogs của tôi</a>
+						<a class="dropdown-item" th:if="${session.roleUser}=='ADMIN'"
+							th:href="@{'/dashboard'">Admin Page </a> <a
+							class="dropdown-item"
+							th:href="@{'/users/'+${session.currentUser}}">Thông tin cá
+							nhân</a> <a class="dropdown-item"
+							th:href="@{'/users/'+${session.currentUser}+'/lessonHis'}">Lịch
+							sử bài học</a> <a class="dropdown-item"
+							th:href="@{'/users/'+${session.currentUser}+'/examHis'}">Lịch
+							sử bài thi</a> <a class="dropdown-item"
+							th:href="@{'/users/'+${session.currentUser}+'/blogs'}">Blogs
+							của tôi</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" onclick="myFunction()">Đăng xuất</a>
 					</div>
@@ -73,10 +81,10 @@
 									<strong><span id="error" th:text="${error}"></span></strong>
 								</div>
 
-								<a class="lost-pass-link"
+								<!-- <a class="lost-pass-link"
 									th:href="@{https://educationwp.thimpress.com/account/?action=lostpassword}"
 									title="Lost Password">Quên mật khẩu?</a>
-								</p>
+								</p> -->
 								<p th:style="'width: 250px'" class="submit login-submit">
 									<input type="submit" name="wp-submit"
 										class="button button-primary button-large" value="Đăng nhập" />
@@ -111,7 +119,7 @@
 				<div class="modal-body">
 					<div th:style="'float:left'">
 						<img th:src="@{/assets/wp-content/uploads/2015/login.png}" />
-						
+
 					</div>
 					<br>
 					<div th:style="'float:left;margin: 40px'">
@@ -145,7 +153,8 @@
 
 								<div th:if="${#fields.hasErrors('password')}"
 									class="alert alert-danger">
-									<span class="errors-notification">Mật khẩu phải dài hơn 5 ký tự</span>
+									<span class="errors-notification">Mật khẩu phải dài hơn
+										5 ký tự</span>
 								</div>
 
 								<p>

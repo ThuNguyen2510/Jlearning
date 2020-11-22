@@ -16,4 +16,6 @@ public interface BlogService extends BaseService<Integer, Blog> {
 	
 	List<Blog> searchByPaging(int type,String k, int page);
 
+	void createBlog(Blog blog, int userId);
+
 }
