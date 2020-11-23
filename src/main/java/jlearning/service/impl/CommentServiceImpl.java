@@ -25,8 +25,8 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
 
 	@Override
 	public Comment saveOrUpdate(Comment entity) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return getCommentDAO().saveOrUpdate(entity);
 	}
 
 	@Override

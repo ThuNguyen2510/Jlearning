@@ -15,7 +15,8 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div th:if="${deleteComment}" style="font-size: 2rem; color: #69bd35;"
+			<div th:if="${deleteComment}"
+				style="font-size: 2rem; color: #69bd35;"
 				class="alert alert-success alert-dismissible alert-autocloseable-success"
 				role="alert">
 				<h3 th:text="${deleteComment}"></h3>
@@ -142,17 +143,23 @@
 									<div
 										style="color: darkred; padding-top: 25px; font-weight: 600;"
 										class="author-description">
-										<p th:id="@{'commentContent'+${cmt.id}}"
-											th:text="${cmt.content}"></p>
+										<form>
+											<p th:id="@{'commentContent'+${cmt.id}}"
+												th:text="${cmt.content}"
+												th:name="'contentComment_'+${cmt.id}"></p>
+
+										</form>
+
 									</div>
-									<div 
+									<div
 										th:if="${session.currentUser} and ${session.currentUser}==${cmt.user.id}">
 
-										<a th:onClick="@{'addInput('+${cmt.id}+')'}"
-											style="cursor:pointer;font-size: 1.6rem; color: violet; margin: 3px">
+										<a th:onClick="@{'addInput('+${cmt.id}+')'}" id="buttonEdit"
+											style="cursor: pointer; font-size: 1.6rem; color: violet; margin: 3px">
 											<i class="fas fa-pencil-alt"></i>
-										</a>
-										<a  th:href="@{'/blogs/'+${blog.id}+'/comments/'+${cmt.id}+'/delete'}" style="font-size: 1.6rem;cursor:pointer; color: red; margin: 3px"><i
+										</a> <a
+											th:href="@{'/blogs/'+${blog.id}+'/comments/'+${cmt.id}+'/delete'}"
+											style="font-size: 1.6rem; cursor: pointer; color: red; margin: 3px"><i
 											class="fas fa-trash-alt"></i></a>
 									</div>
 								</div>
@@ -211,9 +218,20 @@
 		function addInput(i) {
 			var cont = document.getElementById('commentContent' + i);
 			var newdiv = document.createElement('input');
-			newdiv.value=cont.innerHTML;
-			newdiv.id=cont.id;
-			cont.parentNode.replaceChild(newdiv,cont);
+			var newdiv2 = document.createElement('button');
+			var butE = document.getElementById('buttonEdit');
+			newdiv.value = cont.innerHTML;
+			newdiv.id = "Comment_" + i;
+			cont.parentNode.replaceChild(newdiv, cont);
+			var content = document.getElementById('Comment_' + i);
+			console.log(content.value);
+			newdiv2.textContent = "Lưu";
+			newdiv2.addEventListener("click", function() {
+				location.href = "/haru/blogs/comments/" + i + "/" + content.value
+						+ "/save";
+			}, false);
+
+			butE.parentNode.replaceChild(newdiv2, butE);
 
 		}
 	</script>

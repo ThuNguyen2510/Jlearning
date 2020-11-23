@@ -166,7 +166,24 @@ public class BlogController extends BaseController {
 			redirectAttributes.addFlashAttribute("deleteComment", "Xóa bình luận thất bại");
 
 		}
-		return "redirect:/blogs/"+blogId;
+		return "redirect:/blogs/" + blogId;
+
+	}
+
+	@RequestMapping("/blogs/comments/{cmtId}/{string}/save")
+	public String updateComment(final RedirectAttributes redirectAttributes, @PathVariable("cmtId") int cmtId,
+			@PathVariable("string") String content,
+			Model model, HttpServletRequest request) {
+		checkObjectUser(model);
+		Comment cmt = commentService.findById(cmtId);
+		cmt.setContent(content);
+		if (commentService.saveOrUpdate(cmt) != null) {
+			redirectAttributes.addFlashAttribute("deleteComment", "Bạn đã sửa bình luận");
+		} else {
+			redirectAttributes.addFlashAttribute("deleteComment", "Sửa bình luận thất bại");
+
+		}
+		return "redirect:/blogs/" + cmt.getBlog().getId();
 
 	}
 
