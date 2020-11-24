@@ -39,7 +39,7 @@
 								<button style="width: 100%; border-radius: 20px">HOÀN
 									THÀNH</button>
 							</form>
-							
+
 						</div>
 						<div class="col-sm-1"></div>
 					</div>
@@ -97,7 +97,7 @@
 							</div>
 
 						</div>
-						<button style="margin-left:45%">Lưu</button>
+						<button style="margin-left: 45%">Lưu</button>
 					</form>
 
 
@@ -149,7 +149,7 @@
 
 							</div>
 						</div>
-						<button style="margin-left:45%">Lưu</button>
+						<button style="margin-left: 45%">Lưu</button>
 					</form>
 
 					<div
@@ -200,7 +200,7 @@
 
 							</div>
 						</div>
-						<button style="margin-left:45%">Lưu</button>
+						<button style="margin-left: 45%">Lưu</button>
 					</form>
 
 					<div
@@ -252,7 +252,7 @@
 
 							</div>
 						</div>
-						<button style="margin-left:45%">Lưu</button>
+						<button style="margin-left: 45%">Lưu</button>
 					</form>
 
 
@@ -264,6 +264,8 @@
 				</div>
 				<p id="deadline" th:if="${session.start_}"
 					th:text="${session.start_}" style="visibility: hidden"></p>
+				<p id="timeDo" th:if="${session.time_}"
+					th:text="${session.time_}" style="visibility: hidden"></p>
 			</div>
 		</div>
 		<div th:if="${timeUp}">
@@ -311,9 +313,10 @@
 </style>
 	<script>
 		var deadline_ = document.getElementById('deadline').innerHTML;
+		var time_ = document.getElementById('timeDo').innerHTML;
 		var x = setInterval(function() {
 			var now = new Date().getTime();
-			var deadline = Date.parse(deadline_) + 30 * 60000
+			var deadline = Date.parse(deadline_) + parseInt(time_) * 60000
 			var t = deadline - now;
 			var days = Math.floor(t / (1000 * 60 * 60 * 24));
 			var hours = Math.floor((t % (1000 * 60 * 60 * 24))

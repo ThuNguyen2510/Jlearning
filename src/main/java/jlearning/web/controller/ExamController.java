@@ -167,6 +167,7 @@ public class ExamController extends BaseController {
 		}
 
 		checkTime(session, model);
+		session.setAttribute("time_", test.getTime());
 		model.addAttribute("vocabQues", vocabQues);
 		model.addAttribute("gramQues", gramQues);
 		model.addAttribute("readQues", readQues);
@@ -288,22 +289,27 @@ public class ExamController extends BaseController {
 		int count4 = 0;
 		int score = 0;
 		List<Integer> count = new ArrayList<Integer>();
-		for (Map.Entry<String, String> entry : hash.entrySet()) {
-			Question q = questionService.findById(Integer.parseInt(entry.getKey()));
-			int answerIdCorrect = questionService.findAnswerIdCorrect(Integer.parseInt(entry.getKey()));
-			if (answerIdCorrect == Integer.parseInt(entry.getValue())) {
-				score++;
-				if (q.getPart() == Part.vocab) {
-					count1++;
-				} else if (q.getPart() == Part.gram) {
-					count2++;
-				} else if (q.getPart() == Part.read) {
-					count3++;
-				} else {
-					count4++;
+		if(hash!=null) {
+			for (Map.Entry<String, String> entry : hash.entrySet()) {
+				Question q = questionService.findById(Integer.parseInt(entry.getKey()));
+				int answerIdCorrect = questionService.findAnswerIdCorrect(Integer.parseInt(entry.getKey()));
+				if (answerIdCorrect == Integer.parseInt(entry.getValue())) {
+					score++;
+					if (q.getPart() == Part.vocab) {
+						count1++;
+					} else if (q.getPart() == Part.gram) {
+						count2++;
+					} else if (q.getPart() == Part.read) {
+						count3++;
+					} else {
+						count4++;
+					}
 				}
 			}
+		}else {
+			
 		}
+		
 		count.add(count1);
 		count.add(count2);
 		count.add(count3);
