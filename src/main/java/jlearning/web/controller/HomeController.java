@@ -93,6 +93,8 @@ public class HomeController extends BaseController {
 			redirectAttributes.addFlashAttribute("loginsuccess", msg_login);
 			session.setAttribute("msg", user.getName().toUpperCase());
 			session.setAttribute("currentUser", user.getId());
+			session.setAttribute("userName",user.getName());
+			session.setAttribute("level",user.getLevel());
 			session.setAttribute("avatar",
 					user.getAvatar() == null ? "https://riki.edu.vn/online/Content/images/icon/user.png"
 							: user.getAvatar());

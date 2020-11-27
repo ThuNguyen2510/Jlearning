@@ -36,7 +36,7 @@
 				<div th:if="${ques}==null" class="container"
 					style="margin: 5px; margin-bottom: 20px"
 					th:each="que,i :${test.questions}">
-					<label th:utext="${que.content}"></label>
+					<label th:utext="${i.index+1}+'.'+${que.content}"></label>
 
 					<ol type="a">
 						<li th:each="item:${que.answers}"><input readonly="true"

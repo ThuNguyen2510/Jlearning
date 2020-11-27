@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -144,6 +145,7 @@ public class ExamController extends BaseController {
 			} else {
 				lisQues.add(q);
 			}
+			
 		}
 		if (part.compareTo("vocab") == 0) {
 			logger.info("TUVUNG");
@@ -168,9 +170,13 @@ public class ExamController extends BaseController {
 
 		checkTime(session, model);
 		session.setAttribute("time_", test.getTime());
+		Collections.shuffle(vocabQues);
 		model.addAttribute("vocabQues", vocabQues);
+		Collections.shuffle(gramQues);
 		model.addAttribute("gramQues", gramQues);
+		Collections.shuffle(readQues);
 		model.addAttribute("readQues", readQues);
+		Collections.shuffle(lisQues);
 		model.addAttribute("lisQues", lisQues);
 
 		return "views/web/exam/doExam";
@@ -394,6 +400,7 @@ public class ExamController extends BaseController {
 						model.addAttribute("notifi", notifi);
 						model.addAttribute("nextLessonId", nextLessonId);
 						userService.saveOrUpdate(user);
+						session.setAttribute("level", user.getLevel());
 
 					}
 				} else {
@@ -648,6 +655,7 @@ public class ExamController extends BaseController {
 			}
 			user.setLevel(l);
 			userService.saveOrUpdate(user);
+			session.setAttribute("level", user.getLevel());
 		}
 
 		if (resultService.create(rs) != null) {

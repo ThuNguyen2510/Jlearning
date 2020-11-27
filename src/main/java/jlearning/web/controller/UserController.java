@@ -78,12 +78,13 @@ public class UserController extends BaseController {
 			User us = user.convertToUser();
 			us.setId(userId);
 			us.setRole(Role.USER);
+			us.setLevel(user.getLevel());
 			deleteSession(session);
 			if (userService.saveOrUpdate(us) == null) {
 
 				redirectAttributes.addFlashAttribute("css", "Thất bại");
 			} else {
-
+				session.setAttribute("userName", us.getName());
 				redirectAttributes.addFlashAttribute("css", "Thay đổi thông tin thành công");
 			}
 		} else {
