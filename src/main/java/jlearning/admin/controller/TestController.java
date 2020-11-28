@@ -1,6 +1,7 @@
 package jlearning.admin.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -146,8 +147,8 @@ public class TestController {
 	}
 
 	@GetMapping(value = "/{id2}/deleteQuesSession")
-	public String deleteQuesSession(Model model,@PathVariable("id2") int id2,
-			HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+	public String deleteQuesSession(Model model, @PathVariable("id2") int id2, HttpServletRequest request,
+			final RedirectAttributes redirectAttributes) {
 		List<Question> questions = new ArrayList<>();
 		HttpSession session = request.getSession();
 		if (session.getAttribute("questions") != null) {
@@ -156,7 +157,7 @@ public class TestController {
 		if (questions.get(id2) != null) {
 			questions.remove(id2);
 			session.setAttribute("questions", questions);
-			model.addAttribute("status","add");
+			model.addAttribute("status", "add");
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Xóa câu hỏi thành công");
 
@@ -178,7 +179,7 @@ public class TestController {
 			if (request.getParameter("ans").compareTo(Integer.toString(i)) == 0) {
 				logger.info(request.getParameter("ans"));
 				question.getAnswers().get(i).setIsTrue(1);
-				
+
 			}
 		}
 		if (testService.updateQuestion(question) != null) {
@@ -243,8 +244,8 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/questions/new")
-	public String saveQuestion(Model model, final RedirectAttributes redirectAttributes,@ModelAttribute("quesForm") QuestionInfo questionInfo,
-			HttpServletRequest request) {
+	public String saveQuestion(Model model, final RedirectAttributes redirectAttributes,
+			@ModelAttribute("quesForm") QuestionInfo questionInfo, HttpServletRequest request) {
 		String typeCss = "";
 		String message = "";
 		for (int i = 0; i < 4; i++) {
@@ -286,45 +287,194 @@ public class TestController {
 		return "views/admin/test/newQuestionFile";
 	}
 
+	
+
 	@RequestMapping(value = "{id}/process")
-	public String importFile(@RequestParam("file") MultipartFile excelfile, @PathVariable("id") int testId, Model model)
-			throws Exception {
+	public String importFile(@RequestParam("file") MultipartFile excelfile, @PathVariable("id") int testId, Model model,
+			final RedirectAttributes redirectAttributes) {
 		List<QuestionInfo> questions = new ArrayList<>();
 		int i = 0;
 		// Creates a workbook object from the uploaded excelfile
-		XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
-		// Creates a worksheet object representing the first sheet
-		XSSFSheet worksheet = workbook.getSheetAt(0);
-		// Reads the data in excel file until last row is encountered
-		while (i <= worksheet.getLastRowNum()) {
-			// Creates an object for the UserInfo Model
-			QuestionInfo ques = new QuestionInfo();
-			// Creates an object representing a single row in excel
-			XSSFRow row = worksheet.getRow(i++);
-			// Sets the Read data to the model class
-			if(row.getCell(0)!=null && row.getCell(0).getCellType()!= Cell.CELL_TYPE_BLANK )ques.setContent(row.getCell(0).getStringCellValue());
-			if(row.getCell(1)!=null && row.getCell(1).getCellType()!= Cell.CELL_TYPE_BLANK )ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
-			else ques.setLevel(0);
-			if(row.getCell(2)!=null && row.getCell(2).getCellType()!= Cell.CELL_TYPE_BLANK )ques.setPart((int) (row.getCell(2).getNumericCellValue()));
-			else ques.setPart(1);
-			int sizeAns = (int) row.getCell(3).getNumericCellValue();
-			int k = 4, g = 5;
-			List<AnswerInfo_> list = new ArrayList<>();
-			for (int j = 1; j <= sizeAns; j++) {
-				AnswerInfo_ ans = new AnswerInfo_();
-				if(row.getCell(k)!=null && row.getCell(k).getCellType()!= Cell.CELL_TYPE_BLANK )ans.setContent(row.getCell(k).getStringCellValue());
-				if(row.getCell(g)!=null && row.getCell(g).getCellType()!= Cell.CELL_TYPE_BLANK )ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
-				k += 2;
-				g += 2;
-				list.add(ans);
-
-			}
-			ques.setAnsList(list);
-			testService.createQuestion(ques, testId);
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(excelfile.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Kiểm tra lại file");
+			model.addAttribute("status", "add");
+			model.addAttribute("testId", testId);
+			return "redirect:/admin/tests/" + testId + "/addQuestionFile";
 
 		}
+		// Creates a worksheet object representing the first sheet
+		try {
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			// Reads the data in excel file until last row is encountered
+			String error = "";
+			XSSFRow row = worksheet.getRow(0);
+			if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(0).getStringCellValue().equals("Câu hỏi")) {
+					error = "Lỗi cột thứ 1(Câu hỏi)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(1).getStringCellValue().equals("Cấp độ")) {
+					error = "Lỗi cột thứ 2(Cấp độ)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
 
-		return "redirect:/admin/tests/" + testId;
+				}
+			if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(2).getStringCellValue().equals("Phần")) {
+					error = "Lỗi cột thứ 3(Phần)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(3).getStringCellValue().equals("Số câu trả lời")) {
+					error = "Lỗi cột thứ 4(Số câu trả lời)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(4).getStringCellValue().equals("Trả lời 1")) {
+					error = "Lỗi cột 5";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(5).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 6";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(6).getStringCellValue().equals("Trả lời 2")) {
+					error = "Lỗi cột 7";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(7).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 8";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(8) != null && row.getCell(8).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(8).getStringCellValue().equals("Trả lời 3")) {
+					error = "Lỗi cột 9";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(9) != null && row.getCell(9).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(9).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 10";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(10) != null && row.getCell(10).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(10).getStringCellValue().equals("Trả lời 4")) {
+					error = "Lỗi cột 11";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+			if (row.getCell(11) != null && row.getCell(11).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(11).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 12";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add");
+					model.addAttribute("testId", testId);
+					return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+				}
+
+			i++;
+
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				QuestionInfo ques = new QuestionInfo();
+				// Creates an object representing a single row in excel
+
+				row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					ques.setContent(row.getCell(0).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
+				else
+					ques.setLevel(0);
+				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					ques.setPart((int) (row.getCell(2).getNumericCellValue()));
+				else
+					ques.setPart(1);
+				int sizeAns = (int) row.getCell(3).getNumericCellValue();
+				int k = 4, g = 5;
+				List<AnswerInfo_> list = new ArrayList<>();
+				for (int j = 1; j <= sizeAns; j++) {
+					AnswerInfo_ ans = new AnswerInfo_();
+					if (row.getCell(k) != null && row.getCell(k).getCellType() != Cell.CELL_TYPE_BLANK)
+						ans.setContent(row.getCell(k).getStringCellValue());
+					if (row.getCell(g) != null && row.getCell(g).getCellType() != Cell.CELL_TYPE_BLANK)
+						ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
+					k += 2;
+					g += 2;
+					list.add(ans);
+
+				}
+				ques.setAnsList(list);
+				testService.createQuestion(ques, testId);
+
+			}
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Tạo câu hỏi thành công!");
+			return "redirect:/admin/tests/" + testId;
+		}catch(Exception ex)
+		{
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg","Kiểm tra lại file");
+		
+			model.addAttribute("status", "add");
+			model.addAttribute("testId", testId);
+			//return "";
+			return "redirect:/admin/tests/" + testId + "/addQuestionFile";
+		}
+	
 	}
 
 	@GetMapping(value = "/addQuestionFile")
@@ -335,9 +485,9 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/process")
-	public String importFile2(@RequestParam("file") MultipartFile excelfile, Model model, HttpServletRequest request)
-			throws Exception {
-		
+	public String importFile2(@RequestParam("file") MultipartFile excelfile, Model model, HttpServletRequest request,
+			final RedirectAttributes redirectAttributes)  {
+
 		List<QuestionInfo> questions = new ArrayList<>();
 		HttpSession session = request.getSession();
 		if (session.getAttribute("questions") != null) {
@@ -345,35 +495,147 @@ public class TestController {
 		}
 		int i = 0;
 		// Creates a workbook object from the uploaded excelfile
-		XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
-		// Creates a worksheet object representing the first sheet
-		XSSFSheet worksheet = workbook.getSheetAt(0);
-		// Reads the data in excel file until last row is encountered
-		while (i <= worksheet.getLastRowNum()) {
-			// Creates an object for the UserInfo Model
-			QuestionInfo ques = new QuestionInfo();
-			// Creates an object representing a single row in excel
-			XSSFRow row = worksheet.getRow(i++);
-			// Sets the Read data to the model class
-			ques.setContent(row.getCell(0).getStringCellValue());
-			ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
-			ques.setPart((int) (row.getCell(2).getNumericCellValue()));
-			int sizeAns = (int) row.getCell(3).getNumericCellValue();
-			int k = 4, g = 5;
-			List<AnswerInfo_> list = new ArrayList<>();
-			for (int j = 1; j <= sizeAns; j++) {
-				AnswerInfo_ ans = new AnswerInfo_();
-				ans.setContent(row.getCell(k).getStringCellValue());
-				ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
-				k += 2;
-				g += 2;
-				list.add(ans);
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+			// Creates a worksheet object representing the first sheet
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			// Reads the data in excel file until last row is encountered
 
+			String error = "";
+			XSSFRow row = worksheet.getRow(0);
+
+			if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(0).getStringCellValue().equals("Câu hỏi")) {
+					error = "Lỗi cột thứ 1(Câu hỏi)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(1).getStringCellValue().equals("Cấp độ")) {
+					error = "Lỗi cột thứ 2(Cấp độ)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+
+				}
+			if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(2).getStringCellValue().equals("Phần")) {
+					error = "Lỗi cột thứ 3(Phần)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(3).getStringCellValue().equals("Số câu trả lời")) {
+					error = "Lỗi cột thứ 4(Số câu trả lời)";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(4).getStringCellValue().equals("Trả lời 1")) {
+					error = "Lỗi cột 5";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(5).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 6";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(6).getStringCellValue().equals("Trả lời 2")) {
+					error = "Lỗi cột 7";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(7).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 8";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(8) != null && row.getCell(8).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(8).getStringCellValue().equals("Trả lời 3")) {
+					error = "Lỗi cột 9";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(9) != null && row.getCell(9).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(9).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 10";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(10) != null && row.getCell(10).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(10).getStringCellValue().equals("Trả lời 4")) {
+					error = "Lỗi cột 11";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			if (row.getCell(11) != null && row.getCell(11).getCellType() != Cell.CELL_TYPE_BLANK)
+				if (!row.getCell(11).getStringCellValue().equals("Đúng")) {
+					error = "Lỗi cột 12";
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", error);
+					model.addAttribute("status", "add1");
+					return "redirect:/admin/tests/addQuestionFile";
+				}
+			i++;
+			while (i <= worksheet.getLastRowNum()) {
+				// Creates an object for the UserInfo Model
+				QuestionInfo ques = new QuestionInfo();
+				// Creates an object representing a single row in excel
+				row = worksheet.getRow(i++);
+				// Sets the Read data to the model class
+				ques.setContent(row.getCell(0).getStringCellValue());
+				ques.setLevel((int) (row.getCell(1).getNumericCellValue()));
+				ques.setPart((int) (row.getCell(2).getNumericCellValue()));
+				int sizeAns = (int) row.getCell(3).getNumericCellValue();
+				int k = 4, g = 5;
+				List<AnswerInfo_> list = new ArrayList<>();
+				for (int j = 1; j <= sizeAns; j++) {
+					AnswerInfo_ ans = new AnswerInfo_();
+					ans.setContent(row.getCell(k).getStringCellValue());
+					ans.setIsTrue((int) (row.getCell(g).getNumericCellValue()));
+					k += 2;
+					g += 2;
+					list.add(ans);
+
+				}
+				ques.setAnsList(list);
+				questions.add(ques);
 			}
-			ques.setAnsList(list);
-			questions.add(ques);
+			session.setAttribute("questions", questions);
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Tạo câu hỏi thành công!");
+			return "redirect:/admin/tests/add";
+		}catch(Exception ex) {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Kiểm tra lại file");
+			model.addAttribute("status", "add1");
+			return "redirect:/admin/tests/addQuestionFile";
 		}
-		session.setAttribute("questions", questions);
-		return "redirect:/admin/tests/add";
+		
 	}
 }

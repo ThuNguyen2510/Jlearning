@@ -43,7 +43,7 @@
 				<div class="container-fluid" th:if="${status}=='add'">
 					<a th:if="${status}=='add'" th:href="@{'/admin/tests/'+${testId}}"><i
 						class="fas fa-arrow-left"></i>Trở về</a>
-					<div th:if="${msg != null}"
+					<div th:if="${msg != null}" style="width: 74%; margin-left: 13%;"
 						class="alert alert-dismissible fade show"
 						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
 						role="alert">
@@ -59,17 +59,19 @@
 
 						<div id="ques-form" class="row justify-content-center">
 
-							<div th:if="${status}=='add'" class="card shadow mb-4" style="width: 800px;">
+							<div th:if="${status}=='add'" class="card shadow mb-4"
+								style="width: 800px;">
 								<div class="card-header text-center">
 									<h2>Thêm Câu hỏi</h2>
 
 								</div>
 								<div class="card-body">
-								<form  th:action="@{'/admin/tests/'+${testId}+'/process'}" method="post" enctype="multipart/form-data">
-								<input type="file" name="file" required>
-								<input type="submit"  value="Import" >
-								</form>
-									
+									<form th:action="@{'/admin/tests/'+${testId}+'/process'}"
+										method="post" enctype="multipart/form-data">
+										<input type="file" name="file" required> <input
+											type="submit" value="Import">
+									</form>
+
 
 								</div>
 
@@ -81,11 +83,11 @@
 					</div>
 
 				</div>
-				
-					<div class="container-fluid" th:if="${status}=='add1'">
-					<a th:href="@{'/admin/tests/add'}"><i
-						class="fas fa-arrow-left"></i>Trở về</a>
-					<div th:if="${msg != null}"
+
+				<div class="container-fluid" th:if="${status}=='add1'">
+					<a th:href="@{'/admin/tests/add'}"><i class="fas fa-arrow-left"></i>Trở
+						về</a>
+					<div th:if="${msg != null}" style="width: 74%; margin-left: 13%;"
 						class="alert alert-dismissible fade show"
 						th:classappend="${css == 'error' ? 'alert-danger' : 'alert-success'}"
 						role="alert">
@@ -101,17 +103,19 @@
 
 						<div id="ques-form" class="row justify-content-center">
 
-							<div  th:if="${status}=='add1'" class="card shadow mb-4" style="width: 800px;">
+							<div th:if="${status}=='add1'" class="card shadow mb-4"
+								style="width: 800px;">
 								<div class="card-header text-center">
 									<h2>Thêm Câu hỏi</h2>
 
 								</div>
 								<div class="card-body">
-								<form  th:action="@{'/admin/tests/process'}" method="post" enctype="multipart/form-data">
-								<input type="file" name="file" required>
-								<input type="submit"  value="Import">
-								</form>
-									
+									<form th:action="@{'/admin/tests/process'}" method="post"
+										enctype="multipart/form-data">
+										<input type="file" name="file" required> <input
+											type="submit" value="Import">
+									</form>
+
 
 								</div>
 
@@ -123,7 +127,7 @@
 					</div>
 
 				</div>
-				
+
 				<!-- /.container-fluid -->
 
 			</div>

@@ -86,7 +86,7 @@ public class LessonController {
 			model.addAttribute("alphabet", alphabet);
 		}
 		model.addAttribute("lesson", lesson);
-		model.addAttribute("hasTest",lesson.getTests().size());
+		model.addAttribute("hasTest", lesson.getTests().size());
 		return "views/admin/lesson/lesson";
 	}
 
@@ -352,7 +352,7 @@ public class LessonController {
 
 	@RequestMapping(value = "/addVocabImport/save")
 	public String vocabImportSave(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file,
-			final RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {
+			final RedirectAttributes redirectAttributes) throws IOException {
 		// in new lesson and invalid lesson
 		int lessonId = 0;
 		String typeCss = "";
@@ -365,74 +365,159 @@ public class LessonController {
 		if (lessonId != 0) {
 			// invalid
 			//
-			ImportFileVocab(file, lessonId);
+			List<VocabInfo> vocabularies = new ArrayList<>();
 
-			typeCss = "success";
-			message = "Thêm thành công!!";
+			try {
+				int i = 1;
+				// Creates a workbook object from the uploaded excelfile
+				XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+				// Creates a worksheet object representing the first sheet
+				XSSFSheet worksheet = workbook.getSheetAt(0);
+				// Reads the data in excel file until last row is encountered
+				if (worksheet.getPhysicalNumberOfRows() == 0) {
+					typeCss = "error";
+					message = "Kiểm tra lại file";
+					redirectAttributes.addFlashAttribute("css", typeCss);
+					redirectAttributes.addFlashAttribute("msg", message);
+					return "redirect:/admin/lessons/addVocabImport";
+				}
+				XSSFRow row_ = worksheet.getRow(0);
+				if (row_.getCell(0) != null && row_.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(0).getStringCellValue().equals("Từ vựng")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 1");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				if (row_.getCell(1) != null && row_.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(1).getStringCellValue().equals("Kanji")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 2");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				if (row_.getCell(2) != null && row_.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(2).getStringCellValue().equals("Nghĩa")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 3");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				if (row_.getCell(3) != null && row_.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(3).getStringCellValue().equals("Phát âm")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 4");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				while (i <= worksheet.getLastRowNum()) {
+					// Creates an object for the UserInfo Model
+					VocabInfo vocab = new VocabInfo();
+					// Creates an object representing a single row in excel
+					XSSFRow row = worksheet.getRow(i++);
+					// Sets the Read data to the model class
+					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setContent(row.getCell(0).getStringCellValue());
+					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setKanji(row.getCell(1).getStringCellValue());
+					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setMeans(row.getCell(2).getStringCellValue());
+					if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setAudio(row.getCell(3).getStringCellValue());
+					vocabularies.add(vocab);
+				}
+				lessonService.createVocabs(vocabularies, lessonId);
+				typeCss = "success";
+				message = "Thêm thành công!!";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				// return "";
+				return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
+			} catch (Exception ex) {
+				typeCss = "error";
+				message = "Kiểm tra lại file";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/addVocabImport";
+			}
+
 		} else {
 			// new add vao session lessonId==0 in session
 			List<VocabInfo> vocabularies = new ArrayList<>();
 			if (session.getAttribute("vocabs") != null) {
 				vocabularies = (List<VocabInfo>) session.getAttribute("vocabs");
 			}
-			int i = 0;
-			// Creates a workbook object from the uploaded excelfile
-			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
-			// Creates a worksheet object representing the first sheet
-			XSSFSheet worksheet = workbook.getSheetAt(0);
-			// Reads the data in excel file until last row is encountered
-			while (i <= worksheet.getLastRowNum()) {
-				// Creates an object for the UserInfo Model
-				VocabInfo vocab = new VocabInfo();
-				// Creates an object representing a single row in excel
-				XSSFRow row = worksheet.getRow(i++);
-				// Sets the Read data to the model class
-				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-					vocab.setContent(row.getCell(0).getStringCellValue());
-				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-					vocab.setKanji(row.getCell(1).getStringCellValue());
-				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-					vocab.setMeans(row.getCell(2).getStringCellValue());
-				if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
-					vocab.setAudio(row.getCell(3).getStringCellValue());
-				vocabularies.add(vocab);
+			try {
+				int i = 1;
+				// Creates a workbook object from the uploaded excelfile
+				XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+				// Creates a worksheet object representing the first sheet
+				XSSFSheet worksheet = workbook.getSheetAt(0);
+				// Reads the data in excel file until last row is encountered
+				if (worksheet.getPhysicalNumberOfRows() == 0) {
+					typeCss = "error";
+					message = "Kiểm tra lại file";
+					redirectAttributes.addFlashAttribute("css", typeCss);
+					redirectAttributes.addFlashAttribute("msg", message);
+					return "redirect:/admin/lessons/addVocabImport";
+				}
+				XSSFRow row_ = worksheet.getRow(0);
+				if (row_.getCell(0) != null && row_.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(0).getStringCellValue().equals("Từ vựng")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 1");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				if (row_.getCell(1) != null && row_.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(1).getStringCellValue().equals("Kanji")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 2");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				if (row_.getCell(2) != null && row_.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(2).getStringCellValue().equals("Nghĩa")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 3");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				if (row_.getCell(3) != null && row_.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(3).getStringCellValue().equals("Phát âm")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 4");
+						return "redirect:/admin/lessons/addVocabImport";
+					}
+				while (i <= worksheet.getLastRowNum()) {
+
+					// Creates an object for the UserInfo Model
+					VocabInfo vocab = new VocabInfo();
+					// Creates an object representing a single row in excel
+					XSSFRow row = worksheet.getRow(i++);
+					// Sets the Read data to the model class
+					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setContent(row.getCell(0).getStringCellValue());
+					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setKanji(row.getCell(1).getStringCellValue());
+					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setMeans(row.getCell(2).getStringCellValue());
+					if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+						vocab.setAudio(row.getCell(3).getStringCellValue());
+					vocabularies.add(vocab);
+
+				}
+				session.setAttribute("vocabs", vocabularies);
+				typeCss = "success";
+				message = "Thêm thành công!!";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+
+				return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
+
+			} catch (Exception ex) {
+
+				typeCss = "error";
+				message = "Kiểm tra lại file";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/addVocabImport";
 			}
-			session.setAttribute("vocabs", vocabularies);
 
-			typeCss = "success";
-			message = "Thêm thành công!!";
 		}
-		redirectAttributes.addFlashAttribute("css", typeCss);
-		redirectAttributes.addFlashAttribute("msg", message);
-		// return "";
-		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/vocabs";
-	}
-
-	private void ImportFileVocab(MultipartFile excelfile, int lessonId) throws IOException {
-		List<VocabInfo> vocabularies = new ArrayList<>();
-		int i = 0;
-		// Creates a workbook object from the uploaded excelfile
-		XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
-		// Creates a worksheet object representing the first sheet
-		XSSFSheet worksheet = workbook.getSheetAt(0);
-		// Reads the data in excel file until last row is encountered
-		while (i <= worksheet.getLastRowNum()) {
-			// Creates an object for the UserInfo Model
-			VocabInfo vocab = new VocabInfo();
-			// Creates an object representing a single row in excel
-			XSSFRow row = worksheet.getRow(i++);
-			// Sets the Read data to the model class
-			if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-				vocab.setContent(row.getCell(0).getStringCellValue());
-			if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-				vocab.setKanji(row.getCell(1).getStringCellValue());
-			if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-				vocab.setMeans(row.getCell(2).getStringCellValue());
-			if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
-				vocab.setAudio(row.getCell(3).getStringCellValue());
-			vocabularies.add(vocab);
-		}
-		lessonService.createVocabs(vocabularies, lessonId);
 
 	}
 
@@ -587,17 +672,30 @@ public class LessonController {
 
 	@GetMapping("/{id}/grams/{id2}/delete")
 	public String gramdelete(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
-			final RedirectAttributes redirectAttributes) {
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		String typeCss = "";
 		String message = "";
-		if (lessonService.deleteGram(id2)) {
+		if (id == 0) {
+			HttpSession session = request.getSession();
+			List<GramInfo> list = (List<GramInfo>) session.getAttribute("grams");
+			list.remove(id2);
+			session.setAttribute("grams", list);
+			if (list.size() == 0)
+				session.removeAttribute("grams");
 			typeCss = "success";
 			message = "Xoá thành công!!";
 
 		} else {
-			typeCss = "fail";
-			message = "Xoá thất bại!!";
+			if (lessonService.deleteGram(id2)) {
+				typeCss = "success";
+				message = "Xoá thành công!!";
+
+			} else {
+				typeCss = "error";
+				message = "Xoá thất bại!!";
+			}
 		}
+
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);
 
@@ -632,40 +730,79 @@ public class LessonController {
 
 	@RequestMapping(value = "/addGramImport/save")
 	public String saveGramImport(Model model, HttpServletRequest request,
-			@RequestParam(value = "file") MultipartFile file, final RedirectAttributes redirectAttributes)
-			throws IOException {
+			@RequestParam(value = "file") MultipartFile file, final RedirectAttributes redirectAttributes) {
 		HttpSession session = request.getSession();
 		String typeCss = "";
 		String message = "";
 		int lessonId = 0;
-		int i = 0;
+		int i = 1;
 		// Creates a workbook object from the uploaded excelfile
-		XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
-		XSSFSheet worksheet = workbook.getSheetAt(0);
 		if (session.getAttribute("lessonId") != null) {
 			lessonId = Integer.parseInt(session.getAttribute("lessonId").toString());
 		}
 		if (lessonId != 0) {
 			List<GramInfo> grams = new ArrayList<>();
+			try {
+				XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
-			while (i <= worksheet.getLastRowNum()) {
-				// Creates an object for the UserInfo Model
-				GramInfo gram = new GramInfo();
-				// Creates an object representing a single row in excel
-				XSSFRow row = worksheet.getRow(i++);
-				// Sets the Read data to the model class
-				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-					gram.setName(row.getCell(0).getStringCellValue());
-				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-					gram.setContent(row.getCell(1).getStringCellValue());
-				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-					gram.setDescription(row.getCell(2).getStringCellValue());
-				grams.add(gram);
+				XSSFSheet worksheet = workbook.getSheetAt(0);
+				if (worksheet.getPhysicalNumberOfRows() == 0) {
+					typeCss = "error";
+					message = "Kiểm tra lại file";
+					redirectAttributes.addFlashAttribute("css", typeCss);
+					redirectAttributes.addFlashAttribute("msg", message);
+					return "redirect:/admin/lessons/addGramImport";
+				}
+				XSSFRow row_ = worksheet.getRow(0);
+				if (row_.getCell(0) != null && row_.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(0).getStringCellValue().equals("Tên")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 1");
+						return "redirect:/admin/lessons/addGramImport";
+					}
+				if (row_.getCell(1) != null && row_.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(1).getStringCellValue().equals("Nội dung")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 2");
+						return "redirect:/admin/lessons/addGramImport";
+					}
+				if (row_.getCell(2) != null && row_.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(2).getStringCellValue().equals("Ví dụ")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 3");
+						return "redirect:/admin/lessons/addGramImport";
+					}
+
+				while (i <= worksheet.getLastRowNum()) {
+					// Creates an object for the UserInfo Model
+					GramInfo gram = new GramInfo();
+					// Creates an object representing a single row in excel
+					XSSFRow row = worksheet.getRow(i++);
+					// Sets the Read data to the model class
+					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+						gram.setName(row.getCell(0).getStringCellValue());
+					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+						gram.setContent(row.getCell(1).getStringCellValue());
+					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+						gram.setDescription(row.getCell(2).getStringCellValue());
+					grams.add(gram);
+				}
+				lessonService.createGrams(grams, lessonId);
+
+				typeCss = "success";
+				message = "Thêm thành công!!";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/grams";
+
+			} catch (Exception ex) {
+				typeCss = "error";
+				message = "Kiểm tra lại file";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/addGramImport";
 			}
-			lessonService.createGrams(grams, lessonId);
-			typeCss = "success";
-			message = "Thêm thành công!!";
 
 		} else {
 
@@ -673,28 +810,66 @@ public class LessonController {
 			if (session.getAttribute("grams") != null) {
 				grams = (List<GramInfo>) session.getAttribute("grams");
 			}
-			while (i <= worksheet.getLastRowNum()) {
-				// Creates an object for the UserInfo Model
-				GramInfo gram = new GramInfo();
-				// Creates an object representing a single row in excel
-				XSSFRow row = worksheet.getRow(i++);
-				// Sets the Read data to the model class
-				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-					gram.setName(row.getCell(0).getStringCellValue());
-				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-					gram.setContent(row.getCell(1).getStringCellValue());
-				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-					gram.setDescription(row.getCell(2).getStringCellValue());
-				grams.add(gram);
+			try {
+				XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+
+				XSSFSheet worksheet = workbook.getSheetAt(0);
+				if (worksheet.getPhysicalNumberOfRows() == 0) {
+					typeCss = "error";
+					message = "Kiểm tra lại file";
+					redirectAttributes.addFlashAttribute("css", typeCss);
+					redirectAttributes.addFlashAttribute("msg", message);
+					return "redirect:/admin/lessons/addGramImport";
+				}
+				XSSFRow row_ = worksheet.getRow(0);
+				if (row_.getCell(0) != null && row_.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(0).getStringCellValue().equals("Tên")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 1");
+						return "redirect:/admin/lessons/addGramImport";
+					}
+				if (row_.getCell(1) != null && row_.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(1).getStringCellValue().equals("Nội dung")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 2");
+						return "redirect:/admin/lessons/addGramImport";
+					}
+				if (row_.getCell(2) != null && row_.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(2).getStringCellValue().equals("Ví dụ")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 3");
+						return "redirect:/admin/lessons/addGramImport";
+					}
+				while (i <= worksheet.getLastRowNum()) {
+					// Creates an object for the UserInfo Model
+					GramInfo gram = new GramInfo();
+					// Creates an object representing a single row in excel
+					XSSFRow row = worksheet.getRow(i++);
+					// Sets the Read data to the model class
+					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+						gram.setName(row.getCell(0).getStringCellValue());
+					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+						gram.setContent(row.getCell(1).getStringCellValue());
+					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+						gram.setDescription(row.getCell(2).getStringCellValue());
+					grams.add(gram);
+				}
+				session.setAttribute("grams", grams);
+				typeCss = "success";
+				message = "Thêm thành công!!";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/grams";
+
+			} catch (Exception ex) {
+				typeCss = "error";
+				message = "Kiểm tra lại file";
+				redirectAttributes.addFlashAttribute("css", typeCss);
+				redirectAttributes.addFlashAttribute("msg", message);
+				return "redirect:/admin/lessons/addGramImport";
 			}
-			session.setAttribute("grams", grams);
-			typeCss = "success";
-			message = "Thêm thành công!!";
 
 		}
-		redirectAttributes.addFlashAttribute("css", typeCss);
-		redirectAttributes.addFlashAttribute("msg", message);
-		return "redirect:/admin/lessons/" + session.getAttribute("lessonId") + "/grams";
 
 	}
 
@@ -787,39 +962,98 @@ public class LessonController {
 		if (lessonId != 0) {
 			// add invalid lesson
 			List<ListenInfo> listens = new ArrayList<ListenInfo>();
-			int i = 0;
+			int i = 1;
 			// Creates a workbook object from the uploaded excelfile
-			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+			try {
+				XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+				XSSFSheet worksheet = workbook.getSheetAt(0);
+				if (worksheet.getPhysicalNumberOfRows() == 0) {
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", "Kiểm tra lại file");
+					return "redirect:/admin/lessons/addListenImport";
+				}
+				XSSFRow row_ = worksheet.getRow(0);
+				if (row_.getCell(0) != null && row_.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(0).getStringCellValue().equals("Nghe")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 1");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(1) != null && row_.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(1).getStringCellValue().equals("Hình")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 2");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(2) != null && row_.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(2).getStringCellValue().equals("Câu 1")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 3");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(3) != null && row_.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(3).getStringCellValue().equals("Câu 2")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 4");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(4) != null && row_.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(4).getStringCellValue().equals("Câu 3")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 5");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(5) != null && row_.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(5).getStringCellValue().equals("Câu 4")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 6");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(6) != null && row_.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(6).getStringCellValue().equals("Câu 5")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 7");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(7) != null && row_.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(7).getStringCellValue().equals("Câu 6")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 8");
+						return "redirect:/admin/lessons/addListenImport";
+					}
 
-			XSSFSheet worksheet = workbook.getSheetAt(0);
-
-			while (i <= worksheet.getLastRowNum()) {
-				// Creates an object for the UserInfo Model
-				ListenInfo listen = new ListenInfo();
-				// Creates an object representing a single row in excel
-				XSSFRow row = worksheet.getRow(i++);
-				// Sets the Read data to the model class
-				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setAudio(row.getCell(0).getStringCellValue());
-				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setImage(row.getCell(1).getStringCellValue());
-				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent1(row.getCell(2).getStringCellValue());
-				if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent2(row.getCell(3).getStringCellValue());
-				if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent3(row.getCell(4).getStringCellValue());
-				if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent4(row.getCell(5).getStringCellValue());
-				if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent5(row.getCell(6).getStringCellValue());
-				if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent6(row.getCell(7).getStringCellValue());
-				listens.add(listen);
+				while (i <= worksheet.getLastRowNum()) {
+					// Creates an object for the UserInfo Model
+					ListenInfo listen = new ListenInfo();
+					// Creates an object representing a single row in excel
+					XSSFRow row = worksheet.getRow(i++);
+					// Sets the Read data to the model class
+					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setAudio(row.getCell(0).getStringCellValue());
+					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setImage(row.getCell(1).getStringCellValue());
+					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent1(row.getCell(2).getStringCellValue());
+					if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent2(row.getCell(3).getStringCellValue());
+					if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent3(row.getCell(4).getStringCellValue());
+					if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent4(row.getCell(5).getStringCellValue());
+					if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent5(row.getCell(6).getStringCellValue());
+					if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent6(row.getCell(7).getStringCellValue());
+					listens.add(listen);
+				}
+				lessonService.createListens(listens, lessonId);
+				typeCss = "success";
+				message = "Thêm thành công!!";
+			} catch (Exception ex) {
+				redirectAttributes.addFlashAttribute("css", "error");
+				redirectAttributes.addFlashAttribute("msg", "Kiểm tra lại file");
+				return "redirect:/admin/lessons/addListenImport";
 			}
-			lessonService.createListens(listens, lessonId);
-			typeCss = "success";
-			message = "Thêm thành công!!";
 
 		} else {
 
@@ -827,40 +1061,99 @@ public class LessonController {
 			if (session.getAttribute("listens") != null) {
 				listens = (List<ListenInfo>) session.getAttribute("listens");
 			}
-			int i = 0;
-			// Creates a workbook object from the uploaded excelfile
-			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+			int i = 1;
+			try {
+				XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+				XSSFSheet worksheet = workbook.getSheetAt(0);
+				if (worksheet.getPhysicalNumberOfRows() == 0) {
+					redirectAttributes.addFlashAttribute("css", "error");
+					redirectAttributes.addFlashAttribute("msg", "Kiểm tra lại file");
+					return "redirect:/admin/lessons/addListenImport";
+				}
+				XSSFRow row_ = worksheet.getRow(0);
+				if (row_.getCell(0) != null && row_.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(0).getStringCellValue().equals("Nghe")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 1");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(1) != null && row_.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(1).getStringCellValue().equals("Hình")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 2");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(2) != null && row_.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(2).getStringCellValue().equals("Câu 1")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 3");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(3) != null && row_.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(3).getStringCellValue().equals("Câu 2")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 4");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(4) != null && row_.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(4).getStringCellValue().equals("Câu 3")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 5");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(5) != null && row_.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(5).getStringCellValue().equals("Câu 4")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 6");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(6) != null && row_.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(6).getStringCellValue().equals("Câu 5")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 7");
+						return "redirect:/admin/lessons/addListenImport";
+					}
+				if (row_.getCell(7) != null && row_.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+					if (!row_.getCell(7).getStringCellValue().equals("Câu 6")) {
+						redirectAttributes.addFlashAttribute("css", "error");
+						redirectAttributes.addFlashAttribute("msg", "Lỗi cột thứ 8");
+						return "redirect:/admin/lessons/addListenImport";
+					}
 
-			XSSFSheet worksheet = workbook.getSheetAt(0);
+				while (i <= worksheet.getLastRowNum()) {
+					// Creates an object for the UserInfo Model
+					ListenInfo listen = new ListenInfo();
+					// Creates an object representing a single row in excel
+					XSSFRow row = worksheet.getRow(i++);
+					// Sets the Read data to the model class
+					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setAudio(row.getCell(0).getStringCellValue());
+					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setImage(row.getCell(1).getStringCellValue());
+					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent1(row.getCell(2).getStringCellValue());
+					if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent2(row.getCell(3).getStringCellValue());
+					if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent3(row.getCell(4).getStringCellValue());
+					if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent4(row.getCell(5).getStringCellValue());
+					if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent5(row.getCell(6).getStringCellValue());
+					if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
+						listen.setContent6(row.getCell(7).getStringCellValue());
+					listens.add(listen);
+				}
 
-			while (i <= worksheet.getLastRowNum()) {
-				// Creates an object for the UserInfo Model
-				ListenInfo listen = new ListenInfo();
-				// Creates an object representing a single row in excel
-				XSSFRow row = worksheet.getRow(i++);
-				// Sets the Read data to the model class
-				if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setAudio(row.getCell(0).getStringCellValue());
-				if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setImage(row.getCell(1).getStringCellValue());
-				if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent1(row.getCell(2).getStringCellValue());
-				if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent2(row.getCell(3).getStringCellValue());
-				if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent3(row.getCell(4).getStringCellValue());
-				if (row.getCell(5) != null && row.getCell(5).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent4(row.getCell(5).getStringCellValue());
-				if (row.getCell(6) != null && row.getCell(6).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent5(row.getCell(6).getStringCellValue());
-				if (row.getCell(7) != null && row.getCell(7).getCellType() != Cell.CELL_TYPE_BLANK)
-					listen.setContent6(row.getCell(7).getStringCellValue());
-				listens.add(listen);
+				session.setAttribute("listens", listens);
+				typeCss = "success";
+				message = "Thêm thành công!!";
+
+			} catch (Exception ex) {
+				redirectAttributes.addFlashAttribute("css", "error");
+				redirectAttributes.addFlashAttribute("msg", "Kiểm tra lại file");
+				return "redirect:/admin/lessons/addListenImport";
 			}
-
-			session.setAttribute("listens", listens);
-			typeCss = "success";
-			message = "Thêm thành công!!";
 
 		}
 		redirectAttributes.addFlashAttribute("css", typeCss);
@@ -922,17 +1215,31 @@ public class LessonController {
 
 	@GetMapping("/{id}/listens/{id2}/delete")
 	public String listendelete(@PathVariable("id") int id, @PathVariable("id2") int id2, Model model,
-			final RedirectAttributes redirectAttributes) {
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		String typeCss = "";
 		String message = "";
-		if (lessonService.deleteListen(id2)) {
+		if (id == 0) {
+
+			List<ListenInfo> list = (List<ListenInfo>) session.getAttribute("listens");
+			list.remove(id2);
+			session.setAttribute("listens", list);
+			if (list.size() == 0)
+				session.removeAttribute("listens");
 			typeCss = "success";
 			message = "Xoá thành công!!";
 
 		} else {
-			typeCss = "fail";
-			message = "Xoá thất bại!!";
+			if (lessonService.deleteListen(id2)) {
+				typeCss = "success";
+				message = "Xoá thành công!!";
+
+			} else {
+				typeCss = "error";
+				message = "Xoá thất bại!!";
+			}
 		}
+
 		redirectAttributes.addFlashAttribute("css", typeCss);
 		redirectAttributes.addFlashAttribute("msg", message);
 
