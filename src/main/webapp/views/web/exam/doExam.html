@@ -19,19 +19,19 @@
 					<ul>
 						<li th:if="${vocabQues} and ${#lists.size(vocabQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/vocab'}">
-								<button class="select_content">Từ vựng</button>
+								<button disabled class="select_content">Từ vựng</button>
 							</form></li>
 						<li th:if="${gramQues} and ${#lists.size(gramQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/gram'}">
-								<button class="select_content">Ngữ pháp</button>
+								<button disabled class="select_content">Ngữ pháp</button>
 							</form></li>
 						<li th:if="${readQues} and ${#lists.size(readQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/read'}">
-								<button class="select_content">Đọc hiểu</button>
+								<button disabled class="select_content">Đọc hiểu</button>
 							</form></li>
 						<li th:if="${lisQues} and ${#lists.size(lisQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/listening'}">
-								<button class="select_content">Nghe</button>
+								<button disabled class="select_content">Nghe</button>
 							</form></li>
 
 					</ul>
@@ -39,7 +39,7 @@
 					<div class="row">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-10" style="width: 100%">
-							<form th:action="@{'/exams/'+${test.id}+'/examResult'}">
+							<form th:action="@{'/exams/'+${test.id}+'/examResult'}" onsubmit=" validateForm()">
 								<button style="width: 100%; border-radius: 20px">HOÀN
 									THÀNH</button>
 							</form>

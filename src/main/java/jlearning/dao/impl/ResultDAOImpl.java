@@ -25,7 +25,7 @@ public class ResultDAOImpl extends GenericDAO<Integer, Result> implements Result
 
 	@Override
 	public List<Result> rankingByTest(int testId) {
-		List<Result> rs = getSession().createQuery("from Result b where b.test.id=: testId ORDER BY b.score DESC ")
+		List<Result> rs = getSession().createQuery("from Result b where b.test.id=: testId ORDER BY b.score DESC")
 				.setParameter("testId", testId).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).getResultList();
 		return rs;
 
