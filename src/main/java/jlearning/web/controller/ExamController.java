@@ -664,7 +664,7 @@ public class ExamController extends BaseController {
 			model.addAttribute("level", course[index]);
 		}
 		model.addAttribute("testLevel", test);
-		Course course = courseService.findByLevel(getIndexOfLargest(level) + 1);
+		Course course = courseService.findByLevel(l);
 		model.addAttribute("courseId", course.getId());
 		session.removeAttribute("testLevel");
 		return "views/web/exam/levelResult";

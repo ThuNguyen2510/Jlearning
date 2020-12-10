@@ -19,24 +19,29 @@
 					<ul>
 						<li th:if="${vocabQues} and ${#lists.size(vocabQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/vocab'}">
-								<button disabled class="select_content">Từ vựng</button>
+								<button
+									style="background-color: pink; width: 200px; height: 30px;"
+									disabled class="select_content">Từ vựng</button>
 							</form></li>
 						<li th:if="${gramQues} and ${#lists.size(gramQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/gram'}">
-								<button disabled class="select_content">Ngữ pháp</button>
+								<button style="background-color: pink; width: 200px; height: 30px;" disabled
+									class="select_content">Ngữ pháp</button>
 							</form></li>
 						<li th:if="${readQues} and ${#lists.size(readQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/read'}">
-								<button disabled class="select_content">Đọc hiểu</button>
+								<button style="background-color: pink; width: 200px; height: 30px;" disabled
+									class="select_content">Đọc hiểu</button>
 							</form></li>
 						<li th:if="${lisQues} and ${#lists.size(lisQues)>0}"><form
 								th:action="@{'/exams/'+${test.id}+'/doExam/listening'}">
-								<button disabled class="select_content">Nghe</button>
+								<button style="background-color: pink; width: 200px; height: 30px;" disabled
+									class="select_content">Nghe</button>
 							</form></li>
 
 					</ul>
 					<p style="visibility: hidden" th:text="${test.id}" id="testId"></p>
-					<div class="row">
+					<!-- 	<div class="row">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-10" style="width: 100%">
 							<form th:action="@{'/exams/'+${test.id}+'/examResult'}" onsubmit=" validateForm()">
@@ -46,7 +51,7 @@
 
 						</div>
 						<div class="col-sm-1"></div>
-					</div>
+					</div> -->
 				</div>
 				<div class="col-sm-1"></div>
 				<div class="col-sm-7">
@@ -153,7 +158,8 @@
 							<div class="row">
 
 								<h4 th:utext="${in.index+1}+'.'+${ques.content}"></h4>
-								<input type="hidden" th:value="${ques.id}" th:id="'ques'+${in.index}" th:name="questionId">
+								<input type="hidden" th:value="${ques.id}"
+									th:id="'ques'+${in.index}" th:name="questionId">
 							</div>
 							<div class="row">
 								<div class="col-sm-5">
